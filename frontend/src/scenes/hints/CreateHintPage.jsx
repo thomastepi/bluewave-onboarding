@@ -157,6 +157,8 @@ const HintPage = ({ isEdit, itemId, setItemsUpdated }) => {
           setActionButtonText={setActionButtonText}
           actionButtonUrl={actionButtonUrl}
           setActionButtonUrl={setActionButtonUrl}
+          setUrl={setUrl}
+          url={url}
           action={action}
           setAction={setAction}
           targetElement={targetElement}

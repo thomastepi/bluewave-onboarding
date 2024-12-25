@@ -77,6 +77,19 @@ class HintService {
       throw new Error("Error retrieving Hint by URL");
     }
   };
+
+  async getIncompleteHintsByUrl(url, ids) {
+      try {
+        return await Hint.findAll({
+          where: {
+            url,
+            id: { [Op.notIn]: ids }
+          }
+        });
+      } catch (error) {
+        throw new Error("Error retrieving hint by URL");
+      }
+    };
 }
 
 module.exports = new HintService();

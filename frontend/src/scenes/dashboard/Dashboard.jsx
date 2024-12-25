@@ -55,17 +55,17 @@ const Dashboard = ({ name }) => {
     {
       skeletonType: <BaseSkeleton guideType="popup" />,
       placeholder: "Create a popup",
-      onClick: () => navigate("/popup"),
+      onClick: () => navigate("/popup", { state: { autoOpen: true } }),
     },
     {
       skeletonType: <BannerSkeleton />,
       placeholder: "Create a new banner",
-      onClick: () => navigate("/banner"),
+      onClick: () => navigate("/banner", { state: { autoOpen: true } }),
     },
     {
       skeletonType: <BaseSkeleton guideType="helperLink" />,
       placeholder: "Create a new helper link",
-      onClick: () => navigate("/hint"),
+      onClick: () => navigate("/hint", { state: { autoOpen: true } }),
     },
   ];
 

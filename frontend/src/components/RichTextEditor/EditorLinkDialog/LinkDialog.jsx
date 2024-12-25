@@ -27,7 +27,7 @@ const LinkDialog = ({
       onClose={handleClose}
     >
       <DialogTitle sx={dialogStyles.title}>
-        {isLinkActive ? "Edit Link" : "Add Link"}
+        {isLinkActive ? "Edit link" : "Add link"}
       </DialogTitle>
       <DialogContent sx={dialogStyles.content}>
         <CustomTextField
@@ -46,15 +46,16 @@ const LinkDialog = ({
             onClick={handleOpenLink}
           />
         )}
-        <Button
-          text={url ? "Insert/Update" : "Remove Link"}
-          onClick={handleInsertLink}
-        />
+
         <Button
           text="Cancel"
           buttonType="secondary"
           variant="text"
           onClick={handleClose}
+        />
+        <Button
+          text={url ? "Insert/Update" : "Remove link"}
+          onClick={handleInsertLink}
         />
       </DialogActions>
     </Dialog>

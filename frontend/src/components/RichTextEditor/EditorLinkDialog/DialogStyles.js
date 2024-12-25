@@ -1,7 +1,7 @@
 export const dialogStyles = {
   paper: {
     padding: 2,
-    borderRadius: 4,
+    borderRadius: "4px",
   },
   title: {
     padding: 0,

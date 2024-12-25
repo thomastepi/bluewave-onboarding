@@ -39,6 +39,11 @@
   line-height: 24px;
 }
 
+.preview-content  {
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+}
+
 .preview-button-container {
   margin-top: 0.5rem;
   display: flex;

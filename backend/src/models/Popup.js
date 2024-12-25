@@ -136,5 +136,9 @@ module.exports = (sequelize, DataTypes) => {
     Popup.belongsTo(models.User, { foreignKey: "createdBy", as: "creator" });
   };
 
+  Popup.addScope("defaultScope", {
+    include: []
+  });
+
   return Popup;
 };

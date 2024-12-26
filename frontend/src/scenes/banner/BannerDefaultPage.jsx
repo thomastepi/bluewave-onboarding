@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ACTIVITY_TYPES_INFO } from "../../data/guideMainPageData";
 import { deleteBanner, getBanners } from "../../services/bannerServices";
 import DefaultPageTemplate from "../../templates/DefaultPageTemplate/DefaultPageTemplate";
@@ -9,6 +10,7 @@ const BannerDefaultPage = () => {
   const [itemsUpdated, setItemsUpdated] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [itemId, setItemId] = useState(null);
+  const locationData = useLocation();
 
   const { isOpen } = useDialog();
 
@@ -31,6 +33,7 @@ const BannerDefaultPage = () => {
       />
       {isOpen && (
         <BannerPage
+          autoOpen={locationData.state?.autoOpen}
           isEdit={isEdit}
           itemId={itemId}
           setItemsUpdated={setItemsUpdated}

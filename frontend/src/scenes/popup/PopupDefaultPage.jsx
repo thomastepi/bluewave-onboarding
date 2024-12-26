@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { ACTIVITY_TYPES_INFO } from "../../data/guideMainPageData";
-import { deletePopup, getPopups } from "../../services/popupServices";
-import DefaultPageTemplate from "../../templates/DefaultPageTemplate/DefaultPageTemplate";
-import { useDialog } from "../../templates/GuideTemplate/GuideTemplateContext";
-import CreatePopupPage from "./CreatePopupPage";
+import React, { useState } from 'react';
+import {useLocation} from "react-router-dom"
+import DefaultPageTemplate from '../../templates/DefaultPageTemplate/DefaultPageTemplate';
+import CreatePopupPage from './CreatePopupPage';
+import { getPopups, deletePopup } from '../../services/popupServices';
+import { ACTIVITY_TYPES_INFO } from '../../data/guideMainPageData';
 
 const PopupDefaultPage = () => {
-  const [itemsUpdated, setItemsUpdated] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [itemId, setItemId] = useState(null);
+    const [itemsUpdated, setItemsUpdated] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [itemId, setItemId] = useState(null);
+    const locationData = useLocation()
 
   const { isOpen } = useDialog();
 
@@ -31,6 +32,7 @@ const PopupDefaultPage = () => {
       />
       {isOpen && (
         <CreatePopupPage
+          autoOpen= {locationData.state?.autoOpen}
           isEdit={isEdit}
           itemId={itemId}
           setItemsUpdated={setItemsUpdated}

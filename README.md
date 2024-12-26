@@ -1,14 +1,14 @@
-![](https://img.shields.io/github/license/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/repo-size/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/commit-activity/w/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/last-commit/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/languages/top/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/issues-pr/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/issues/bluewave-labs/bluewave-onboarding)
+![](https://img.shields.io/github/license/bluewave-labs/guidefox)
+![](https://img.shields.io/github/repo-size/bluewave-labs/guidefox)
+![](https://img.shields.io/github/commit-activity/w/bluewave-labs/guidefox)
+![](https://img.shields.io/github/last-commit/bluewave-labs/guidefox)
+![](https://img.shields.io/github/languages/top/bluewave-labs/guidefox)
+![](https://img.shields.io/github/issues-pr/bluewave-labs/guidefox)
+![](https://img.shields.io/github/issues/bluewave-labs/guidefox)
 
-# BlueWave Onboarding
+# Guidefox
 
-BlueWave Onboarding helps app owners build knowledge and user-experience oriented apps. It includes the following features: 
+Guidefox helps app owners build knowledge and user-experience oriented apps. It includes the following features: 
 
 - Welcome tours
 - Product hints
@@ -40,7 +40,7 @@ This is a work-in-progress application. The source code is available under GNU A
 
 ```
 cd ~
-git clone https://github.com/bluewave-labs/bluewave-onboarding.git
+git clone https://github.com/bluewave-labs/guidefox.git
 cd bluewave-onboarding
 ```
 
@@ -48,7 +48,7 @@ cd bluewave-onboarding
 
 Open the Nginx configuration file:
 
-``sudo nano /etc/nginx/sites-available/onboarding-demo``
+``sudo nano /etc/nginx/sites-available/guidefox``
 
 Add the following configuration. Change YOUR_DOMAIN_NAME with your domain name:
 
@@ -87,7 +87,7 @@ server {
 
 6. Create a symbolic link to enable the configuration:
 
-``sudo ln -s /etc/nginx/sites-available/onboarding-demo /etc/nginx/sites-enabled/``
+``sudo ln -s /etc/nginx/sites-available/guidefox /etc/nginx/sites-enabled/``
 
 7. Install Certbot and its Nginx plugin:
 
@@ -107,14 +107,14 @@ server {
 
 11. Start the project
 
-``cd ~/bluewave-onboarding
+``cd ~/guidefox
 docker compose up -d``
 
 ## Contributing
 
-Here's how you can contribute to the Onboarding product. 
+Here's how you can contribute to the Guidefox product. 
 
-- Check [Contributor's guideline](https://github.com/bluewave-labs/bluewave-onboarding/blob/master/CONTRIBUTING.md)
+- Check [Contributor's guideline](https://github.com/bluewave-labs/guidefox/blob/master/CONTRIBUTING.md)
 - Have a look at our Figma designs [here](https://www.figma.com/design/MLPbP1HM2L9ON6f88pHTee/Onboarding?node-id=0-1&t=iwgz015l5QWbWRqU-1). We encourage you to copy to your own Figma page, then work on it as it is read-only.
 - Open an issue if you believe you've encountered a bug
 - Make a pull request to add new features/make quality-of-life improvements/fix bugs.

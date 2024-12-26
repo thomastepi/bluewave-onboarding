@@ -7,43 +7,45 @@ import CreateActivityButtonList from "./HomePageComponents/CreateActivityButtonL
 import DateDisplay from "./HomePageComponents/DateDisplay/DateDisplay";
 import StatisticCardList from "./HomePageComponents/StatisticCardsList/StatisticCardsList";
 import UserTitle from "./HomePageComponents/UserTitle/UserTitle";
+import BannerSkeleton from "./HomePageComponents/Skeletons/BannerSkeleton";
+import BaseSkeleton from "./HomePageComponents/Skeletons/BaseSkeleton";
 
 const mapMetricName = (guideType) => {
   switch (guideType) {
     case "popup":
-      return "Popups views";
+      return "Popup views";
     case "hint":
-      return "Hints views";
+      return "Hint views";
     case "banner":
-      return "Banners views";
+      return "Banner views";
     case "link":
-      return "Links views";
+      return "Link views";
     case "tour":
-      return "Tours views";
+      return "Tour views";
     case "checklist":
-      return "Checklists views";
+      return "Checklist views";
     default:
       return "Unknown";
   }
 };
-
-const MAX_METRICS_DISPLAYED = 3;
 
 const Dashboard = ({ name }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [metrics, setMetrics] = useState([]);
 
+  const metricNames = ['popup', 'banner', 'link']
+
   useEffect(() => {
     getStatistics().then((data) => {
       setMetrics(
         data
+          ?.filter((metric) => metricNames.includes(metric.guideType)) 
           ?.map((metric) => ({
             metricName: mapMetricName(metric.guideType),
             metricValue: metric.views,
             changeRate: metric.change,
           }))
-          ?.filter((_, i) => i < MAX_METRICS_DISPLAYED)
       );
       setIsLoading(false);
     });
@@ -51,18 +53,22 @@ const Dashboard = ({ name }) => {
 
   const buttons = [
     {
+      skeletonType: <BaseSkeleton guideType="popup" />,
       placeholder: "Create a popup",
-      onClick: () => navigate("/popup/create"),
+      onClick: () => navigate("/popup", { state: { autoOpen: true } }),
     },
     {
-      placeholder: "Add a hint to your app",
-      onClick: () => navigate("/hint/create"),
-    },
-    {
+      skeletonType: <BannerSkeleton />,
       placeholder: "Create a new banner",
-      onClick: () => navigate("/banner/create"),
+      onClick: () => navigate("/banner", { state: { autoOpen: true } }),
+    },
+    {
+      skeletonType: <BaseSkeleton guideType="helperLink" />,
+      placeholder: "Create a new helper link",
+      onClick: () => navigate("/hint", { state: { autoOpen: true } }),
     },
   ];
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>

@@ -10,6 +10,8 @@
 .popupContent {
   color: var(--second-text-color);
   font-size: var(--font-regular);
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
 }
 
 .centered {
@@ -59,17 +61,17 @@
 }
 
 .small {
-  min-width: 400px;
+  width: 400px;
   min-height: 250px;
 }
 
 .medium {
-  min-width: 500px;
+  width: 500px;
   min-height: 300px;
 }
 
 .large {
-  min-width: 700px;
+  width: 700px;
   min-height: 350px;
 }
 

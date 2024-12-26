@@ -6,6 +6,7 @@ import { React } from "react";
 import Button from "../../components/Button/Button";
 import styles from "./GuideTemplate.module.scss";
 import { useDialog } from "./GuideTemplateContext";
+import { useLocation, useNavigate } from "react-router";
 
 const GuideTemplate = ({
   title = "",
@@ -17,7 +18,15 @@ const GuideTemplate = ({
   onSave = () => null,
 }) => {
   const { isOpen, closeDialog } = useDialog();
+  const location = useLocation();
+  const navigate = useNavigate();
   const buttons = ["Content", "Appearance"];
+
+  const onCloseHandler = () => {
+    if (location.state?.autoOpen) navigate("/", { state: {} });
+
+    closeDialog();
+  };
 
   return (
     <Dialog
@@ -37,7 +46,7 @@ const GuideTemplate = ({
                 fontSize: "20px",
                 cursor: "pointer",
               }}
-              onClick={closeDialog}
+              onClick={onCloseHandler}
             />
           </div>
           <div className={styles.content}>
@@ -63,9 +72,7 @@ const GuideTemplate = ({
               <Button
                 text="Cancel"
                 buttonType="secondary-grey"
-                onClick={() => {
-                  closeDialog();
-                }}
+                onClick={onCloseHandler}
               />
               <Button text="Save" onClick={onSave} />
             </div>

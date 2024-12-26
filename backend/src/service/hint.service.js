@@ -1,5 +1,6 @@
 const db = require("../models");
 const Hint = db.Hint;
+const { Op } = require("sequelize");
 
 class HintService {
   async getAllHints() {

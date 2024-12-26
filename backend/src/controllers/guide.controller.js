@@ -54,7 +54,7 @@ class GuideController {
             const [popup, banner, hint, helperLink] = await Promise.all([
                 popupService.getIncompletePopupsByUrl(url, popupIds),
                 bannerService.getIncompleteBannersByUrl(url, bannerIds),
-                hintService.getIncompletePopupsByUrl(url, hintIds),
+                hintService.getIncompleteHintsByUrl(url, hintIds),
                 helperLinkService.getIncompleteHelpers(helperLinkIds),
             ]);
             res.status(200).json({popup, banner, hint, helperLink });

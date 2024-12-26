@@ -4,6 +4,7 @@ import DefaultPageTemplate from '../../templates/DefaultPageTemplate/DefaultPage
 import CreatePopupPage from './CreatePopupPage';
 import { getPopups, deletePopup } from '../../services/popupServices';
 import { ACTIVITY_TYPES_INFO } from '../../data/guideMainPageData';
+import { useDialog } from '../../templates/GuideTemplate/GuideTemplateContext';
 
 const PopupDefaultPage = () => {
     const [itemsUpdated, setItemsUpdated] = useState(false);

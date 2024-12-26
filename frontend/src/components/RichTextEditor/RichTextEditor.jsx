@@ -18,7 +18,7 @@ const RichTextEditor = ({
   setHeader,
   setContent,
   content,
-  resetState,
+  resetState = () => {},
 }) => {
   const [mode, setMode] = useState("editor");
 

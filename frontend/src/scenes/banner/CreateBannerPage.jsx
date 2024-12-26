@@ -46,8 +46,6 @@ const BannerPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEd
           setActionUrl(bannerData.actionUrl || "");
           setButtonAction(bannerData.closeButtonAction || "No action");
           setIsTopPosition(bannerData.position === "top");
-
-          console.log("Get banner successful:", bannerData);
         } catch (error) {
           emitToastError(error);
         }

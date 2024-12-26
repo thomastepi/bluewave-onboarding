@@ -161,7 +161,7 @@ bw.init = (cb) => {
             if (onBoardConfig.banner?.length > 0) {
                 bw.util.loadScriptAsync(BW_BANNER_JS_URL);
             } 
-            if (onBoardConfig.link?.length > 0) {
+            if (onBoardConfig.helperlink?.length > 0) {
                 bw.util.loadScriptAsync(BW_LINKS_JS_URL);
             }
         } catch (error) {

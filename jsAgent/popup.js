@@ -39,7 +39,7 @@ bw.popup = {
      },
     
     addOverlay: function () {
-        document.body.insertAdjacentHTML('afterbegin', `<div id='bw-overlay' style='position: fixed;top: 0;bottom: 0;left: 0;right: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.${popupDefaultOptions.overlayOpacity}); backdrop-filter: blur(${popupDefaultOptions.overlayBlur}px); z-index: 999;'></div>`);
+        document.body.insertAdjacentHTML('afterbegin', `<div id='bw-overlay' style=' position: fixed; top: 0; left: 0;width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.${popupDefaultOptions.overlayOpacity}); z-index: 999;'></div>`);
     },
     addModal: function (cb) {
         const options = window.bwonboarddata.popup[0];
@@ -52,7 +52,8 @@ bw.popup = {
         const size = PopUpSize[option.popupSize];
 
         let temp_html = `
-        <div id='bw-modal' class='bw-order' style='width: ${size.width}px; height: ${size.height}px; display: block; z-index: 1; border: 1px solid var(--light-border-color); box-sizing: border-box; margin:auto; padding-top: 100px; background-color: rgb(255 255 255 / 0%);;'>
+           
+        <div id='bw-modal' style='position: fixed; top: 15%; left: 50%; transform: translate(-50%, -50%); width: ${size.width}px; height: ${size.height}px; display: block; z-index: 1000; border: 1px solid var(--light-border-color); box-sizing: border-box; padding-top: 100px; background-color: rgb(255 255 255 / 0%);;'>
             <div class='modal-content' style='border-radius: 4px; position: relative; margin: auto;padding: 0;border: 1px solid #888; background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);'>
                 ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
                 <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box;'>
@@ -62,6 +63,7 @@ bw.popup = {
             </div>
         </div>`
         overlay.insertAdjacentHTML('afterbegin', temp_html);
+        
         cb && cb();
     },
     addHeader: function(headerTitle, bgColor, textColor, padding){
@@ -76,7 +78,7 @@ bw.popup = {
     },
     addButton: function(text, bgColor, textColor, padding, btnId, btnEvent, btnlink){
         let buttonHtml = `<div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 1rem;'>
-            <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:4px;
+            <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:4px; cursor: pointer;
             transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 0.875rem; line-height: 1.75;">${text}</button>
         </div>`;
 
@@ -99,9 +101,10 @@ bw.popup = {
             bw.popup.hideModal();
         });
 
-        bw.util.bindLive("#bw-overlay", "click",function(){
-            bw.popup.hideModal();
-        });
+        // bw.util.bindLive("#bw-overlay", "click",function(e){
+        //     e.stopPropagation()
+        //     bw.popup.hideModal();
+        // });
     },
     showModal: function () {
         document.getElementById('bw-overlay').style.display = 'block';

@@ -31,8 +31,8 @@ bw.banner={
         }
         document.body.insertAdjacentHTML('afterbegin', bannerHtml);
        let closeBtns = document.getElementsByClassName('bw-banner-close-icon');
-       for (let index = 0; index < array.length; index++) {
-            const element = array[index];
+       for (let i = 0; i < closeBtns.length; i++) {
+            const element = closeBtns[i];
         
         }
         

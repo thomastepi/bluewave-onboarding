@@ -13,7 +13,7 @@ const { sendTeamInvite, getAllInvites } = require('../controllers/invite.control
 const authenticateJWT = require('../middleware/auth.middleware');
 const accessGuard = require('../middleware/accessGuard.middleware');
 const settings = require('../../config/settings');
-const { validateSetServerUrl, validateOrganizationName } = require('../utils/team.helper');
+const { validateSetServerUrl, validateOrganizationName, validationInvite } = require('../utils/team.helper');
 const { handleValidationErrors } = require('../middleware/validation.middleware');
 
 const router = express.Router();
@@ -31,8 +31,14 @@ router.post(
   handleValidationErrors,
   setOrganisation
 );
-router.post('/invite', accessGuard(teamPermissions.invite), sendTeamInvite);
-router.put('/update', accessGuard(teamPermissions.update), updateTeamDetails);
+router.post('/invite', accessGuard(teamPermissions.invite), validationInvite, handleValidationErrors, sendTeamInvite);
+router.put(
+  '/update',
+  accessGuard(teamPermissions.update),
+  validateOrganizationName,
+  handleValidationErrors,
+  updateTeamDetails
+);
 router.put('/change-role', accessGuard(teamPermissions.changeRole), changeRole);
 router.put('/server-url', accessGuard(teamPermissions.serverUrl), validateSetServerUrl, setServerUrl);
 

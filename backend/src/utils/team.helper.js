@@ -61,4 +61,21 @@ const validateOrganizationName = [
     .withMessage('Organization name contains invalid characters'),
 ];
 
-module.exports = { validateSetServerUrl, validateOrganizationName };
+const validationInvite = [
+  body('invitedEmail')
+    .trim()
+    .notEmpty()
+    .withMessage('Email is required')
+    .isEmail()
+    .withMessage('Invalid email address'),
+  body('role')
+    .trim()
+    .notEmpty()
+    .withMessage('Role is required')
+    .isString()
+    .withMessage('Role must be a string')
+    .isIn(['admin', 'member'])
+    .withMessage('Role must be either admin or member'),
+];
+
+module.exports = { validateSetServerUrl, validateOrganizationName, validationInvite };

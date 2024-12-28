@@ -18,7 +18,6 @@ const RichTextEditor = ({
   setHeader,
   setContent,
   content,
-  resetState = () => {},
 }) => {
   const [mode, setMode] = useState("editor");
 
@@ -45,7 +44,8 @@ const RichTextEditor = ({
       setContent(editor.getHTML());
     },
     onDestroy: () => {
-      resetState();
+      setContent("");
+      setHeader("");
     },
   });
   

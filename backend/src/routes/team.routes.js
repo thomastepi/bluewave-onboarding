@@ -51,7 +51,13 @@ router.put(
   handleValidationErrors,
   changeRole
 );
-router.put('/server-url', accessGuard(teamPermissions.serverUrl), validateSetServerUrl, setServerUrl);
+router.put(
+  '/server-url',
+  accessGuard(teamPermissions.serverUrl),
+  validateSetServerUrl,
+  handleValidationErrors,
+  setServerUrl
+);
 
 router.delete('/remove/:memberId', accessGuard(teamPermissions.removeUser), removeMember);
 router.get('/get-all-invites', accessGuard(teamPermissions.removeUser), getAllInvites);

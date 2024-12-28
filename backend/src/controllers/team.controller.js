@@ -90,16 +90,6 @@ const updateTeamDetails = async (req, res) => {
 };
 
 const setServerUrl = async (req, res) => {
-  const validationErrors = validationResult(req);
-
-  if (!validationErrors.isEmpty()) {
-    const errors = [];
-    validationErrors.array().forEach((err) => {
-      errors.push(err.msg);
-    });
-    return res.status(400).json({ errors });
-  }
-
   try {
     const { serverUrl } = req.body;
     await teamService.addServerUrl(serverUrl);

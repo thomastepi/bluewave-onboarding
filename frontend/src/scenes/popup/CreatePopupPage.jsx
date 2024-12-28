@@ -89,22 +89,6 @@ const CreatePopupPage = ({
     }
   }, [isEdit, itemId]);
 
-  const resetState = () => {
-    setHeaderBackgroundColor("#F8F9F8");
-    setHeaderColor("#101828");
-    setTextColor("#344054");
-    setButtonBackgroundColor("#7F56D9");
-    setButtonTextColor("#FFFFFF");
-    setHeader("");
-    setContent("");
-    setUrl("https://");
-    setActionButtonUrl("https://");
-    setActionButtonText("Take me to subscription page");
-    setButtonAction("No action");
-    setPopupSize("Small");
-    setActiveButton(0);
-  };
-
   const stateList = [
     {
       stateName: "Header Background Color",
@@ -148,7 +132,6 @@ const CreatePopupPage = ({
 
       toastEmitter.emit(TOAST_EMITTER_KEY, toastMessage);
       setItemsUpdated((prevState) => !prevState);
-      resetState();
       closeDialog();
     } catch (error) {
       emitToastError(error);
@@ -180,7 +163,6 @@ const CreatePopupPage = ({
       setHeader={setHeader}
       setContent={setContent}
       content={content}
-      resetState={resetState}
       sx={{
         minWidth: "400px",
         maxWidth: "700px",

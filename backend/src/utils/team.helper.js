@@ -1,5 +1,5 @@
 const { URL_PROTOCOL_REGEX, URL_DOMAIN_REGEX, MAX_ORG_NAME_LENGTH, ORG_NAME_REGEX } = require('./constants.helper');
-const { check, body } = require('express-validator');
+const { check, body, param } = require('express-validator');
 
 require('dotenv').config();
 
@@ -95,4 +95,18 @@ const validationChangeRole = [
     .withMessage('Member ID must be a string'),
 ];
 
-module.exports = { validateSetServerUrl, validateOrganizationName, validationInvite, validationChangeRole };
+const validateIdParam = [
+  param('memberId')
+    .notEmpty()
+    .withMessage('Member ID is required')
+    .matches(/\d+/)
+    .withMessage('Member ID must be a number'),
+];
+
+module.exports = {
+  validateSetServerUrl,
+  validateOrganizationName,
+  validationInvite,
+  validationChangeRole,
+  validateIdParam,
+};

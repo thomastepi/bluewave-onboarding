@@ -18,6 +18,7 @@ const {
   validateOrganizationName,
   validationInvite,
   validationChangeRole,
+  validateIdParam,
 } = require('../utils/team.helper');
 const { handleValidationErrors } = require('../middleware/validation.middleware');
 
@@ -59,6 +60,12 @@ router.put(
   setServerUrl
 );
 
-router.delete('/remove/:memberId', accessGuard(teamPermissions.removeUser), removeMember);
+router.delete(
+  '/remove/:memberId',
+  accessGuard(teamPermissions.removeUser),
+  validateIdParam,
+  handleValidationErrors,
+  removeMember
+);
 router.get('/get-all-invites', accessGuard(teamPermissions.removeUser), getAllInvites);
 module.exports = router;

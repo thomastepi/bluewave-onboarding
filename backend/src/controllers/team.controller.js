@@ -1,9 +1,7 @@
 const settings = require('../../config/settings');
 const TeamService = require('../service/team.service');
 const { internalServerError } = require('../utils/errors.helper');
-const { MAX_ORG_NAME_LENGTH, ORG_NAME_REGEX } = require('../utils/constants.helper');
 const db = require('../models');
-const { validationResult } = require('express-validator');
 
 const Team = db.Team;
 const teamService = new TeamService();

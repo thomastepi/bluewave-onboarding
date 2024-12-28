@@ -78,4 +78,21 @@ const validationInvite = [
     .withMessage('Role must be either admin or member'),
 ];
 
-module.exports = { validateSetServerUrl, validateOrganizationName, validationInvite };
+const validationChangeRole = [
+  body('role')
+    .trim()
+    .notEmpty()
+    .withMessage('Role is required')
+    .isString()
+    .withMessage('Role must be a string')
+    .isIn(['admin', 'member'])
+    .withMessage('Role must be either admin or member'),
+  body('memberId')
+    .trim()
+    .notEmpty()
+    .withMessage('Member ID is required')
+    .isString()
+    .withMessage('Member ID must be a string'),
+];
+
+module.exports = { validateSetServerUrl, validateOrganizationName, validationInvite, validationChangeRole };

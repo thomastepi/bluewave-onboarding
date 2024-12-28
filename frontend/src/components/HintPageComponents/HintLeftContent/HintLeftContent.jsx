@@ -28,7 +28,7 @@ const HintLeftContent = ({ actionButtonText, setActionButtonText, actionButtonUr
         Action
       </h2>
       <DropdownList
-        actions={["No action", "Open a URL", "Open a URL in a new tab"]}
+        actions={["No action", "Open URL", "Open URL in a new tab"]}
         onActionChange={handleActionChange}
         selectedActionString={action.toLowerCase()}
       />

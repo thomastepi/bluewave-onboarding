@@ -10,7 +10,7 @@ import toastEmitter, { TOAST_EMITTER_KEY } from "../../utils/toastEmitter";
 import { emitToastError } from "../../utils/guideHelper";
 import { useDialog } from "../../templates/GuideTemplate/GuideTemplateContext";
 
-const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated }) => {
+const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit }) => {
   const { openDialog, closeDialog } = useDialog();
 
   const [activeButton, setActiveButton] = useState(0);
@@ -125,6 +125,7 @@ const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated }) => {
       activeButton={activeButton}
       handleButtonClick={handleButtonClick}
       onSave={onSave}
+      setIsEdit={setIsEdit}
       rightContent={() => (
         <RichTextEditor
           sx={{

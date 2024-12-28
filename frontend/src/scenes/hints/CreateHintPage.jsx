@@ -28,7 +28,8 @@ const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit
   const [header, setHeader] = useState("");
   const [content, setContent] = useState("");
   const markdownContent = new Turndown().turndown(content);
-  
+
+  const [url, setUrl] = useState("https://");
   const [actionButtonUrl, setActionButtonUrl] = useState("https://");
   const [actionButtonText, setActionButtonText] = useState("Take me to subscription page");
   const [action, setAction] = useState("No action");
@@ -76,6 +77,7 @@ const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit
           setHeader(hintData.header || "");
           setContent(hintData.hintContent || "");
           setActionButtonUrl(hintData.actionButtonUrl || "https://");
+          setUrl(hintData.url || "https://");
           setActionButtonText(hintData.actionButtonText || "");
           setAction(hintData.action || "No action");
         } catch (error) {
@@ -89,6 +91,7 @@ const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit
   const onSave = async () => {
     const hintData = {
       tooltipPlacement: tooltipPlacement.toLowerCase(),
+      url,
       actionButtonUrl,
       actionButtonText,
       action: action.toLowerCase(),
@@ -158,6 +161,8 @@ const HintPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit
           setActionButtonText={setActionButtonText}
           actionButtonUrl={actionButtonUrl}
           setActionButtonUrl={setActionButtonUrl}
+          setUrl={setUrl}
+          url={url}
           action={action}
           setAction={setAction}
           targetElement={targetElement}

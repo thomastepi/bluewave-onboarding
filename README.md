@@ -52,7 +52,8 @@ Open the Nginx configuration file:
 
 Add the following configuration. Change YOUR_DOMAIN_NAME with your domain name:
 
-```server {
+```
+server {
     listen 80;
     server_name YOUR_DOMAIN_NAME;
     return 301 https://$host$request_uri; 
@@ -67,7 +68,7 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
-        proxy_pass http://localhost:4173;
+        proxy_pass http://localhost:4173; # Frontend React app
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -75,11 +76,19 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3000; # Backend API
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location /mailhog/ {
+        proxy_pass http://localhost:8025; # MailHog web interface
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 ```

@@ -13,30 +13,14 @@ router.get('/get_link_by_url', bodyUrlValidator, handleValidationErrors, linkCon
 
 router.use(authenticateJWT);
 
-router.post(
-  '/add_link',
-  accessGuard(teamPermissions.links),
-  linkValidator,
-  handleValidationErrors,
-  linkController.addLink
-);
 router.get('/get_links', queryValidator, handleValidationErrors, linkController.getLinksByHelperId);
 router.get('/all_links', linkController.getAllLinks);
 router.get('/get_link/:id', idParamValidator, handleValidationErrors, linkController.getLinksById);
-router.put(
-  '/edit_link/:id',
-  accessGuard(teamPermissions.links),
-  idParamValidator,
-  linkValidator,
-  handleValidationErrors,
-  linkController.editLink
-);
-router.delete(
-  '/delete_link/:id',
-  accessGuard(teamPermissions.links),
-  idParamValidator,
-  handleValidationErrors,
-  linkController.deleteLink
-);
+
+router.use(accessGuard(teamPermissions.links));
+
+router.post('/add_link', linkValidator, handleValidationErrors, linkController.addLink);
+router.put('/edit_link/:id', idParamValidator, linkValidator, handleValidationErrors, linkController.editLink);
+router.delete('/delete_link/:id', idParamValidator, handleValidationErrors, linkController.deleteLink);
 
 module.exports = router;

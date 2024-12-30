@@ -121,7 +121,8 @@ class LinkController {
       const link = await linkService.getLinkByUrl(url);
       res.status(200).json({ link });
     } catch (error) {
-      internalServerError('GET_LINK_BY_URL_ERROR', error.message);
+      const { statusCode, payload } = internalServerError('GET_LINK_BY_URL_ERROR', error.message);
+      res.status(statusCode).json(payload);
     }
   }
 }

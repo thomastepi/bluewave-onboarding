@@ -105,7 +105,7 @@ class LinkController {
       const links = await helperService.getAllHelpersWithLinks();
       res.status(200).json(links);
     } catch (err) {
-      const { statusCode, payload } = internalServerError('GET_ALL_HELPERS_WITH_LINKSERROR', err.message);
+      const { statusCode, payload } = internalServerError('GET_ALL_HELPERS_WITH_LINKS_ERROR', err.message);
       res.status(statusCode).json(payload);
     }
   }

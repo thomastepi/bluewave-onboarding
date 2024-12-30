@@ -31,7 +31,7 @@ const createHelper = async (token, helper) => {
   return res.body;
 };
 
-describe.only('E2e tests link', () => {
+describe('E2e tests link', () => {
   describe('POST /api/link/add_link', () => {
     before(async () => {
       db.sequelize.connectionManager.initPools();

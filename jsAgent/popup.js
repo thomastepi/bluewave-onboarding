@@ -35,13 +35,14 @@ bw.popup = {
         bw.popup.addOverlay();
         bw.popup.addModal(()=>{
             bw.popup.bindEvents();
+            bw.data.sendData(bw.GuideType.POPUP, bw.user.getUserID(), true, );
         });
      },
     
     addOverlay: function () {
         document.body.insertAdjacentHTML('afterbegin', `<div id='bw-overlay' style=' position: fixed; top: 0; left: 0;width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.${popupDefaultOptions.overlayOpacity}); z-index: 999;'></div>`);
     },
-    addModal: function (cb) {
+    addModal: async function (cb) {
         const options = window.bwonboarddata.popup[0];
         let overlay = document.getElementById('bw-overlay');
        
@@ -52,35 +53,35 @@ bw.popup = {
         const size = PopUpSize[option.popupSize];
 
         let temp_html = `
-           
-        <div id='bw-modal' style='position: fixed; top: 15%; left: 50%; transform: translate(-50%, -50%); width: ${size.width}px; height: ${size.height}px; display: block; z-index: 1000; border: 1px solid var(--light-border-color); box-sizing: border-box; padding-top: 100px; background-color: rgb(255 255 255 / 0%);;'>
-            <div class='modal-content' style='border-radius: 4px; position: relative; margin: auto;padding: 0;border: 1px solid #888; background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);'>
-                ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
-                <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box;'>
-                    ${option.content}
-                    ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`, option.closeButtonAction, option.url)}
+            <div id='bw-modal' style='position: fixed; top: 180px; left: 50%; transform: translate(-50%, -50%); width: ${size.width}px; height: ${size.height}px; display: block; z-index: 1000; border: 1px solid var(--light-border-color); box-sizing: border-box; padding-top: 100px; background-color: rgb(255 255 255 / 0%);;'>
+                <div class='modal-content' style='border-radius: 4px; position: relative; margin: auto;padding: 0;border: 1px solid #888; background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);'>
+                    ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
+                    <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box; font-family: "Inter", sans-serif; font-size: 14px; '>
+                        ${option.content}
+                        ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`, option.closeButtonAction, option.url)}
+                    </div>
                 </div>
-            </div>
-        </div>`
+            </div>`;
         overlay.insertAdjacentHTML('afterbegin', temp_html);
-        
+        await bw.data.sendData(bw.GuideType.POPUP, bw.user.getUserID(), true, option.id);
         cb && cb();
     },
     addHeader: function(headerTitle, bgColor, textColor, padding){
-        let headerHtml = `<div class="modal-header" style='font-size: 20px; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--light-border-color);'>
+        let headerHtml = `<div class="modal-header" style='height:57px; margin: auto; font-size: 20px; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--light-border-color);'>
             <h2 style= 'font-family: "Inter", sans-serif; font-size: 20px; font-weight: 500; margin-left: 5px; color:${textColor}'>${headerTitle}</h2>
             <svg id='bw-modal-close' class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
-                style="fill: rgb(152, 162, 179); font-size: 20px; display: block;position: absolute;float: right;right: 23px;cursor: pointer; width: 1em;height: 1em;display: inline-block;">
+                style="fill: rgb(152, 162, 179); font-size: 20px; display: block;position: absolute;float: right;right: 23px;cursor: pointer; width: 1em;height: 1em;display: inline-block; margin: auto;">
                 <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
             </svg>
         </div>`;
         return headerHtml;
     },
     addButton: function(text, bgColor, textColor, padding, btnId, btnEvent, btnlink){
-        let buttonHtml = `<div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 1rem;'>
-            <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:4px; cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 0.875rem; line-height: 1.75;">${text}</button>
-        </div>`;
+        let buttonHtml = `
+            <div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 1rem;'>
+                <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:4px; cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 0.875rem; line-height: 1.75;">${text}</button>
+            </div>`;
 
         bw.util.bindLive(`#${btnId}`, 'click', function(){
             if(btnEvent == 'no action'){
@@ -93,21 +94,12 @@ bw.popup = {
                 window.open(btnlink);
             }
         });
-
         return buttonHtml;
     },  
     bindEvents: function(){
         bw.util.bindLive(`#bw-modal-close`, 'click', function(){
             bw.popup.hideModal();
         });
-
-        // bw.util.bindLive("#bw-overlay", "click",function(e){
-        //     e.stopPropagation()
-        //     bw.popup.hideModal();
-        // });
-    },
-    showModal: function () {
-        document.getElementById('bw-overlay').style.display = 'block';
     },
     hideModal: function(){
         document.getElementById('bw-overlay').style.display = 'none';

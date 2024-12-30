@@ -104,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "",
       },
       content: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1024),
         allowNull: false,
         defaultValue: "",
       },

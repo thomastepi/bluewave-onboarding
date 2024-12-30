@@ -1,36 +1,5 @@
 const helperService = require('../service/helperLink.service');
 const { internalServerError } = require('../utils/errors.helper');
-const { validateHexColor } = require('../utils/guide.helper');
-const { validateUrl } = require('../utils/link.helper');
-
-function validateColors(colors) {
-  for (const [name, color] of Object.entries(colors)) {
-    if (color) {
-      validateHexColor(color, name);
-    }
-  }
-}
-
-function validateLinks(links) {
-  const result = [];
-  for (const link of links) {
-    const { title, url, order } = link;
-    if (!title || !url) {
-      result.push({ msg: 'title and url are required' });
-      continue;
-    }
-    if (!validateUrl(url)) {
-      result.push({ msg: 'Invalid value for url' });
-      continue;
-    }
-    if ((order && isNaN(order)) || order < 1) {
-      result.push({ msg: 'Invalid value for order' });
-      continue;
-    }
-    result.push({ msg: null });
-  }
-  return result;
-}
 
 class LinkController {
   async addHelper(req, res) {
@@ -140,7 +109,5 @@ class LinkController {
 }
 
 module.exports = {
-  controller: new LinkController(),
-  validateColors,
-  validateLinks,
+  controller: new LinkController()
 };

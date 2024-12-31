@@ -31,12 +31,9 @@ const PopUpSize = Object.freeze({
 });
 
 bw.popup = {
-    init: function () {
+    init: async function () {
         bw.popup.addOverlay();
-        bw.popup.addModal(()=>{
-            bw.popup.bindEvents();
-            bw.data.sendData(bw.GuideType.POPUP, bw.user.getUserID(), true, );
-        });
+        await bw.popup.addModal();
      },
     
     addOverlay: function () {
@@ -58,16 +55,16 @@ bw.popup = {
                     ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
                     <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box; font-family: "Inter", sans-serif; font-size: 14px; '>
                         ${option.content}
-                        ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`, option.closeButtonAction, option.url)}
+                        ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`)}
                     </div>
                 </div>
             </div>`;
         overlay.insertAdjacentHTML('afterbegin', temp_html);
         await bw.data.sendData(bw.GuideType.POPUP, bw.user.getUserID(), true, option.id);
-        cb && cb();
+        bw.popup.bindEvents( option.closeButtonAction, option.url);
     },
     addHeader: function(headerTitle, bgColor, textColor, padding){
-        let headerHtml = `<div class="modal-header" style='height:57px; margin: auto; font-size: 20px; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--light-border-color);'>
+        let headerHtml = `<div class="modal-header" style='height:57px; margin: auto; font-size: 20px; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #D0D5DD;'>
             <h2 style= 'font-family: "Inter", sans-serif; font-size: 20px; font-weight: 500; margin-left: 5px; color:${textColor}'>${headerTitle}</h2>
             <svg id='bw-modal-close' class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
                 style="fill: rgb(152, 162, 179); font-size: 20px; display: block;position: absolute;float: right;right: 23px;cursor: pointer; width: 1em;height: 1em;display: inline-block; margin: auto;">
@@ -76,14 +73,21 @@ bw.popup = {
         </div>`;
         return headerHtml;
     },
-    addButton: function(text, bgColor, textColor, padding, btnId, btnEvent, btnlink){
+    addButton: function(text, bgColor, textColor, padding, btnId){
         let buttonHtml = `
             <div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 1rem;'>
-                <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:4px; cursor: pointer;
+                <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:8px; cursor: pointer;
                 transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 0.875rem; line-height: 1.75;">${text}</button>
             </div>`;
-
-        bw.util.bindLive(`#${btnId}`, 'click', function(){
+        return buttonHtml;
+    },  
+    bindEvents: function(btnEvent, btnlink){
+        document.getElementById('bw-modal-close').addEventListener('click', function(){
+            bw.popup.hideModal();
+        });
+        
+        const button = document.getElementById('bw-popup-btn');
+        button.addEventListener('click', function(){
             if(btnEvent == 'no action'){
                 bw.popup.hideModal();
             }
@@ -94,11 +98,11 @@ bw.popup = {
                 window.open(btnlink);
             }
         });
-        return buttonHtml;
-    },  
-    bindEvents: function(){
-        bw.util.bindLive(`#bw-modal-close`, 'click', function(){
-            bw.popup.hideModal();
+        button.addEventListener('mouseover', function(){
+            button.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);';   
+        });
+        button.addEventListener('mouseout', function(){
+            button.style.boxShadow = 'none';   
         });
     },
     hideModal: function(){

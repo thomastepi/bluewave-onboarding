@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "../../../../components/Button/Button";
-import "./ConfirmationPopupStyles.css";
+import { dialogStyles } from "./ConfirmationPopupStyles.js";
 import {
   Dialog,
   DialogActions,
@@ -13,18 +13,18 @@ import {
 const ConfirmationPopup = ({ open, onConfirm, onCancel }) => {
   return (
     <Dialog
-      PaperProps={{ className: "dialog-paper" }}
+      PaperProps={{ sx: { padding: dialogStyles.paper } }}
       open={open}
       onClose={onCancel}
       closeAfterTransition={open}
     >
-      <DialogTitle className="dialog-title">Confirm Action</DialogTitle>
-      <DialogContent className="dialog-content">
+      <DialogTitle sx={dialogStyles.title}>Confirm Action</DialogTitle>
+      <DialogContent sx={dialogStyles.content}>
         <DialogContentText>
           Are you sure you want to perform this action?
         </DialogContentText>
       </DialogContent>
-      <DialogActions className="dialog-actions">
+      <DialogActions sx={dialogStyles.actions}>
         <Button
           text="Cancel"
           buttonType="secondary"

@@ -177,7 +177,7 @@ describe("E2e tests user", () => {
         .execute(app)
         .put("/api/users/update")
         .set("Authorization", `Bearer ${token}`)
-        .send({ picture: "https://picsum.photos/200/300" });
+        .send({ picture: encodeURIComponent("https://picsum.photos/200/300") });
       expect(result).to.have.status(200);
       const { createdAt, ...body } = result.body.user;
       expect(body).to.be.deep.equal({

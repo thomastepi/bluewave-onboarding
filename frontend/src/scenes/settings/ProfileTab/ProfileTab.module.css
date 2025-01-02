@@ -1,5 +1,6 @@
 .form {
     padding-bottom: 20px;
+    width: 864px;
     border-bottom: 1px solid #EEEEEE;
 }
 
@@ -18,7 +19,17 @@
 .photoAlign{
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 7rem;
+}
+
+.supportText {
+    margin: 0;
+    min-width: 400px;
+    color: var(--second-text-color);
+    font-size: var(--font-regular);
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 6px;
 }
 
 .photoOptions {
@@ -38,6 +49,7 @@
 
 .label {
     font-size: var(--font-regular);
+    min-width: 400px;
     font-weight: 700;
     line-height: 20px;
     text-align: left;
@@ -45,15 +57,11 @@
     margin: 0;
 }
 
-.supportText {
-    margin: 0;
-    color: var(--second-text-color);
-    font-size: var(--font-regular);
-    font-weight: 400;
-    line-height: 20px;
-    margin-top: 6px;
+.textField {
+    flex-grow: 1; 
+    text-align: right;
 }
-
+  
 .update,
 .delete{
     border: none;

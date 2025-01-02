@@ -108,7 +108,7 @@ describe("E2e tests user", () => {
         error: "Error, no value(s) provided to update",
       });
     });
-    it.skip("should fail if the image is not an url or base64", async () => {
+    it("should fail if the image is not an url or base64", async () => {
       const token = await resetDb();
       const result = await chai.request
         .execute(app)
@@ -120,7 +120,7 @@ describe("E2e tests user", () => {
         errors: [
           {
             location: "body",
-            msg: "Invalid value",
+            msg: "Picture must be either a valid URL or a base64 encoded string",
             path: "picture",
             type: "field",
             value: "photo",

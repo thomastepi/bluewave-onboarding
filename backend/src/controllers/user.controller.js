@@ -38,9 +38,8 @@ const validateProfileUpdate = [
   body('surname').optional().isString().trim().escape(),
   body('picture').optional().custom(value => {
     if (value === null) return true;
-    if (isBase64(value) || body('picture').isURL().run(value)) return true;
-    throw new Error('Picture must be either a valid URL or a base64 encoded string')
-  }).trim().escape(),
+    return isBase64(value) || body('picture').isURL().run(value);
+  }).trim().escape().withMessage('Picture must be either a valid URL or a base64 encoded string'),
 ];
 
 const getUpdatedFields = (original, updated) => {

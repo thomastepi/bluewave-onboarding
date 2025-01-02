@@ -1,8 +1,8 @@
 const settings = require("../../config/settings");
 const { body, validationResult } = require('express-validator');
 const UserService = require("../service/user.service");
-const he = require('he');
 const { internalServerError } = require("../utils/errors.helper");
+const { decode } = require("../utils/auth.helper");
 
 const userService = new UserService();
 
@@ -49,7 +49,7 @@ const getUpdatedFields = (original, updated) => {
   Object.keys(original).forEach(key => {
     if (updated[key]) {
       if (key === 'picture') {
-        result[key] = he.decode(updated[key]); // unescape picture
+        result[key] = decode(updated[key]); // unescape picture
       } else {
         result[key] = updated[key];
       }

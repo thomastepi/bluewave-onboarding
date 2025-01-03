@@ -28,6 +28,7 @@ const statisticsRoutes = require("./routes/statistics.routes");
 const app = express();
 
 app.use(cors());
+app.options('*', cors()); // this is for preflight requests
 app.use(helmet());
 app.use(bodyParser.json({ limit: MAX_FILE_SIZE }));
 app.use(jsonErrorMiddleware);

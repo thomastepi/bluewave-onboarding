@@ -45,23 +45,24 @@ class TeamService {
 
     async fetchServerUrl() {
         try {
-            const { serverUrl } = await Team.findOne();
-            return serverUrl;
+            const { serverUrl, baseUrl } = await Team.findOne();
+            return { serverUrl, baseUrl };
         } catch (err) {
             throw new Error("Failed to fetch server url");
         }
     }
 
-    async addServerUrl(serverUrl) {
+    async addUrl(serverUrl, baseUrl) {
         const transaction = await sequelize.transaction();
         try {
             await Team.update({
-                serverUrl
+                serverUrl,
+                baseUrl
             }, { where: {} }, { transaction });
             await transaction.commit();
         } catch (err) {
             await transaction.rollback();
-            throw new Error("Failed to add server url")
+            throw new Error("Failed to add server and base url")
         }
     }
 

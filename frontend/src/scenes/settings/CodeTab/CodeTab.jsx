@@ -11,7 +11,6 @@ import { URL_REGEX } from "../../../utils/constants";
 const CodeTab = () => {
     const [serverUrl, setServerUrl] = useState('');
     const [agentUrl, setAgentUrl] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const validateServerUrl = url => {
         const errors = [];
@@ -44,8 +43,9 @@ const CodeTab = () => {
     useEffect(() => {
         const fetchServerUrl = async () => {
             try {
-                const { serverUrl } = await getServerUrl();
+                const { serverUrl, baseUrl } = await getServerUrl();
                 setServerUrl(serverUrl);
+                setAgentUrl(baseUrl)
             } catch (err) {
                 console.error('Error fetching server url: ', err);
             }
@@ -72,13 +72,10 @@ const CodeTab = () => {
         }
 
         try {
-            setIsLoading(true);
-            const response = await addServerUrl(serverUrl);
+            const response = await addServerUrl(serverUrl, baseUrl);
             toastEmitter.emit(TOAST_EMITTER_KEY, response.message);
         } catch (err) {
             emitToastError(err);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -126,10 +123,10 @@ const CodeTab = () => {
                 <span />
                 <Button text='Save' sx={{ width: '120px' }} onClick={onSave} />
 
-         
+
             </div>
             <div className={styles.block}>
-            <p className={styles.label}>Agent Base URL:</p>
+                <p className={styles.label}>Agent Base URL:</p>
                 <CustomTextField
                     value={agentUrl}
                     onChange={handleAgentUrlChange}
@@ -137,7 +134,6 @@ const CodeTab = () => {
                     TextFieldWidth="550px"
                 />
                 <span />
-                <Button text='Save' sx={{ width: '120px' }} onClick={onSave} />
             </div>
             <h2 style={{ marginTop: '25px' }}>Code in your webpage</h2>
             <div className={styles.informativeBlock}>
@@ -151,7 +147,7 @@ const CodeTab = () => {
                         fontSize: '20px',
                         color: 'var(--main-text-color)',
                     }}
-                    />
+                />
             </div>
 
             <pre><code>{codeToCopy}</code></pre>

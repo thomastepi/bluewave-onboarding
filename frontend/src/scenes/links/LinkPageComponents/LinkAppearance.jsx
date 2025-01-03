@@ -75,6 +75,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
             }}
             error={errors.headerBackgroundColor}
             title={'Header background color'}
+            className={'header'}
           />
           <ColorInput
             id="link-color"
@@ -90,6 +91,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
             }}
             error={errors.linkFontColor}
             title={'Link font color'}
+            className={'link'}
           />
           <ColorInput
             id="icon"
@@ -105,6 +107,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
             }}
             error={errors.iconColor}
             title={'Helper icon color'}
+            className={'icon'}
           />
         </Form>
       )}

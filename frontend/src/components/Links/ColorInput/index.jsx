@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import styles from './ColorInput.module.scss';
 
-const ColorInput = ({ id, name, value, onChange, onBlur, error, title }) => (
+const ColorInput = ({ id, name, value, onChange, onBlur, error, title, className }) => (
   <label htmlFor="header-bg" className={styles.appearance__label}>
     {title}{' '}
     <div className={styles.appearance__color}>
       <span
-        className={`${styles.appearance__input} ${styles.header} ${
+        className={`${styles.appearance__input} ${styles[className]} ${
           error && styles.error
         }`}
       >

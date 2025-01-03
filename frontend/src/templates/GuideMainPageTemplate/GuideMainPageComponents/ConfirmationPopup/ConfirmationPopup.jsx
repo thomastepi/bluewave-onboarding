@@ -1,28 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Button from "../../../../components/Button/Button";
+import { dialogStyles } from "./ConfirmationPopupStyles.js";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Button,
 } from "@mui/material";
 
 const ConfirmationPopup = ({ open, onConfirm, onCancel }) => {
   return (
-    <Dialog open={open} onClose={onCancel} closeAfterTransition={open}>
-      <DialogTitle>Confirm Action</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+    <Dialog
+      PaperProps={{ sx: dialogStyles.paper }}
+      open={open}
+      onClose={onCancel}
+      closeAfterTransition={open}
+    >
+      <DialogTitle sx={dialogStyles.title}>Confirm Action</DialogTitle>
+      <DialogContent sx={dialogStyles.content}>
+        <DialogContentText sx={dialogStyles.contentText}>
           Are you sure you want to perform this action?
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onConfirm} color="primary">
-          Confirm
-        </Button>
+      <DialogActions sx={dialogStyles.actions}>
+        <Button
+          text="Cancel"
+          buttonType="secondary"
+          variant="text"
+          onClick={onCancel}
+          sx={dialogStyles.contentText}
+        />
+        <Button
+          text="Confirm"
+          onClick={onConfirm}
+          variant="contained"
+          buttonType="secondary"
+          sx={dialogStyles.contentText}
+        />
       </DialogActions>
     </Dialog>
   );

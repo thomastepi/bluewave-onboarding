@@ -13,14 +13,14 @@ import {
 const ConfirmationPopup = ({ open, onConfirm, onCancel }) => {
   return (
     <Dialog
-      PaperProps={{ sx: { padding: dialogStyles.paper } }}
+      PaperProps={{ sx: dialogStyles.paper }}
       open={open}
       onClose={onCancel}
       closeAfterTransition={open}
     >
       <DialogTitle sx={dialogStyles.title}>Confirm Action</DialogTitle>
       <DialogContent sx={dialogStyles.content}>
-        <DialogContentText>
+        <DialogContentText sx={dialogStyles.contentText}>
           Are you sure you want to perform this action?
         </DialogContentText>
       </DialogContent>
@@ -30,12 +30,14 @@ const ConfirmationPopup = ({ open, onConfirm, onCancel }) => {
           buttonType="secondary"
           variant="text"
           onClick={onCancel}
+          sx={dialogStyles.contentText}
         />
         <Button
           text="Confirm"
           onClick={onConfirm}
           variant="contained"
           buttonType="secondary"
+          sx={dialogStyles.contentText}
         />
       </DialogActions>
     </Dialog>

@@ -1,11 +1,11 @@
 import { Form, Formik } from 'formik';
-import { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useContext, useEffect } from 'react';
 import { HelperLinkContext } from '../../../services/linksProvider';
 import { appearanceSchema } from '../../../utils/linkHelper';
 import styles from '../LinkPage.module.scss';
 
 const LinkAppearance = ({ handleSaveHelper }) => {
-  const [serverErrors, setServerErrors] = useState([]);
   const context = useContext(HelperLinkContext);
   if (!context) {
     throw new Error('LinkAppearance must be used within a HelperLinkProvider');
@@ -29,7 +29,6 @@ const LinkAppearance = ({ handleSaveHelper }) => {
       validateonMount={false}
       validateonBlur={true}
       onSubmit={async (values, { setSubmitting }) => {
-        setServerErrors([]);
         try {
           handleSaveHelper();
         } catch (error) {
@@ -47,14 +46,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
         }
       }}
     >
-      {({
-        isSubmitting,
-        touched,
-        errors,
-        handleChange,
-        handleBlur,
-        values,
-      }) => (
+      {({ errors, handleChange, handleBlur, values }) => (
         <Form className={styles.appearance}>
           <label htmlFor="header" className={styles.appearance__label}>
             Header text{' '}
@@ -179,3 +171,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
 };
 
 export default LinkAppearance;
+
+LinkAppearance.propTypes = {
+  handleSaveHelper: PropTypes.func.isRequired,
+};

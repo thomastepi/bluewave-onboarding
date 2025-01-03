@@ -51,14 +51,6 @@ const Settings = () => {
     return () => window.removeEventListener('mousedown', handleMouseDown);
   }, []);
 
-  const handleChange = ({ target }) => {
-    const { name, value, checked } = target;
-    setState((prev) => ({
-      ...prev,
-      [name]: name === 'target' ? checked : value,
-    }));
-  };
-
   const handleClose = async (e, info) => {
     e?.preventDefault();
     if (!info) {
@@ -118,7 +110,6 @@ const Settings = () => {
           setSubmitting(false);
         }
       }}
-      role="form"
       data-testid="settings-form"
     >
       {({ isSubmitting, errors, handleChange, handleBlur, values }) => (

@@ -173,7 +173,6 @@ const ProfileTab = () => {
           />
         </div>
         <div className={styles.photoElements}>
-          <div>
             <label htmlFor="photo" className={styles.label}>
               Your Photo
             </label>
@@ -196,7 +195,6 @@ const ProfileTab = () => {
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <div className={styles.saveButton}>
           <Button

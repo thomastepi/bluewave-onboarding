@@ -1,6 +1,7 @@
 .form {
     padding-bottom: 20px;
-    width: 864px;
+    min-width: 780px;
+    max-width: 864px;
     border-bottom: 1px solid #EEEEEE;
 }
 
@@ -13,18 +14,18 @@
 
 .photoElements {
     display: flex;
+    flex-direction: column;
     margin-top: 30px;
 }
 
 .photoAlign{
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 7rem;
 }
 
 .supportText {
     margin: 0;
-    min-width: 400px;
     color: var(--second-text-color);
     font-size: var(--font-regular);
     font-weight: 400;
@@ -33,6 +34,7 @@
 }
 
 .photoOptions {
+    min-width: 350px;
     display: flex;
     gap: 5px;
     align-items: center;

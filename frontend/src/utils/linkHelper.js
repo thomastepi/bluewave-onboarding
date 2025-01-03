@@ -23,4 +23,23 @@ const newLinkSchema = Yup.object().shape({
   target: Yup.boolean(),
 });
 
-export { newLinkSchema, validateUrl };
+const appearanceSchema = Yup.object().shape({
+  title: Yup.string()
+    .required('Header is required')
+    .matches(
+      /^[A-Za-z'\s-]+$/,
+      'Header can only contain letters, hyphens and apostrophes'
+    )
+    .trim(),
+  headerBackgroundColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for headerBackgroundColor'),
+  linkFontColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for linkFontColor'),
+  iconColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for iconColor'),
+});
+
+export { newLinkSchema, validateUrl, appearanceSchema };

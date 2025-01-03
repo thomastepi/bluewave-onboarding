@@ -60,7 +60,7 @@ const Settings = () => {
   };
 
   const handleClose = async (e, info) => {
-    e.preventDefault();
+    e?.preventDefault();
     if (!info) {
       info = Array.from(settingsRef.current.querySelectorAll('input')).reduce(
         (acc, it) => ({
@@ -69,6 +69,9 @@ const Settings = () => {
         }),
         {}
       );
+    }
+    if (!e) {
+      e = { target: settingsRef.current };
     }
     if (!info.title.trim() && !info.url.trim()) {
       toggleSettings(e);
@@ -99,9 +102,8 @@ const Settings = () => {
       validateonMount={false}
       validateonBlur={true}
       onSubmit={async (values, { setSubmitting }) => {
-        setServerErrors([]);
         try {
-          handleClose({}, values);
+          handleClose(null, values);
         } catch (error) {
           if (error.response?.data?.errors) {
             setServerErrors(error.response.data.errors);

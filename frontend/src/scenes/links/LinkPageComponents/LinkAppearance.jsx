@@ -39,7 +39,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
       }}
     >
       {({ errors, handleChange, handleBlur, values }) => (
-        <Form className={styles.appearance}>
+        <Form className={styles.appearance} data-testid="appearance-form">
           <label htmlFor="header" className={styles.appearance__label}>
             Header text{' '}
             <input

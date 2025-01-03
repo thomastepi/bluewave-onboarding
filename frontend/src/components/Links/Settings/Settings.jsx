@@ -102,10 +102,13 @@ const Settings = () => {
           setSubmitting(false);
         }
       }}
-      data-testid="settings-form"
     >
       {({ isSubmitting, errors, handleChange, handleBlur, values }) => (
-        <Form className={style.settings} ref={settingsRef}>
+        <Form
+          className={style.settings}
+          ref={settingsRef}
+          data-testid="settings-form"
+        >
           <div className={style.settings__header}>
             <span className={style['settings__header--title']}>
               Add new link

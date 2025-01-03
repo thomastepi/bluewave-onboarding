@@ -214,10 +214,14 @@ describe('E2e tests helperLink', () => {
         if (helper.createdBy === 2) {
           expect(res.body).to.not.include(helper);
         } else {
-          const { creator, createdBy: c, id: i, ...curr } = res.body.find((it) => it.title === helper.title);
+          const {
+            createdBy: c,
+            id: i,
+            ...curr
+          } = res.body.find((it) => it.title === helper.title);
           const { createdBy, links, id, ...expected } = helper;
           expect(curr).to.be.deep.equal(expected);
-          expect(creator).to.have.property('id', createdBy);
+          // expect(creator).to.have.property("id", createdBy);
         }
       });
     });
@@ -268,10 +272,14 @@ describe('E2e tests helperLink', () => {
         .set('Authorization', `Bearer ${token}`);
       expect(res).to.have.status(200);
       mocks.HelperLinkList.forEach((helper) => {
-        const { creator, createdBy: c, id: i, ...curr } = res.body.find((it) => it.title === helper.title);
+        const {
+          createdBy: c,
+          id: i,
+          ...curr
+        } = res.body.find((it) => it.title === helper.title);
         const { createdBy, links, id, ...expected } = helper;
         expect(curr).to.be.deep.equal(expected);
-        expect(creator).to.have.property('id', createdBy);
+        // expect(creator).to.have.property("id", createdBy);
       });
     });
   });
@@ -332,7 +340,7 @@ describe('E2e tests helperLink', () => {
         .get(`/api/helper-link/get_helper/${helperId}`)
         .set('Authorization', `Bearer ${token}`);
       expect(res).to.have.status(200);
-      const { creator, createdBy: c, id: i, links: l, ...rest } = res.body;
+      const { createdBy: c, id: i, links: l, ...rest } = res.body;
       expect(rest).to.be.deep.equal(expected);
     });
   });

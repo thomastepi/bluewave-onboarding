@@ -97,15 +97,7 @@ const Settings = () => {
         try {
           handleClose(null, values);
         } catch (error) {
-          if (error.response?.data?.errors) {
-            setServerErrors(error.response.data.errors);
-          } else if (error.response?.data?.error) {
-            setServerErrors([error.response.data.error]);
-          } else {
-            setServerErrors([
-              'An error occurred. Please check your network connection and try again.',
-            ]);
-          }
+          return;
         } finally {
           setSubmitting(false);
         }

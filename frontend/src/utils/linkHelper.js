@@ -26,13 +26,11 @@ const newLinkSchema = Yup.object().shape({
 const appearanceSchema = Yup.object().shape({
   title: Yup.string()
     .required('Header is required')
+    .trim()
     .matches(
       /^[A-Za-z'\s-]+$/,
       'Header can only contain letters, hyphens and apostrophes'
-    )
-    .trim()
-    .min(3, 'Header must be at least 3 characters')
-    .max(50, 'Header must be at most 50 characters'),
+    ),
   headerBackgroundColor: Yup.string()
     .optional()
     .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for headerBackgroundColor'),

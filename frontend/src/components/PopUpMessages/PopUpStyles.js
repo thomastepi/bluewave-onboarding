@@ -1,4 +1,4 @@
-export const dialogStyles = {
+export const popupStyles = {
   paper: {
     padding: "16px",
   },

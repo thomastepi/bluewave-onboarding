@@ -1,6 +1,6 @@
 import { React } from "react";
 import PropTypes from "prop-types";
-import { popupStyles } from "./PopUpMessages";
+import { popupStyles } from "./PopUpStyles";
 import Button from "../Button/Button";
 import {
   Dialog,
@@ -12,10 +12,12 @@ import {
 const PopUpMessages = ({
   open,
   header,
-  leftButtonClickHandler,
-  rightButtonClickHandler,
   leftButtonText,
   rightButtonText,
+  leftButtonClickHandler,
+  rightButtonClickHandler,
+  handleOpenLink,
+  additionanLinkButton,
   children,
 }) => {
   return (
@@ -30,6 +32,14 @@ const PopUpMessages = ({
       <DialogContent sx={popupStyles.content}>{children}</DialogContent>
 
       <DialogActions sx={popupStyles.actions}>
+        {additionanLinkButton && (
+          <Button
+            text="Open link"
+            buttonType="secondary"
+            variant="text"
+            onClick={handleOpenLink}
+          />
+        )}
         <Button
           text={leftButtonText}
           buttonType="secondary"
@@ -53,10 +63,12 @@ PopUpMessages.propTypes = {
   open: PropTypes.bool.isRequired,
   header: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  leftButtonClickHandler: PropTypes.func.isRequired,
-  rightButtonClickHandler: PropTypes.func.isRequired,
   leftButtonText: PropTypes.string.isRequired,
   rightButtonText: PropTypes.string.isRequired,
+  leftButtonClickHandler: PropTypes.func.isRequired,
+  rightButtonClickHandler: PropTypes.func.isRequired,
+  handleOpenLink: PropTypes.func,
+  additionanLinkButton: PropTypes.bool,
 };
 
 export default PopUpMessages;

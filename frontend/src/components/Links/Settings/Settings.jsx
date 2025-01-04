@@ -91,8 +91,8 @@ const Settings = () => {
     <Formik
       initialValues={state}
       validationSchema={newLinkSchema}
-      validateonMount={false}
-      validateonBlur={true}
+      validateOnMount={false}
+      validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           handleClose(null, values);
@@ -103,7 +103,14 @@ const Settings = () => {
         }
       }}
     >
-      {({ isSubmitting, errors, handleChange, handleBlur, values }) => (
+      {({
+        isSubmitting,
+        errors,
+        handleChange,
+        handleBlur,
+        values,
+        validateField,
+      }) => (
         <Form
           className={style.settings}
           ref={settingsRef}
@@ -148,15 +155,18 @@ const Settings = () => {
                 type="text"
                 name="title"
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  handleBlur(e);
+                  validateField('title');
+                }}
                 value={values.title}
               />
+              {errors.title && (
+                <small className={style['settings__content--error']}>
+                  {errors.title}
+                </small>
+              )}
             </label>
-            {errors.title && (
-              <small className={style['settings__content--error']}>
-                {errors.title}
-              </small>
-            )}
             <label htmlFor="url" className={style['settings__content--label']}>
               <span className={style['settings__content--text']}>
                 URL to open (can be a relative URL)
@@ -169,7 +179,10 @@ const Settings = () => {
                 type="text"
                 name="url"
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  handleBlur(e);
+                  validateField('url');
+                }}
                 value={values.url}
               />
               {errors.url && (

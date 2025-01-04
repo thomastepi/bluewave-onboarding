@@ -43,9 +43,9 @@ const CodeTab = () => {
     useEffect(() => {
         const fetchServerUrl = async () => {
             try {
-                const { serverUrl, baseUrl } = await getServerUrl();
+                const { serverUrl, agentUrl } = await getServerUrl();
                 setServerUrl(serverUrl);
-                setAgentUrl(baseUrl)
+                setAgentUrl(agentUrl)
             } catch (err) {
                 console.error('Error fetching server url: ', err);
             }
@@ -72,7 +72,7 @@ const CodeTab = () => {
         }
 
         try {
-            const response = await addServerUrl(serverUrl, baseUrl);
+            const response = await addServerUrl(serverUrl, agentUrl);
             toastEmitter.emit(TOAST_EMITTER_KEY, response.message);
         } catch (err) {
             emitToastError(err);
@@ -126,7 +126,7 @@ const CodeTab = () => {
 
             </div>
             <div className={styles.block}>
-                <p className={styles.label}>Agent Base URL:</p>
+                <p className={styles.label}>Agent Base URL:&nbsp;</p>
                 <CustomTextField
                     value={agentUrl}
                     onChange={handleAgentUrlChange}

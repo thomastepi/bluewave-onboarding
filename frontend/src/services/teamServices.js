@@ -24,9 +24,9 @@ export const getTeamCount = async () => {
   }
 }
 
-export const addServerUrl = async (serverUrl, baseUrl)  => {
+export const addServerUrl = async (serverUrl, agentUrl)  => {
   try {
-    const response = await apiClient.put(`${baseEndpoint}/urls`, { serverUrl, baseUrl });
+    const response = await apiClient.put(`${baseEndpoint}/urls`, { serverUrl, agentUrl });
     return response.data;
   } catch (err) {
     console.error('Error setting server url: ', err);

@@ -1,4 +1,3 @@
-import { React } from "react";
 import PropTypes from "prop-types";
 import { popupStyles } from "./PopUpStyles";
 import Button from "../Button/Button";
@@ -16,6 +15,8 @@ const PopUpMessages = ({
   rightButtonText,
   leftButtonClickHandler,
   rightButtonClickHandler,
+  leftButtonType,
+  rightButtonType,
   handleOpenLink,
   additionanLinkButton,
   children,
@@ -42,7 +43,7 @@ const PopUpMessages = ({
         )}
         <Button
           text={leftButtonText}
-          buttonType="secondary"
+          buttonType={leftButtonType || "secondary"}
           variant="text"
           onClick={leftButtonClickHandler}
           sx={popupStyles.contentText}
@@ -51,7 +52,7 @@ const PopUpMessages = ({
           text={rightButtonText}
           onClick={rightButtonClickHandler}
           variant="contained"
-          buttonType="secondary"
+          buttonType={rightButtonType || "secondary"}
           sx={popupStyles.contentText}
         />
       </DialogActions>
@@ -67,6 +68,8 @@ PopUpMessages.propTypes = {
   rightButtonText: PropTypes.string.isRequired,
   leftButtonClickHandler: PropTypes.func.isRequired,
   rightButtonClickHandler: PropTypes.func.isRequired,
+  leftButtonType: PropTypes.string,
+  rightButtonType: PropTypes.string,
   handleOpenLink: PropTypes.func,
   additionanLinkButton: PropTypes.bool,
 };

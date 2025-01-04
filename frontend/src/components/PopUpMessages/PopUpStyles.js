@@ -8,9 +8,6 @@ export const popupStyles = {
   content: {
     paddingLeft: 0,
   },
-  contentText: {
-    fontSize: "13px",
-  },
   actions: {
     paddingBottom: 0,
     paddingRight: 0,

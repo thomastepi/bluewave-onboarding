@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { DialogContentText } from "@mui/material";
 import PopUpMessages from "../../../../components/PopUpMessages/PopUpMessages.jsx";
@@ -13,7 +12,7 @@ const ConfirmationPopup = ({ open, onConfirm, onCancel }) => {
       leftButtonText="Cancel"
       rightButtonText="Confirm"
     >
-      <DialogContentText>
+      <DialogContentText sx={{ fontSize: "13px" }}>
         Are you sure you want to perform this action?
       </DialogContentText>
     </PopUpMessages>

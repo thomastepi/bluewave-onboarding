@@ -43,8 +43,8 @@ const getTeamCount = async (req, res) => {
 
 const getServerUrl = async (req, res) => {
   try {
-    const { serverUrl, baseUrl } = await teamService.fetchServerUrl();
-    return res.status(200).json({ serverUrl, baseUrl });
+    const { serverUrl, agentUrl } = await teamService.fetchServerUrl();
+    return res.status(200).json({ serverUrl, agentUrl });
   } catch (err) {
     const { statusCode, payload } = internalServerError('GET_URL_ERROR', err.message);
     res.status(statusCode).json(payload);
@@ -87,8 +87,8 @@ const updateTeamDetails = async (req, res) => {
 
 const setServerUrl = async (req, res) => {
   try {
-    const { serverUrl, baseUrl } = req.body;
-    await teamService.addUrl(serverUrl, baseUrl);
+    const { serverUrl, agentUrl } = req.body;
+    await teamService.addUrl(serverUrl, agentUrl);
     return res.status(200).json({ message: 'Server and Base URL Set Successfully' });
   } catch (err) {
     const { statusCode, payload } = internalServerError('SET_SERVER_URL_ERROR', err.message);

@@ -27,19 +27,10 @@ const LinkAppearance = ({ handleSaveHelper }) => {
     <Formik
       initialValues={helper}
       validationSchema={appearanceSchema}
-      validateonMount={false}
-      validateonBlur={true}
-      onSubmit={async (values, { setSubmitting }) => {
-        try {
-          handleSaveHelper();
-        } catch (error) {
-          return;
-        } finally {
-          setSubmitting(false);
-        }
-      }}
+      validateOnMount={false}
+      validateOnBlur={true}
     >
-      {({ errors, handleChange, handleBlur, values }) => (
+      {({ errors, handleChange, handleBlur, values, validateField }) => (
         <Form className={styles.appearance} data-testid="appearance-form">
           <label htmlFor="header" className={styles.appearance__label}>
             Header text{' '}
@@ -60,6 +51,9 @@ const LinkAppearance = ({ handleSaveHelper }) => {
                 handleHelperChange(e);
               }}
             />
+            {errors.title && (
+              <span className={styles.appearance__error}>{errors.title}</span>
+            )}
           </label>
           <ColorInput
             id="header-bg"

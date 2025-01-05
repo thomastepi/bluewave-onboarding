@@ -1,174 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tooltip with Dynamic Positioning</title>
+    <title>Tooltip Example</title>
+    <style>
+        .tooltip-target {
+            
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip-target:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
-<body style="height: 200vh;">
 
-<div id="tooltip-container" style="position: relative; display: inline-block; top: 100px; margin: 50px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc; cursor: pointer;">
-    Hover over me
-</div>
+<body style="height: 2000px;">
+    <h1>Tooltip Example</h1>
+    <p>Hover over the elements below to see the tooltip in different positions:</p>
 
-<script>
-    // JavaScript to create and manage the tooltip
-    const tooltipContainer = document.getElementById('tooltip-container');
+    <!-- Elements with tooltips -->
+    <div class="tooltip-target" data-tooltip-position="top">Element 1 (Top)</div>
+    <div class="tooltip-target" data-tooltip-position="bottom">Element 2 (Bottom)</div>
+    <div class="tooltip-target" data-tooltip-position="left">Element 3 (Left)</div>
+    <div class="tooltip-target" data-tooltip-position="right">Element 4 (Right)</div>
 
-    // Create the tooltip element
-    const tooltip = document.createElement('div');
-    tooltip.innerHTML = `
-        This is a custom tooltip!
-        <button id="tooltip-button" style="display: block; margin-top: 5px; padding: 5px 10px; background-color: #007bff; color: #fff; border: none; border-radius: 3px; cursor: pointer;">
-            Click Me
-        </button>
-    `;
-    tooltip.style.position = 'absolute';
-    tooltip.style.backgroundColor = '#555';
-    tooltip.style.color = '#fff';
-    tooltip.style.padding = '10px';
-    tooltip.style.borderRadius = '5px';
-    tooltip.style.textAlign = 'center';
-    tooltip.style.width = '150px';
-    tooltip.style.visibility = 'hidden';
-    tooltip.style.opacity = '0';
-    tooltip.style.transition = 'opacity 0.3s';
-    tooltip.style.zIndex = '1';
+    <script>
+        // Tooltip function
+        function createTooltip(selector) {
+            // Create the tooltip element
+            const tooltip = document.createElement('div');
+            tooltip.timer = null;
+            tooltip.positionTimer = null;
+            tooltip.style.position = 'absolute';
+            tooltip.style.backgroundColor = '#333';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '5px 10px';
+            tooltip.style.borderRadius = '4px';
+            tooltip.style.fontSize = '14px';
+            //tooltip.style.display = 'block';
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.zIndex = '99999';
+            tooltip.innerHTML = `<span>Tooltip</span>`;
+            document.body.appendChild(tooltip);
 
-    // Create the arrow for the tooltip
-    const tooltipArrow = document.createElement('div');
-    tooltipArrow.style.content = '""';
-    tooltipArrow.style.position = 'absolute';
-    tooltipArrow.style.borderWidth = '5px';
-    tooltipArrow.style.borderStyle = 'solid';
-    tooltipArrow.style.width = '0';
-    tooltipArrow.style.height = '0';
+            tooltip.addEventListener('mouseenter', function (e) {
+                clearInterval(tooltip.timer);
+                e.target.style.visibility = 'visible';
+            });
 
-    // Append the arrow to the tooltip
-    tooltip.appendChild(tooltipArrow);
+            tooltip.addEventListener('mouseleave', function (e) {
+                tooltip.timer = setTimeout(() => {
+                    e.target.style.visibility = 'hidden';
+                }, 1500);
+            });
 
-    // Append the tooltip to the container
-    tooltipContainer.appendChild(tooltip);
+            
+            const elements = document.querySelectorAll(selector);            
+            elements.forEach(function (element) {
 
-    // Track whether the mouse is over the tooltip or container
-    let isMouseOverTooltip = false;
-    let isMouseOverContainer = false;
+                element.addEventListener('mouseenter', function (e) {
+                    clearTimeout(tooltip.timer);
+                    clearTimeout(tooltip.positionTimer);
 
-    // Function to position the tooltip dynamically
-    function positionTooltip() {
-        const containerRect = tooltipContainer.getBoundingClientRect();
-        const tooltipRect = tooltip.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+                    tooltip.positionTimer = setTimeout(() => {
+                       
+                        const position = e.target.getAttribute('data-tooltip-position') || 'top';
 
-        // Default position: above the container
-        let top = containerRect.top - tooltipRect.height - 5; // 5px above
-        let left = containerRect.left + (containerRect.width - tooltipRect.width) / 2; // Centered horizontally
-        let arrowPosition = 'bottom';
-        let tooltipPosition = 'top';
-        if (top < 0) {
-            arrowPosition = 'top';
-            tooltipPosition = 'bottom';
+                        const rect = e.target.getBoundingClientRect();
+                        switch (position) {
+                            case 'top':
+                                tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+                                tooltip.style.top = `${rect.top + window.scrollY - tooltip.offsetHeight - 5}px`;
+                                tooltip.style.transform = 'translateX(-50%)';
+                                break;
+                            case 'bottom':
+                                tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+                                tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
+                                tooltip.style.transform = 'translateX(-50%)';
+                                break;
+                            case 'left':
+                                tooltip.style.left = `${rect.left + window.scrollX - tooltip.offsetWidth - 5}px`;
+                                tooltip.style.top = `${rect.top + window.scrollY + rect.height / 2}px`;
+                                tooltip.style.transform = 'translateY(-50%)';
+                                break;
+                            case 'right':
+                                tooltip.style.left = `${rect.right + window.scrollX + 5}px`;
+                                tooltip.style.top = `${rect.top + window.scrollY + rect.height / 2}px`;
+                                tooltip.style.transform = 'translateY(-50%)';
+                                break;
+                        }
+
+                        tooltip.style.visibility = 'visible';
+                    }, 500);
+
+                    
+
+                });
+
+                element.addEventListener('mouseleave', function (e) {
+                    console.log('mouseleave');
+                    tooltip.timer = setTimeout(() => {
+                        tooltip.style.visibility = 'hidden';
+                    }, 1500);
+                });
+
+            });
         }
-        if (left < 0) {
-            arrowPosition = 'left';
-            tooltipPosition = 'right';
-        } else if (left + tooltipRect.width > viewportWidth) {
-            arrowPosition = 'right';
-            tooltipPosition = 'left';
-        }
 
-        // Apply the calculated position
-        console.log('tooltipPosition : ', tooltipPosition);
-        if (tooltipPosition === 'top') {
-            tooltip.style.top = '-87px';
-            tooltip.style.left = '-27px';
-        } else if (tooltipPosition === 'bottom') {
-            tooltip.style.top = '38px';
-            tooltip.style.left = '-27px';
-        } else if (tooltipPosition === 'left') {
-            tooltip.style.top = '-24px';
-            tooltip.style.left = '-172px';
-        } else if (tooltipPosition === 'right') {
-            tooltip.style.top = '-24px';
-            tooltip.style.left = '118px';
-        }
-        //tooltip.style.top = tooltipPosition === 'top' ? '-87px' :'40px'; 
-        //tooltip.style.left = `${left}px`;
-
-        // Position the arrow based on the tooltip's position
-        //debugger;
-        console.log('arrowPosition : ', arrowPosition);
-        if(arrowPosition === 'bottom') {
-            tooltipArrow.style.top = '100%';
-            tooltipArrow.style.left = '50%';
-            tooltipArrow.style.marginLeft = '-5px';
-            tooltipArrow.style.borderColor = '#555 transparent transparent transparent';
-        } else if(arrowPosition === 'top') {
-            tooltipArrow.style.top = '-10px';
-            tooltipArrow.style.left = '50%';
-            tooltipArrow.style.marginLeft = '-5px';
-            tooltipArrow.style.borderColor = 'transparent transparent #555 transparent';
-        } else if(arrowPosition === 'left') {
-            tooltipArrow.style.top = '50%';
-            tooltipArrow.style.left = '-5px';
-            tooltipArrow.style.marginTop = '-5px';
-            tooltipArrow.style.borderColor = 'transparent #555 transparent transparent';
-        } else if(arrowPosition === 'right') {
-            tooltipArrow.style.top = '50%';
-            tooltipArrow.style.left = '';
-            tooltipArrow.style.right = '-10px';
-            tooltipArrow.style.marginTop = '-5px';
-            tooltipArrow.style.borderColor = 'transparent transparent transparent #555';
-        }
-    }
-
-    // Show the tooltip when the mouse enters the container or tooltip
-    tooltipContainer.addEventListener('mouseenter', () => {
-        isMouseOverContainer = true;
-        positionTooltip(); // Position the tooltip before showing it
-        tooltip.style.visibility = 'visible';
-        tooltip.style.opacity = '1';
-    });
-
-    tooltip.addEventListener('mouseenter', () => {
-        isMouseOverTooltip = true;
-        tooltip.style.visibility = 'visible';
-        tooltip.style.opacity = '1';
-    });
-
-    // Hide the tooltip only when the mouse leaves both the container and tooltip
-    tooltipContainer.addEventListener('mouseleave', () => {
-        isMouseOverContainer = false;
-        setTimeout(() => {
-            if (!isMouseOverTooltip) {
-                tooltip.style.visibility = 'hidden';
-                tooltip.style.opacity = '0';
-            }
-        }, 300);
-    });
-
-    tooltip.addEventListener('mouseleave', () => {
-        isMouseOverContainer = false;
-        setTimeout(() => {
-            if (!isMouseOverTooltip) {
-                tooltip.style.visibility = 'hidden';
-                tooltip.style.opacity = '0';
-            }
-        }, 300);
-        
-    });
-
-    // Add a click event to the button inside the tooltip
-    // const tooltipButton = document.getElementById('tooltip-button');
-    // tooltipButton.addEventListener('click', () => {
-    //     alert('Button inside the tooltip was clicked!');
-    // });
-
-    // Reposition the tooltip on window resize or scroll
-    window.addEventListener('resize', positionTooltip);
-    window.addEventListener('scroll', positionTooltip);
-</script>
-
+        // Attach tooltips to all elements with the class 'tooltip-target'
+        createTooltip('.tooltip-target');
+    </script>
 </body>
+
 </html>

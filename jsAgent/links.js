@@ -38,7 +38,7 @@ bw.links={
             ...linksDefaultOptions,
             ...options
         };
-        console.log(option);
+        
         let temp_html = `
         <div style="position: fixed; bottom: 20px; right: 30px; z-index: 9999999;">
             <div id="bw-links" style=" box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.031372549), 0px 20px 24px -4px rgba(16, 24, 40, 0.0784313725); width: 330px; display: flex; flex-direction: column; justify-content: space-between; ">

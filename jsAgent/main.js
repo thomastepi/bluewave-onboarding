@@ -7,6 +7,8 @@ const BW_POPUP_JS_URL = `${BW_JS_BASE_URL}popup.js`;
 const BW_LINKS_JS_URL = `${BW_JS_BASE_URL}links.js`;
 const BW_BANNER_JS_URL = `${BW_JS_BASE_URL}banner.js`;
 const BW_TOUR_JS_URL = `${BW_JS_BASE_URL}tour.js`;
+const BW_HINT_JS_URL = `${BW_JS_BASE_URL}hint.js`;
+
 
 const BW_USER_KEY = "BW_USER_KEY";
 
@@ -195,6 +197,9 @@ bw.init = (cb) => {
             } 
             if (onBoardConfig.helperLink?.length > 0) {
                 bw.util.loadScriptAsync(BW_LINKS_JS_URL);
+            }
+            if (onBoardConfig.hint?.length > 0) {
+                bw.util.loadScriptAsync(BW_HINT_JS_URL);
             }
         } catch (error) {
             console.log("error :", error);

@@ -2,10 +2,13 @@
 
 # set node env to test, if windows use set instead of export
 if [[ "$OSTYPE" == "msys" ]]; then
-  # For Windows CMD: set "NODE_ENV=test"
-  # For PowerShell: $env:NODE_ENV="test"
-  set "NODE_ENV=test"
-  $env:NODE_ENV="test"
+  if [ -n "$PSModulePath" ]; then
+    # PowerShell
+    echo '$env:NODE_ENV="test"' | powershell -Command -
+  else
+    # CMD
+    cmd.exe /C "set NODE_ENV=test"
+  fi
 else
   export NODE_ENV=test
 fi

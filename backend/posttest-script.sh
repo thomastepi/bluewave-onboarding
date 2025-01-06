@@ -13,10 +13,13 @@ fi
 
 # reset NODE_ENV to default
 if [[ "$OSTYPE" == "msys" ]]; then
-  # For Windows CMD: set "NODE_ENV=development"
-  # For PowerShell: $env:NODE_ENV="development"
-  set "NODE_ENV=development"
-  $env:NODE_ENV="development"
+  if [ -n "$PSModulePath" ]; then
+    # PowerShell
+    echo '$env:NODE_ENV="development"' | powershell -Command -
+  else
+    # CMD
+    cmd.exe /C "set NODE_ENV=development"
+  fi
 else
   export NODE_ENV=development
 fi

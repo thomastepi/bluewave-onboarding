@@ -28,7 +28,25 @@ This is a work-in-progress application. The source code is available under GNU A
 - [Node.js](https://nodejs.org/en)
 - [PostgreSQL](https://postgresql.org)
 
-## Installation
+## For Local Use
+
+Make sure docker and git is installed
+
+1. Clone the project
+
+`git clone https://github.com/bluewave-labs/guidefox.git`
+
+2. Navigate to the project directory
+
+`cd guidefox`
+
+3. Run docker
+
+`docker compose build`
+
+`docker compose up`
+
+## Server Installation
 
 1. Make sure Docker is installed to your machine where the server will run.
 2. Make sure git is installed to your machine Git.
@@ -160,11 +178,7 @@ Note: When using Gmail, you'll need to enable 2-factor authentication and genera
 JWT_SECRET - secret key to sign the JWT token
 ```
 
-Security requirements:
-
 - Use a strong, random secret key (minimum 32 characters)
-- Never commit the actual secret to version control
-- Rotate the secret periodically
 
 4. Enable IP check for the API
    If the ENABLE_IP_CHECK is set to true, but the ALLOWED_IP_RANGE and ALLOWED_IPS are not set, the API will work for all IP addresses.

@@ -23,11 +23,19 @@ npx wait-on tcp:5432
 
 # create test database if it doesn't exist
 if ! command -v psql &> /dev/null; then
-  echo "Error: psql command not found"
-  exit 1
-fi
-if [[ ! "$(psql -U postgres -lqt | cut -d \| -f 1 | grep -w test_db)" ]]; then
-  npx sequelize-cli db:create --env test
+  # Check if database exists inside Docker container
+  if ! docker exec -it test-postgres psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname='test_db'" | grep -q 1; then
+    npx sequelize-cli db:create --env test
+  else
+    echo "Database 'test_db' already exists in Docker."
+  fi
+else
+  # Check if database exists locally
+  if ! psql -U postgres -lqt | cut -d \| -f 1 | grep -qw test_db; then
+    npx sequelize-cli db:create --env test
+  else
+    echo "Database 'test_db' already exists locally."
+  fi
 fi
 
 # run migrations

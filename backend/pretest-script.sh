@@ -2,7 +2,10 @@
 
 # set node env to test, if windows use set instead of export
 if [[ "$OSTYPE" == "msys" ]]; then
-  set NODE_ENV=test
+  # For Windows CMD: set "NODE_ENV=test"
+  # For PowerShell: $env:NODE_ENV="test"
+  set "NODE_ENV=test"
+  $env:NODE_ENV="test"
 else
   export NODE_ENV=test
 fi
@@ -19,6 +22,10 @@ docker run --name test-postgres --env-file .env.test -p 5432:5432 -d postgres
 npx wait-on tcp:5432
 
 # create test database if it doesn't exist
+if ! command -v psql &> /dev/null; then
+  echo "Error: psql command not found"
+  exit 1
+fi
 if [[ ! "$(psql -U postgres -lqt | cut -d \| -f 1 | grep -w test_db)" ]]; then
   npx sequelize-cli db:create --env test
 fi

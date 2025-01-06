@@ -1,14 +1,22 @@
 #!/bin/bash
 
-# stop container
-docker stop test-postgres
+# stop container, if it exists
+
+if [[ "$(docker ps -a -q -f name=test-postgres)" ]]; then
+  docker stop test-postgres
+fi
 
 # remove container
-docker rm -f test-postgres
+if [[ "$(docker ps -a -q -f name=test-postgres)" ]]; then
+  docker rm -f test-postgres
+fi
 
 # reset NODE_ENV to default
 if [[ "$OSTYPE" == "msys" ]]; then
-  set NODE_ENV=development
+  # For Windows CMD: set "NODE_ENV=development"
+  # For PowerShell: $env:NODE_ENV="development"
+  set "NODE_ENV=development"
+  $env:NODE_ENV="development"
 else
   export NODE_ENV=development
 fi

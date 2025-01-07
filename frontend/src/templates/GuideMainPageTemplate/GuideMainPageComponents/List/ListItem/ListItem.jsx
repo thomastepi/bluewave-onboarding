@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, useTheme } from '@mui/material';
-import { DuplicateIcon, EditIcon, TrashIcon } from '../../../../../../public/svg/utility-icons';
+import { DuplicateIcon, EditIcon, TrashIcon } from '../../../../../../public/svg/utilityIcons';
 import CircleIcon from '@mui/icons-material/Circle';
 import './ListItem.css';
 import { useAuth } from '../../../../../services/authProvider';

@@ -4,7 +4,7 @@ import { IconButton, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CircleIcon from '@mui/icons-material/Circle';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 import './ListItem.css';
 import { useAuth } from '../../../../../services/authProvider';
 import { renderIfAuthorized } from '../../../../../utils/generalHelper';
@@ -32,7 +32,7 @@ const ListItem = ({ title, text, id, onClick, onDelete, onEdit, onDuplicate }) =
         {renderIfAuthorized(role, 'admin',
         <>
           <IconButton onClick={onDuplicate}>
-            <ContentCopyIcon sx={{color: 'var(--main-text-color)'}} />
+            <ContentCopyTwoToneIcon sx={{ color: 'var(--main-text-color)' }} />
           </IconButton>
           <IconButton onClick={onEdit}>
             <EditIcon />

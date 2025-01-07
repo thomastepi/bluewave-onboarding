@@ -60,9 +60,10 @@ const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemT
         } else {
             const { createdBy, id: fetchedId, ...data } = await getItemById(id);
             await duplicateItem(data);
-            toastEmitter.emit(TOAST_EMITTER_KEY, `${itemType.slice(0, -1)} duplicated successfully`);
           }
           
+          toastEmitter.emit(TOAST_EMITTER_KEY, `${itemType.charAt(0).toUpperCase() + itemType.slice(1, -1)} duplicated successfully`);
+
           setItemsDuplicated((prev) => !prev);
         } catch (error) {
           const errorMessage = error.response?.data?.message

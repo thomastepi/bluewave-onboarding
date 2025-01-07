@@ -1,48 +1,5 @@
 console.log('hint.js is here!');
 
-
-// "action": "no action",
-// "url": "https://bluewavelabs.ca",
-// "actionButtonUrl": "https://bluewavelabs.ca/",
-// "actionButtonText": "Take me to subscription page",
-// "tooltipPlacement": "top",
-// "header": "subtitle subtitle",
-
-// "headerColor": "#101828",
-// "textColor": "#344054",
-// "buttonBackgroundColor": "#b39ee1",
-// "buttonTextColor": "#FFFFFF",
-
-
-
-
-    
-   // <h1 style="background-color: rgb(163, 211, 168); color: rgb(16, 24, 40); font-size: 2rem; margin-bottom: 1rem;">head</h1>
-
-
-// Create and style the button
-// const button = document.createElement('button');
-// button.textContent = 'Great!';
-// button.className = 'button';
-// button.style.cssText = `
-//   background-color: #8a70d6;
-//   color: white;
-//   border: none;
-//   border-radius: 8px;
-//   padding: 0.75rem 2rem;
-//   font-size: 1rem;
-//   cursor: pointer;
-//   float: right;
-// `;
-
-// // Add hover effect to the button
-// button.addEventListener('mouseover', () => {
-//   button.style.backgroundColor = '#7559c2';
-// });
-// button.addEventListener('mouseout', () => {
-//   button.style.backgroundColor = '#8a70d6';
-// });
-
 bw.hint = {
     isMouseOverTooltip : false,
     isMouseOverContainer : false,
@@ -58,9 +15,16 @@ bw.hint = {
             
             const tooltip = bw.hint.generateTooltip(item);
             const header = bw.hint.generateHeader(item);
-            tooltip.innerHTML = header + item.hintContent;
-
+            
+            const contentContainer = bw.hint.generateContentContainer(item);
+            const content = bw.hint.generateContent(item);
+            const button = bw.hint.generateButton(item);
+            contentContainer.appendChild(content);
+            contentContainer.appendChild(button);
+            
             tooltip.appendChild(header);
+            tooltip.appendChild(contentContainer);
+            
             document.body.appendChild(tooltip);
 
             tooltip.addEventListener('mouseenter', function (e) {
@@ -75,9 +39,7 @@ bw.hint = {
             });
             bw.hint.bindSelector(item.targetElement, tooltip);
 
-        }
-
-       
+        }   
     },
     //this can be delete later
     positionTooltip: function(tooltip, tooltipOwner, tooltipArrow) {
@@ -144,23 +106,107 @@ bw.hint = {
         tooltip.pos = item.tooltipPlacement;
         tooltip.timer = null;
         tooltip.positionTimer = null;
-        //tooltip.innerHTML= item.hintContent;
         tooltip.style.cssText = `
-            width: 391px;
-            height: 200px;
+            width: 400px;
+            height: 250px;
             position: absolute;
             background-color: white;
-            border-radius: 8px;
+            
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
+            flex-direction: column;
             color: ${item.textColor};
+            z-index: 9999;
         `;
         return tooltip;
     },
     generateHeader: function (item) {
-        const header_temp = `<h1 style="background-color: ${item.headerBackgroundColor}; color: ${item.headerColor}; font-size: 2rem; margin-bottom: 1rem;">${item.header}</h1>`;
+        const header = document.createElement('div');
+        header.style.cssText = `background-color: ${item.headerBackgroundColor}; color: ${item.headerColor};`;
+        header.innerHTML = `
+            <h3 style="font-size: 20px; font-weight: 600; line-height: 30px; text-align: left; padding: 0 32px; margin-bottom: 8px; margin-top: 24px;font-family: "Inter", sans-serif;">${item.header}</h3>
+        `;
+        return header;
+    },
+    generateContentContainer: function (item) {
+        const contentContainer = document.createElement('div');
+        contentContainer.style.cssText = `
+            color: ${item.textColor};   
+            justify-content: space-between;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            min-height: 170px;
+            padding: 0 32px;
+            font-size: 13px;
+            word-wrap: break-word;
+        `;
 
-        return header_temp;
+        return contentContainer
+    },
+    generateContent : function (item) {
+        const content = document.createElement('div');
+        content.style.cssText = `
+            font-family: "Inter", sans-serif;
+        `;
+        content.innerHTML = item.hintContent;
+        return content;
+    },
+    generateButton: function (item) {
+        const btnEvent = item.action;
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+                margin-top: 8px;
+                display: flex;
+                justify-content: flex-end;
+        `;
+        const button = document.createElement('button');
+        button.textContent = item.actionButtonText;
+        button.style.cssText = `
+            background-color: ${item.buttonBackgroundColor};
+            color: ${item.buttonTextColor};
+            border: none;
+            border-radius: 8px;
+            min-width: 64px;
+            padding: 6px 16px;
+            font-family: Inter;
+            font-size: 14px;
+            cursor: pointer;
+            float: right;
+            display: inline-flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            position: relative;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            vertical-align: middle;
+        `;
+
+        button.addEventListener('click', () => {
+            if(btnEvent == 'no action'){
+                //bw.hint.hideModal();
+                console.log('no action');
+            }
+            else if(btnEvent == 'open url'){
+                location.href = item.actionButtonUrl;
+            }
+            else if(btnEvent == 'open url in a new tab'){
+                window.open(item.actionButtonUrl, '_blank');
+            }
+        });
+
+        button.addEventListener('mouseenter', function(e) {
+            e.target.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
+        });
+
+        button.addEventListener('mouseleave', function(e) {
+            e.target.style.boxShadow = 'none';
+        });
+
+        buttonContainer.appendChild(button);
+        return buttonContainer;
     },
     bindSelector: function (selector, tooltip) {
         const elements = document.querySelectorAll(selector);

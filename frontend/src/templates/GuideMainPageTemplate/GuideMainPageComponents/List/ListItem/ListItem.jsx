@@ -54,6 +54,7 @@ ListItem.propTypes = {
   onClick: PropTypes.func,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
+  onDuplicate: PropTypes.func,
 };
 
 export default ListItem;

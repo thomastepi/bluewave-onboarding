@@ -216,7 +216,7 @@ bw.hint = {
 
                 clearTimeout(tooltip.timer);
                 clearTimeout(tooltip.positionTimer);
-                toolbar.positionTimer = setTimeout(function() {
+                tooltip.positionTimer = setTimeout(function() {
 
                     const position = e.target.getAttribute('data-tooltip-position') || 'top';
 

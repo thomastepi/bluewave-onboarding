@@ -64,7 +64,7 @@ bw.popup = {
         bw.popup.bindEvents( option.closeButtonAction, option.url);
     },
     addHeader: function(headerTitle, bgColor, textColor, padding){
-        let headerHtml = `<div class="modal-header" style='height:57px; margin: auto; font-size: 20px; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #D0D5DD;'>
+        let headerHtml = `<div class="modal-header" style='height:57px; margin: auto; font-weight: bold; padding: 0 ${padding}px; background-color: ${bgColor}; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #D0D5DD;'>
             <h2 style= 'font-family: "Inter", sans-serif; font-size: 20px; font-weight: 500; margin-left: 5px; color:${textColor}'>${headerTitle}</h2>
             <svg id='bw-modal-close' class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
                 style="fill: rgb(152, 162, 179); font-size: 20px; display: block;position: absolute;float: right;right: 23px;cursor: pointer; width: 1em;height: 1em;display: inline-block; margin: auto;">

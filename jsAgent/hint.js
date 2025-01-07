@@ -1,5 +1,3 @@
-console.log('hint.js is here!');
-
 bw.hint = {
     isMouseOverTooltip : false,
     isMouseOverContainer : false,
@@ -171,7 +169,7 @@ bw.hint = {
             min-width: 64px;
             padding: 6px 16px;
             font-family: Inter;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             float: right;
             display: inline-flex;

@@ -1,8 +1,8 @@
 //CONSTANTS
-const BW_SERVER_ENDPOINT_BASE = window.bwApiBaseUrl; //"http://localhost:3000/api/";
+const BW_SERVER_ENDPOINT_BASE = window.bwApiBaseUrl;
 const BW_GET_GUIDE_LOG_URL= `${BW_SERVER_ENDPOINT_BASE}guide/get_incomplete_guides_by_url`;
 const BW_ADD_GUIDE_LOG_URL= `${BW_SERVER_ENDPOINT_BASE}guide_log/add_guide_log`;
-const BW_JS_BASE_URL = window.bwAgentBaseUrl; //"http://localhost:8082/";
+const BW_JS_BASE_URL = window.bwAgentBaseUrl;
 const BW_POPUP_JS_URL = `${BW_JS_BASE_URL}popup.js`;
 const BW_LINKS_JS_URL = `${BW_JS_BASE_URL}links.js`;
 const BW_BANNER_JS_URL = `${BW_JS_BASE_URL}banner.js`;

@@ -53,7 +53,7 @@ bw.popup = {
             <div id='bw-modal' style='position: fixed; top: 180px; left: 50%; transform: translate(-50%, -50%); width: ${size.width}px; height: ${size.height}px; display: block; z-index: 1000; border: 1px solid var(--light-border-color); box-sizing: border-box; padding-top: 100px; background-color: rgb(255 255 255 / 0%);;'>
                 <div class='modal-content' style='border-radius: 4px; position: relative; margin: auto;padding: 0;border: 1px solid #D0D5DD; background-color: white;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;'>
                     ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
-                    <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box; font-family: "Inter", sans-serif; font-size: 14px; '>
+                    <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box; font-family: "Inter", sans-serif; font-size: 13px; min-height: 227px; '>
                         ${option.content}
                         ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`)}
                     </div>
@@ -75,9 +75,9 @@ bw.popup = {
     },
     addButton: function(text, bgColor, textColor, padding, btnId){
         let buttonHtml = `
-            <div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 1rem;'>
-                <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; margin: 1rem; border-radius:8px; cursor: pointer;
-                transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 0.875rem; line-height: 1.75;">${text}</button>
+            <div class="modal-button-container" style=' display: flex; justify-content: flex-end; margin-top: 16px;'>
+                <button id="${btnId}" style="color: ${textColor}; padding: ${padding}px ${padding}px;background-color: ${bgColor}; border-radius:8px; cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s; min-width: 64px; padding: 6px 16px; border: 0; font-family: Inter; font-weight: 500; font-size: 13px; line-height: 1.75;">${text}</button>
             </div>`;
         return buttonHtml;
     },
@@ -100,24 +100,12 @@ bw.popup = {
         });
 
         button.addEventListener('mouseenter', function(e) {
-            console.log("mouse over");
             e.target.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
         });
 
         button.addEventListener('mouseleave', function(e) {
-            console.log("mouse out");
             e.target.style.boxShadow = 'none';
         });
-
-
-        // button.addEventListener('mouseover', function(e){
-        //     console.log("mouse over");
-        //     e.target.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);';   
-        // });
-        // button.addEventListener('mouseout', function(e){
-        //     console.log("mouse out");
-        //     e.target.style.boxShadow = 'none';   
-        // });
     },
     hideModal: function(){
         document.getElementById('bw-overlay').style.display = 'none';

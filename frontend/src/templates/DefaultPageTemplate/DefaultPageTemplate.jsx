@@ -10,7 +10,7 @@ import { renderIfAuthorized } from '../../utils/generalHelper';
 import { useDialog } from "../GuideTemplate/GuideTemplateContext";
 
 
-const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemType, itemTypeInfo, getItemDetails, itemsUpdated }) => {
+const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemType, itemTypeInfo, getItemDetails, itemsUpdated, getItemById, duplicateItem }) => {
     const [items, setItems] = useState([]);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [itemToDelete, setItemToDelete] = useState();
@@ -33,6 +33,7 @@ const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemT
         setItemId(null);
         openDialog();
     };
+
     const handleDelete = async () => {
         try {
             await deleteItem(itemToDelete);
@@ -45,6 +46,42 @@ const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemT
         } catch (error) {
             toastEmitter.emit(TOAST_EMITTER_KEY, `Failed to remove this ${itemType.slice(0, -1)}`);
         }
+    };
+
+    const duplicateHandler = async (id) => {
+      try {
+        if (itemType === 'helper links') {
+          const {
+            createdBy,
+            id: fetchedId,
+            links,
+            ...helper
+          } = await getItemById(id);
+
+          const updatedLinks = links.map(({ id, ...data }) => data);
+
+          await duplicateItem(helper, updatedLinks);
+          toastEmitter.emit(
+            TOAST_EMITTER_KEY,
+            `Helper duplicated successfully`
+          );
+
+          return;
+        }
+        const { createdBy, id: fetchedId, ...data } = await getItemById(id);
+        
+        await duplicateItem(data);
+
+        toastEmitter.emit(
+          TOAST_EMITTER_KEY,
+          `${itemType.slice(0, -1)} duplicated successfully`
+        );
+      } catch (error) {
+        const errorMessage = error.response?.data?.message
+          ? `Error: ${error.response.data.message}`
+          : 'An unexpected error occurred. Please try again.';
+        toastEmitter.emit(TOAST_EMITTER_KEY, errorMessage);
+      }
     };
 
     const handleOpenPopup = (id) => {
@@ -81,7 +118,8 @@ const DefaultPageTemplate = ({ getItems, deleteItem, setIsEdit, setItemId, itemT
         ...getItemDetails(item),
         onDelete: () => handleOpenPopup(item.id),
         onEdit: () => openEditPopupDialog(item.id),
-    })), [items, getItemDetails, handleOpenPopup, openNewPopupDialog]);
+        onDuplicate: () => duplicateHandler(item.id)
+    })), [items, getItemDetails, handleOpenPopup, openNewPopupDialog, duplicateHandler]);
 
     return (
         <>
@@ -118,6 +156,7 @@ DefaultPageTemplate.propTypes = {
     itemType: PropTypes.string.isRequired, 
     itemTypeInfo: PropTypes.string.isRequired, 
     getItemDetails: PropTypes.func.isRequired, 
+    duplicateItem: PropTypes.func.isRequired,
 };
 
 export default DefaultPageTemplate;

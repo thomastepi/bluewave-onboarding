@@ -10,16 +10,15 @@
 
 Guidefox helps app owners build knowledge and user-experience oriented apps. It includes the following features: 
 
-- Welcome tours
-- Product hints
-- Checklists
+- Welcome tours (in progress)
 - Popups
 - Banners
-- Links
+- Helper links
+- Hints
 
-This is a work-in-progress application. The source code is available under GNU AGPLv3.
+The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 
-![Main dashboard](https://github.com/bluewave-labs/bluewave-onboarding/blob/master/Dashboard.png)
+![guidefox](https://github.com/user-attachments/assets/46d912c9-339a-4044-979b-338557f28949)
 
 
 ## Tech stack
@@ -121,12 +120,25 @@ docker compose up -d``
 
 ## Contributing
 
-Here's how you can contribute to the Guidefox product. 
+We pride ourselves on building strong connections with contributors at every level. Don’t hold back — jump in, contribute and learn with us!
 
+- Star this repo :)
 - Check [Contributor's guideline](https://github.com/bluewave-labs/guidefox/blob/master/CONTRIBUTING.md)
 - Have a look at our Figma designs [here](https://www.figma.com/design/MLPbP1HM2L9ON6f88pHTee/Onboarding?node-id=0-1&t=iwgz015l5QWbWRqU-1). We encourage you to copy to your own Figma page, then work on it as it is read-only.
 - Open an issue if you believe you've encountered a bug
 - Make a pull request to add new features/make quality-of-life improvements/fix bugs.
 - Make sure your send your PRs to **develop** branch.
+
+<a href="https://github.com/bluewave-labs/guidefox/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=bluewave-labs/guidefox" />
+</a>
+
+
+Also check other developer and contributor-friendly projects of BlueWave:
+
+- [Checkmate](https://github.com/bluewave-labs/checkmate), a server and infrastructure monitoring tool
+- [DataRoom](https://github.com/bluewave-labs/bluewave-dataroom), an secure file sharing application, aka dataroom.
+- [BlueWave HRM](https://github.com/bluewave-labs/bluewave-hrm), a complete Human Resource Management platform.
+- [VerifyWise](https://github.com/bluewave-labs/verifywise), the first open source AI governance platform.
 
 

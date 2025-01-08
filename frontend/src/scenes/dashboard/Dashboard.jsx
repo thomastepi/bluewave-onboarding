@@ -9,6 +9,7 @@ import StatisticCardList from "./HomePageComponents/StatisticCardsList/Statistic
 import UserTitle from "./HomePageComponents/UserTitle/UserTitle";
 import BannerSkeleton from "./HomePageComponents/Skeletons/BannerSkeleton";
 import BaseSkeleton from "./HomePageComponents/Skeletons/BaseSkeleton";
+import HintSkeleton from "./HomePageComponents/Skeletons/HintSkeleton";
 
 const mapMetricName = (guideType) => {
   switch (guideType) {
@@ -34,7 +35,7 @@ const Dashboard = ({ name }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [metrics, setMetrics] = useState([]);
 
-  const metricNames = ['popup', 'banner', 'link']
+  const metricNames = ['popup', 'banner', 'link', 'hint']
 
   useEffect(() => {
     getStatistics().then((data) => {
@@ -65,6 +66,11 @@ const Dashboard = ({ name }) => {
     {
       skeletonType: <BaseSkeleton guideType="helperLink" />,
       placeholder: "Create a new helper link",
+      onClick: () => navigate("/link", { state: { autoOpen: true } }),
+    },
+    {
+      skeletonType: <HintSkeleton/>,
+      placeholder: "Create a new hint",
       onClick: () => navigate("/hint", { state: { autoOpen: true } }),
     },
   ];

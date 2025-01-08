@@ -1,9 +1,10 @@
-import { Skeleton } from "@mui/material";
-import styles from "./Skeleton.module.scss";
-import { baseSkeletonStyles } from "./BaseSkeletonStyles";
+import { Skeleton } from '@mui/material';
+import PropTypes from 'prop-types';
+import styles from './Skeleton.module.scss';
+import { baseSkeletonStyles } from './BaseSkeletonStyles';
 
-const BaseSkeleton = ({ guideType, items = 4 }) => {
-  const skeletonStyles = { bgcolor: "var(--gray-200)", borderRadius: "3.12px" };
+const BaseSkeleton = ({ guideType, items = 4, children }) => {
+  const skeletonStyles = { bgcolor: 'var(--gray-200)', borderRadius: '3.12px' };
   const guideTypeStyles = baseSkeletonStyles[guideType] || {};
 
   return (
@@ -19,19 +20,27 @@ const BaseSkeleton = ({ guideType, items = 4 }) => {
         />
       ))}
 
-      <Skeleton
-        className="childSkeleton"
-        variant="rounded"
-        width={guideTypeStyles.width || 100}
-        height={guideTypeStyles.height || 50}
-        animation={false}
-        sx={{
-          ...guideTypeStyles,
-          bgcolor: "var(--blue-50)",
-        }}
-      />
+      <div style={guideTypeStyles}>
+        <Skeleton
+          className="childSkeleton"
+          variant="rounded"
+          width={guideTypeStyles.width || 100}
+          height={guideTypeStyles.height || 50}
+          animation={false}
+          sx={{
+            bgcolor: 'var(--blue-50)',
+          }}
+        />
+        {children}
+      </div>
     </div>
   );
+};
+
+BaseSkeleton.propTypes = {
+  guideType: PropTypes.string.isRequired,
+  items: PropTypes.number,
+  children: PropTypes.node,
 };
 
 export default BaseSkeleton;

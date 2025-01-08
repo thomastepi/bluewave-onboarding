@@ -13,4 +13,12 @@ export const baseSkeletonStyles = {
     width: 75,
     height: 60,
   },
+  hint: {
+    position: "absolute",
+    width: 120,
+    height: 75,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },  
 };

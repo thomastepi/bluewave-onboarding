@@ -9,16 +9,20 @@ bw.hint = {
 
         for (let i = 0; i < hintData.length; i++) {
             const item = hintData[i];
-            console.log(item);
             
             const tooltip = bw.hint.generateTooltip(item);
             const header = bw.hint.generateHeader(item);
             
             const contentContainer = bw.hint.generateContentContainer(item);
             const content = bw.hint.generateContent(item);
-            const button = bw.hint.generateButton(item);
+            
             contentContainer.appendChild(content);
-            contentContainer.appendChild(button);
+            
+            if(item.action !== 'no action'){
+                const button = bw.hint.generateButton(item);
+                contentContainer.appendChild(button);
+            }
+            
             
             tooltip.appendChild(header);
             tooltip.appendChild(contentContainer);
@@ -184,8 +188,7 @@ bw.hint = {
 
         button.addEventListener('click', () => {
             if(btnEvent == 'no action'){
-                //bw.hint.hideModal();
-                console.log('no action');
+                
             }
             else if(btnEvent == 'open url'){
                 location.href = item.actionButtonUrl;

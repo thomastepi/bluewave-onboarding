@@ -55,7 +55,7 @@ bw.popup = {
                     ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
                     <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px; display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box; font-family: "Inter", sans-serif; font-size: 13px; min-height: 227px; '>
                         ${option.content}
-                        ${bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`)}
+                        ${option.closeButtonAction !== 'no action' ?  bw.popup.addButton(option.actionButtonText, option.buttonBackgroundColor, option.buttonTextColor, option.padding, `bw-popup-btn`): ''}
                     </div>
                 </div>
             </div>`;

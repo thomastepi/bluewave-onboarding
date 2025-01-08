@@ -3,7 +3,7 @@
   width: 256;
   height: 152;
   background-color: white;
-  border-radius: 7.8px;
+  border-radius: var(--radius-card);
   border: 1.23px solid var(--grey-border);
   padding: 1.3rem 1rem;
   display: flex;

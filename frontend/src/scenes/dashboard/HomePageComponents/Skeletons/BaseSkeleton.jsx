@@ -4,7 +4,7 @@ import styles from './Skeleton.module.scss';
 import { baseSkeletonStyles } from './BaseSkeletonStyles';
 
 const BaseSkeleton = ({ guideType, items = 4, children }) => {
-  const skeletonStyles = { bgcolor: 'var(--gray-200)', borderRadius: '3.12px' };
+  const skeletonStyles = { bgcolor: 'var(--gray-200)', borderRadius: "var(--radius-skeleton)" };
   const guideTypeStyles = baseSkeletonStyles[guideType] || {};
 
   return (

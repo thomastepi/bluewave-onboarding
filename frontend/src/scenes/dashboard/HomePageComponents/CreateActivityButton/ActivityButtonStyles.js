@@ -4,7 +4,7 @@ export const activityButtonStyles = {
   backgroundColor: "var(--gray-50)",
   width: "100%",
   border: "1px solid var(--grey-border)",
-  borderRadius: "10px",
+  borderRadius: "var(--radius-button)",
   color: "var(--gray-400)",
   padding: "1.3rem 3rem",
   flexDirection: "column",

@@ -9,7 +9,7 @@ const HintSkeleton = () => (
         right: 8,
         bottom: 8,
         bgcolor: 'var(--gray-200)',
-        borderRadius: '2.78px',
+        borderRadius: 'var(--radius-skeleton)',
         zIndex: 100,
       }}
       variant="rounded"

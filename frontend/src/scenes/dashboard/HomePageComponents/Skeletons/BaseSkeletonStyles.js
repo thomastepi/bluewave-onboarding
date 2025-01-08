@@ -18,7 +18,7 @@ export const baseSkeletonStyles = {
     width: 120,
     height: 75,
     top: "50%",
-    left: "50%",
+    left: "55%",
     transform: "translate(-50%, -50%)",
   },  
 };

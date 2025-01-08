@@ -2,7 +2,7 @@ import { Skeleton } from "@mui/material";
 import styles from "./Skeleton.module.scss";
 
 const BannerSkeleton = () => {
-  const skeletonStyles = { bgcolor: "var(--gray-200)", borderRadius: "3.12px" };
+  const skeletonStyles = { bgcolor: "var(--gray-200)", borderRadius: "var(--radius-skeleton)" };
 
   return (
     <div className={styles.bannerSkeletonContainer}>
@@ -10,7 +10,7 @@ const BannerSkeleton = () => {
         variant="rounded"
         width={80}
         height={10}
-        sx={{ bgcolor: "var(--gray-300", borderRadius: "3.12px" }}
+        sx={{ bgcolor: "var(--gray-300)", borderRadius: "var(--radius-skeleton)" }}
         animation={false}
       />
       <Skeleton

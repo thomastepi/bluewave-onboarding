@@ -11,6 +11,7 @@ bw.hint = {
             const item = hintData[i];
             
             const tooltip = bw.hint.generateTooltip(item);
+            const tooltipArrow = bw.hint.generateTooltipArrow();
             const header = bw.hint.generateHeader(item);
             
             const contentContainer = bw.hint.generateContentContainer(item);
@@ -23,11 +24,13 @@ bw.hint = {
                 contentContainer.appendChild(button);
             }
             
-            
+            tooltip.appendChild(tooltipArrow);
             tooltip.appendChild(header);
             tooltip.appendChild(contentContainer);
             
             document.body.appendChild(tooltip);
+
+            bw.hint.positionTooltip(tooltip, contentContainer, tooltipArrow);
 
             tooltip.addEventListener('mouseenter', function (e) {
                 clearInterval(tooltip.timer);
@@ -64,7 +67,6 @@ bw.hint = {
             arrowPosition = 'right';
             tooltipPosition = 'left';
         }
-
         
         if (tooltipPosition === 'top') {
             tooltip.style.top = '-87px';
@@ -102,6 +104,7 @@ bw.hint = {
             tooltipArrow.style.marginTop = '-5px';
             tooltipArrow.style.borderColor = 'transparent transparent transparent #555';
         }
+        return {tooltipPosition, arrowPosition};
     },
     generateTooltip: function (item) {
         const tooltip = document.createElement('div');
@@ -112,15 +115,26 @@ bw.hint = {
             width: 400px;
             height: 250px;
             position: absolute;
-            background-color: white;
-            
+            background-color: white;    
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             color: ${item.textColor};
             z-index: 9999;
         `;
+
         return tooltip;
+    },
+    generateTooltipArrow: function () {
+        const tooltipArrow = document.createElement('div');
+        tooltipArrow.style.content = '""';
+        tooltipArrow.style.position = 'absolute';
+        tooltipArrow.style.borderWidth = '5px';
+        tooltipArrow.style.borderStyle = 'solid';
+        tooltipArrow.style.width = '0';
+        tooltipArrow.style.height = '0';
+
+        return tooltipArrow;
     },
     generateHeader: function (item) {
         const header = document.createElement('div');
@@ -213,6 +227,45 @@ bw.hint = {
         const elements = document.querySelectorAll(selector);
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
+
+            const tooltipCue = document.createElement('div');
+            tooltipCue.className = 'tooltip-cue';
+            tooltipCue.textContent = '?';
+            tooltipCue.style.cssText = `
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background-color: #2078ca;
+                color: #fff;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 1001; 
+                animation: pulse 1.5s infinite;
+            }`;
+            const rect = element.getBoundingClientRect();
+            tooltipCue.style.left = `${rect.right + window.scrollX - 8}px`; // Adjust position
+            tooltipCue.style.top = `${rect.top + window.scrollY - 8}px`; // Adjust position
+
+            tooltipCue.animate(
+                [
+                    { transform: 'scale(1)', opacity: 1 },
+                    { transform: 'scale(1.2)', opacity: 0.7 },
+                    { transform: 'scale(1)', opacity: 1 }
+                ],
+                {
+                    duration: 1500, // 1.5 seconds
+                    iterations: Infinity // Loop forever
+                }
+            );
+
+            document.body.appendChild(tooltipCue);
+
             element.addEventListener('mouseenter', function (e) {
 
                 clearTimeout(tooltip.timer);
@@ -220,6 +273,8 @@ bw.hint = {
                 tooltip.positionTimer = setTimeout(function() {
 
                     const position = e.target.getAttribute('data-tooltip-position') || 'top';
+
+
 
                     const rect = e.target.getBoundingClientRect();
                     switch (position) {

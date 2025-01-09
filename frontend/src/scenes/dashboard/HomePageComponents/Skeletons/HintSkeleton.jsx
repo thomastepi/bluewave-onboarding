@@ -6,15 +6,14 @@ const HintSkeleton = () => (
     <Skeleton
       sx={{
         position: 'absolute',
-        right: 8,
-        bottom: 8,
+        right: '23%',
+        bottom: '35%',
         bgcolor: 'var(--gray-200)',
         borderRadius: 'var(--radius-skeleton)',
-        zIndex: 100,
       }}
       variant="rounded"
-      width={50}
-      height={15}
+      width={'30%'}
+      height={'12%'}
       animation={false}
     />
   </BaseSkeleton>

@@ -1,4 +1,3 @@
-console.log('bw-link.js is loaded');
 const linksDefaultOptions = {
     "url": "https://www.google.com",
     "order": 1,
@@ -22,7 +21,7 @@ const global_content_html=`
                         </clipPath>
                     </defs>
                 </svg>
-                <a href="{{link}}" target="_blank" style="color:{{linkFontColor}}; text-decoration: none; font-family: Inter; font-size: 1rem; font-weight: 400;">{{title}}</a>
+                <a href="{{link}}" target="_blank" style="color:{{linkFontColor}}; text-decoration: none; font-family: Inter; font-size: 13px; font-weight: 400;">{{title}}</a>
             </li>
         `;
 
@@ -38,7 +37,7 @@ bw.links={
             ...linksDefaultOptions,
             ...options
         };
-        console.log(option);
+        
         let temp_html = `
         <div style="position: fixed; bottom: 20px; right: 30px; z-index: 9999999;">
             <div id="bw-links" style=" box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.031372549), 0px 20px 24px -4px rgba(16, 24, 40, 0.0784313725); width: 330px; display: flex; flex-direction: column; justify-content: space-between; ">
@@ -96,7 +95,7 @@ bw.links={
         return temp_content_html;
     },
     putFooter: function(){
-        return '<p style="margin-bottom: 0px; margin-top: 0px; background: white;; padding: 14px 0 11px;border-top: 1px solid #ebebeb; font-family: Inter; font-size: 0.688rem; font-weight: 400; line-height: 2.12; text-align: center;">Powered by BlueWave Onboarding</p>';
+        return '<p style="margin-bottom: 0px; margin-top: 0px; background: white;; padding: 14px 0 11px;border-top: 1px solid #ebebeb; font-family: Inter; font-size: 11px; font-weight: 400; line-height: 2.12; text-align: center;">Powered by BlueWave Onboarding</p>';
     },
     bindClick : function(){
         bw.util.bindLive("#bw-link-icon", "click", function(){

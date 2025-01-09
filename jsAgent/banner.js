@@ -1,7 +1,5 @@
-console.log('banner.js is here!');
-
 let temp_banner_html = `
-<div class="bw-banner" id="bw-banner-{{id}}" data-id="{{dataId}}" style="position: fixed; top: 50px; z-index: 999999; height:50px; width:435px; background-color:{{backGroundColor}}; left: 50%; transform: translate(-50%, -50%);
+<div class="bw-banner" id="bw-banner-{{id}}" data-id="{{dataId}}" style="position: fixed; {{position}}: 50px; z-index: 999999; height:50px; width:435px; background-color:{{backGroundColor}}; left: 50%; transform: translate(-50%, -50%);
     line-height: 13px; font-weight: 400; display: flex; align-items: center; justify-content: space-between; padding: 0.7rem; border-radius: 5px; height:50px; width:435px;">
         <div style="color:{{textColor}}; width: 100%; text-align: center;font-family: Inter; font-size: 13px; font-weight: 400; line-height: 24px; text-align: left; text-underline-position: from-font; text-decoration-skip-ink: none;">
          {{content}}
@@ -23,6 +21,7 @@ bw.banner = {
             const item = bannersData[i];
             let temp_html = ``;
             temp_html = temp_banner_html.replace(new RegExp('{{backGroundColor}}', 'g'), item.backgroundColor);
+            temp_html = temp_html.replace(new RegExp('{{position}}', 'g'), item.position);
             temp_html = temp_html.replace(new RegExp('{{textColor}}', 'g'), item.fontColor);
             temp_html = temp_html.replace(new RegExp('{{content}}', 'g'), item.bannerText);
             temp_html = temp_html.replace(new RegExp('{{dataId}}', 'g'), item.id);

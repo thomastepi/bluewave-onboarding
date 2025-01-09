@@ -39,14 +39,18 @@ const Dashboard = ({ name }) => {
 
   useEffect(() => {
     getStatistics().then((data) => {
+      const metricsData = data
+        ?.filter((metric) => metricNames.includes(metric.guideType))
+        .sort(
+          (x, y) =>
+            metricNames.indexOf(x.guideType) - metricNames.indexOf(y.guideType)
+        );
       setMetrics(
-        data
-          ?.filter((metric) => metricNames.includes(metric.guideType)) 
-          ?.map((metric) => ({
-            metricName: mapMetricName(metric.guideType),
-            metricValue: metric.views,
-            changeRate: metric.change,
-          }))
+        metricsData?.map((metric) => ({
+          metricName: mapMetricName(metric.guideType),
+          metricValue: metric.views,
+          changeRate: metric.change,
+        }))
       );
       setIsLoading(false);
     });

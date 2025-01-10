@@ -53,6 +53,11 @@
   --label-green-bg: #e8f5e9;
   --label-green-border: #a5d6a7;
   --label-new-dot: #ff9800;
+
+  /* Radii */
+  --radius-button: 8.9px; 
+  --radius-card: 6.95px;  
+  --radius-skeleton: 2.48px; 
 }
 
 /* Dark mode overrides */

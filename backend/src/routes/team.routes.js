@@ -28,7 +28,7 @@ const teamPermissions = settings.team.permissions;
 router.get('/count', getTeamCount);
 router.use(authenticateJWT);
 router.get('/details', getTeamDetails);
-router.get('/server-url', accessGuard(teamPermissions.serverUrl), getServerUrl);
+router.get('/urls', accessGuard(teamPermissions.serverUrl), getServerUrl);
 
 router.post(
   '/set-organisation',
@@ -53,7 +53,7 @@ router.put(
   changeRole
 );
 router.put(
-  '/server-url',
+  '/urls',
   accessGuard(teamPermissions.serverUrl),
   validateSetServerUrl,
   handleValidationErrors,

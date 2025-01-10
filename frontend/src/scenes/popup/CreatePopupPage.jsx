@@ -77,6 +77,7 @@ const CreatePopupPage = ({
         popupData.actionButtonText || "Take me to subscription page"
       );
       setButtonAction(popupData.closeButtonAction || "No action");
+      setButtonRepetition(popupData.repetitionType)
       setPopupSize(popupData.popupSize || "Small");
     } catch (error) {
       console.log({ error });
@@ -122,6 +123,7 @@ const CreatePopupPage = ({
       buttonBackgroundColor,
       buttonTextColor,
       closeButtonAction: buttonAction.toLowerCase(),
+      repetitionType: buttonRepetition.toLowerCase(),
       header,
       content,
     };

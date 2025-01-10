@@ -1,6 +1,7 @@
 const {
   validateHexColor,
   validateActionButton,
+  ensureValidRepetitionOption,
 } = require("../utils/guide.helper");
 const {
   validatePopupSizeWrapper,
@@ -23,6 +24,15 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isValidAction(value) {
             validateActionButton(value);
+          },
+        },
+      },
+      repetitionType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isValidAction(value) {
+            ensureValidRepetitionOption(value);
           },
         },
       },

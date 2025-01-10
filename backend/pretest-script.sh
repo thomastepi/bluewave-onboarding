@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# Check if computer has win-node-env installed globally if it is windows
-if [[ "$OSTYPE" == "msys" ]]; then
-  if ! command -v win-node-env &> /dev/null; then
-    echo "win-node-env is not installed. Please install it globally using npm install -g win-node-env"
-    exit 1
-  fi
-fi
-
 # remove test-postgres container if it exists
 if [[ "$(docker ps -a -q -f name=test-postgres)" ]]; then
   docker rm -f test-postgres

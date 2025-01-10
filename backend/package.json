@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "pretest": "bash pretest-script.sh",
+    "pretest": "NODE_ENV=test bash pretest-script.sh",
     "posttest": "bash posttest-script.sh",
     "test": "NODE_ENV=test nyc mocha --extension js,mjs 'src/test/**/*.test.*'",
     "test:e2e": "npm run pretest && NODE_ENV=test mocha 'src/test/e2e/**/*.test.mjs'",

@@ -40,6 +40,7 @@ const CreatePopupPage = ({
     "Take me to subscription page"
   );
   const [buttonAction, setButtonAction] = useState("No action");
+  const [buttonRepetition, setButtonRepetition] = useState('Show only once')
   const [popupSize, setPopupSize] = useState("Small");
   const [stablePopupSize, setStablePopupSize] = useState("");
 
@@ -180,6 +181,8 @@ const CreatePopupPage = ({
       actionButtonText={actionButtonText}
       setButtonAction={setButtonAction}
       buttonAction={buttonAction}
+      setButtonRepetition={setButtonRepetition}
+      buttonRepetition={buttonRepetition}
       url={url}
       setUrl={setUrl}
     />

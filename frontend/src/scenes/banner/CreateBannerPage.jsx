@@ -21,6 +21,7 @@ const BannerPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEd
   const [url, setUrl] = useState("");
   const [actionUrl, setActionUrl] = useState("");
   const [buttonAction, setButtonAction] = useState("No action");
+  const [buttonRepetition, setButtonRepetition] = useState('Show only once')
   const { openDialog, closeDialog } = useDialog();
 
   const handleButtonClick = (index) => {
@@ -104,6 +105,8 @@ const BannerPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEd
           setUrl={setUrl}
           setButtonAction={setButtonAction}
           buttonAction={buttonAction}
+          setButtonRepetition={setButtonRepetition}
+          buttonRepetition={buttonRepetition}
           actionUrl={actionUrl}
           setActionUrl={setActionUrl}
         />

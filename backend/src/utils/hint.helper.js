@@ -1,48 +1,9 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const { isValidHexColor } = require('./guide.helper');
 
 const validActions = ['no action', 'open url', 'open url in a new tab'];
 
-const validateHintData = ({
-  action,
-  headerBackgroundColor,
-  headerColor,
-  textColor,
-  buttonBackgroundColor,
-  buttonTextColor,
-}) => {
-  const errors = [];
-
-  // Validate action
-  if (!action) {
-    errors.push({ msg: 'action is required' });
-    return errors;
-  }
-
-  if (!validActions.includes(action)) {
-    errors.push({ msg: 'Invalid value for action' });
-    return errors;
-  }
-
-  // Validate color fields
-  const colorFields = {
-    headerBackgroundColor,
-    headerColor,
-    textColor,
-    buttonBackgroundColor,
-    buttonTextColor,
-  };
-
-  for (const [field, value] of Object.entries(colorFields)) {
-    if (value && !isValidHexColor(value)) {
-      errors.push({ msg: `Invalid value for ${field}` });
-    }
-  }
-
-  return errors;
-};
-
-const addHintValidator = [
+const hintValidator = [
   body('action')
     .isString()
     .notEmpty()
@@ -70,4 +31,10 @@ const addHintValidator = [
     .withMessage('Invalid value for buttonTextColor'),
 ];
 
-module.exports = { validateHintData, addHintValidator };
+const paramIdValidator = [
+  param('hintId').notEmpty().withMessage('hintId is required').isInt().withMessage('Invalid hint ID'),
+];
+
+const bodyUrlValidator = [body('url').notEmpty().withMessage('url is required').isURL().withMessage('Invalid URL')];
+
+module.exports = { hintValidator, paramIdValidator, bodyUrlValidator };

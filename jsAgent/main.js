@@ -1,12 +1,14 @@
 //CONSTANTS
-const BW_SERVER_ENDPOINT_BASE = window.bwApiBaseUrl; //"http://localhost:3000/api/";
+const BW_SERVER_ENDPOINT_BASE = window.bwApiBaseUrl;
 const BW_GET_GUIDE_LOG_URL= `${BW_SERVER_ENDPOINT_BASE}guide/get_incomplete_guides_by_url`;
 const BW_ADD_GUIDE_LOG_URL= `${BW_SERVER_ENDPOINT_BASE}guide_log/add_guide_log`;
-const BW_JS_BASE_URL = window.bwAgentBaseUrl; //"http://localhost:8082/";
+const BW_JS_BASE_URL = window.bwAgentBaseUrl;
 const BW_POPUP_JS_URL = `${BW_JS_BASE_URL}popup.js`;
 const BW_LINKS_JS_URL = `${BW_JS_BASE_URL}links.js`;
 const BW_BANNER_JS_URL = `${BW_JS_BASE_URL}banner.js`;
 const BW_TOUR_JS_URL = `${BW_JS_BASE_URL}tour.js`;
+const BW_HINT_JS_URL = `${BW_JS_BASE_URL}hint.js`;
+
 
 const BW_USER_KEY = "BW_USER_KEY";
 
@@ -195,6 +197,9 @@ bw.init = (cb) => {
             } 
             if (onBoardConfig.helperLink?.length > 0) {
                 bw.util.loadScriptAsync(BW_LINKS_JS_URL);
+            }
+            if (onBoardConfig.hint?.length > 0) {
+                bw.util.loadScriptAsync(BW_HINT_JS_URL);
             }
         } catch (error) {
             console.log("error :", error);

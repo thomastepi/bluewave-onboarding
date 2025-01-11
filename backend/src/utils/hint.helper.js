@@ -1,4 +1,7 @@
-const { isValidHexColor } = require("./guide.helper");
+const { body } = require('express-validator');
+const { isValidHexColor } = require('./guide.helper');
+
+const validActions = ['no action', 'open url', 'open url in a new tab'];
 
 const validateHintData = ({
   action,
@@ -12,13 +15,12 @@ const validateHintData = ({
 
   // Validate action
   if (!action) {
-    errors.push({ msg: "action is required" });
+    errors.push({ msg: 'action is required' });
     return errors;
   }
 
-  const validActions = ["no action", "open url", "open url in a new tab"];
   if (!validActions.includes(action)) {
-    errors.push({ msg: "Invalid value for action" });
+    errors.push({ msg: 'Invalid value for action' });
     return errors;
   }
 
@@ -40,4 +42,32 @@ const validateHintData = ({
   return errors;
 };
 
-module.exports = validateHintData;
+const addHintValidator = [
+  body('action')
+    .isString()
+    .notEmpty()
+    .withMessage('action is required')
+    .custom((value) => {
+      return validActions.includes(value);
+    })
+    .withMessage('Invalid value for action'),
+  body('headerBackgroundColor')
+    .optional()
+    .isString()
+    .custom(isValidHexColor)
+    .withMessage('Invalid value for headerBackgroundColor'),
+  body('headerColor').optional().isString().custom(isValidHexColor).withMessage('Invalid value for headerColor'),
+  body('textColor').optional().isString().custom(isValidHexColor).withMessage('Invalid value for textColor'),
+  body('buttonBackgroundColor')
+    .optional()
+    .isString()
+    .custom(isValidHexColor)
+    .withMessage('Invalid value for buttonBackgroundColor'),
+  body('buttonTextColor')
+    .optional()
+    .isString()
+    .custom(isValidHexColor)
+    .withMessage('Invalid value for buttonTextColor'),
+];
+
+module.exports = { validateHintData, addHintValidator };

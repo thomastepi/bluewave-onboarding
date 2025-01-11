@@ -6,12 +6,6 @@ class HintController {
   async addHint(req, res) {
     const userId = req.user.id;
 
-    const validationErrors = validateHintData(req.body);
-
-    if (validationErrors.length > 0) {
-      return res.status(400).json({ errors: validationErrors });
-    }
-
     try {
       const hint = await HintService.createHint({
         ...req.body,

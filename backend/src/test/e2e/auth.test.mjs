@@ -361,7 +361,6 @@ describe("E2e tests auth", () => {
       expect(result).to.have.status(400);
       expect(result.body).to.be.deep.equal({
         errors: [
-          "Token is required",
           "Must contain one special character"
         ],
       });
@@ -374,7 +373,6 @@ describe("E2e tests auth", () => {
       expect(result).to.have.status(400);
       expect(result.body).to.be.deep.equal({
         errors: [
-          "Token is required",
           "Must be atleast 8 characters",
           "Must contain one special character",
         ],

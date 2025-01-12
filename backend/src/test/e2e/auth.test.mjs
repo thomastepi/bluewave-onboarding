@@ -360,7 +360,10 @@ describe("E2e tests auth", () => {
         .send({ token, newPassword: user().invalidPasswordChar().build() });
       expect(result).to.have.status(400);
       expect(result.body).to.be.deep.equal({
-        errors: ["Must contain one special character"],
+        errors: [
+          "Token is required",
+          "Must contain one special character"
+        ],
       });
     });
     it("should return status 400 if the new password is empty", async () => {
@@ -371,6 +374,7 @@ describe("E2e tests auth", () => {
       expect(result).to.have.status(400);
       expect(result.body).to.be.deep.equal({
         errors: [
+          "Token is required",
           "Must be atleast 8 characters",
           "Must contain one special character",
         ],

@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       repetitionType: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'show only once',
         validate: {
           isValidAction(value) {
             ensureValidRepetitionOption(value);

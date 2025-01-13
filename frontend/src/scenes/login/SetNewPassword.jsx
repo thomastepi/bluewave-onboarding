@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 
-function SetNewPasswordPage({ email = "asdf@asdf.com" }) {
+function SetNewPasswordPage() {
   const [serverErrors, setServerErrors] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,7 +42,7 @@ function SetNewPasswordPage({ email = "asdf@asdf.com" }) {
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setServerErrors([]);
         try {
-          const response = await resetPassword({
+          await resetPassword({
             token: token,
             newPassword: values.password,
           });

@@ -8,8 +8,8 @@ import { forgotPassword } from "../../services/loginServices";
 const CheckYourEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const values = location.state.values
-  const { email: emailFromState } = values || {};
+  const values = location.state?.values || {};
+  const { email: emailFromState } = values;
 
   const handleResendClick = () => {
     if (emailFromState) {

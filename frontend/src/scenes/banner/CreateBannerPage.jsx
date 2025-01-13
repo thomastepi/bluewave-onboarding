@@ -46,7 +46,7 @@ const BannerPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEd
           setUrl(bannerData.url || "");
           setActionUrl(bannerData.actionUrl || "");
           setButtonAction(bannerData.closeButtonAction || "No action");
-          setButtonRepetition(bannerData.repetitionType)
+          setButtonRepetition(bannerData.repetitionType || 'Show only once')
           setIsTopPosition(bannerData.position === "top");
         } catch (error) {
           emitToastError(error);

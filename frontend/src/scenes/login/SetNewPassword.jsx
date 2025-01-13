@@ -5,13 +5,17 @@ import CustomTextField from "@components/TextFieldComponents/CustomTextField/Cus
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CircularProgress from "@mui/material/CircularProgress";
 import { resetPassword } from "../../services/loginServices";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 
 function SetNewPasswordPage({ email = "asdf@asdf.com" }) {
   const [serverErrors, setServerErrors] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
 
   const validationSchema = Yup.object({
     password: Yup.string()
@@ -35,17 +39,18 @@ function SetNewPasswordPage({ email = "asdf@asdf.com" }) {
       validationSchema={validationSchema}
       validateOnChange={false}
       validateOnBlur={true}
-      onSubmit={async (values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
         setServerErrors([]);
         try {
           const response = await resetPassword({
-            email: email,
-            password: values.password,
+            token: token,
+            newPassword: values.password,
           });
           resetForm();
           navigate("/reset-password");
         } catch (error) {
           console.error("Password Reset failed:", error);
+          console.log("error", error);
           if (error.response?.data?.errors) {
             setServerErrors(error.response?.data?.errors);
           } else if (error.response?.data?.error) {
@@ -70,7 +75,7 @@ function SetNewPasswordPage({ email = "asdf@asdf.com" }) {
           <Form className={styles["login-container"]}>
             <h2 style={{ marginBottom: "0px" }}>Set new Password</h2>
             <h3>
-              Your new password must be different to previously used passwords.
+              Your new password must be different from previously used passwords.
             </h3>
             <div className={styles["form-group"]}>
               <CustomTextField

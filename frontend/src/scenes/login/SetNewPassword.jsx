@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CustomTextField from "@components/TextFieldComponents/CustomTextField/CustomTextField";
@@ -16,6 +16,12 @@ function SetNewPasswordPage() {
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token]);
 
   const validationSchema = Yup.object({
     password: Yup.string()

@@ -132,7 +132,8 @@ class HintController {
       const hint = await HintService.getHintByUrl(url);
       res.status(200).json({ hint });
     } catch (error) {
-      internalServerError('GET_HINT_BY_URL_ERROR', error.message);
+      const {payload, statusCode} =internalServerError('GET_HINT_BY_URL_ERROR', error.message);
+      res.status(statusCode).json(payload);
     }
   }
 }

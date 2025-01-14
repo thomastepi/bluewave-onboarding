@@ -72,14 +72,6 @@ const HintPage = ({
     if (autoOpen) openDialog();
   }, [autoOpen, openDialog]);
 
-  const buildToastError = (msg) => {
-    return msg.response
-      ? msg
-      : {
-          response: { data: { errors: [{ msg }] } },
-        };
-  };
-
   useEffect(() => {
     if (isEdit) {
       const fetchHintData = async () => {
@@ -99,7 +91,7 @@ const HintPage = ({
           setTargetElement(hintData.targetElement || '.element');
           setTooltipPlacement(hintData.tooltipPlacement || 'Top');
         } catch (error) {
-          emitToastError(buildToastError(error));
+          emitToastError(error);
         }
       };
       fetchHintData();
@@ -133,11 +125,10 @@ const HintPage = ({
       setContent('');
       closeDialog();
     } catch (error) {
-      console.log({ error });
       if (error.response.data?.errors) {
         return error.response.data.errors.forEach((err) => {
           toastEmitter.emit(TOAST_EMITTER_KEY, `Error: ${err}`);
-        })
+        });
       }
       const errorMessage = error.response?.data?.message
         ? `Error: ${error.response.data.message}`

@@ -1,6 +1,3 @@
-const { validateHexColor, validateActionButton, ensureValidRepetitionOption } = require('../utils/guide.helper');
-const { validatePositionWrapper, validateUrl, validateRelativeUrl } = require('../utils/banner.helper');
-
 module.exports = (sequelize, DataTypes) => {
   const Banner = sequelize.define(
     'Banner',

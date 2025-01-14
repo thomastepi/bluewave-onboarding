@@ -2,9 +2,14 @@ const { body, param } = require('express-validator');
 const hexColorPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
 const addOrUpdateBannerValidation = [
-  body('position').notEmpty().isIn(['top', 'bottom']).withMessage('Position must be top or bottom'),
+  body('position')
+    .notEmpty()
+    .withMessage('Position is required')
+    .isIn(['top', 'bottom'])
+    .withMessage('Position must be top or bottom'),
   body('closeButtonAction')
     .notEmpty()
+    .withMessage('Close Button Action is required')
     .isIn(['no action', 'open url', 'open url in a new tab'])
     .withMessage('Invalid close button action'),
   body('url')
@@ -43,6 +48,7 @@ const addOrUpdateBannerValidation = [
 
 const deleteOrGetBannerByIdValidation = [param('id').notEmpty().trim().isInt().withMessage('Invalid id')];
 const getBannerByUrlValidation = [body('url').notEmpty().isString().withMessage('URL is missing or invalid')];
+
 const validatePosition = (value) => {
   const validPositions = ['top', 'bottom'];
   return validPositions.includes(value.toLowerCase());

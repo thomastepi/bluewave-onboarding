@@ -2,6 +2,12 @@ import React from "react";
 import DropdownList from "../../DropdownList/DropdownList";
 import CustomTextField from "../../TextFieldComponents/CustomTextField/CustomTextField";
 import "./HintLeftContent.css";
+import { Formik, useFormikContext, Form } from "formik";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  
+});
 
 const HintLeftContent = ({ actionButtonText, setActionButtonText, actionButtonUrl, setActionButtonUrl, action, setAction, targetElement, setTargetElement, tooltipPlacement, setTooltipPlacement }) => {
   const handleActionButtonText = (event) => {

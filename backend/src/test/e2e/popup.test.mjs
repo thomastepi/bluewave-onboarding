@@ -96,7 +96,7 @@ describe("E2e tests popup", () => {
       expect(res.body).to.be.deep.equal({
         errors: [
           {
-            msg: "Invalid value for popupSize or closeButtonAction",
+            msg: "Invalid value for popupSize or closeButtonAction or repetitionType",
           },
         ],
       });
@@ -111,7 +111,7 @@ describe("E2e tests popup", () => {
       expect(res.body).to.be.deep.equal({
         errors: [
           {
-            msg: "Invalid value for popupSize or closeButtonAction",
+            msg: "Invalid value for popupSize or closeButtonAction or repetitionType",
           },
         ],
       });
@@ -126,7 +126,7 @@ describe("E2e tests popup", () => {
       expect(res.body).to.be.deep.equal({
         errors: [
           {
-            msg: "Invalid value for popupSize or closeButtonAction",
+            msg: "Invalid value for popupSize or closeButtonAction or repetitionType",
           },
         ],
       });
@@ -141,7 +141,7 @@ describe("E2e tests popup", () => {
       expect(res.body).to.be.deep.equal({
         errors: [
           {
-            msg: "Invalid value for popupSize or closeButtonAction",
+            msg: "Invalid value for popupSize or closeButtonAction or repetitionType",
           },
         ],
       });

@@ -20,7 +20,7 @@ const mapMetricName = (guideType) => {
     case "banner":
       return "Banner views";
     case "link":
-      return "Link views";
+      return "Helper link views";
     case "tour":
       return "Tour views";
     case "checklist":

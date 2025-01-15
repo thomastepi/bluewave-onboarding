@@ -1,5 +1,5 @@
 require('dotenv').config();
-const envSuffix = process.env.NODE_ENV && process.env.NODE_ENV !== 'development' ? `.${process.env.NODE_ENV}` : '';
+const envSuffix = process.env.NODE_ENV && process.env.NODE_ENV == 'test' ? `.${process.env.NODE_ENV}` : '';
 const env = `.env${envSuffix}`;
 
 const dotenv = require('dotenv');

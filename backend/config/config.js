@@ -1,4 +1,14 @@
 require('dotenv').config();
+const envSuffix = process.env.NODE_ENV && process.env.NODE_ENV !== 'development' ? `.${process.env.NODE_ENV}` : '';
+const env = `.env${envSuffix}`;
+
+const dotenv = require('dotenv');
+const result = dotenv.config({ path: `./${env}` });
+
+if (result.error) {
+  console.error(`Failed to load environment file: ${env}`);
+  process.exit(1);
+}
 
 const {
   DB_HOST,

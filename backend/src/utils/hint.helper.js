@@ -1,5 +1,6 @@
 const { body, param } = require('express-validator');
 const { isValidHexColor } = require('./guide.helper');
+const { validateUrl } = require('./link.helper');
 
 const validActions = ['no action', 'open url', 'open url in a new tab'];
 
@@ -29,6 +30,18 @@ const hintValidator = [
     .isString()
     .custom(isValidHexColor)
     .withMessage('Invalid value for buttonTextColor'),
+  body('url')
+    .optional()
+    .isString()
+    .withMessage('link URLs must be a string')
+    .custom(validateUrl)
+    .withMessage('Invalid value for link URLs'),
+  body('actionButtonUrl')
+    .optional()
+    .isString()
+    .withMessage('Invalid value for actionButtonUrl')
+    .custom(validateUrl)
+    .withMessage('Invalid value for actionButtonUrl'),
 ];
 
 const paramIdValidator = [

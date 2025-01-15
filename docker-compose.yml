@@ -13,12 +13,6 @@ services:
       - ./backend/.env
     environment:
       - NODE_ENV=${NODE_ENV}
-      - JWT_SECRET=${JWT_SECRET}
-      - EMAIL=${EMAIL}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-      - EMAIL_HOST=${EMAIL_HOST}
-      - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_ENABLE=${EMAIL_ENABLE}
     develop:
       watch:
         - action: sync

@@ -127,29 +127,40 @@ docker compose up -d`
 
 ## Environment variables
 
-In order to the project to run safely and correctly, the user should add their own environment variables. They can be added to the .env file in the root directory of the project. The following is the list of environment variables that should be added and its description:
+In order to the project to run safely and correctly, the user should add their own environment variables. They can be added to the .env file in the backend directory of the project. The following is the list of environment variables that should be added and its description:
 
-1. Database credentials
+1. Node Env
 
 ```env
-DEV_DB_USERNAME - Development database username
-DEV_DB_PASSWORD - Development database password
-DEV_DB_NAME - Development database name
-DEV_DB_HOST - Development database host
-DEV_DB_PORT - Development database port
+NODE_ENV - node environment (production, test or development)
+```
+
+It is set from the .env file in the root directory
+
+2. Api Url
+
+```
+API_BASE_URL - Backend API url
+```
+
+It is set from ./frontend/src/utils/constant.js
+
+3. Database credentials
+
+```env
+DB_USERNAME - Database username
+DB_PASSWORD - Database password
+DB_NAME - Database name
+DB_HOST - Database host
+DB_PORT - Database port
 TEST_DB_USERNAME - Test database username
 TEST_DB_PASSWORD - Test database password
 TEST_DB_NAME - Test database name
 TEST_DB_HOST - Test database host
 TEST_DB_PORT - Test database port
-PROD_DB_USERNAME - Production database username
-PROD_DB_PASSWORD - Production database password
-PROD_DB_NAME - Production database name
-PROD_DB_HOST - Production database host
-PROD_DB_PORT - Production database port
 ```
 
-2. Email service configuration
+4. Email service configuration
    For the email service to run correctly, the user should add their own email credentials
 
 ```env
@@ -158,6 +169,7 @@ EMAIL_HOST - Email host
 EMAIL_PORT - Email port
 EMAIL - Email
 APP_PASSWORD - Email password
+FRONTEND_URL - Url of the frontend server
 ```
 
 Example configuration:
@@ -168,11 +180,12 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL=your-email@example.com
 APP_PASSWORD=your-app-specific-password
+FRONTEND_URL=https://www.frontendserver.com
 ```
 
 Note: When using Gmail, you'll need to enable 2-factor authentication and generate an App Password.
 
-3. JWT Secret Key
+5. JWT Secret Key
 
 ```env
 JWT_SECRET - secret key to sign the JWT token
@@ -180,7 +193,7 @@ JWT_SECRET - secret key to sign the JWT token
 
 - Use a strong, random secret key (minimum 32 characters)
 
-4. Enable IP check for the API
+6. Enable IP check for the API
    If the ENABLE_IP_CHECK is set to true, but the ALLOWED_IP_RANGE and ALLOWED_IPS are not set, the API will work for all IP addresses.
 
 ```env
@@ -199,7 +212,7 @@ ALLOWED_IPS=203.0.113.1,203.0.113.2
 
 Note: For security reasons, it's recommended to always set either ALLOWED_IP_RANGE or ALLOWED_IPS when ENABLE_IP_CHECK is true.
 
-5. In .env.test file, the user should have the following environment variables, so the postgres container can run correctly:
+7. In .env.test file, the user should have the following environment variables, so the postgres container can run correctly:
 
 ```env
 POSTGRES_USER - Test database username (The same as TEST_DB_USERNAME)
@@ -207,7 +220,8 @@ POSTGRES_PASSWORD - Test database password (The same as TEST_DB_PASSWORD)
 POSTGRES_DB - Test database name (The same as TEST_DB_NAME)
 ```
 
-For development and testing purposes, the application is ready to go after cloning and dependencies installation.
+For running tests in windows installing `win-node-env` module is recommended
+
 
 ## Contributing
 

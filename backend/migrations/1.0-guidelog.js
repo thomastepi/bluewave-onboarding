@@ -22,16 +22,18 @@ module.exports = {
           allowNull: false
         },
         userId: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(255),
           allowNull: false
         },
         showingTime: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          allowNull: true
         },
         completed: {
           type: Sequelize.BOOLEAN,
-          defaultValue: false
+          defaultValue: false,
+          allowNull: true
         }
       }, { transaction });
 

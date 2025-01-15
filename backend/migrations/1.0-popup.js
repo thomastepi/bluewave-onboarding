@@ -51,7 +51,7 @@ module.exports = {
           defaultValue: "#FFFFFF",
         },
         buttonBackgroundColor: {
-          type: Sequelize.STRIN(255),
+          type: Sequelize.STRING(255),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },

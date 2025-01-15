@@ -7,7 +7,7 @@ const sequelize = db.sequelize;
 const { generateToken, verifyToken } = require('../utils/jwt.helper');
 const crypto = require('crypto');
 const { TOKEN_LIFESPAN } = require('../utils/constants.helper');
-const { sendSignupEmail, sendPasswordResetEmail, findUserByEmail } = require('../service/email.service');
+const { sendPasswordResetEmail, findUserByEmail } = require('../service/email.service');
 const settings = require('../../config/settings');
 const { decode } = require('../utils/auth.helper');
 
@@ -80,8 +80,6 @@ const register = async (req, res) => {
     const token = generateToken({ id: newUser.id, email: newUser.email });
 
     await Token.create({ token, userId: newUser.id, type: 'auth' });
-
-    await sendSignupEmail(newUser.email, newUser.name);
 
     res.status(201).json({
       user: {
@@ -159,6 +157,8 @@ const forgetPassword = async (req, res) => {
     const { email } = req.body;
     const user = await findUserByEmail(email);
     if (!user) return res.status(400).json({ error: 'User not found' });
+
+    await Token.destroy({ where: { userId: user.id, type: 'reset' } });
 
     const resetToken = crypto.randomBytes(32).toString('hex');
     const hash = await bcrypt.hash(resetToken, 10);

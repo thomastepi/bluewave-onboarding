@@ -1,10 +1,12 @@
 'use strict';
 
+const TABLE_NAME = 'banners'; // Define the table name
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable('Banners', {
+      await queryInterface.createTable(TABLE_NAME, {
         id: {
           allowNull: false,
           autoIncrement: true,
@@ -69,7 +71,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.dropTable('Banners', { transaction });
+      await queryInterface.dropTable(TABLE_NAME, { transaction });
       // Commit the transaction
       await transaction.commit();
     } catch (error) {

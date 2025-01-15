@@ -2,7 +2,7 @@
 
 const { url } = require("inspector");
 
-const TABLE_NAME = 'helper_link'; // Define the table name
+const TABLE_NAME = 'invites'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

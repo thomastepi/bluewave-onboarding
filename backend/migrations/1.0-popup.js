@@ -1,6 +1,4 @@
 'use strict';
-const { title } = require('process');
-const settings = require('../config/settings');
 
 const TABLE_NAME = 'popup'; // Define the table name
 

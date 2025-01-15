@@ -1,8 +1,7 @@
 'use strict';
-const { title } = require('process');
-const settings = require('../config/settings');
 
-const TABLE_NAME = 'link'; // Define the table name
+
+const TABLE_NAME = 'teams'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,34 +12,24 @@ module.exports = {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
+          allowNull: false,
         },
-        title: {
+        name: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+        },
+        serverUrl: {
           type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        url: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        order: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          defaultValue: 1,
-        },
-        target: {
-          type: Sequelize.BOOLEAN,
-          defaultValue: true,
           allowNull: true,
         },
-        helperId: {
-          type: Sequelize.INTEGER,
+        createdAt: {
+          type: Sequelize.DATE,
           allowNull: false,
-          references: {
-            model: "helper_link",
-            key: "id",
-          },
-          onUpdate: "CASCADE",
-          onDelete: "CASCADE",
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+        agentUrl: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
         },
       }, { transaction });
 

@@ -1,8 +1,6 @@
 'use strict';
-const { title } = require('process');
-const settings = require('../config/settings');
 
-const TABLE_NAME = 'popup_logs'; // Define the table name
+const TABLE_NAME = 'tokens'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,24 +11,34 @@ module.exports = {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true,
-          allowNull: false
+          allowNull: false,
         },
-        popupType: {
-          type: Sequelize.ENUM('guide', 'tooltip', 'hotspot', 'checklist'),
-          allowNull: false
+        token: {
+          type: Sequelize.STRING(500),
+          allowNull: false,
         },
         userId: {
-          type: Sequelize.STRING,
-          allowNull: false
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: {
+            model: 'Users',
+            key: 'id'
+          }
         },
-        showingTime: {
+        type: {
+          type: Sequelize.STRING(10),
+          allowNull: false,
+        },
+        expiresAt: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          allowNull: true,
         },
-        completed: {
-          type: Sequelize.BOOLEAN,
-          defaultValue: false
-        }
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+        
       }, { transaction });
 
       // Commit the transaction

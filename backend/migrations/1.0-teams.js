@@ -1,6 +1,5 @@
 'use strict';
 
-
 const TABLE_NAME = 'teams'; // Define the table name
 
 module.exports = {
@@ -45,7 +44,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      // Drop the guide_logs table
+      // Drop the teams table
       await queryInterface.dropTable(TABLE_NAME, { transaction });
 
       // Commit the transaction

@@ -120,8 +120,7 @@ bw.hint = {
             display: flex;
             flex-direction: column;
             color: ${item.textColor};
-            z-index: 9999;
-            visiblity: hidden;
+            visibility: hidden;
         `;
 
         return tooltip;

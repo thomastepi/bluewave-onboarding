@@ -19,15 +19,18 @@ module.exports = {
         },
         headerBackgroundColor: {
           type: Sequelize.STRING(7),
-          allowNull: false
+          allowNull: false,
+          defaultValue : '#F8F9F8'
         },
         linkFontColor: {
           type: Sequelize.STRING(7),
-          allowNull: false
+          allowNull: false,
+          defaultValue : '#344054'
         },
         iconColor: {
           type: Sequelize.STRING(7),
-          defaultValue: Sequelize.NOW
+          allowNull: false,
+          defaultValue: '#7F56D9'
         },
         createdBy: {
           type: Sequelize.INTEGER,

@@ -4,6 +4,9 @@ const { validateUrl } = require('./link.helper');
 
 const validActions = ['no action', 'open url', 'open url in a new tab'];
 
+const createColorValidator = (fieldName) =>
+  body(fieldName).optional().isString().custom(isValidHexColor).withMessage(`Invalid value for ${fieldName}`);
+
 const hintValidator = [
   body('action')
     .isString()
@@ -13,23 +16,11 @@ const hintValidator = [
       return validActions.includes(value);
     })
     .withMessage('Invalid value for action'),
-  body('headerBackgroundColor')
-    .optional()
-    .isString()
-    .custom(isValidHexColor)
-    .withMessage('Invalid value for headerBackgroundColor'),
-  body('headerColor').optional().isString().custom(isValidHexColor).withMessage('Invalid value for headerColor'),
-  body('textColor').optional().isString().custom(isValidHexColor).withMessage('Invalid value for textColor'),
-  body('buttonBackgroundColor')
-    .optional()
-    .isString()
-    .custom(isValidHexColor)
-    .withMessage('Invalid value for buttonBackgroundColor'),
-  body('buttonTextColor')
-    .optional()
-    .isString()
-    .custom(isValidHexColor)
-    .withMessage('Invalid value for buttonTextColor'),
+  createColorValidator('headerBackgroundColor'),
+  createColorValidator('headerColor'),
+  createColorValidator('textColor'),
+  createColorValidator('buttonBackgroundColor'),
+  createColorValidator('buttonTextColor'),
   body('url')
     .optional()
     .isString()

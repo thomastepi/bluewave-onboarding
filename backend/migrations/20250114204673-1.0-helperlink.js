@@ -1,46 +1,41 @@
 'use strict';
 
-const TABLE_NAME = 'guide_logs'; // Define the table name
+const TABLE_NAME = 'helper_link'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(TABLE_NAME, {
+      await queryInterface.createTable(c, {
         id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        guideType: {
-          type: Sequelize.INTEGER,
+        title: {
+          type: Sequelize.STRING(255),
           allowNull: false,
         },
-        guideId: {
-          type: Sequelize.INTEGER,
+        headerBackgroundColor: {
+          type: Sequelize.STRING(7),
           allowNull: false
         },
-        userId: {
-          type: Sequelize.STRING,
+        linkFontColor: {
+          type: Sequelize.STRING(7),
           allowNull: false
         },
-        showingTime: {
-          type: Sequelize.DATE,
+        iconColor: {
+          type: Sequelize.STRING(7),
           defaultValue: Sequelize.NOW
         },
-        completed: {
-          type: Sequelize.BOOLEAN,
-          defaultValue: false
+        createdBy: {
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW
         }
       }, { transaction });
 
       // Creating indexes as per the model definition
-      await queryInterface.addIndex('guide_logs', ['userId'], { name: 'idx_guide_logs_userId', transaction });
-      await queryInterface.addIndex('guide_logs', ['guideId'], { name: 'idx_guide_logs_guideId', transaction });
-      await queryInterface.addIndex('guide_logs', ['guideType'], { name: 'idx_guide_logs_guideType', transaction });
-      await queryInterface.addIndex('guide_logs', ['userId', 'guideId', 'guideType'], { name: 'idx_guide_logs_userId_guideId_guideType', unique: false, transaction });
-      await queryInterface.addIndex('guide_logs', ['showingTime'], { name: 'idx_guide_logs_showingTime', transaction });
 
       // Commit the transaction
       await transaction.commit();

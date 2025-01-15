@@ -30,9 +30,19 @@ const hintValidator = [
   body('actionButtonUrl')
     .optional()
     .isString()
-    .withMessage('Invalid value for actionButtonUrl')
+    .withMessage('actionButtonUrl must be a string')
     .custom(validateUrl)
     .withMessage('Invalid value for actionButtonUrl'),
+  body('actionButtonText').optional().isString().withMessage('actionButtonText must be a string'),
+  body('targetElement').optional().isString().withMessage('targetElement must be a string'),
+  body('tooltipPlacement')
+    .notEmpty()
+    .withMessage('tooltipPlacement is required')
+    .isString()
+    .isIn(['top', 'right', 'bottom', 'left'])
+    .withMessage('Invalid value for tooltipPlacement'),
+  body('hintContent').optional().isString().withMessage('Invalid value for hintContent'),
+  body('header').optional().isString().withMessage('Invalid value for header'),
 ];
 
 const paramIdValidator = [

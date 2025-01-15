@@ -89,7 +89,7 @@ describe('E2e tests hint', () => {
         .send(hint().invalidAction().build());
       expect(res).to.have.status(400);
       expect(res.body).to.be.deep.equal({
-        errors: ['Invalid value for action'], 
+        errors: ['Invalid value for action'],
       });
     });
     it('should return 400 if headerBackgroundColor is invalid', async () => {

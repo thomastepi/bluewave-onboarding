@@ -8,7 +8,7 @@ import chai from "./index.mjs";
 
 const user = mocks.UserBuilder.user;
 
-describe.only("E2e tests auth", () => {
+describe("E2e tests auth", () => {
   describe("POST /api/auth/register", () => {
     beforeEach(async () => {
       const dbReadyOptions = {

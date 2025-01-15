@@ -1,5 +1,7 @@
 'use strict';
 
+const { url } = require("inspector");
+
 const TABLE_NAME = 'helper_link'; // Define the table name
 
 module.exports = {
@@ -13,26 +15,63 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        title: {
+        action: {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
-        headerBackgroundColor: {
-          type: Sequelize.STRING(7),
+        actionButtonUrl: {
+          type: Sequelize.STRING(255),
+          allowNull: true
+        },
+        actionButtonText: {
+          type: Sequelize.STRING(255),
+          allowNull: true
+        },
+        targetElement: {
+          type: Sequelize.STRING(255),
+          allowNull: true
+        },
+        tooltipPlacement: {
+          type: Sequelize.STRING(255),
           allowNull: false
         },
-        linkFontColor: {
-          type: Sequelize.STRING(7),
+        hintContent: {
+          type: Sequelize.STRING(1024),
           allowNull: false
         },
-        iconColor: {
-          type: Sequelize.STRING(7),
-          defaultValue: Sequelize.NOW
+        header :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        headerBackgroundColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        headerColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        textColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        buttonBackgroundColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        buttonTextColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
         },
         createdBy: {
           type: Sequelize.INTEGER,
-          allowNull: false
-        }
+          allowNull: false,
+        },
+        url: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+        },
+
       }, { transaction });
 
       // Commit the transaction

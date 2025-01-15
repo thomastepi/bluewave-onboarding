@@ -1,7 +1,8 @@
 'use strict';
+const { title } = require('process');
 const settings = require('../config/settings');
 
-const TABLE_NAME = 'invites'; // Define the table name
+const TABLE_NAME = 'link'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -10,34 +11,37 @@ module.exports = {
       await queryInterface.createTable(TABLE_NAME, {
         id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          primaryKey: true,
           autoIncrement: true,
-          primaryKey: true
         },
-        invitedBy: {
+        title: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+        },
+        url: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+        },
+        order: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 1,
+        },
+        target: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true,
+          allowNull: true,
+        },
+        helperId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
-            key: 'id'
+            model: "helper_link",
+            key: "id",
           },
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
         },
-        invitedEmail: {
-          type: Sequelize.STRING(100),
-          allowNull: false
-        },
-        role: {
-          type: Sequelize.ENUM,
-          values: settings.user.roleEnum,
-          allowNull: false,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.NOW
-        }
       }, { transaction });
 
       // Commit the transaction

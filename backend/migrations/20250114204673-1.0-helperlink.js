@@ -6,7 +6,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(c, {
+      await queryInterface.createTable(TABLE_NAME, {
         id: {
           allowNull: false,
           autoIncrement: true,
@@ -31,7 +31,11 @@ module.exports = {
         },
         createdBy: {
           type: Sequelize.INTEGER,
-          allowNull: false
+          allowNull: false,
+          references: {
+            model: 'Users',
+            key: 'id'
+          }
         }
       }, { transaction });
 

@@ -1,7 +1,8 @@
 'use strict';
+const { title } = require('process');
 const settings = require('../config/settings');
 
-const TABLE_NAME = 'invites'; // Define the table name
+const TABLE_NAME = 'popup_logs'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -10,33 +11,25 @@ module.exports = {
       await queryInterface.createTable(TABLE_NAME, {
         id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          primaryKey: true,
           autoIncrement: true,
-          primaryKey: true
-        },
-        invitedBy: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'Users',
-            key: 'id'
-          },
-          onUpdate: "CASCADE",
-          onDelete: "CASCADE",
-        },
-        invitedEmail: {
-          type: Sequelize.STRING(100),
           allowNull: false
         },
-        role: {
-          type: Sequelize.ENUM,
-          values: settings.user.roleEnum,
-          allowNull: false,
+        popupType: {
+          type: Sequelize.ENUM('guide', 'tooltip', 'hotspot', 'checklist'),
+          allowNull: false
         },
-        createdAt: {
+        userId: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        showingTime: {
           type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.NOW
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        },
+        completed: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
         }
       }, { transaction });
 

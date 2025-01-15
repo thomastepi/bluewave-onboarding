@@ -137,7 +137,7 @@ NODE_ENV - node environment (production, test or development)
 
 It is set from the .env file in the root directory
 
-2. 
+2. Api Url
 
 ```
 API_BASE_URL - Backend API url
@@ -145,7 +145,7 @@ API_BASE_URL - Backend API url
 
 It is set from ./frontend/src/utils/constant.js
 
-1. Database credentials
+3. Database credentials
 
 ```env
 DB_USERNAME - Database username
@@ -160,7 +160,7 @@ TEST_DB_HOST - Test database host
 TEST_DB_PORT - Test database port
 ```
 
-2. Email service configuration
+4. Email service configuration
    For the email service to run correctly, the user should add their own email credentials
 
 ```env
@@ -185,7 +185,7 @@ FRONTEND_URL=https://www.frontendserver.com
 
 Note: When using Gmail, you'll need to enable 2-factor authentication and generate an App Password.
 
-3. JWT Secret Key
+5. JWT Secret Key
 
 ```env
 JWT_SECRET - secret key to sign the JWT token
@@ -193,9 +193,7 @@ JWT_SECRET - secret key to sign the JWT token
 
 - Use a strong, random secret key (minimum 32 characters)
 
-- Docker uses the JWT Secret on `.env`. If you run `npm run dev` locally in backend folder it uses the JWT Secret in `./backend/.env`
-
-4. Enable IP check for the API
+6. Enable IP check for the API
    If the ENABLE_IP_CHECK is set to true, but the ALLOWED_IP_RANGE and ALLOWED_IPS are not set, the API will work for all IP addresses.
 
 ```env
@@ -214,7 +212,7 @@ ALLOWED_IPS=203.0.113.1,203.0.113.2
 
 Note: For security reasons, it's recommended to always set either ALLOWED_IP_RANGE or ALLOWED_IPS when ENABLE_IP_CHECK is true.
 
-5. In .env.test file, the user should have the following environment variables, so the postgres container can run correctly:
+7. In .env.test file, the user should have the following environment variables, so the postgres container can run correctly:
 
 ```env
 POSTGRES_USER - Test database username (The same as TEST_DB_USERNAME)

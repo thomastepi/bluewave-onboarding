@@ -108,6 +108,8 @@ server {
 
 `sudo apt install certbot python3-certbot-nginx`
 
+Make sure you have `/etc/letsencrypt/options-ssl-nginx.conf` If not you can get it from https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+
 8. Obtain SSL Certificate. Run Certbot to obtain a certificate for your domain:
 
 `sudo certbot --nginx`
@@ -147,6 +149,16 @@ It is set from ./frontend/src/utils/constant.js
 
 3. Database credentials
 
+In the root folder
+
+```env
+POSTGRES_USER - Database username (The same as DB_USERNAME)
+POSTGRES_PASSWORD -Database password (The same as DB_PASSWORD)
+POSTGRES_DB - Database name (The same as DB_NAME)
+```
+
+In the backend folder
+
 ```env
 DB_USERNAME - Database username
 DB_PASSWORD - Database password
@@ -159,6 +171,8 @@ TEST_DB_NAME - Test database name
 TEST_DB_HOST - Test database host
 TEST_DB_PORT - Test database port
 ```
+
+
 
 4. Email service configuration
    For the email service to run correctly, the user should add their own email credentials

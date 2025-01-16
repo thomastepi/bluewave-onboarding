@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'tokens'; // Define the table name
+const TABLE_NAME = 'banners'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,37 +8,55 @@ module.exports = {
     try {
       await queryInterface.createTable(TABLE_NAME, {
         id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
+          allowNull: false,
           autoIncrement: true,
-          allowNull: false,
+          primaryKey: true,
+          type: Sequelize.INTEGER
         },
-        token: {
-          type: Sequelize.STRING(500),
-          allowNull: false,
+        closeButtonAction: {
+          type: Sequelize.STRING(255),
+          allowNull: false
         },
-        userId: {
+        repetitionType: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: 'show only once'
+        },
+        position: {
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        url: {
+          type: Sequelize.STRING(255),
+          allowNull: true
+        },
+        fontColor: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: "#FFFFFF"
+        },
+        backgroundColor: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: "#FFFFFF"
+        },
+        bannerText: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: ""
+        },
+        actionUrl: {
+          type: Sequelize.STRING(255),
+          allowNull: true
+        },
+        createdBy: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'users',
             key: 'id'
           }
-        },
-        type: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-        },
-        expiresAt: {
-          type: Sequelize.DATE,
-          allowNull: true,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-        },
-        
+        }
       }, { transaction });
 
       // Commit the transaction
@@ -53,9 +71,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      // Drop the guide_logs table
       await queryInterface.dropTable(TABLE_NAME, { transaction });
-
       // Commit the transaction
       await transaction.commit();
     } catch (error) {

@@ -1,6 +1,8 @@
 'use strict';
 
-const TABLE_NAME = 'popup'; // Define the table name
+const { url } = require("inspector");
+
+const TABLE_NAME = 'hints'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,82 +10,72 @@ module.exports = {
     try {
       await queryInterface.createTable(TABLE_NAME, {
         id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
+          allowNull: false,
           autoIncrement: true,
-          allowNull: false,
+          primaryKey: true,
+          type: Sequelize.INTEGER
         },
-        closeButtonAction: {
+        action: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          validate: {
-            isIn: [["no-action", "open-url", "close-popup", "open-url-new-tab"]],
-          },
         },
-        popupSize: {
+        actionButtonUrl: {
           type: Sequelize.STRING(255),
-          allowNull: false,
-          validate: {
-            isIn: [["small", "medium", "large"]],
-          },
-        },
-        url: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
+          allowNull: true
         },
         actionButtonText: {
           type: Sequelize.STRING(255),
-          allowNull: true,
+          allowNull: true
         },
-        headerBackgroundColor: {
+        targetElement: {
           type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
+          allowNull: true
         },
-        headerColor: {
+        tooltipPlacement: {
           type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
+          allowNull: false
         },
-        textColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        buttonBackgroundColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        buttonTextColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        header: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        content: {
+        hintContent: {
           type: Sequelize.STRING(1024),
-          allowNull: false,
+          allowNull: false
         },
-        actionUrl: {
+        header :{
           type: Sequelize.STRING(255),
-          allowNull: true,
+          allowNull: false
+        },
+        headerBackgroundColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        headerColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        textColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        buttonBackgroundColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
+        buttonTextColor :{
+          type: Sequelize.STRING(255),
+          allowNull: false
         },
         createdBy: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'users',
             key: 'id'
           }
         },
-        repetitionType: {
+        url: {
           type: Sequelize.STRING(255),
-          allowNull: false
+          allowNull: true,
         },
+
       }, { transaction });
 
       // Commit the transaction

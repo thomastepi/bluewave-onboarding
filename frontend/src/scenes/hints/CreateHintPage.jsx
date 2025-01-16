@@ -147,10 +147,11 @@ const HintPage = ({
       rightContent={() => (
         <RichTextEditor
           sx={{
-            width: '400px',
-            maxWidth: '700px',
-            marginLeft: '2.5rem',
-            marginTop: '1rem',
+            position: 'relative',
+            width: "400px",
+            maxWidth: "700px",
+            marginLeft: "2.5rem",
+            marginTop: "1rem",
           }}
           header={header}
           setHeader={setHeader}

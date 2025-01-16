@@ -114,7 +114,7 @@ Make sure you have `/etc/letsencrypt/options-ssl-nginx.conf` If not you can get 
 
 11. Start the project
 
-`cd ~/bluewave-onboarding
+`cd ~/guidefox
 docker compose up -d`
 
 ## Environment variables

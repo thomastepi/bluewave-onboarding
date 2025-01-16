@@ -5,11 +5,13 @@ const addOrUpdateBannerValidation = [
   body('position')
     .notEmpty()
     .withMessage('Position is required')
+    .bail()
     .isIn(['top', 'bottom'])
     .withMessage('Position must be top or bottom'),
   body('closeButtonAction')
     .notEmpty()
     .withMessage('Close Button Action is required')
+    .bail()
     .isIn(['no action', 'open url', 'open url in a new tab'])
     .withMessage('Invalid close button action'),
   body('url')
@@ -21,6 +23,7 @@ const addOrUpdateBannerValidation = [
       return true;
     })
     .withMessage('URL is required when close button action is set to open URL')
+    .bail()
     .custom((value) => {
       if (!value) return true;
       try {

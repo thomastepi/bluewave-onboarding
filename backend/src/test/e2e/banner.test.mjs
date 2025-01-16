@@ -72,11 +72,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Position is required',
-          },
-        ],
+        errors: ['Position is required'],
       });
     });
     it('should return status 400 if the closeButtonAction is missing', async () => {
@@ -88,11 +84,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Close Button Action is required',
-          },
-        ],
+        errors: ['Close Button Action is required'],
       });
     });
     it('should return status 400 if the position is invalid', async () => {
@@ -104,11 +96,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Position must be top or bottom',
-          },
-        ],
+        errors: ['Position must be top or bottom'],
       });
     });
     it('should return status 400 if the closeButtonAction is invalid', async () => {
@@ -120,11 +108,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Invalid close button action',
-          },
-        ],
+        errors: ['Invalid close button action'],
       });
     });
     it('should return status 400 if backgroundColor is invalid', async () => {
@@ -136,11 +120,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Background color must be a valid hex color code',
-          },
-        ],
+        errors: ['Background color must be a valid hex color code'],
       });
     });
     it('should return status 400 if fontColor is invalid', async () => {
@@ -152,11 +132,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Font color must be a valid hex color code',
-          },
-        ],
+        errors: ['Font color must be a valid hex color code'],
       });
     });
     it('should return status 201 and the new banner if everything goes right', async () => {
@@ -222,11 +198,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Invalid id',
-          },
-        ],
+        errors: ['Invalid id'],
       });
     });
     it('should return status 400 the banner is not found', async () => {
@@ -237,11 +209,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Banner with the specified id does not exist',
-          },
-        ],
+        errors: [{ msg: 'Banner with the specified id does not exist' }],
       });
     });
     it('should return status 200 if banner is deleted', async () => {
@@ -315,11 +283,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Close Button Action is required',
-          },
-        ],
+        errors: ['Close Button Action is required'],
       });
     });
     it('should return status 400 if the position is missing', async () => {
@@ -331,11 +295,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Position is required',
-          },
-        ],
+        errors: ['Position is required'],
       });
     });
     it('should return status 400 if the position is invalid', async () => {
@@ -347,11 +307,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Position must be top or bottom',
-          },
-        ],
+        errors: ['Position must be top or bottom'],
       });
     });
     it('should return status 400 if the closeButtonAction is invalid', async () => {
@@ -363,11 +319,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Invalid close button action',
-          },
-        ],
+        errors: ['Invalid close button action'],
       });
     });
     it('should return status 400 if fontColor is invalid', async () => {
@@ -379,11 +331,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Font color must be a valid hex color code',
-          },
-        ],
+        errors: ['Font color must be a valid hex color code'],
       });
     });
     it('should return status 400 if backgroundColor is invalid', async () => {
@@ -395,11 +343,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Background color must be a valid hex color code',
-          },
-        ],
+        errors: ['Background color must be a valid hex color code'],
       });
     });
     it('should return status 200 and the updated banner if everything goes right', async () => {
@@ -507,11 +451,7 @@ describe('E2e tests banner', () => {
       expect(result).to.have.status(400);
       const body = result.body;
       expect(body).to.be.deep.equal({
-        errors: [
-          {
-            msg: 'Invalid id',
-          },
-        ],
+        errors: ['Invalid id'],
       });
     });
     it('should return status 404 if the service returns null', async () => {

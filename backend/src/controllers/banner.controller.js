@@ -10,8 +10,8 @@ class BannerController {
       const newBanner = await bannerService.createBanner(newBannerData);
       res.status(201).json(newBanner);
     } catch (err) {
-      console.log(err);
       const { statusCode, payload } = internalServerError('CREATE_BANNER_ERROR', err.message);
+      console.log('here is the error yar', err.message);
       res.status(statusCode).json(payload);
     }
   }
@@ -48,7 +48,6 @@ class BannerController {
     try {
       const banners = await bannerService.getAllBanners();
       res.status(200).json(banners);
-      console.log(banners);
     } catch (err) {
       const { statusCode, payload } = internalServerError('GET_ALL_BANNERS_ERROR', err.message);
       res.status(statusCode).json(payload);

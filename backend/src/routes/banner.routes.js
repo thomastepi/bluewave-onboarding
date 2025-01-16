@@ -3,7 +3,11 @@ const bannerController = require('../controllers/banner.controller.js');
 const authenticateJWT = require('../middleware/auth.middleware');
 const settings = require('../../config/settings');
 const accessGuard = require('../middleware/accessGuard.middleware');
-const { addOrUpdateBannerValidation, deleteOrGetBannerByIdValidation } = require('../utils/banner.helper.js');
+const {
+  addOrUpdateBannerValidation,
+  deleteOrGetBannerByIdValidation,
+  getBannerByUrlValidation,
+} = require('../utils/banner.helper.js');
 const { handleValidationErrors } = require('../middleware/validation.middleware.js');
 
 const router = express.Router();
@@ -42,6 +46,6 @@ router.get(
   handleValidationErrors,
   bannerController.getBannerById
 );
-router.get('/get_banner_by_url', bannerController.getBannerByUrl);
+router.get('/get_banner_by_url', getBannerByUrlValidation, handleValidationErrors, bannerController.getBannerByUrl);
 
 module.exports = router;

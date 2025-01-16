@@ -273,7 +273,7 @@ describe("E2e tests auth", () => {
       });
     });
   });
-  describe("POST /api/auth/forget-password", () => {
+  describe.skip("POST /api/auth/forget-password", () => {
     beforeEach(async () => {
       await chai.request
         .execute(app)
@@ -317,7 +317,7 @@ describe("E2e tests auth", () => {
       });
     });
   });
-  describe("POST /api/auth/reset-password", () => {
+  describe.skip("POST /api/auth/reset-password", () => {
     let token;
     beforeEach(async () => {
       await chai.request

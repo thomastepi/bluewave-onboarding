@@ -71,16 +71,6 @@ Add the following configuration. Change YOUR_DOMAIN_NAME with your domain name:
 ```server {
     listen 80;
     server_name YOUR_DOMAIN_NAME;
-    return 301 https://$host$request_uri;
-    }
-
-server {
-    listen 443 ssl;
-    server_name YOUR_DOMAIN_NAME;
-    ssl_certificate /etc/letsencrypt/live/YOUR_DOMAIN_NAME/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/YOUR_DOMAIN_NAME/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
         proxy_pass http://localhost:4173;

@@ -1,25 +1,24 @@
-![](https://img.shields.io/github/license/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/repo-size/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/commit-activity/w/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/last-commit/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/languages/top/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/issues-pr/bluewave-labs/bluewave-onboarding)
-![](https://img.shields.io/github/issues/bluewave-labs/bluewave-onboarding)
+![](https://img.shields.io/github/license/bluewave-labs/guidefox)
+![](https://img.shields.io/github/repo-size/bluewave-labs/guidefox)
+![](https://img.shields.io/github/commit-activity/w/bluewave-labs/guidefox)
+![](https://img.shields.io/github/last-commit/bluewave-labs/guidefox)
+![](https://img.shields.io/github/languages/top/bluewave-labs/guidefox)
+![](https://img.shields.io/github/issues-pr/bluewave-labs/guidefox)
+![](https://img.shields.io/github/issues/bluewave-labs/guidefox)
 
-# BlueWave Onboarding
+# Guidefox
 
-BlueWave Onboarding helps app owners build knowledge and user-experience oriented apps. It includes the following features:
+Guidefox helps app owners build knowledge and user-experience oriented apps. It includes the following features: 
 
-- Welcome tours
-- Product hints
-- Checklists
+- Welcome tours (in progress)
 - Popups
 - Banners
-- Links
+- Helper links
+- Hints
 
-This is a work-in-progress application. The source code is available under GNU AGPLv3.
+The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 
-![Main dashboard](https://github.com/bluewave-labs/bluewave-onboarding/blob/master/Dashboard.png)
+![guidefox](https://github.com/user-attachments/assets/46d912c9-339a-4044-979b-338557f28949)
 
 ## Tech stack
 
@@ -56,7 +55,7 @@ Make sure docker and git is installed
 
 ```
 cd ~
-git clone https://github.com/bluewave-labs/bluewave-onboarding.git
+git clone https://github.com/bluewave-labs/guidefox.git
 cd bluewave-onboarding
 ```
 
@@ -64,16 +63,18 @@ cd bluewave-onboarding
 
 Open the Nginx configuration file:
 
-`sudo nano /etc/nginx/sites-available/onboarding-demo`
+`sudo nano /etc/nginx/sites-available/guidefox`
+
 
 Add the following configuration. Change YOUR_DOMAIN_NAME with your domain name:
 
-```server {
+```
+server {
     listen 80;
     server_name YOUR_DOMAIN_NAME;
 
     location / {
-        proxy_pass http://localhost:4173;
+        proxy_pass http://localhost:4173; # Frontend React app
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -81,18 +82,26 @@ Add the following configuration. Change YOUR_DOMAIN_NAME with your domain name:
     }
 
     location /api/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3000; # Backend API
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location /mailhog/ {
+        proxy_pass http://localhost:8025; # MailHog web interface
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
 6. Create a symbolic link to enable the configuration:
 
-`sudo ln -s /etc/nginx/sites-available/onboarding-demo /etc/nginx/sites-enabled/`
+`sudo ln -s /etc/nginx/sites-available/guidefox /etc/nginx/sites-enabled/`
 
 7. Install Certbot and its Nginx plugin:
 
@@ -162,8 +171,6 @@ TEST_DB_HOST - Test database host
 TEST_DB_PORT - Test database port
 ```
 
-
-
 4. Email service configuration
    For the email service to run correctly, the user should add their own email credentials
 
@@ -229,10 +236,24 @@ For running tests in windows installing `win-node-env` module is recommended
 
 ## Contributing
 
-Here's how you can contribute to the Onboarding product.
+We pride ourselves on building strong connections with contributors at every level. Don’t hold back — jump in, contribute and learn with us!
 
-- Check [Contributor's guideline](https://github.com/bluewave-labs/bluewave-onboarding/blob/master/CONTRIBUTING.md)
+- Star this repo :)
+- Check [Contributor's guideline](https://github.com/bluewave-labs/guidefox/blob/master/CONTRIBUTING.md)
 - Have a look at our Figma designs [here](https://www.figma.com/design/MLPbP1HM2L9ON6f88pHTee/Onboarding?node-id=0-1&t=iwgz015l5QWbWRqU-1). We encourage you to copy to your own Figma page, then work on it as it is read-only.
 - Open an issue if you believe you've encountered a bug
 - Make a pull request to add new features/make quality-of-life improvements/fix bugs.
 - Make sure your send your PRs to **develop** branch.
+
+<a href="https://github.com/bluewave-labs/guidefox/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=bluewave-labs/guidefox" />
+</a>
+
+
+Also check other developer and contributor-friendly projects of BlueWave:
+
+- [Checkmate](https://github.com/bluewave-labs/checkmate), a server and infrastructure monitoring tool
+- [DataRoom](https://github.com/bluewave-labs/bluewave-dataroom), an secure file sharing application, aka dataroom.
+- [BlueWave HRM](https://github.com/bluewave-labs/bluewave-hrm), a complete Human Resource Management platform.
+- [VerifyWise](https://github.com/bluewave-labs/verifywise), the first open source AI governance platform.
+

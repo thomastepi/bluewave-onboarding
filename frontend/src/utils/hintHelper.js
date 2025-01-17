@@ -36,4 +36,22 @@ const newHintSchema = Yup.object().shape({
     .max(2000, 'URL must be at most 2000 characters'),
 });
 
-export { newHintSchema };
+const appearanceSchema = Yup.object().shape({
+  headerBackgroundColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for headerBackgroundColor'),
+  headerColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for headerColor'),
+  textColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for textColor'),
+  buttonBackgroundColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for buttonBackgroundColor'),
+  buttonTextColor: Yup.string()
+    .optional()
+    .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for buttonTextColor'),
+});
+
+export { newHintSchema, appearanceSchema };

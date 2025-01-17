@@ -120,6 +120,7 @@ bw.hint = {
             display: flex;
             flex-direction: column;
             color: ${item.textColor};
+            z-index:9999;
             visibility: hidden;
         `;
 

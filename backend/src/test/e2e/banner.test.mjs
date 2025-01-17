@@ -63,6 +63,18 @@ describe('E2e tests banner', () => {
         error: 'User does not have required access level',
       });
     });
+    it('should return status 400 if the repetitionType is missing', async () => {
+      const result = await chai.request
+        .execute(app)
+        .post('/api/banner/add_banner')
+        .set('Authorization', `Bearer ${token}`)
+        .send(banner().missingRepetitionType().build());
+      expect(result).to.have.status(400);
+      const body = result.body;
+      expect(body).to.be.deep.equal({
+        errors: ['Repetition type is required'],
+      });
+    });
     it('should return status 400 if the position is missing', async () => {
       const result = await chai.request
         .execute(app)
@@ -85,6 +97,18 @@ describe('E2e tests banner', () => {
       const body = result.body;
       expect(body).to.be.deep.equal({
         errors: ['Close Button Action is required'],
+      });
+    });
+    it('should return status 400 if the repetitionType is invalid', async () => {
+      const result = await chai.request
+        .execute(app)
+        .post('/api/banner/add_banner')
+        .set('Authorization', `Bearer ${token}`)
+        .send(banner().invalidRepetitionType().build());
+      expect(result).to.have.status(400);
+      const body = result.body;
+      expect(body).to.be.deep.equal({
+        errors: ['Invalid repetition type'],
       });
     });
     it('should return status 400 if the position is invalid', async () => {
@@ -274,6 +298,18 @@ describe('E2e tests banner', () => {
         error: 'User does not have required access level',
       });
     });
+    it('should return status 400 if the repetitionType is missing', async () => {
+      const result = await chai.request
+        .execute(app)
+        .post('/api/banner/add_banner')
+        .set('Authorization', `Bearer ${token}`)
+        .send(banner().missingRepetitionType().build());
+      expect(result).to.have.status(400);
+      const body = result.body;
+      expect(body).to.be.deep.equal({
+        errors: ['Repetition type is required'],
+      });
+    });
     it('should return status 400 if the closeButtonAction is missing', async () => {
       const result = await chai.request
         .execute(app)
@@ -296,6 +332,18 @@ describe('E2e tests banner', () => {
       const body = result.body;
       expect(body).to.be.deep.equal({
         errors: ['Position is required'],
+      });
+    });
+    it('should return status 400 if the repetitionType is invalid', async () => {
+      const result = await chai.request
+        .execute(app)
+        .post('/api/banner/add_banner')
+        .set('Authorization', `Bearer ${token}`)
+        .send(banner().invalidRepetitionType().build());
+      expect(result).to.have.status(400);
+      const body = result.body;
+      expect(body).to.be.deep.equal({
+        errors: ['Invalid repetition type'],
       });
     });
     it('should return status 400 if the position is invalid', async () => {

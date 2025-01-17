@@ -41,7 +41,7 @@ const addOrUpdateBannerValidation = [
       return value.startsWith('/');
     })
     .withMessage('Relative URL must start with /'),
-  body('repetitionType').notEmpty().isIn(['show only once', 'show every visit']).withMessage('Invalid repetition'),
+  body('repetitionType').isIn(['show only once', 'show every visit']).withMessage('Repetition type is required'),
   body('backgroundColor')
     .notEmpty()
     .matches(hexColorPattern)

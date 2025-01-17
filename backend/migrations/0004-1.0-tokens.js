@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'tours'; // Define the table name
+const TABLE_NAME = 'tokens'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,38 +13,32 @@ module.exports = {
           autoIncrement: true,
           allowNull: false,
         },
-        title: {
-          type: Sequelize.STRING(255),
+        token: {
+          type: Sequelize.STRING(500),
           allowNull: false,
         },
-        description: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
-        },
-        statusActive:{
-          type : Sequelize.BOOLEAN,
-          allowNull: true,
-        },
-        pageTargeting:{
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        theme:{
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        triggeringFrequency:{
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        createdBy: {
+        userId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'users',
             key: 'id'
           }
         },
+        type: {
+          type: Sequelize.STRING(10),
+          allowNull: false,
+        },
+        expiresAt: {
+          type: Sequelize.DATE,
+          allowNull: true,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        },
+        
       }, { transaction });
 
       // Commit the transaction

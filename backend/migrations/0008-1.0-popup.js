@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'banners'; // Define the table name
+const TABLE_NAME = 'popup'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,55 +8,82 @@ module.exports = {
     try {
       await queryInterface.createTable(TABLE_NAME, {
         id: {
-          allowNull: false,
-          autoIncrement: true,
+          type: Sequelize.INTEGER,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          autoIncrement: true,
+          allowNull: false,
         },
         closeButtonAction: {
           type: Sequelize.STRING(255),
-          allowNull: false
+          allowNull: false,
+          validate: {
+            isIn: [["no-action", "open-url", "close-popup", "open-url-new-tab"]],
+          },
         },
-        repetitionType: {
+        popupSize: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: 'show only once'
-        },
-        position: {
-          type: Sequelize.STRING(255),
-          allowNull: false
+          validate: {
+            isIn: [["small", "medium", "large"]],
+          },
         },
         url: {
           type: Sequelize.STRING(255),
-          allowNull: true
+          allowNull: true,
         },
-        fontColor: {
+        actionButtonText: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+        },
+        headerBackgroundColor: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: "#FFFFFF"
+          defaultValue: "#FFFFFF",
         },
-        backgroundColor: {
+        headerColor: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: "#FFFFFF"
+          defaultValue: "#FFFFFF",
         },
-        bannerText: {
+        textColor: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: ""
+          defaultValue: "#FFFFFF",
+        },
+        buttonBackgroundColor: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        buttonTextColor: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        header: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+        },
+        content: {
+          type: Sequelize.STRING(1024),
+          allowNull: false,
         },
         actionUrl: {
           type: Sequelize.STRING(255),
-          allowNull: true
+          allowNull: true,
         },
         createdBy: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'users',
             key: 'id'
           }
-        }
+        },
+        repetitionType: {
+          type: Sequelize.STRING(255),
+          allowNull: false
+        },
       }, { transaction });
 
       // Commit the transaction
@@ -71,7 +98,9 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
+      // Drop the guide_logs table
       await queryInterface.dropTable(TABLE_NAME, { transaction });
+
       // Commit the transaction
       await transaction.commit();
     } catch (error) {

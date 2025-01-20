@@ -25,11 +25,20 @@ const HintPage = ({
     setActiveButton(index);
   };
 
-  const [headerBackgroundColor, setHeaderBackgroundColor] = useState('#FFFFFF');
-  const [headerColor, setHeaderColor] = useState('#101828');
-  const [textColor, setTextColor] = useState('#344054');
-  const [buttonBackgroundColor, setButtonBackgroundColor] = useState('#7F56D9');
-  const [buttonTextColor, setButtonTextColor] = useState('#FFFFFF');
+  const [appearance, setAppearance] = useState({
+    headerBackgroundColor: '#F8F9F8',
+    headerColor: '#101828',
+    textColor: '#344054',
+    buttonBackgroundColor: '#7F56D9',
+    buttonTextColor: '#FFFFFF',
+  });
+  const {
+    headerBackgroundColor,
+    headerColor,
+    textColor,
+    buttonBackgroundColor,
+    buttonTextColor,
+  } = appearance;
 
   const [header, setHeader] = useState('');
   const [content, setContent] = useState('');
@@ -44,30 +53,6 @@ const HintPage = ({
   const [targetElement, setTargetElement] = useState('.element');
   const [tooltipPlacement, setTooltipPlacement] = useState('Top');
 
-  const stateList = [
-    {
-      stateName: 'Header Background Color',
-      state: headerBackgroundColor,
-      setState: setHeaderBackgroundColor,
-    },
-    {
-      stateName: 'Header Color',
-      state: headerColor,
-      setState: setHeaderColor,
-    },
-    { stateName: 'Text Color', state: textColor, setState: setTextColor },
-    {
-      stateName: 'Button Background Color',
-      state: buttonBackgroundColor,
-      setState: setButtonBackgroundColor,
-    },
-    {
-      stateName: 'Button Text Color',
-      state: buttonTextColor,
-      setState: setButtonTextColor,
-    },
-  ];
-
   useEffect(() => {
     if (autoOpen) openDialog();
   }, [autoOpen, openDialog]);
@@ -77,11 +62,13 @@ const HintPage = ({
       const fetchHintData = async () => {
         try {
           const hintData = await getHintById(itemId);
-          setHeaderBackgroundColor(hintData.headerBackgroundColor || '#F8F9F8');
-          setHeaderColor(hintData.headerColor || '#101828');
-          setTextColor(hintData.textColor || '#344054');
-          setButtonBackgroundColor(hintData.buttonBackgroundColor || '#7F56D9');
-          setButtonTextColor(hintData.buttonTextColor || '#FFFFFF');
+          setAppearance({
+            headerBackgroundColor: hintData.headerBackgroundColor || '#F8F9F8',
+            headerColor: hintData.headerColor || '#101828',
+            textColor: hintData.textColor || '#344054',
+            buttonBackgroundColor: hintData.buttonBackgroundColor || '#7F56D9',
+            buttonTextColor: hintData.buttonTextColor || '#FFFFFF',
+          });
           setHeader(hintData.header || '');
           setContent(hintData.hintContent || '');
           setActionButtonUrl(hintData.actionButtonUrl || 'https://');
@@ -148,10 +135,10 @@ const HintPage = ({
         <RichTextEditor
           sx={{
             position: 'relative',
-            width: "400px",
-            maxWidth: "700px",
-            marginLeft: "2.5rem",
-            marginTop: "1rem",
+            width: '400px',
+            maxWidth: '700px',
+            marginLeft: '2.5rem',
+            marginTop: '1rem',
           }}
           header={header}
           setHeader={setHeader}
@@ -185,9 +172,16 @@ const HintPage = ({
           setTargetElement={setTargetElement}
           tooltipPlacement={tooltipPlacement}
           setTooltipPlacement={setTooltipPlacement}
+          onSave={onSave}
         />
       )}
-      leftAppearance={() => <HintLeftAppearance data={stateList} />}
+      leftAppearance={() => (
+        <HintLeftAppearance
+          data={appearance}
+          setState={setAppearance}
+          onSave={onSave}
+        />
+      )}
     />
   );
 };

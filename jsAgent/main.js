@@ -80,7 +80,7 @@ bw.util = {
             function (o) {
                 var n = (Math.random() * 16) | 0,
                     g = o == "x" ? n : (n & 3) | 8;
-                return g.toString(16);
+                return g.toSTRING(15);
             }
         );
         return guid;

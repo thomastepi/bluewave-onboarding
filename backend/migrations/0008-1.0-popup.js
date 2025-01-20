@@ -14,18 +14,12 @@ module.exports = {
           allowNull: false,
         },
         closeButtonAction: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(31),
           allowNull: false,
-          validate: {
-            isIn: [["no-action", "open-url", "close-popup", "open-url-new-tab"]],
-          },
         },
         popupSize: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
-          validate: {
-            isIn: [["small", "medium", "large"]],
-          },
         },
         url: {
           type: Sequelize.STRING(255),
@@ -36,27 +30,27 @@ module.exports = {
           allowNull: true,
         },
         headerBackgroundColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },
         headerColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },
         textColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },
         buttonBackgroundColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },
         buttonTextColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF",
         },
@@ -65,7 +59,7 @@ module.exports = {
           allowNull: false,
         },
         content: {
-          type: Sequelize.STRING(1024),
+          type: Sequelize.STRING(2047),
           allowNull: false,
         },
         actionUrl: {
@@ -81,7 +75,7 @@ module.exports = {
           }
         },
         repetitionType: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(31),
           allowNull: false
         },
       }, { transaction });

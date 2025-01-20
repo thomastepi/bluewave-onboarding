@@ -30,11 +30,12 @@ bw.hint = {
             
             document.body.appendChild(tooltip);
 
-            bw.hint.positionTooltip(tooltip, contentContainer, tooltipArrow);
+            //bw.hint.positionTooltip(tooltip, contentContainer, tooltipArrow);
 
             tooltip.addEventListener('mouseenter', function (e) {
                 clearInterval(tooltip.timer);
                 e.target.style.visibility = 'visible';
+                //bw.hint.positionTooltip(tooltip, contentContainer, tooltipArrow);
             });
 
             tooltip.addEventListener('mouseleave', function (e) {
@@ -48,14 +49,21 @@ bw.hint = {
     },
     //this can be delete later
     positionTooltip: function(tooltip, tooltipOwner, tooltipArrow) {
+       
         const containerRect = tooltipOwner.getBoundingClientRect();
         const tooltipRect = tooltip.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
-        
+
+        let tooltipPosition = tooltip.pos; //'top';
+        if(tooltipPosition == 'top'){ arrowPosition = 'bottom'}
+        if(tooltipPosition == 'bottom'){ arrowPosition = 'top'}
+        if(tooltipPosition == 'left'){ arrowPosition = 'right'}
+        if(tooltipPosition == 'right'){ arrowPosition = 'left'}
+
+
         let top = containerRect.top - tooltipRect.height - 5; // 5px above
         let left = containerRect.left + (containerRect.width - tooltipRect.width) / 2; // Centered horizontally
-        let arrowPosition = 'bottom';
-        let tooltipPosition = 'top';
+
         if (top < 0) {
             arrowPosition = 'top';
             tooltipPosition = 'bottom';
@@ -109,6 +117,7 @@ bw.hint = {
     generateTooltip: function (item) {
         const tooltip = document.createElement('div');
         tooltip.pos = item.tooltipPlacement;
+        tooltip.setAttribute('data-tooltip-position', item.tooltipPlacement);
         tooltip.timer = null;
         tooltip.positionTimer = null;
         tooltip.style.cssText = `
@@ -129,6 +138,7 @@ bw.hint = {
     generateTooltipArrow: function () {
         const tooltipArrow = document.createElement('div');
         tooltipArrow.style.content = '""';
+        tooltipArrow.classList.add('bw-tooltip-arrow');
         tooltipArrow.style.position = 'absolute';
         tooltipArrow.style.borderWidth = '5px';
         tooltipArrow.style.borderStyle = 'solid';
@@ -272,8 +282,8 @@ bw.hint = {
                 clearTimeout(tooltip.timer);
                 clearTimeout(tooltip.positionTimer);
                 tooltip.positionTimer = setTimeout(function() {
-
-                    const position = e.target.getAttribute('data-tooltip-position') || 'top';
+                    
+                    const position = tooltip.getAttribute('data-tooltip-position') || 'top';
 
                     const rect = e.target.getBoundingClientRect();
                     switch (position) {
@@ -298,7 +308,9 @@ bw.hint = {
                             tooltip.style.transform = 'translateY(-50%)';
                             break;
                     }
-
+                    
+                    let tooltipArrow = tooltip.getElementsByClassName('bw-tooltip-arrow')[0];
+                    bw.hint.positionTooltip(tooltip,  e.target, tooltipArrow);
                     tooltip.style.visibility = 'visible';
 
 

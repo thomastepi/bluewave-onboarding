@@ -1,16 +1,16 @@
-const { GuideType } = require('../utils/guidelog.helper');
+const { GuideType } = require("../utils/guidelog.helper");
 
 module.exports = (sequelize, DataTypes) => {
   const GuideLog = sequelize.define(
-    'GuideLog',
+    "GuideLog",
     {
       guideType: {
-        type: DataTypes.ENUM(Object.values(GuideType)),
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
           isIn: {
             args: [Object.values(GuideType)],
-            msg: 'guideType must be a valid value.',
+            msg: "guideType must be a valid value.",
           },
         },
       },
@@ -33,28 +33,28 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      tableName: 'guide_logs',
+      tableName: "guide_logs",
       indexes: [
         {
-          name: 'idx_guide_logs_userId',
-          fields: ['userId'],
+          name: "idx_guide_logs_userId",
+          fields: ["userId"],
         },
         {
-          name: 'idx_guide_logs_guideId',
-          fields: ['guideId'],
+          name: "idx_guide_logs_guideId",
+          fields: ["guideId"],
         },
         {
-          name: 'idx_guide_logs_guideType',
-          fields: ['guideType'],
+          name: "idx_guide_logs_guideType",
+          fields: ["guideType"],
         },
         {
-          name: 'idx_guide_logs_userId_guideId_guideType',
-          fields: ['userId', 'guideId', 'guideType'],
+          name: "idx_guide_logs_userId_guideId_guideType",
+          fields: ["userId", "guideId", "guideType"],
           unique: false,
         },
         {
-          name: 'idx_guide_logs_showingTime',
-          fields: ['showingTime'],
+          name: "idx_guide_logs_showingTime",
+          fields: ["showingTime"],
         },
       ],
     }

@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       repetitionType: {
         type: DataTypes.ENUM(settings.popup.repetition),
         allowNull: false,
-        defaultValue: 'show only once',
+        defaultValue: settings.popup.repetition[0],
         validate: {
           isValidAction(value) {
             ensureValidRepetitionOption(value);

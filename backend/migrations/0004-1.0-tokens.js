@@ -1,45 +1,50 @@
 'use strict';
 
+const settings = require('../config/settings');
+
 const TABLE_NAME = 'tokens'; // Define the table name
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(TABLE_NAME, {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-          allowNull: false,
+      await queryInterface.createTable(
+        TABLE_NAME,
+        {
+          id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false,
+          },
+          token: {
+            type: Sequelize.STRING(500),
+            allowNull: false,
+          },
+          userId: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+          },
+          type: {
+            type: Sequelize.ENUM(settings.token.type),
+            allowNull: false,
+          },
+          expiresAt: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          createdAt: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+          },
         },
-        token: {
-          type: Sequelize.STRING(500),
-          allowNull: false,
-        },
-        userId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'users',
-            key: 'id'
-          }
-        },
-        type: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-        },
-        expiresAt: {
-          type: Sequelize.DATE,
-          allowNull: true,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-        },
-        
-      }, { transaction });
+        { transaction }
+      );
 
       // Commit the transaction
       await transaction.commit();
@@ -63,5 +68,5 @@ module.exports = {
       await transaction.rollback();
       throw error;
     }
-  }
+  },
 };

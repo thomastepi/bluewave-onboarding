@@ -87,7 +87,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       // Drop the guide_logs table

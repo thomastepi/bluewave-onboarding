@@ -50,4 +50,12 @@ module.exports = {
     repetition: ['show only once', 'show every visit'],
     size: ['small', 'medium', 'large'],
   },
+  banner: {
+    repetition: ['show only once', 'show every visit'],
+    position: ['top', 'bottom'],
+    action: ['no action', 'open url', 'open url in a new tab'],
+  },
+  token: {
+    type: ['auth', 'reset'],
+  },
 };

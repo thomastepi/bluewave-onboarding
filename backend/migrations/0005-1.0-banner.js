@@ -14,16 +14,16 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         closeButtonAction: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(31),
           allowNull: false
         },
         repetitionType: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(31),
           allowNull: false,
           defaultValue: 'show only once'
         },
         position: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(31),
           allowNull: false
         },
         url: {
@@ -31,17 +31,17 @@ module.exports = {
           allowNull: true
         },
         fontColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF"
         },
         backgroundColor: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: "#FFFFFF"
         },
         bannerText: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(511),
           allowNull: false,
           defaultValue: ""
         },

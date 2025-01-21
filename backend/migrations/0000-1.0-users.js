@@ -15,20 +15,20 @@ module.exports = {
           autoIncrement: true,
         },
         name: {
-          type: Sequelize.STRING(50),
+          type: Sequelize.STRING(63),
           allowNull: false,
         },
         surname: {
-          type: Sequelize.STRING(50),
+          type: Sequelize.STRING(63),
           allowNull: true,
         },
         email: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(255),
           allowNull: false,
           unique: true,
         },
         password: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(127),
           allowNull: false,
         },
         role: {

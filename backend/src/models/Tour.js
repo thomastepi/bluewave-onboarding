@@ -1,5 +1,4 @@
 const settings = require('../../config/settings');
-const { validateTriggeringFrequency, validatePageTargeting, validateTheme } = require('../utils/tour.helper');
 
 module.exports = (sequelize, DataTypes) => {
   const Tour = sequelize.define(
@@ -25,35 +24,14 @@ module.exports = (sequelize, DataTypes) => {
       pageTargeting: {
         type: DataTypes.ENUM(settings.tour.pageTargeting),
         allowNull: false,
-        validate: {
-          customValidator(value) {
-            if (!validatePageTargeting(value)) {
-              throw new Error('Invalid page targeting value');
-            }
-          },
-        },
       },
       theme: {
         type: DataTypes.ENUM(settings.tour.themes),
         allowNull: false,
-        validate: {
-          customValidator(value) {
-            if (!validateTheme(value)) {
-              throw new Error('Invalid theme value');
-            }
-          },
-        },
       },
       triggeringFrequency: {
         type: DataTypes.ENUM(settings.tour.triggeringFrequency),
         allowNull: false,
-        validate: {
-          customValidator(value) {
-            if (!validateTriggeringFrequency(value)) {
-              throw new Error('Invalid triggering frequency');
-            }
-          },
-        },
       },
       createdBy: {
         type: DataTypes.INTEGER,

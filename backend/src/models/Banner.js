@@ -1,4 +1,4 @@
-const settings = require("../../config/settings");
+const settings = require('../../config/settings');
 
 module.exports = (sequelize, DataTypes) => {
   const Banner = sequelize.define(
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       repetitionType: {
         type: DataTypes.ENUM(settings.banner.repetition),
         allowNull: false,
-        defaultValue: settings.banner.repetition[0],
+        defaultValue: settings.banner.repetition[0] ?? 'show only once',
       },
       position: {
         type: DataTypes.ENUM(settings.banner.position),

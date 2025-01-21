@@ -1,6 +1,5 @@
 'use strict';
 
-const settings = require('../config/settings'); // Import the settings file
 const TABLE_NAME = 'popup'; // Define the table name
 
 module.exports = {
@@ -17,18 +16,12 @@ module.exports = {
             allowNull: false,
           },
           closeButtonAction: {
-            type: Sequelize.ENUM(settings.popup.action),
+            type: Sequelize.ENUM('no action', 'open url', 'open url in a new tab'),
             allowNull: false,
-            validate: {
-              isIn: [settings.popup.action],
-            },
           },
           popupSize: {
-            type: Sequelize.ENUM(settings.popup.size),
+            type: Sequelize.ENUM('small', 'medium', 'large'),
             allowNull: false,
-            validate: {
-              isIn: [settings.popup.size],
-            },
           },
           url: {
             type: Sequelize.STRING(255),
@@ -84,7 +77,7 @@ module.exports = {
             },
           },
           repetitionType: {
-            type: Sequelize.ENUM(settings.popup.repetition),
+            type: Sequelize.ENUM('show only once', 'show every visit'),
             allowNull: false,
           },
         },

@@ -1,7 +1,5 @@
 'use strict';
 
-const settings = require("../config/settings");
-
 const TABLE_NAME = 'hints'; // Define the table name
 
 module.exports = {

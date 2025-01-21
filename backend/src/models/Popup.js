@@ -1,18 +1,10 @@
-const settings = require("../../config/settings");
-const {
-  validateHexColor,
-  validateActionButton,
-  ensureValidRepetitionOption,
-} = require("../utils/guide.helper");
-const {
-  validatePopupSizeWrapper,
-  validateUrl,
-  validateRelativeUrl,
-} = require("../utils/popup.helper");
+const settings = require('../../config/settings');
+const { validateHexColor } = require('../utils/guide.helper');
+const { validateUrl, validateRelativeUrl } = require('../utils/popup.helper');
 
 module.exports = (sequelize, DataTypes) => {
   const Popup = sequelize.define(
-    "Popup",
+    'Popup',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -22,37 +14,22 @@ module.exports = (sequelize, DataTypes) => {
       closeButtonAction: {
         type: DataTypes.ENUM(settings.popup.action),
         allowNull: false,
-        validate: {
-          isValidAction(value) {
-            validateActionButton(value);
-          },
-        },
       },
       repetitionType: {
         type: DataTypes.ENUM(settings.popup.repetition),
         allowNull: false,
-        defaultValue: settings.popup.repetition[0],
-        validate: {
-          isValidAction(value) {
-            ensureValidRepetitionOption(value);
-          },
-        },
+        defaultValue: settings.popup.repetition[0] ?? 'show only once',
       },
       popupSize: {
         type: DataTypes.ENUM(settings.popup.size),
         allowNull: false,
-        validate: {
-          isValidPopupSize(value) {
-            validatePopupSizeWrapper(value);
-          },
-        },
       },
       url: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
           isUrl(value) {
-            validateRelativeUrl(value, "url");
+            validateRelativeUrl(value, 'url');
           },
         },
       },
@@ -63,69 +40,69 @@ module.exports = (sequelize, DataTypes) => {
       headerBackgroundColor: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "#FFFFFF",
+        defaultValue: '#FFFFFF',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, "headerBackgroundColor");
+            validateHexColor(value, 'headerBackgroundColor');
           },
         },
       },
       headerColor: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "#FFFFFF",
+        defaultValue: '#FFFFFF',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, "headerColor");
+            validateHexColor(value, 'headerColor');
           },
         },
       },
       textColor: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "#FFFFFF",
+        defaultValue: '#FFFFFF',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, "textColor");
+            validateHexColor(value, 'textColor');
           },
         },
       },
       buttonBackgroundColor: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "#FFFFFF",
+        defaultValue: '#FFFFFF',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, "buttonBackgroundColor");
+            validateHexColor(value, 'buttonBackgroundColor');
           },
         },
       },
       buttonTextColor: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "#FFFFFF",
+        defaultValue: '#FFFFFF',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, "buttonTextColor");
+            validateHexColor(value, 'buttonTextColor');
           },
         },
       },
       header: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "",
+        defaultValue: '',
       },
       content: {
         type: DataTypes.STRING(1024),
         allowNull: false,
-        defaultValue: "",
+        defaultValue: '',
       },
       actionUrl: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
           isUrl(value) {
-            validateUrl(value, "actionUrl");
+            validateUrl(value, 'actionUrl');
           },
         },
       },
@@ -133,19 +110,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
-          key: "id",
+          model: 'users',
+          key: 'id',
         },
       },
     },
     {
-      tableName: "popup",
+      tableName: 'popup',
       timestamps: false,
     }
   );
 
   Popup.associate = (models) => {
-    Popup.belongsTo(models.User, { foreignKey: "createdBy", as: "creator" });
+    Popup.belongsTo(models.User, { foreignKey: 'createdBy', as: 'creator' });
   };
 
   return Popup;

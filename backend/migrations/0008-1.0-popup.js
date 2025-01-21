@@ -6,83 +6,79 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(
-        TABLE_NAME,
-        {
-          id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-          },
-          closeButtonAction: {
-            type: Sequelize.ENUM('no action', 'open url', 'open url in a new tab'),
-            allowNull: false,
-          },
-          popupSize: {
-            type: Sequelize.ENUM('small', 'medium', 'large'),
-            allowNull: false,
-          },
-          url: {
-            type: Sequelize.STRING(255),
-            allowNull: true,
-          },
-          actionButtonText: {
-            type: Sequelize.STRING(255),
-            allowNull: true,
-          },
-          headerBackgroundColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          headerColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          textColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          buttonBackgroundColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          buttonTextColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          header: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-          },
-          content: {
-            type: Sequelize.STRING(1024),
-            allowNull: false,
-          },
-          actionUrl: {
-            type: Sequelize.STRING(255),
-            allowNull: true,
-          },
-          createdBy: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-              model: 'users',
-              key: 'id',
-            },
-          },
-          repetitionType: {
-            type: Sequelize.ENUM('show only once', 'show every visit'),
-            allowNull: false,
-          },
+      await queryInterface.createTable(TABLE_NAME, {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+          allowNull: false,
         },
-        { transaction }
-      );
+        closeButtonAction: {
+          type: Sequelize.STRING(31),
+          allowNull: false,
+        },
+        popupSize: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+        },
+        url: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+        },
+        actionButtonText: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+        },
+        headerBackgroundColor: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        headerColor: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        textColor: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        buttonBackgroundColor: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        buttonTextColor: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "#FFFFFF",
+        },
+        header: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+        },
+        content: {
+          type: Sequelize.STRING(2047),
+          allowNull: false,
+        },
+        actionUrl: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+        },
+        createdBy: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: {
+            model: 'users',
+            key: 'id'
+          }
+        },
+        repetitionType: {
+          type: Sequelize.STRING(31),
+          allowNull: false
+        },
+      }, { transaction });
 
       // Commit the transaction
       await transaction.commit();

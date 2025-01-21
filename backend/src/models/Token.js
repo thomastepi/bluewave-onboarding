@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       token: {
-        type: DataTypes.STRING(500),
+        type: DataTypes.STRING(511),
         allowNull: false,
       },
       userId: {

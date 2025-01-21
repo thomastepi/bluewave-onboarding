@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       headerBackgroundColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
         validate: {
@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       headerColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
         validate: {
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       textColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
         validate: {
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       buttonTextColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
         validate: {
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: '',
       },
       content: {
-        type: DataTypes.STRING(1024),
+        type: DataTypes.STRING(2047),
         allowNull: false,
         defaultValue: '',
       },

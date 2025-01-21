@@ -15,40 +15,41 @@ module.exports = {
             autoIncrement: true,
             allowNull: false,
           },
+
           closeButtonAction: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(31),
             allowNull: false,
           },
           repetitionType: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(31),
             allowNull: false,
             defaultValue: 'show only once',
           },
           position: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(31),
             allowNull: false,
           },
           url: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(255),
             allowNull: true,
           },
           fontColor: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(15),
             allowNull: false,
             defaultValue: '#FFFFFF',
           },
           backgroundColor: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(15),
             allowNull: false,
             defaultValue: '#FFFFFF',
           },
           bannerText: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(511),
             allowNull: false,
             defaultValue: '',
           },
           actionUrl: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(255),
             allowNull: true,
           },
           createdBy: {

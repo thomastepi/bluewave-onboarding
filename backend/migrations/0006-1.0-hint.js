@@ -34,7 +34,7 @@ module.exports = {
           allowNull: false
         },
         hintContent: {
-          type: Sequelize.STRING(1024),
+          type: Sequelize.STRING(2047),
           allowNull: false
         },
         header :{
@@ -42,23 +42,23 @@ module.exports = {
           allowNull: false
         },
         headerBackgroundColor :{
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false
         },
         headerColor :{
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false
         },
         textColor :{
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false
         },
         buttonBackgroundColor :{
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false
         },
         buttonTextColor :{
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(15),
           allowNull: false
         },
         createdBy: {

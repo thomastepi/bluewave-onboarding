@@ -22,17 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       fontColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
       },
       backgroundColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
       },
       bannerText: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(511),
         allowNull: false,
         defaultValue: '',
       },

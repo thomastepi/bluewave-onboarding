@@ -45,4 +45,9 @@ module.exports = {
     action: ['no action', 'open url', 'open url in a new tab'],
     tooltipPlacement: ['top', 'right', 'bottom', 'left'],
   },
+  popup: {
+    action: ['no action', 'open url', 'open url in a new tab'],
+    repetition: ['show only once', 'show every visit'],
+    size: ['small', 'medium', 'large'],
+  },
 };

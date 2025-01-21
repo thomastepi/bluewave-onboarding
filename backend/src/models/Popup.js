@@ -1,3 +1,4 @@
+const settings = require("../../config/settings");
 const {
   validateHexColor,
   validateActionButton,
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       closeButtonAction: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(settings.popup.action),
         allowNull: false,
         validate: {
           isValidAction(value) {
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       repetitionType: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(settings.popup.repetition),
         allowNull: false,
         defaultValue: 'show only once',
         validate: {
@@ -38,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       popupSize: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(settings.popup.size),
         allowNull: false,
         validate: {
           isValidPopupSize(value) {

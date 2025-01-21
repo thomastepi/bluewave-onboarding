@@ -41,4 +41,8 @@ module.exports = {
     pageTargeting: ['equals to', 'is different from'],
     themes: ['default theme'],
   },
+  hint: {
+    action: ['no action', 'open url', 'open url in a new tab'],
+    tooltipPlacement: ['top', 'right', 'bottom', 'left'],
+  },
 };

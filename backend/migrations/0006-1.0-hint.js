@@ -1,6 +1,6 @@
 'use strict';
 
-const { url } = require("inspector");
+const settings = require("../config/settings");
 
 const TABLE_NAME = 'hints'; // Define the table name
 
@@ -16,7 +16,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         action: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.ENUM(settings.hint.action),
           allowNull: false,
         },
         actionButtonUrl: {
@@ -32,7 +32,7 @@ module.exports = {
           allowNull: true
         },
         tooltipPlacement: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.ENUM(settings.hint.tooltipPlacement),
           allowNull: false
         },
         hintContent: {
@@ -87,7 +87,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       // Drop the guide_logs table

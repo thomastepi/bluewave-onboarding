@@ -18,7 +18,8 @@ const addOrUpdateBannerValidation = [
   body('url')
     .optional()
     .custom((value, { req }) => {
-      return !( !value && ['open url', 'open url in a new tab'].includes(req.body.closeButtonAction) );
+      const needsUrl = ['open url', 'open url in a new tab'].includes(req.body.closeButtonAction);
+      return !needsUrl || (needsUrl && value);
     })
     .withMessage('URL is required when close button action is set to open URL')
     .bail()

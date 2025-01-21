@@ -1,89 +1,61 @@
-'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Banner = sequelize.define(
+    'Banner',
+    {
+      closeButtonAction: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      repetitionType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'show only once',
+      },
+      position: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      fontColor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '#FFFFFF',
+      },
+      backgroundColor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '#FFFFFF',
+      },
+      bannerText: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '',
+      },
+      actionUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
 
-const settings = require('../config/settings');
-
-const TABLE_NAME = 'banners'; // Define the table name
-
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    const transaction = await queryInterface.sequelize.transaction();
-    try {
-      await queryInterface.createTable(
-        TABLE_NAME,
-        {
-          id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: Sequelize.INTEGER,
-          },
-          closeButtonAction: {
-            type: Sequelize.ENUM('no action', 'open url', 'open url in a new tab'),
-            allowNull: false,
-          },
-          repetitionType: {
-            type: Sequelize.ENUM('show only once', 'show every visit'),
-            allowNull: false,
-            defaultValue: 'show only once',
-          },
-          position: {
-            type: Sequelize.ENUM('top', 'bottom'),
-            allowNull: false,
-          },
-          url: {
-            type: Sequelize.STRING(255),
-            allowNull: true,
-          },
-          fontColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          backgroundColor: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '#FFFFFF',
-          },
-          bannerText: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-            defaultValue: '',
-          },
-          actionUrl: {
-            type: Sequelize.STRING(255),
-            allowNull: true,
-          },
-          createdBy: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-              model: 'users',
-              key: 'id',
-            },
-          },
+      createdBy: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
         },
-        { transaction }
-      );
-
-      // Commit the transaction
-      await transaction.commit();
-    } catch (error) {
-      // Rollback the transaction in case of an error
-      await transaction.rollback();
-      throw error;
+      },
+    },
+    {
+      tableName: 'banners',
+      timestamps: false,
     }
-  },
+  );
 
-  down: async (queryInterface, Sequelize) => {
-    const transaction = await queryInterface.sequelize.transaction();
-    try {
-      await queryInterface.dropTable(TABLE_NAME, { transaction });
-      // Commit the transaction
-      await transaction.commit();
-    } catch (error) {
-      // Rollback the transaction in case of an error
-      await transaction.rollback();
-      throw error;
-    }
-  },
+  Banner.associate = (models) => {
+    Banner.belongsTo(models.User, { foreignKey: 'createdBy', as: 'creator' });
+  };
+  return Banner;
 };

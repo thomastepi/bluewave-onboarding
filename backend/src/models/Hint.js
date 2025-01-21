@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [["no action", "open url", "open url in a new tab"]],
         },
       },
+      url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "",
+      },
       actionButtonUrl: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -36,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       hintContent: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1024),
         allowNull: false,
         defaultValue: "",
       },

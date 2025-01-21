@@ -1,12 +1,11 @@
 const db = require("../models");
 const Hint = db.Hint;
+const { Op } = require("sequelize");
 
 class HintService {
   async getAllHints() {
     try {
-      return await Hint.findAll({
-        include: [{ model: db.User, as: "creator" }],
-      });
+      return await Hint.findAll();
     } catch (error) {
       throw new Error("Error retrieving hints: " + error.message);
     }
@@ -18,7 +17,6 @@ class HintService {
         where: {
           createdBy: userId,
         },
-        include: [{ model: db.User, as: "creator" }],
       });
     } catch (error) {
       throw new Error("Error retrieving hints: " + error.message);
@@ -64,7 +62,6 @@ class HintService {
     try {
       return await Hint.findOne({
         where: { id: hintId },
-        include: [{ model: db.User, as: "creator" }],
       });
     } catch (error) {
       throw new Error("Error retrieving hint by ID: " + error.message);
@@ -77,6 +74,19 @@ class HintService {
       throw new Error("Error retrieving Hint by URL");
     }
   };
+
+  async getIncompleteHintsByUrl(url, ids) {
+      try {
+        return await Hint.findAll({
+          where: {
+            url,
+            id: { [Op.notIn]: ids }
+          }
+        });
+      } catch (error) {
+        throw new Error("Error retrieving hint by URL");
+      }
+    };
 }
 
 module.exports = new HintService();

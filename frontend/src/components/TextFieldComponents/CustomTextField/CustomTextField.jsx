@@ -8,6 +8,7 @@ import "./CustomTextFieldStyles.css";
 const CustomTextField = ({
   id = "",
   name = "",
+  className,
   checkCircleIconVisible = false,
   displayCheckCircleIcon = false,
   labelText = "",
@@ -37,21 +38,21 @@ const CustomTextField = ({
   const computedFullWidth = fullWidth ||
     ["full", "100%", "stretch"].some(value => TextFieldWidth.toLowerCase().includes(value));
   return (
-    <div style={{ ...style, ...(computedFullWidth && { width: '100%' }) }} >
-      {!checkCircleIconVisible && 
+    <div className={className} style={{ ...style, ...(computedFullWidth && { width: '100%' })}}>
+      {!checkCircleIconVisible &&
         <div>
           <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>{labelText}</InputLabel>
           {labelSubText && <InputLabel sx={{ fontWeight: '400', fontSize: '13px', margin: 0 }}>{labelSubText}</InputLabel>}
         </div>
       }
-      {checkCircleIconVisible && 
+      {checkCircleIconVisible &&
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           {displayCheckCircleIcon && <CheckCircleIcon style={{ color: 'green', fontSize: '20px' }} />}
           <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>{labelText}</InputLabel>
           {labelSubText && <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>{labelSubText}</InputLabel>}
         </div>
       }
-      
+
       <TextField
         id={id}
         type={type}
@@ -100,6 +101,7 @@ const CustomTextField = ({
 };
 
 CustomTextField.propTypes = {
+  className: PropTypes.string,
   labelText: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,

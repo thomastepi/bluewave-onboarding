@@ -12,7 +12,7 @@ import BannerLeftContent from "./BannerPageComponents/BannerLeftContent/BannerLe
 import BannerPreview from "./BannerPageComponents/BannerPreview/BannerPreview";
 import { useDialog } from "../../templates/GuideTemplate/GuideTemplateContext";
 
-const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
+const BannerPage = ({ autoOpen = false, isEdit, itemId, setItemsUpdated, setIsEdit }) => {
   const [backgroundColor, setBackgroundColor] = useState("#F9F5FF");
   const [fontColor, setFontColor] = useState("#344054");
   const [activeButton, setActiveButton] = useState(0);
@@ -21,18 +21,23 @@ const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
   const [url, setUrl] = useState("");
   const [actionUrl, setActionUrl] = useState("");
   const [buttonAction, setButtonAction] = useState("No action");
-  const { closeDialog } = useDialog();
+  const [buttonRepetition, setButtonRepetition] = useState('Show only once')
+  const { openDialog, closeDialog } = useDialog();
 
   const handleButtonClick = (index) => {
     setActiveButton(index);
   };
+
+
+  useEffect(() => {
+    if (autoOpen) openDialog();
+  }, [autoOpen, openDialog]);
 
   useEffect(() => {
     if (isEdit) {
       const fetchBannerData = async () => {
         try {
           const bannerData = await getBannerById(itemId);
-
           // Update the state with the fetched data
           setBackgroundColor(bannerData.backgroundColor || "#F9F5FF");
           setFontColor(bannerData.fontColor || "#344054");
@@ -40,9 +45,8 @@ const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
           setUrl(bannerData.url || "");
           setActionUrl(bannerData.actionUrl || "");
           setButtonAction(bannerData.closeButtonAction || "No action");
+          setButtonRepetition(bannerData.repetitionType || 'Show only once')
           setIsTopPosition(bannerData.position === "top");
-
-          console.log("Get banner successful:", bannerData);
         } catch (error) {
           emitToastError(error);
         }
@@ -60,6 +64,7 @@ const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
       actionUrl,
       position: isTopPosition ? "top" : "bottom",
       closeButtonAction: buttonAction.toLowerCase(),
+      repetitionType: buttonRepetition.toLowerCase(),
       bannerText,
     };
     try {
@@ -83,6 +88,7 @@ const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
       activeButton={activeButton}
       handleButtonClick={handleButtonClick}
       onSave={onSave}
+      setIsEdit={setIsEdit}
       rightContent={() => (
         <BannerPreview
           backgroundColor={backgroundColor}
@@ -100,6 +106,8 @@ const BannerPage = ({isEdit,  itemId,  setItemsUpdated}) => {
           setUrl={setUrl}
           setButtonAction={setButtonAction}
           buttonAction={buttonAction}
+          setButtonRepetition={setButtonRepetition}
+          buttonRepetition={buttonRepetition}
           actionUrl={actionUrl}
           setActionUrl={setActionUrl}
         />

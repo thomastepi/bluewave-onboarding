@@ -83,7 +83,7 @@ const RichTextEditor = ({
         setMode={setMode}
         sx={{
           position: "absolute",
-          top: "400px",
+          bottom: "35px",
           left: 0,
         }}
       />
@@ -98,6 +98,7 @@ RichTextEditor.propTypes = {
   setHeader: PropTypes.func,
   setContent: PropTypes.func,
   content: PropTypes.string,
+  resetState: PropTypes.func,
 };
 
 export default RichTextEditor;

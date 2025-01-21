@@ -6,6 +6,7 @@ import { React } from "react";
 import Button from "../../components/Button/Button";
 import styles from "./GuideTemplate.module.scss";
 import { useDialog } from "./GuideTemplateContext";
+import { useLocation, useNavigate } from "react-router";
 
 const GuideTemplate = ({
   title = "",
@@ -15,15 +16,26 @@ const GuideTemplate = ({
   rightContent = () => null,
   leftAppearance = () => null,
   onSave = () => null,
+  setIsEdit = () => null,
 }) => {
   const { isOpen, closeDialog } = useDialog();
+  const location = useLocation();
+  const navigate = useNavigate();
   const buttons = ["Content", "Appearance"];
+
+  const onCloseHandler = () => {
+    if (location.state?.autoOpen) navigate("/", { state: {} });
+
+    closeDialog();
+    setIsEdit(false);
+  };
 
   return (
     <Dialog
+      closeAfterTransition={isOpen}
       open={isOpen}
       onClose={closeDialog}
-      maxWidth='lg'
+      maxWidth="lg"
       PaperProps={{ style: { position: "static" } }}
     >
       <div className={styles.container}>
@@ -36,7 +48,7 @@ const GuideTemplate = ({
                 fontSize: "20px",
                 cursor: "pointer",
               }}
-              onClick={closeDialog}
+              onClick={onCloseHandler}
             />
           </div>
           <div className={styles.content}>
@@ -60,13 +72,11 @@ const GuideTemplate = ({
             </div>
             <div className={styles.optionButtons}>
               <Button
-                text='Cancel'
-                buttonType='secondary-grey'
-                onClick={() => {
-                  closeDialog();
-                }}
+                text="Cancel"
+                buttonType="secondary-grey"
+                onClick={onCloseHandler}
               />
-              <Button text='Save' onClick={onSave} />
+              <Button text="Save" onClick={onSave} />
             </div>
           </div>
         </div>
@@ -83,6 +93,7 @@ GuideTemplate.propTypes = {
   rightContent: PropTypes.func,
   leftAppearance: PropTypes.func,
   onSave: PropTypes.func,
+  setIsEdit: PropTypes.func,
 };
 
 export default GuideTemplate;

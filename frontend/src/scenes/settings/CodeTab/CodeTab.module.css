@@ -1,6 +1,6 @@
 .block{
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
     align-items: center;
 }
 
@@ -12,6 +12,7 @@
 
 h2{
     margin-bottom: 0;
+    margin-top: 15px;
 }
 h2,
 p{

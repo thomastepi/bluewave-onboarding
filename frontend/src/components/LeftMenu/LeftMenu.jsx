@@ -14,29 +14,30 @@ import {
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import './LeftMenu.css';
 import Logo from '../Logo/Logo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserProfileSidebar from '../UserProfileSidebar/UserProfileSidebar';
 
 
 const menuItems = [
-  { text: 'Home', icon: <HomeIcon />, route: '/' },
+  { text: 'Home', icon: <HomeIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/' },
   // { text: 'SERVE A CONTENT', title: true },
   // { text: 'Tours', icon: <DirectionsBusIcon />, route: '/tour' },
-  { text: 'Hints', icon: <TipsIcon />, route: '/hint' },
+  { text: 'Hints', icon: <TipsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/hint' },
   // { text: 'Checklist', icon: <ChecklistIcon /> },
   // { text: 'MAKE AN ANNOUNCEMENT', title: true },
-  { text: 'Popups', icon: <SmsIcon />, route: '/popup' },
-  { text: 'Banners', icon: <SportsIcon />, route: '/banner' },
-  { text: 'Helper Links', icon: <LinkIcon />, route: '/link' },
+  { text: 'Popups', icon: <SmsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/popup' },
+  { text: 'Banners', icon: <SportsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/banner' },
+  { text: 'Helper Links', icon: <LinkIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/link' },
   // { text: 'GET FEEDBACK', title: true },
   // { text: 'Feedback', icon: <ChatIcon /> },
   // { text: 'Surveys', icon: <ListIcon /> },
-  { text: 'Support', icon: <SportsIcon />, route: 'https://github.com/bluewave-labs/bluewave-onboarding' },
-  { text: 'Settings', icon: <SettingsOutlinedIcon />, route:'/settings' }
+  { text: 'Support', icon: <SportsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: 'https://github.com/bluewave-labs/bluewave-onboarding' },
+  { text: 'Settings', icon: <SettingsOutlinedIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/settings' }
 ];
 
 function LeftMenu() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavigation = (route) => {
     if (route && route.startsWith('/')) {
@@ -58,9 +59,14 @@ function LeftMenu() {
               <ListItemButton
                 key={index}
                 className="menu-item"
+                sx={{
+                  backgroundColor: location.pathname === item.route ? "var(--gray-200)" : "transparent"
+                }}
                 onClick={() => handleNavigation(item.route)}
               >
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon sx={{ color: 'var(--menu-icon-color)' }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
             )

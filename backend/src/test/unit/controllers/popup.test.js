@@ -46,7 +46,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for popupSize or closeButtonAction" }],
+        errors: [{ msg: "Invalid value for popupSize or closeButtonAction or repetitionType" }],
       });
     });
     it("should return 400 if closeButtonAction is invalid", async () => {
@@ -56,7 +56,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for popupSize or closeButtonAction" }],
+        errors: [{ msg: "Invalid value for popupSize or closeButtonAction or repetitionType" }],
       });
     });
     it("should return 400 if headerBackgroundColor is invalid", async () => {
@@ -349,7 +349,6 @@ describe("Test popup controller", () => {
       await popupController.editPopup(req, res);
       const status = res.status.getCall(0).args[0];
       const body = res.json.getCall(0).args[0];
-      console.log(body)
       expect(status).to.be.equal(500);
       expect(body).to.be.deep.equal({
         error: "Internal Server Error",

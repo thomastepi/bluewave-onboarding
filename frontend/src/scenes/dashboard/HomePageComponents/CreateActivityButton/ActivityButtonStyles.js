@@ -1,36 +1,23 @@
- 
-  // Define color constants
-  const iconColor = '#667085';
-  const hoverColor = 'orange';
-  const textColor = '#344054';
-  const borderColor = '#FFD8C7';
-  const buttonBackgroundColor = '#FFFAFA';
-  
-  export const activityButtonStyles = {
-    
-    button: {
-      backgroundColor: buttonBackgroundColor,
-      color: textColor,
-      border: '1px solid ' + borderColor,
-      fontSize: '16px',
-      fontWeight: 400,
-      lineHeight: '24px',
-      textTransform: 'none',
-      padding: '1.3rem 3rem',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      width: 'fit-content',
-      boxShadow: 'none',
-      borderRadius: '10px',
-      gap: '1rem',
-      width: '100%',
-    ':hover': {
-        backgroundColor: hoverColor
-        },
+export const activityButtonStyles = {
+  display: "flex",
+  fontWeight: 400,
+  aspectRatio: 1.75 / 1,
+  backgroundColor: "var(--gray-50)",
+  width: "100%",
+  border: "1px solid var(--grey-border)",
+  borderRadius: "var(--radius-button)",
+  color: "var(--gray-400)",
+  padding: "1.5% 3%",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "box-shadow 0.3s ease",
+  textTransform: "none",
+  "&:hover": {
+    border: "1px solid var(--gray-250)",
+    backgroundColor: "var(--gray-100)",
+    ".childSkeleton": {
+      border: "1px solid var(--blue-300)",
     },
-    icon: { 
-        color: iconColor, 
-        fontSize: '2rem' }
-  };
-  
+  },
+};

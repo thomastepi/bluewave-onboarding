@@ -3,16 +3,16 @@ module.exports = (sequelize, DataTypes) => {
     'Banner',
     {
       closeButtonAction: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(31),
         allowNull: false,
       },
       repetitionType: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(31),
         allowNull: false,
         defaultValue: 'show only once',
       },
       position: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(31),
         allowNull: false,
       },
       url: {
@@ -20,17 +20,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       fontColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
       },
       backgroundColor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#FFFFFF',
       },
       bannerText: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(511),
         allowNull: false,
         defaultValue: '',
       },

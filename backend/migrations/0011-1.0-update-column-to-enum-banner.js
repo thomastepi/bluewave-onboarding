@@ -53,26 +53,32 @@ module.exports = {
         if (allBanners.length > 0) {
           await Promise.all(
             allBanners.map(async (val) => {
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET closeButtonAction = '${val.closeButtonAction}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET closeButtonAction = :action WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  action: val.closeButtonAction,
+                  id: val.id,
+                },
+              });
 
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET repetitionType = '${val.repetitionType}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET repetitionType = :repetition WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  repetition: val.repetitionType,
+                  id: val.id,
+                },
+              });
 
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET position = '${val.position}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET position = :position WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  position: val.position,
+                  id: val.id,
+                },
+              });
             })
           );
         }
@@ -133,26 +139,32 @@ module.exports = {
         if (allBanners.length > 0) {
           await Promise.all(
             allBanners.map(async (val) => {
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET closeButtonAction = '${val.closeButtonAction}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET closeButtonAction = :action WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  action: val.closeButtonAction,
+                  id: val.id,
+                },
+              });
 
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET repetitionType = '${val.repetitionType}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET repetitionType = :repetition WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  repetition: val.repetitionType,
+                  id: val.id,
+                },
+              });
 
-              await queryInterface.sequelize.query(
-                `UPDATE ${TABLE_NAME} SET position = '${val.position}' WHERE id = ${val.id}`,
-                {
-                  transaction,
-                }
-              );
+              await queryInterface.sequelize.query('UPDATE :table SET position = :position WHERE id = :id', {
+                transaction,
+                replacements: {
+                  table: TABLE_NAME,
+                  position: val.position,
+                  id: val.id,
+                },
+              });
             })
           );
         }

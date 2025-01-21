@@ -30,7 +30,7 @@ module.exports = {
             },
           },
           type: {
-            type: Sequelize.ENUM(settings.token.type),
+            type: Sequelize.ENUM('auth', 'reset'),
             allowNull: false,
           },
           expiresAt: {

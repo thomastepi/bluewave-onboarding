@@ -16,7 +16,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         action: {
-          type: Sequelize.ENUM(settings.hint.action),
+          type: Sequelize.ENUM('no action', 'open url', 'open url in a new tab'),
           allowNull: false,
         },
         actionButtonUrl: {
@@ -32,7 +32,7 @@ module.exports = {
           allowNull: true
         },
         tooltipPlacement: {
-          type: Sequelize.ENUM(settings.hint.tooltipPlacement),
+          type: Sequelize.ENUM('top', 'right', 'bottom', 'left'),
           allowNull: false
         },
         hintContent: {

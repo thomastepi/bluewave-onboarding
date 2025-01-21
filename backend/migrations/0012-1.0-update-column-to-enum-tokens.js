@@ -9,14 +9,13 @@ module.exports = {
       const [allTokens] = await queryInterface.sequelize.query(`SELECT * FROM ${TABLE_NAME}`, { transaction });
       await queryInterface.removeColumn(TABLE_NAME, 'type', { transaction });
 
-      // Add the new column with ENUM type
       await queryInterface.addColumn(
         TABLE_NAME,
         'type',
         {
-          type: Sequelize.ENUM('auth', 'reset'), // Update with your desired enum values
-          allowNull: false, // Change as needed
-          defaultValue: 'auth', // Set a default value if necessary
+          type: Sequelize.ENUM('auth', 'reset'),
+          allowNull: false,
+          defaultValue: 'auth',
         },
         { transaction }
       );
@@ -40,7 +39,6 @@ module.exports = {
 
       await queryInterface.removeColumn(TABLE_NAME, 'type', { transaction });
 
-      // Add the column back as a STRING
       await queryInterface.addColumn(
         TABLE_NAME,
         'type',

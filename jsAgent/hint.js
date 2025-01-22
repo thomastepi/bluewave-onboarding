@@ -55,6 +55,7 @@ bw.hint = {
         const viewportWidth = window.innerWidth;
 
         let tooltipPosition = tooltip.pos; //'top';
+        let arrowPosition = 'bottom';
         if(tooltipPosition == 'top'){ arrowPosition = 'bottom'}
         if(tooltipPosition == 'bottom'){ arrowPosition = 'top'}
         if(tooltipPosition == 'left'){ arrowPosition = 'right'}
@@ -77,17 +78,21 @@ bw.hint = {
         }
         
         if (tooltipPosition === 'top') {
-            tooltip.style.top = '-87px';
-            tooltip.style.left = '-27px';
+            tooltip.style.left = `${containerRect.left + window.scrollX + containerRect.width / 2}px`;
+            tooltip.style.top = `${containerRect.top + window.scrollY - tooltip.offsetHeight - 5}px`;
+            tooltip.style.transform = 'translateX(-50%)';
         } else if (tooltipPosition === 'bottom') {
-            tooltip.style.top = '38px';
-            tooltip.style.left = '-27px';
+            tooltip.style.left = `${containerRect.left + window.scrollX + containerRect.width / 2}px`;
+            tooltip.style.top = `${containerRect.bottom + window.scrollY + 5}px`;
+            tooltip.style.transform = 'translateX(-50%)';
         } else if (tooltipPosition === 'left') {
-            tooltip.style.top = '-24px';
-            tooltip.style.left = '-172px';
+            tooltip.style.left = `${containerRect.left + window.scrollX - tooltip.offsetWidth - 5}px`;
+            tooltip.style.top = `${containerRect.top + window.scrollY + containerRect.height / 2}px`;
+            tooltip.style.transform = 'translateY(-50%)';
         } else if (tooltipPosition === 'right') {
-            tooltip.style.top = '-24px';
-            tooltip.style.left = '118px';
+            tooltip.style.left = `${containerRect.right + window.scrollX + 5}px`;
+            tooltip.style.top = `${containerRect.top + window.scrollY + containerRect.height / 2}px`;
+            tooltip.style.transform = 'translateY(-50%)';
         }
 
         if(arrowPosition === 'bottom') {
@@ -125,7 +130,7 @@ bw.hint = {
             height: 250px;
             position: absolute;
             background-color: white;    
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: rgba(0, 0, 0, 0.1) 1px 4px 13px;
             display: flex;
             flex-direction: column;
             color: ${item.textColor};
@@ -139,34 +144,38 @@ bw.hint = {
         const tooltipArrow = document.createElement('div');
         tooltipArrow.style.content = '""';
         tooltipArrow.classList.add('bw-tooltip-arrow');
-        tooltipArrow.style.position = 'absolute';
-        tooltipArrow.style.borderWidth = '5px';
-        tooltipArrow.style.borderStyle = 'solid';
-        tooltipArrow.style.width = '0';
-        tooltipArrow.style.height = '0';
+        tooltipArrow.style.cssText= `
+            content: "";
+            position: absolute;
+            border-width: 5px;
+            border-style: solid;
+            width: 0px;
+            height: 0px;
+            margin-left: -5px;
+            border-color: rgb(85, 85, 85) transparent transparent;`;
 
         return tooltipArrow;
     },
     generateHeader: function (item) {
         const header = document.createElement('div');
-        header.style.cssText = `background-color: ${item.headerBackgroundColor}; color: ${item.headerColor};`;
+        header.style.cssText = `background-color: ${item.headerBackgroundColor} !important; color: ${item.headerColor} !important;`;
         header.innerHTML = `
-            <h3 style="font-size: 20px; font-weight: 600; line-height: 30px; text-align: left; padding: 0 32px; margin-bottom: 8px; margin-top: 24px;font-family: "Inter", sans-serif;">${item.header}</h3>
+            <h3 style="font-size: 20px !important; font-weight: 600 !important; line-height: 30px !important; text-align: left !important; padding: 0 32px !important; margin-bottom: 8px !important; margin-top: 24px !important; font-family: "Inter", sans-serif !important;">${item.header}</h3>
         `;
         return header;
     },
     generateContentContainer: function (item) {
         const contentContainer = document.createElement('div');
         contentContainer.style.cssText = `
-            color: ${item.textColor};   
-            justify-content: space-between;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            min-height: 170px;
-            padding: 0 32px;
-            font-size: 13px;
-            word-wrap: break-word;
+            color: ${item.textColor} !important;   
+            justify-content: space-between !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+            min-height: 170px !important;
+            padding: 0 32px !important;
+            font-size: 13px !important;
+            word-wrap: break-word !important;
         `;
 
         return contentContainer
@@ -174,7 +183,7 @@ bw.hint = {
     generateContent : function (item) {
         const content = document.createElement('div');
         content.style.cssText = `
-            font-family: "Inter", sans-serif;
+            font-family: "Inter", sans-serif !important;
         `;
         content.innerHTML = item.hintContent;
         return content;
@@ -184,31 +193,31 @@ bw.hint = {
 
         const buttonContainer = document.createElement('div');
         buttonContainer.style.cssText = `
-                margin-top: 8px;
-                display: flex;
-                justify-content: flex-end;
+                margin-top: 8px !important;
+                display: flex !important;
+                justify-content: flex-end !important;
         `;
         const button = document.createElement('button');
         button.textContent = item.actionButtonText;
         button.style.cssText = `
-            background-color: ${item.buttonBackgroundColor};
-            color: ${item.buttonTextColor};
-            border: none;
-            border-radius: 8px;
-            min-width: 64px;
-            padding: 6px 16px;
-            font-family: Inter;
-            font-size: 13px;
-            cursor: pointer;
-            float: right;
-            display: inline-flex;
-            -webkit-box-align: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            position: relative;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            vertical-align: middle;
+            background-color: ${item.buttonBackgroundColor} !important;
+            color: ${item.buttonTextColor} !important;
+            border: none !important;
+            border-radius: 8px !important;
+            min-width: 64px !important;
+            padding: 6px 16px !important;
+            font-family: Inter !important;
+            font-size: 13px !important;
+            cursor: pointer !important;
+            float: right !important;
+            display: inline-flex !important;
+            -webkit-box-align: center !important;
+            align-items: center !important;
+            -webkit-box-pack: center !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+            -webkit-tap-highlight-color: transparent !important;
+            vertical-align: middle !important;
         `;
 
         button.addEventListener('click', () => {
@@ -224,7 +233,7 @@ bw.hint = {
         });
 
         button.addEventListener('mouseenter', function(e) {
-            e.target.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
+            e.target.style.boxShadow = '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important'
         });
 
         button.addEventListener('mouseleave', function(e) {
@@ -256,7 +265,7 @@ bw.hint = {
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                z-index: 1001; 
+                z-index: 1001;  
                 animation: pulse 1.5s infinite;
             }`;
             const rect = element.getBoundingClientRect();

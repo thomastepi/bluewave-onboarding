@@ -117,14 +117,22 @@ bw.links={
             });
             item.addEventListener("click", async (e)=>{
                 e.preventDefault();
-                const itemId = e.target.getAttribute('bw-data-id');
-                console.log('itemId', itemId);
-                await bw.data.sendData(bw.GuideType.LINK, bw.user.getUserID(), true, itemId);
-                const target_url = e.target.getAttribute('href');
-                window.open(target_url, "_blank");
-            })
+                await bw.links.action(e);
+            });
+            item.addEventListener('auxclick',async function(e) {
+                e.preventDefault();
+                if (e.button == 1) {
+                    await bw.links.action(e);
+                }
+              })
         });
         
+    },
+    action : async function(e){
+        const itemId = e.target.getAttribute('bw-data-id');
+        await bw.data.sendData(bw.GuideType.LINK, bw.user.getUserID(), true, itemId);
+        const target_url = e.target.getAttribute('href');
+        window.open(target_url, "_blank");
     },
     toggle: function(){
         const element = document.getElementById('bw-links');

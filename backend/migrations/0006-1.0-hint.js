@@ -6,75 +6,78 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(TABLE_NAME, {
-        id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.INTEGER
+      await queryInterface.createTable(
+        TABLE_NAME,
+        {
+          id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER,
+          },
+          action: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          actionButtonUrl: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          actionButtonText: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          targetElement: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          tooltipPlacement: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          hintContent: {
+            type: Sequelize.STRING(2047),
+            allowNull: false,
+          },
+          header: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          headerBackgroundColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          headerColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          textColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          buttonBackgroundColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          buttonTextColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          createdBy: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+          },
+          url: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
         },
-        action: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        actionButtonUrl: {
-          type: Sequelize.STRING(255),
-          allowNull: true
-        },
-        actionButtonText: {
-          type: Sequelize.STRING(255),
-          allowNull: true
-        },
-        targetElement: {
-          type: Sequelize.STRING(255),
-          allowNull: true
-        },
-        tooltipPlacement: {
-          type: Sequelize.STRING(255),
-          allowNull: false
-        },
-        hintContent: {
-          type: Sequelize.STRING(2047),
-          allowNull: false
-        },
-        header :{
-          type: Sequelize.STRING(255),
-          allowNull: false
-        },
-        headerBackgroundColor :{
-          type: Sequelize.STRING(15),
-          allowNull: false
-        },
-        headerColor :{
-          type: Sequelize.STRING(15),
-          allowNull: false
-        },
-        textColor :{
-          type: Sequelize.STRING(15),
-          allowNull: false
-        },
-        buttonBackgroundColor :{
-          type: Sequelize.STRING(15),
-          allowNull: false
-        },
-        buttonTextColor :{
-          type: Sequelize.STRING(15),
-          allowNull: false
-        },
-        createdBy: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'users',
-            key: 'id'
-          }
-        },
-        url: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
-        },
-
-      }, { transaction });
+        { transaction }
+      );
 
       const [allHints] = await queryInterface.sequelize.query(`SELECT * FROM ${TABLE_NAME}`, { transaction });
       await queryInterface.removeColumn(TABLE_NAME, 'action', { transaction });
@@ -104,30 +107,13 @@ module.exports = {
       );
 
       if (allHints.length > 0) {
-        await Promise.all(
-          allHints.map(async (val) => {
-            await queryInterface.sequelize.query('UPDATE :table SET action = :action WHERE id = :id', {
-              replacements: {
-                table: TABLE_NAME,
-                action: val.action,
-                id: val.id,
-              },
-              transaction,
-            });
+        const updates = allHints.map((val) => ({
+          id: val.id,
+          action: val.action,
+          tooltipPlacement: val.tooltipPlacement,
+        }));
 
-            await queryInterface.sequelize.query(
-              'UPDATE :table SET tooltipPlacement = :tooltipPlacement WHERE id = :id',
-              {
-                replacements: {
-                  table: TABLE_NAME,
-                  tooltipPlacement: val.tooltipPlacement,
-                  id: val.id,
-                },
-                transaction,
-              }
-            );
-          })
-        );
+        await queryInterface.bulkUpdate(TABLE_NAME, updates, null, { transaction });
       }
 
       // Commit the transaction
@@ -152,5 +138,5 @@ module.exports = {
       await transaction.rollback();
       throw error;
     }
-  }
+  },
 };

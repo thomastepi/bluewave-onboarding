@@ -125,39 +125,14 @@ module.exports = {
       );
 
       if (allPopups.length > 0) {
-        await Promise.all(
-          allPopups.map(async (val) => {
-            await queryInterface.sequelize.query(
-              'UPDATE :table SET closeButtonAction = :closeButtonAction WHERE id = :id',
-              {
-                replacements: {
-                  table: TABLE_NAME,
-                  closeButtonAction: val.closeButtonAction,
-                  id: val.id,
-                },
-                transaction,
-              }
-            );
+        const updates = allPopups.map((val) => ({
+          id: val.id,
+          closeButtonAction: val.closeButtonAction,
+          popupSize: val.popupSize,
+          repetitionType: val.repetitionType,
+        }));
 
-            await queryInterface.sequelize.query('UPDATE :table SET popupSize = :popupSize WHERE id = :id', {
-              replacements: {
-                table: TABLE_NAME,
-                popupSize: val.popupSize,
-                id: val.id,
-              },
-              transaction,
-            });
-
-            await queryInterface.sequelize.query('UPDATE :table SET repetitionType = :repetitionType WHERE id = :id', {
-              replacements: {
-                table: TABLE_NAME,
-                repetitionType: val.repetitionType,
-                id: val.id,
-              },
-              transaction,
-            });
-          })
-        );
+        await queryInterface.bulkUpdate(TABLE_NAME, updates, null, { transaction });
       }
 
       // Commit the transaction

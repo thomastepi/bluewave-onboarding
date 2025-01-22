@@ -13,7 +13,7 @@ bw.banner = {
         bw.banner.putHtml();
         bw.banner.bindClick();
     },
-    putHtml: function () {
+    putHtml:async function () {
         const bannersData = window.bwonboarddata.banner;
         let bannerHtml = '';
         for (let i = 0; i < bannersData.length; i++) {
@@ -28,18 +28,16 @@ bw.banner = {
             bannerHtml += temp_html;
         }
         document.body.insertAdjacentHTML('afterbegin', bannerHtml);
-        
-
     },
     bindClick: function () {
         let closeBtns = document.getElementsByClassName('bw-banner-close-icon');
         for (let i = 0; i < closeBtns.length; i++) {
             const element = closeBtns[i];
-            element.addEventListener('click', function (e) {
+            element.addEventListener('click',async function (e) {
                 const clickedElement = document.getElementById("bw-banner-" + i);
                 clickedElement.style.display = 'none';
                 const dataId = clickedElement.getAttribute('data-id');
-                bw.data.sendData(bw.GuideType.BANNER, bw.user.getUserID(), true, dataId);
+                await bw.data.sendData(bw.GuideType.BANNER, bw.user.getUserID(), true, dataId);
             });
         }
     },

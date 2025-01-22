@@ -21,7 +21,7 @@ const global_content_html=`
                         </clipPath>
                     </defs>
                 </svg>
-                <a href="{{link}}" target="_blank" style="color:{{linkFontColor}} !important; text-decoration: none !important; font-family: Inter !important; font-size: 13px !important; font-weight: 400 !important;">{{title}}</a>
+                <a href="{{link}}" target="_blank" bw-data-id={{id}} style="color:{{linkFontColor}} !important; text-decoration: none !important; font-family: Inter !important; font-size: 13px !important; font-weight: 400 !important;">{{title}}</a>
             </li>
         `;
 
@@ -85,8 +85,11 @@ bw.links={
             const link = links[i];
             let content_link = global_content_html.replace(new RegExp('{{link}}', 'g'), link.url );
             content_link = content_link.replace(new RegExp('{{title}}', 'g'), link.title );
+            content_link = content_link.replace(new RegExp('{{id}}', 'g'), link.id );
             content_link = content_link.replace(new RegExp('{{linkFontColor}}', 'g'), linkFontColor );
             content_link = content_link.replace(new RegExp('{{strokeColor}}', 'g'), strokeColor );
+            
+            
             
             li_html+=content_link;
         }
@@ -112,6 +115,14 @@ bw.links={
             item.addEventListener("mouseout", function(e){
                 e.target.style.textDecoration = 'none';
             });
+            item.addEventListener("click", async (e)=>{
+                e.preventDefault();
+                const itemId = e.target.getAttribute('bw-data-id');
+                console.log('itemId', itemId);
+                await bw.data.sendData(bw.GuideType.LINK, bw.user.getUserID(), true, itemId);
+                const target_url = e.target.getAttribute('href');
+                window.open(target_url, "_blank");
+            })
         });
         
     },

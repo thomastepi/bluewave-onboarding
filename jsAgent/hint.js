@@ -190,7 +190,7 @@ bw.hint = {
     },
     generateButton: function (item) {
         const btnEvent = item.action;
-
+        
         const buttonContainer = document.createElement('div');
         buttonContainer.style.cssText = `
                 margin-top: 8px !important;
@@ -199,6 +199,7 @@ bw.hint = {
         `;
         const button = document.createElement('button');
         button.textContent = item.actionButtonText;
+        button.setAttribute("bw-data-id", item.id);
         button.style.cssText = `
             background-color: ${item.buttonBackgroundColor} !important;
             color: ${item.buttonTextColor} !important;
@@ -220,14 +221,18 @@ bw.hint = {
             vertical-align: middle !important;
         `;
 
-        button.addEventListener('click', () => {
+        button.addEventListener('click',async (e) => {
+            e.preventDefault();
+            const itemId = e.target.getAttribute('bw-data-id');
             if(btnEvent == 'no action'){
-                
+                //do nothing
             }
             else if(btnEvent == 'open url'){
+                await bw.data.sendData(bw.GuideType.HINT, bw.user.getUserID(), true, itemId);
                 location.href = item.actionButtonUrl;
             }
             else if(btnEvent == 'open url in a new tab'){
+                await bw.data.sendData(bw.GuideType.HINT, bw.user.getUserID(), true, itemId);
                 window.open(item.actionButtonUrl, '_blank');
             }
         });

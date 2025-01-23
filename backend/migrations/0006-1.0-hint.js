@@ -35,6 +35,11 @@ module.exports = {
             type: Sequelize.STRING(255),
             allowNull: false,
           },
+          isHintIconVisible: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true,
+            allowNull: true,
+          },
           hintContent: {
             type: Sequelize.STRING(2047),
             allowNull: false,

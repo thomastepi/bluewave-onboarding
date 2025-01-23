@@ -78,7 +78,7 @@ const HintPage = ({
           setAction(hintData.action || 'No action');
           setTargetElement(hintData.targetElement || '.element');
           setTooltipPlacement(hintData.tooltipPlacement || 'Top');
-          setHintIconVisible(hintData.isHintIconVisible || true)
+          setHintIconVisible(hintData.isHintIconVisible ?? true);
         } catch (error) {
           emitToastError(error);
         }

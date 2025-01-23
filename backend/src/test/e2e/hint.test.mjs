@@ -100,7 +100,7 @@ describe('E2e tests hint', () => {
         .send(hint().missingRepetitionType().build());
       expect(res).to.have.status(400);
       expect(res.body).to.be.deep.equal({
-        errors: ['Invalid value', 'repetitionType is required', 'Invalid value for repetitionType'],
+        errors: ['Invalid value', 'RepetitionType is required', 'Invalid value for repetitionType'],
       });
     });
     it('should return 400 if repetitionType is invalid', async () => {
@@ -109,7 +109,7 @@ describe('E2e tests hint', () => {
         .post('/api/hint/add_hint')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          ...hint().invalidRepetitionType.build(),
+          ...hint().invalidRepetitionType().build(),
         });
       expect(res).to.have.status(400);
       expect(res.body).to.be.deep.equal({

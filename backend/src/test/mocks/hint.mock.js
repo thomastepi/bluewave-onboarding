@@ -7,6 +7,7 @@ class HintBuilder {
       actionButtonText: "text",
       targetElement: ".element",
       tooltipPlacement: "top",
+      isHintIconVisible: true,
       hintContent: "content",
       header: "header",
       url: "/url",

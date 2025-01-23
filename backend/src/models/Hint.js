@@ -17,6 +17,13 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [settings.hint.action],
         },
       },
+      repetitionType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isIn: [['show only once', 'show every visit']]
+        },
+      },
       url: {
         type: DataTypes.STRING,
         allowNull: true,

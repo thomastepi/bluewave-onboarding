@@ -20,6 +20,14 @@ const hintValidator = [
   createColorValidator('textColor'),
   createColorValidator('buttonBackgroundColor'),
   createColorValidator('buttonTextColor'),
+  body('repetitionType')
+    .isString()
+    .notEmpty()
+    .withMessage('RepetitionType is required')
+    .custom((value) => {
+      return settings.hint.repetition.includes(value);
+    })
+    .withMessage('Invalid value for repetitionType'),
   body('url')
     .optional()
     .isString()

@@ -85,7 +85,7 @@ const HintLeftContent = ({
             className="hint-label"
             style={{ marginBottom: '0.2rem', marginTop: '1.2rem' }}
           >
-            Repitition
+            Repetition
           </h2>
           <DropdownList
             actions={['Show only once', 'Show every visit']}
@@ -203,7 +203,7 @@ const HintLeftContent = ({
   );
 };
 
-HintLeftContent.prototype = {
+HintLeftContent.proptype = {
   buttonRepetition: PropTypes.string,
   setButtonRepetition: PropTypes.func,
   actionButtonText: PropTypes.string,

@@ -502,6 +502,7 @@ describe('E2e tests hint', () => {
           'url',
           'targetElement',
           'tooltipPlacement',
+          'isHintIconVisible'
         ]);
       });
     });

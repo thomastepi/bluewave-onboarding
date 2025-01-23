@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
           isIn: [settings.hint.tooltipPlacement],
         },
       },
+      isHintIconVisible: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       hintContent: {
         type: DataTypes.STRING(2047),
         allowNull: false,

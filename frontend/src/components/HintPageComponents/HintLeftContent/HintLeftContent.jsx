@@ -4,6 +4,7 @@ import { newHintSchema } from '../../../utils/hintHelper';
 import DropdownList from '../../DropdownList/DropdownList';
 import CustomTextField from '../../TextFieldComponents/CustomTextField/CustomTextField';
 import './HintLeftContent.css';
+import Switch from '../../Switch/Switch';
 
 const HintLeftContent = ({
   actionButtonText,
@@ -18,6 +19,8 @@ const HintLeftContent = ({
   setTooltipPlacement,
   setUrl,
   url,
+  isHintIconVisible,
+  enableHintIcon,
   onSave,
 }) => {
   const handleActionButtonText = (event) => {
@@ -39,6 +42,10 @@ const HintLeftContent = ({
 
   const handleTooltipPlacement = (newAction) => {
     setTooltipPlacement(newAction);
+  };
+
+  const handleHintIcon = (event) => {
+    enableHintIcon(event.target.checked);
   };
 
   return (
@@ -178,6 +185,21 @@ const HintLeftContent = ({
             }}
             selectedActionString={values.tooltipPlacement}
           />
+
+          <div className="switch-style">
+            <Switch
+              id="switch"
+              name="target"
+              onChange={(e) => {
+                handleHintIcon(e);
+                handleChange(e);
+              }}
+              value={isHintIconVisible}
+            />
+            <span style={{ fontSize: 'var(--font-regular)' }}>
+              Enable hint icon
+            </span>
+          </div>
         </Form>
       )}
     </Formik>

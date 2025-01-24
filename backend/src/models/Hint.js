@@ -13,16 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       action: {
         type: DataTypes.ENUM(settings.hint.action),
         allowNull: false,
-        validate: {
-          isIn: [settings.hint.action],
-        },
       },
       repetitionType: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(settings.hint.repetition),
         allowNull: false,
-        validate: {
-          isIn: [['show only once', 'show every visit']]
-        },
       },
       url: {
         type: DataTypes.STRING,
@@ -44,9 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       tooltipPlacement: {
         type: DataTypes.ENUM(settings.hint.tooltipPlacement),
         allowNull: false,
-        validate: {
-          isIn: [settings.hint.tooltipPlacement],
-        },
       },
       isHintIconVisible: {
         type: DataTypes.BOOLEAN,

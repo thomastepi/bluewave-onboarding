@@ -122,7 +122,7 @@ module.exports = {
         TABLE_NAME,
         'repetitionType',
         {
-          type: Sequelize.ENUM('show only once', 'show every time'),
+          type: Sequelize.ENUM('show only once', 'show every visit'),
           allowNull: false,
           defaultValue: 'show only once',
         },

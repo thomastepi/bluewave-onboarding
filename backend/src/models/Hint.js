@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       repetitionType: {
-        type: DataTypes.ENUM(settings.hint.repetitionType),
+        type: DataTypes.ENUM(settings.hint.repetition),
         allowNull: false,
       },
       url: {

@@ -92,6 +92,30 @@ describe('E2e tests hint', () => {
         errors: ['Invalid value for action'],
       });
     });
+    it('should return 400 if repetitionType is missing', async () => {
+      const res = await chai.request
+        .execute(app)
+        .post('/api/hint/add_hint')
+        .set('Authorization', `Bearer ${token}`)
+        .send(hint().missingRepetitionType().build());
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.deep.equal({
+        errors: ['Invalid value', 'RepetitionType is required', 'Invalid value for repetitionType'],
+      });
+    });
+    it('should return 400 if repetitionType is invalid', async () => {
+      const res = await chai.request
+        .execute(app)
+        .post('/api/hint/add_hint')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          ...hint().invalidRepetitionType().build(),
+        });
+      expect(res).to.have.status(400);
+      expect(res.body).to.be.deep.equal({
+        errors: ['Invalid value for repetitionType']
+      });
+    });
     it('should return 400 if headerBackgroundColor is invalid', async () => {
       const res = await chai.request
         .execute(app)
@@ -464,6 +488,7 @@ describe('E2e tests hint', () => {
         expect(it).to.have.all.keys([
           'id',
           'action',
+          'repetitionType',
           'hintContent',
           'actionButtonText',
           'actionButtonUrl',
@@ -477,6 +502,7 @@ describe('E2e tests hint', () => {
           'url',
           'targetElement',
           'tooltipPlacement',
+          'isHintIconVisible'
         ]);
       });
     });

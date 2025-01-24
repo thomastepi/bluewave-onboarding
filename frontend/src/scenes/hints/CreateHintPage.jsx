@@ -44,6 +44,8 @@ const HintPage = ({
   const [content, setContent] = useState('');
   const markdownContent = new Turndown().turndown(content);
 
+  const [buttonRepetition, setButtonRepetition] = useState('show only once');
+
   const [url, setUrl] = useState('https://');
   const [actionButtonUrl, setActionButtonUrl] = useState('https://');
   const [actionButtonText, setActionButtonText] = useState(
@@ -52,6 +54,7 @@ const HintPage = ({
   const [action, setAction] = useState('No action');
   const [targetElement, setTargetElement] = useState('.element');
   const [tooltipPlacement, setTooltipPlacement] = useState('Top');
+  const [isHintIconVisible, setHintIconVisible] = useState(true);
 
   useEffect(() => {
     if (autoOpen) openDialog();
@@ -62,6 +65,7 @@ const HintPage = ({
       const fetchHintData = async () => {
         try {
           const hintData = await getHintById(itemId);
+
           setAppearance({
             headerBackgroundColor: hintData.headerBackgroundColor || '#F8F9F8',
             headerColor: hintData.headerColor || '#101828',
@@ -69,6 +73,7 @@ const HintPage = ({
             buttonBackgroundColor: hintData.buttonBackgroundColor || '#7F56D9',
             buttonTextColor: hintData.buttonTextColor || '#FFFFFF',
           });
+          setButtonRepetition(hintData.repetitionType || 'Show only once')
           setHeader(hintData.header || '');
           setContent(hintData.hintContent || '');
           setActionButtonUrl(hintData.actionButtonUrl || 'https://');
@@ -77,6 +82,7 @@ const HintPage = ({
           setAction(hintData.action || 'No action');
           setTargetElement(hintData.targetElement || '.element');
           setTooltipPlacement(hintData.tooltipPlacement || 'Top');
+          setHintIconVisible(hintData.isHintIconVisible ?? true);
         } catch (error) {
           emitToastError(error);
         }
@@ -87,6 +93,7 @@ const HintPage = ({
 
   const onSave = async () => {
     const hintData = {
+      repetitionType: buttonRepetition.toLowerCase(),
       tooltipPlacement: tooltipPlacement.toLowerCase(),
       url,
       actionButtonUrl,
@@ -100,7 +107,9 @@ const HintPage = ({
       textColor,
       buttonBackgroundColor,
       buttonTextColor,
+      isHintIconVisible
     };
+
     try {
       const response = isEdit
         ? await editHint(itemId, hintData)
@@ -160,6 +169,8 @@ const HintPage = ({
       )}
       leftContent={() => (
         <HintLeftContent
+          buttonRepetition={buttonRepetition}
+          setButtonRepetition={setButtonRepetition}
           actionButtonText={actionButtonText}
           setActionButtonText={setActionButtonText}
           actionButtonUrl={actionButtonUrl}
@@ -172,6 +183,8 @@ const HintPage = ({
           setTargetElement={setTargetElement}
           tooltipPlacement={tooltipPlacement}
           setTooltipPlacement={setTooltipPlacement}
+          isHintIconVisible={isHintIconVisible}
+          enableHintIcon={setHintIconVisible}
           onSave={onSave}
         />
       )}

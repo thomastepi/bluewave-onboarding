@@ -1,8 +1,7 @@
 const { body, param } = require('express-validator');
 const { isValidHexColor } = require('./guide.helper');
 const { validateUrl } = require('./link.helper');
-
-const validActions = ['no action', 'open url', 'open url in a new tab'];
+const settings = require('../../config/settings');
 
 const createColorValidator = (fieldName) =>
   body(fieldName).optional().isString().custom(isValidHexColor).withMessage(`Invalid value for ${fieldName}`);
@@ -13,7 +12,7 @@ const hintValidator = [
     .notEmpty()
     .withMessage('action is required')
     .custom((value) => {
-      return validActions.includes(value);
+      return settings.hint.action.includes(value);
     })
     .withMessage('Invalid value for action'),
   createColorValidator('headerBackgroundColor'),
@@ -21,6 +20,14 @@ const hintValidator = [
   createColorValidator('textColor'),
   createColorValidator('buttonBackgroundColor'),
   createColorValidator('buttonTextColor'),
+  body('repetitionType')
+    .isString()
+    .notEmpty()
+    .withMessage('RepetitionType is required')
+    .custom((value) => {
+      return settings.hint.repetition.includes(value);
+    })
+    .withMessage('Invalid value for repetitionType'),
   body('url')
     .optional()
     .isString()
@@ -39,7 +46,7 @@ const hintValidator = [
     .notEmpty()
     .withMessage('tooltipPlacement is required')
     .isString()
-    .isIn(['top', 'right', 'bottom', 'left'])
+    .isIn(settings.hint.tooltipPlacement)
     .withMessage('Invalid value for tooltipPlacement'),
   body('hintContent').optional().isString().withMessage('Invalid value for hintContent'),
   body('header').optional().isString().withMessage('Invalid value for header'),

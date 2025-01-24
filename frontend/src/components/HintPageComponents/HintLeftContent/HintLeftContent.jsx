@@ -1,11 +1,15 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { newHintSchema } from '../../../utils/hintHelper';
 import DropdownList from '../../DropdownList/DropdownList';
 import CustomTextField from '../../TextFieldComponents/CustomTextField/CustomTextField';
 import './HintLeftContent.css';
+import Switch from '../../Switch/Switch';
 
 const HintLeftContent = ({
+  buttonRepetition,
+  setButtonRepetition,
   actionButtonText,
   setActionButtonText,
   actionButtonUrl,
@@ -18,8 +22,15 @@ const HintLeftContent = ({
   setTooltipPlacement,
   setUrl,
   url,
+  isHintIconVisible,
+  enableHintIcon,
   onSave,
 }) => {
+
+  const handleRepetitionChange = (newRepetitionType) => {
+    setButtonRepetition(newRepetitionType);
+  };
+
   const handleActionButtonText = (event) => {
     setActionButtonText(event.target.value);
   };
@@ -39,6 +50,10 @@ const HintLeftContent = ({
 
   const handleTooltipPlacement = (newAction) => {
     setTooltipPlacement(newAction);
+  };
+
+  const handleHintIcon = (event) => {
+    enableHintIcon(event.target.checked);
   };
 
   return (
@@ -75,7 +90,18 @@ const HintLeftContent = ({
         <Form className="left-content-container">
           <h2
             className="hint-label"
-            style={{ marginBottom: 0, marginTop: '16px' }}
+            style={{ marginBottom: '0.2rem', marginTop: '1.2rem' }}
+          >
+            Repetition
+          </h2>
+          <DropdownList
+            actions={['Show only once', 'Show every visit']}
+            onActionChange={handleRepetitionChange}
+            selectedActionString={buttonRepetition}
+          />
+          <h2
+            className="hint-label"
+            style={{ marginBottom: 0, marginTop: '1rem' }}
           >
             Url (can be relative)
           </h2>
@@ -178,10 +204,43 @@ const HintLeftContent = ({
             }}
             selectedActionString={values.tooltipPlacement}
           />
+
+          <div className="switch-style">
+            <Switch
+              id="switch"
+              name="target"
+              onChange={(e) => {
+                handleHintIcon(e);
+                handleChange(e);
+              }}
+              value={isHintIconVisible}
+            />
+            <span style={{ fontSize: 'var(--font-regular)' }}>
+              Enable hint icon
+            </span>
+          </div>
         </Form>
       )}
     </Formik>
   );
 };
+
+HintLeftContent.proptype = {
+  buttonRepetition: PropTypes.string,
+  setButtonRepetition: PropTypes.func,
+  actionButtonText: PropTypes.string,
+  setActionButtonText: PropTypes.func,
+  actionButtonUrl: PropTypes.string,
+  setActionButtonUrl: PropTypes.func,  
+  action: PropTypes.string,
+  setAction: PropTypes.func,
+  targetElement: PropTypes.string,
+  setTargetElement: PropTypes.func,
+  tooltipPlacement: PropTypes.string,
+  setTooltipPlacement: PropTypes.func,
+  url: PropTypes.string,
+  setUrl: PropTypes.func, 
+  onSave: PropTypes.func,
+}
 
 export default HintLeftContent;

@@ -45,6 +45,7 @@ module.exports = {
     action: ['no action', 'open url', 'open url in a new tab'],
     repetition: ['show only once', 'show every visit'],
     tooltipPlacement: ['top', 'right', 'bottom', 'left'],
+    repetitionType: ['show only once', 'show every visit'],
   },
   popup: {
     action: ['no action', 'open url', 'open url in a new tab'],

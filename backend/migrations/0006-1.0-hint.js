@@ -3,6 +3,11 @@
 const TABLE_NAME = 'hints'; // Define the table name
 
 module.exports = {
+  /**
+   *
+   * @param {import('sequelize').QueryInterface} queryInterface
+   * @param {import('sequelize').Sequelize} Sequelize
+   */
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
@@ -89,10 +94,7 @@ module.exports = {
         { transaction }
       );
 
-      const [allHints] = await queryInterface.sequelize.query(`SELECT * FROM ${TABLE_NAME}`, { transaction });
-      await queryInterface.removeColumn(TABLE_NAME, 'action', { transaction });
-
-      await queryInterface.addColumn(
+      await queryInterface.changeColumn(
         TABLE_NAME,
         'action',
         {
@@ -103,9 +105,7 @@ module.exports = {
         { transaction }
       );
 
-      await queryInterface.removeColumn(TABLE_NAME, 'tooltipPlacement', { transaction });
-
-      await queryInterface.addColumn(
+      await queryInterface.changeColumn(
         TABLE_NAME,
         'tooltipPlacement',
         {
@@ -116,9 +116,7 @@ module.exports = {
         { transaction }
       );
 
-      await queryInterface.removeColumn(TABLE_NAME, 'repetitionType', { transaction });
-
-      await queryInterface.addColumn(
+      await queryInterface.changeColumn(
         TABLE_NAME,
         'repetitionType',
         {
@@ -128,17 +126,6 @@ module.exports = {
         },
         { transaction }
       );
-
-      if (allHints.length > 0) {
-        const updates = allHints.map((val) => ({
-          id: val.id,
-          action: val.action,
-          tooltipPlacement: val.tooltipPlacement,
-          repetitionType: val.repetitionType,
-        }));
-
-        await queryInterface.bulkUpdate(TABLE_NAME, updates, null, { transaction });
-      }
 
       // Commit the transaction
       await transaction.commit();

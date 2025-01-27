@@ -1,74 +1,135 @@
-import DropdownList from "@components/DropdownList/DropdownList";
-import CustomTextField from "@components/TextFieldComponents/CustomTextField/CustomTextField";
-import PropTypes from "prop-types";
-import { React } from "react";
-import styles from "./PopupContent.module.scss";
+import { React } from 'react';
+import { Form, Formik } from 'formik';
+import PropTypes from 'prop-types';
+import styles from './PopupContent.module.scss';
+import DropdownList from '@components/DropdownList/DropdownList';
+import CustomTextField from '@components/TextFieldComponents/CustomTextField/CustomTextField';
+import { popupContentSchema } from '../../../../utils/popupHelper';
 
 const PopupContent = ({
-  actionButtonText,
-  setActionButtonText,
-  setActionButtonUrl,
-  buttonAction,
-  actionButtonUrl,
-  setButtonAction,
   buttonRepetition,
   setButtonRepetition,
+  action,
+  setButtonAction,
   url,
   setUrl,
+  actionButtonUrl,
+  setActionButtonUrl,
+  actionButtonText,
+  setActionButtonText,
+  onSave,
 }) => {
-  const handleActionButtonText = (event) => {
-    setActionButtonText(event.target.value);
-  };
-
-  const handleActionButtonUrl = (event) => {
-    setActionButtonUrl(event.target.value);
-  };
-
-  const handleActionChange = (newAction) => {
-    setButtonAction(newAction);
-  };
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value);
-  };
-
-  const handleRepetitionChange = (newRepetitionType) => {
-    setButtonRepetition(newRepetitionType);
-  };
-
   return (
-    <div className={styles.container}>
-      <h2 style={{marginTop: '1.5rem'}}>Repetition</h2>
-      <DropdownList
-        actions={['Show only once', 'Show every visit']}
-        onActionChange={handleRepetitionChange}
-        selectedActionString={buttonRepetition}
-      />
-      <h2>Action</h2>
-      <DropdownList
-        actions={["No action", "Open URL", "Open URL in a new tab"]}
-        onActionChange={handleActionChange}
-        selectedActionString={buttonAction}
-      />
-      <h2 style={{ marginBottom: 0 }}>URL</h2>
-      <CustomTextField
-        TextFieldWidth='241px'
-        value={url}
-        onChange={handleUrlChange}
-      />
-      <h2 style={{ marginBottom: 0 }}>Action button URL (can be relative)</h2>
-      <CustomTextField
-        TextFieldWidth='241px'
-        value={actionButtonUrl}
-        onChange={handleActionButtonUrl}
-      />
-      <h2 style={{ marginBottom: 0 }}>Action button text</h2>
-      <CustomTextField
-        TextFieldWidth='241px'
-        value={actionButtonText}
-        onChange={handleActionButtonText}
-      />
-    </div>
+    <Formik
+      initialValues={{
+        buttonRepetition,
+        action,
+        url,
+        actionButtonUrl,
+        actionButtonText,
+      }}
+      validateOnMount={false}
+      enableReinitialize={true}
+      validationSchema={popupContentSchema}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          onSave();
+        } catch (error) {
+          return;
+        } finally {
+          setSubmitting(false);
+        }
+      }}
+    >
+      {({
+        errors,
+        touched,
+        handleBlur,
+        handleChange,
+        values,
+        validateField,
+        setFieldValue,
+      }) => (
+        <Form className={styles.container}>
+          <h2 style={{ marginTop: '1.5rem' }}>Repetition</h2>
+          <DropdownList
+            actions={['Show only once', 'Show every visit']}
+            onActionChange={(newRepetitionType) => {
+              setButtonRepetition(newRepetitionType);
+              setFieldValue('buttonRepetition', newRepetitionType);
+            }}
+            selectedActionString={values.buttonRepetition}
+          />
+
+          <h2>Action</h2>
+          <DropdownList
+            actions={['No action', 'Open URL', 'Open URL in a new tab']}
+            onActionChange={(newAction) => {
+              setButtonAction(newAction);
+              setFieldValue('action', newAction);
+            }}
+            selectedActionString={values.action}
+          />
+
+          <h2 style={{ marginBottom: 0 }}>URL</h2>
+          <CustomTextField
+            TextFieldWidth="241px"
+            name="url"
+            value={values.url}
+            error={!!touched.url && !!errors.url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+              handleChange(e);
+            }}
+            onBlur={(e) => {
+              handleBlur(e);
+              validateField('url');
+            }}
+          />
+          {touched.url && errors.url && (
+            <small className="error-message">{errors.url}</small>
+          )}
+
+          <h2 style={{ marginBottom: 0 }}>
+            Action button URL (can be relative)
+          </h2>
+          <CustomTextField
+            TextFieldWidth="241px"
+            name="actionButtonUrl"
+            value={values.actionButtonUrl}
+            error={!!touched.actionButtonUrl && !!errors.actionButtonUrl}
+            onChange={(e) => {
+              setActionButtonUrl(e.target.value);
+              handleChange(e);
+            }}
+            onBlur={(e) => {
+              handleBlur(e);
+              validateField('actionButtonUrl');
+            }}
+          />
+          {touched.actionButtonUrl && errors.actionButtonUrl && (
+            <small className="error-message">{errors.actionButtonUrl}</small>
+          )}
+
+          <h2 style={{ marginBottom: 0 }}>Action button text</h2>
+          <CustomTextField
+            TextFieldWidth="241px"
+            value={values.actionButtonText}
+            name="actionButtonText"
+            error={errors.actionButtonText}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              setFieldValue('actionButtonText', newValue);
+              setActionButtonText(newValue);
+            }}
+            onBlur={(e) => {
+              handleBlur(e);
+              validateField('actionButtonText');
+            }}
+          />
+        </Form>
+      )}
+    </Formik>
   );
 };
 
@@ -84,4 +145,5 @@ PopupContent.propTypes = {
   setUrl: PropTypes.func,
   buttonRepetition: PropTypes.string,
   setButtonRepetition: PropTypes.func,
+  onSave: PropTypes.func.isRequired,
 };

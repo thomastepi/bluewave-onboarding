@@ -183,11 +183,12 @@ const CreatePopupPage = ({
       setActionButtonUrl={setActionButtonUrl}
       actionButtonText={actionButtonText}
       setButtonAction={setButtonAction}
-      buttonAction={buttonAction}
+      action={buttonAction}
       setButtonRepetition={setButtonRepetition}
       buttonRepetition={buttonRepetition}
       url={url}
       setUrl={setUrl}
+      onSave={onSave}
     />
   );
 
@@ -196,6 +197,7 @@ const CreatePopupPage = ({
       data={stateList}
       setPopupSize={setPopupSize}
       popupSize={popupSize}
+      onSave={onSave}
     />
   );
 

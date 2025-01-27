@@ -43,7 +43,7 @@ bw.hint = {
                     e.target.style.visibility = 'hidden';
                 }, 1500);
             });
-            bw.hint.bindSelector(item.targetElement, tooltip);
+            bw.hint.bindSelector(item, tooltip);
 
         }   
     },
@@ -248,48 +248,52 @@ bw.hint = {
         buttonContainer.appendChild(button);
         return buttonContainer;
     },
-    bindSelector: function (selector, tooltip) {
+    bindSelector: function (item, tooltip) {
+        const selector= item.targetElement;
         const elements = document.querySelectorAll(selector);
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
+            debugger;
+            if(item.isHintIconVisible){
+                const tooltipCue = document.createElement('div');
+                tooltipCue.className = 'tooltip-cue';
+                tooltipCue.textContent = '?';
+                tooltipCue.style.cssText = `
+                    position: absolute;
+                    top: -8px;
+                    right: -8px;
+                    background-color: #2078ca;
+                    color: #fff;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    z-index: 1001;  
+                    animation: pulse 1.5s infinite;
+                }`;
+                const rect = element.getBoundingClientRect();
+                tooltipCue.style.left = `${rect.right + window.scrollX - 8}px`; // Adjust position
+                tooltipCue.style.top = `${rect.top + window.scrollY - 8}px`; // Adjust position
 
-            // const tooltipCue = document.createElement('div');
-            // tooltipCue.className = 'tooltip-cue';
-            // tooltipCue.textContent = '?';
-            // tooltipCue.style.cssText = `
-            //     position: absolute;
-            //     top: -8px;
-            //     right: -8px;
-            //     background-color: #2078ca;
-            //     color: #fff;
-            //     width: 16px;
-            //     height: 16px;
-            //     border-radius: 50%;
-            //     font-size: 12px;
-            //     display: flex;
-            //     align-items: center;
-            //     justify-content: center;
-            //     cursor: pointer;
-            //     z-index: 1001;  
-            //     animation: pulse 1.5s infinite;
-            // }`;
-            // const rect = element.getBoundingClientRect();
-            // tooltipCue.style.left = `${rect.right + window.scrollX - 8}px`; // Adjust position
-            // tooltipCue.style.top = `${rect.top + window.scrollY - 8}px`; // Adjust position
+                tooltipCue.animate(
+                    [
+                        { transform: 'scale(1)', opacity: 1 },
+                        { transform: 'scale(1.2)', opacity: 0.7 },
+                        { transform: 'scale(1)', opacity: 1 }
+                    ],
+                    {
+                        duration: 1500, // 1.5 seconds
+                        iterations: Infinity // Loop forever
+                    }
+                );
 
-            // tooltipCue.animate(
-            //     [
-            //         { transform: 'scale(1)', opacity: 1 },
-            //         { transform: 'scale(1.2)', opacity: 0.7 },
-            //         { transform: 'scale(1)', opacity: 1 }
-            //     ],
-            //     {
-            //         duration: 1500, // 1.5 seconds
-            //         iterations: Infinity // Loop forever
-            //     }
-            // );
-
-            // document.body.appendChild(tooltipCue);
+                document.body.appendChild(tooltipCue);
+            }
+            
 
             element.addEventListener('mouseenter', function (e) {
 

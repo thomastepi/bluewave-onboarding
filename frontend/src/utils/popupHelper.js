@@ -13,26 +13,19 @@ const validateUrl = (url) => {
 };
 
 export const popupContentSchema = Yup.object().shape({
-  buttonRepetition: Yup.string().test(
-    'is-valid-repetition',
-    'Invalid value for repetition',
-    (value) =>
-      value
-        ? ['show only once', 'show every visit'].some(
-            (validValue) => validValue.toLowerCase() === value.toLowerCase()
-          )
-        : true
-  ),
-  action: Yup.string().test(
-    'is-valid-action',
-    'Invalid value for action',
-    (value) =>
-      value
-        ? ['no action', 'open url', 'open url in a new tab'].some(
-            (validValue) => validValue.toLowerCase() === value.toLowerCase()
-          )
-        : true
-  ),
+  buttonRepetition: Yup.string()
+    .oneOf(
+      ['show only once', 'show every visit'],
+      'Invalid value for repetition'
+    )
+    .required('Button repetition is required'),
+  action: Yup.string()
+    .oneOf(
+      ['no action', 'open url', 'open url in a new tab'],
+      'Invalid value for action'
+    )
+    .required('Action is required'),
+
   url: Yup.string()
     .test('is-valid-url', 'Invalid value for URL', validateUrl)
     .max(2000, 'URL must be at most 2000 characters'),
@@ -44,18 +37,25 @@ export const popupContentSchema = Yup.object().shape({
 
 export const apperanceSchema = Yup.object().shape({
   headerBackgroundColor: Yup.string()
-    .optional()
-    .matches(COLOR_REGEX, 'Invalid value for headerBackgroundColor'),
+    .required('Header background color is required')
+    .matches(COLOR_REGEX, 'Invalid value for header background color'),
+
   headerColor: Yup.string()
-    .optional()
-    .matches(COLOR_REGEX, 'Invalid value for headerColor'),
+    .required('Header color is required')
+    .matches(COLOR_REGEX, 'Invalid value for header color'),
+
   textColor: Yup.string()
-    .optional()
-    .matches(COLOR_REGEX, 'Invalid value for textColor'),
+    .required('Text color is required')
+    .matches(COLOR_REGEX, 'Invalid value for text color'),
+
   buttonBackgroundColor: Yup.string()
-    .optional()
-    .matches(COLOR_REGEX, 'Invalid value for buttonBackgroundColor'),
+    .required('Button background color is required')
+    .matches(COLOR_REGEX, 'Invalid value for button background color'),
+
   buttonTextColor: Yup.string()
-    .optional()
-    .matches(COLOR_REGEX, 'Invalid value for buttonTextColor'),
+    .required('Button text color is required')
+    .matches(COLOR_REGEX, 'Invalid value for button text color'),
+  popupSize: Yup.string()
+    .oneOf(['small', 'medium', 'large'], 'Invalid value for popup size')
+    .required('Popup size is required'),
 });

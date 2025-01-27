@@ -55,8 +55,9 @@ const PopupContent = ({
           <DropdownList
             actions={['Show only once', 'Show every visit']}
             onActionChange={(newRepetitionType) => {
-              setButtonRepetition(newRepetitionType);
-              setFieldValue('buttonRepetition', newRepetitionType);
+              const normalizedValue = newRepetitionType.toLowerCase();
+              setButtonRepetition(normalizedValue);
+              setFieldValue('buttonRepetition', normalizedValue);
             }}
             selectedActionString={values.buttonRepetition}
           />
@@ -65,8 +66,9 @@ const PopupContent = ({
           <DropdownList
             actions={['No action', 'Open URL', 'Open URL in a new tab']}
             onActionChange={(newAction) => {
-              setButtonAction(newAction);
-              setFieldValue('action', newAction);
+              const normalizedValue = newAction.toLowerCase();
+              setButtonAction(normalizedValue);
+              setFieldValue('action', normalizedValue);
             }}
             selectedActionString={values.action}
           />
@@ -76,7 +78,7 @@ const PopupContent = ({
             TextFieldWidth="241px"
             name="url"
             value={values.url}
-            error={!!touched.url && !!errors.url}
+            error={Boolean(touched.url && errors.url)}
             onChange={(e) => {
               setUrl(e.target.value);
               handleChange(e);
@@ -86,7 +88,7 @@ const PopupContent = ({
               validateField('url');
             }}
           />
-          {touched.url && errors.url && (
+          {Boolean(touched.url && errors.url) && (
             <small className="error-message">{errors.url}</small>
           )}
 
@@ -97,7 +99,7 @@ const PopupContent = ({
             TextFieldWidth="241px"
             name="actionButtonUrl"
             value={values.actionButtonUrl}
-            error={!!touched.actionButtonUrl && !!errors.actionButtonUrl}
+            error={Boolean(touched.actionButtonUrl && errors.actionButtonUrl)}
             onChange={(e) => {
               setActionButtonUrl(e.target.value);
               handleChange(e);
@@ -107,7 +109,7 @@ const PopupContent = ({
               validateField('actionButtonUrl');
             }}
           />
-          {touched.actionButtonUrl && errors.actionButtonUrl && (
+          {Boolean(touched.actionButtonUrl && errors.actionButtonUrl) && (
             <small className="error-message">{errors.actionButtonUrl}</small>
           )}
 

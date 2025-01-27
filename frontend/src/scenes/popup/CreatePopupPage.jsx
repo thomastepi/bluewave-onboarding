@@ -93,19 +93,22 @@ const CreatePopupPage = ({
 
   const stateList = [
     {
-      stateName: "Header Background Color",
+      name: "headerBackgroundColor",
+      label: "Header Background Color",
       state: headerBackgroundColor,
       setState: setHeaderBackgroundColor,
     },
-    { stateName: "Header Color", state: headerColor, setState: setHeaderColor },
-    { stateName: "Text Color", state: textColor, setState: setTextColor },
+    { name: "headerColor", label: "Header Color", state: headerColor, setState: setHeaderColor },
+    { name: "textColor", label: "Text Color", state: textColor, setState: setTextColor },
     {
-      stateName: "Button Background Color",
+      name: "buttonBackgroundColor",
+      label: "Button Background Color",
       state: buttonBackgroundColor,
       setState: setButtonBackgroundColor,
     },
     {
-      stateName: "Button Text Color",
+      name: "buttonTextColor",
+      label: "Button Text Color",
       state: buttonTextColor,
       setState: setButtonTextColor,
     },
@@ -113,7 +116,8 @@ const CreatePopupPage = ({
 
   const onSave = async () => {
     const popupData = {
-      popupSize: popupSize.toLowerCase(),
+      repetitionType: buttonRepetition.toLowerCase(),
+      closeButtonAction: buttonAction.toLowerCase(),
       url,
       actionUrl: actionButtonUrl,
       actionButtonText,
@@ -122,8 +126,7 @@ const CreatePopupPage = ({
       textColor,
       buttonBackgroundColor,
       buttonTextColor,
-      closeButtonAction: buttonAction.toLowerCase(),
-      repetitionType: buttonRepetition.toLowerCase(),
+      popupSize: popupSize.toLowerCase(),
       header,
       content,
     };

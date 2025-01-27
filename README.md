@@ -16,6 +16,8 @@ Guidefox helps app owners build knowledge and user-experience oriented apps. It 
 - Helper links
 - Hints
 
+[Click here for a demo](https://guidefox-demo.bluewavelabs.ca/)
+
 The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 
 ![guidefox](https://github.com/user-attachments/assets/46d912c9-339a-4044-979b-338557f28949)

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GoogleIconSvg from '../../../assets/google-icon.svg';
+import GoogleIconSvg from '../../../assets/icons/google-icon.svg';
 import './GoogleSignInButton.css'; 
 
 const GoogleSignInButton = ({ text='Sign in with Google', onClick = () => {}}) => {

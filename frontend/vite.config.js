@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import { BASE_URL } from './src/utils/constants';
 
 export default defineConfig({
   base: '/',
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: 4173
+    port: 4173,
+    allowedHosts: [BASE_URL]
   },
   css: {
     preprocessorOptions: {

@@ -253,7 +253,7 @@ bw.hint = {
         const elements = document.querySelectorAll(selector);
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
-            debugger;
+            
             if(item.isHintIconVisible){
                 const tooltipCue = document.createElement('div');
                 tooltipCue.className = 'tooltip-cue';

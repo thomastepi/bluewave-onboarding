@@ -49,13 +49,14 @@ class GuideController {
             const popupIds = completePopupLogs.map(log => log.guideId);
             const bannerIds = completeBannerLogs.map(log => log.guideId);
             const hintIds = completeHintLogs.map(log => log.guideId);
-            const helperLinkIds = completeHelperLogs.map(log => log.guideId);
+            //const helperLinkIds = completeHelperLogs.map(log => log.guideId);
 
             const [popup, banner, hint, helperLink] = await Promise.all([
                 popupService.getIncompletePopupsByUrl(url, popupIds),
                 bannerService.getIncompleteBannersByUrl(url, bannerIds),
                 hintService.getIncompleteHintsByUrl(url, hintIds),
-                helperLinkService.getAllHelpersWithLinks(),
+                //helperLinkService.getIncompleteHelpers(helperLinkIds),
+                helperLinkService.getAllHelpersWithLinks()
             ]);
             res.status(200).json({popup, banner, hint, helperLink });
 

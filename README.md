@@ -16,7 +16,7 @@ Guidefox helps app owners build knowledge and user-experience oriented apps. It 
 - Helper links
 - Hints
 
-[Click here for a demo](https://guidefox-demo.bluewavelabs.ca/)
+To see a demo, [click here](https://guidefox-demo.bluewavelabs.ca/). If you have any questions, you can use the [Guidefox forum](https://github.com/bluewave-labs/guidefox/discussions).
 
 The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 

@@ -6,85 +6,134 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(TABLE_NAME, {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-          allowNull: false,
-        },
-        closeButtonAction: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          validate: {
-            isIn: [["no-action", "open-url", "close-popup", "open-url-new-tab"]],
+      await queryInterface.createTable(
+        TABLE_NAME,
+        {
+          id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false,
+          },
+          closeButtonAction: {
+            type: Sequelize.STRING(31),
+            allowNull: false,
+          },
+          popupSize: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+          },
+          url: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          actionButtonText: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          headerBackgroundColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#FFFFFF',
+          },
+          headerColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#FFFFFF',
+          },
+          textColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#FFFFFF',
+          },
+          buttonBackgroundColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#FFFFFF',
+          },
+          buttonTextColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#FFFFFF',
+          },
+          header: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          content: {
+            type: Sequelize.STRING(2047),
+            allowNull: false,
+          },
+          actionUrl: {
+            type: Sequelize.STRING(255),
+            allowNull: true,
+          },
+          createdBy: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+          },
+          repetitionType: {
+            type: Sequelize.STRING(31),
+            allowNull: false,
           },
         },
-        popupSize: {
-          type: Sequelize.STRING(255),
+        { transaction }
+      );
+
+      const [allPopups] = await queryInterface.sequelize.query(`SELECT * FROM ${TABLE_NAME}`, { transaction });
+      await queryInterface.removeColumn(TABLE_NAME, 'closeButtonAction', { transaction });
+
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'closeButtonAction',
+        {
+          type: Sequelize.ENUM('no action', 'open url', 'open url in a new tab'),
           allowNull: false,
-          validate: {
-            isIn: [["small", "medium", "large"]],
-          },
+          defaultValue: 'no action',
         },
-        url: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
-        },
-        actionButtonText: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
-        },
-        headerBackgroundColor: {
-          type: Sequelize.STRING(255),
+        { transaction }
+      );
+
+      await queryInterface.removeColumn(TABLE_NAME, 'popupSize', { transaction });
+
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'popupSize',
+        {
+          type: Sequelize.ENUM('small', 'medium', 'large'),
           allowNull: false,
-          defaultValue: "#FFFFFF",
+          defaultValue: 'small',
         },
-        headerColor: {
-          type: Sequelize.STRING(255),
+        { transaction }
+      );
+
+      await queryInterface.removeColumn(TABLE_NAME, 'repetitionType', { transaction });
+
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'repetitionType',
+        {
+          type: Sequelize.ENUM('show only once', 'show every visit'),
           allowNull: false,
-          defaultValue: "#FFFFFF",
+          defaultValue: 'show only once',
         },
-        textColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        buttonBackgroundColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        buttonTextColor: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: "#FFFFFF",
-        },
-        header: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        content: {
-          type: Sequelize.STRING(1024),
-          allowNull: false,
-        },
-        actionUrl: {
-          type: Sequelize.STRING(255),
-          allowNull: true,
-        },
-        createdBy: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'users',
-            key: 'id'
-          }
-        },
-        repetitionType: {
-          type: Sequelize.STRING(255),
-          allowNull: false
-        },
-      }, { transaction });
+        { transaction }
+      );
+
+      if (allPopups.length > 0) {
+        const updates = allPopups.map((val) => ({
+          id: val.id,
+          closeButtonAction: val.closeButtonAction,
+          popupSize: val.popupSize,
+          repetitionType: val.repetitionType,
+        }));
+
+        await queryInterface.bulkUpdate(TABLE_NAME, updates, null, { transaction });
+      }
 
       // Commit the transaction
       await transaction.commit();
@@ -108,5 +157,5 @@ module.exports = {
       await transaction.rollback();
       throw error;
     }
-  }
+  },
 };

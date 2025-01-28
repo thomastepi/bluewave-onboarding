@@ -107,7 +107,7 @@ bw.data = {
             headers: myHeaders,
             body: JSON.stringify({
                 userId,
-                url: location.origin,
+                url: location.href,
             }),
             redirect: "follow",
         };

@@ -44,24 +44,54 @@ const HintPage = ({
   const [content, setContent] = useState('');
   const markdownContent = new Turndown().turndown(content);
 
-  const [url, setUrl] = useState('https://');
-  const [actionButtonUrl, setActionButtonUrl] = useState('https://');
-  const [actionButtonText, setActionButtonText] = useState(
-    'Take me to subscription page'
-  );
-  const [action, setAction] = useState('No action');
-  const [targetElement, setTargetElement] = useState('.element');
-  const [tooltipPlacement, setTooltipPlacement] = useState('Top');
+  // const [buttonRepetition, setButtonRepetition] = useState('show only once');
+
+  // const [url, setUrl] = useState('https://');
+  // const [actionButtonUrl, setActionButtonUrl] = useState('https://');
+  // const [actionButtonText, setActionButtonText] = useState(
+  //   'Take me to subscription page'
+  // );
+  // const [action, setAction] = useState('No action');
+  // const [targetElement, setTargetElement] = useState('.element');
+  // const [tooltipPlacement, setTooltipPlacement] = useState('Top');
+  // const [isHintIconVisible, setIsHintIconVisible] = useState(true);
+
+  const [leftContent, setLeftContent] = useState({
+    buttonRepetition: 'show only once',
+    url: 'https://',
+    actionButtonUrl: 'https://',
+    actionButtonText: 'Take me to subscription page',
+    action: 'No action',
+    targetElement: '.element',
+    tooltipPlacement: 'Top',
+    isHintIconVisible: true,
+  });
+
+  const {
+    buttonRepetition,
+    url,
+    actionButtonUrl,
+    actionButtonText,
+    action,
+    targetElement,
+    tooltipPlacement,
+    isHintIconVisible,
+  } = leftContent;
 
   useEffect(() => {
     if (autoOpen) openDialog();
   }, [autoOpen, openDialog]);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
 
   useEffect(() => {
     if (isEdit) {
       const fetchHintData = async () => {
         try {
           const hintData = await getHintById(itemId);
+
           setAppearance({
             headerBackgroundColor: hintData.headerBackgroundColor || '#F8F9F8',
             headerColor: hintData.headerColor || '#101828',
@@ -69,14 +99,19 @@ const HintPage = ({
             buttonBackgroundColor: hintData.buttonBackgroundColor || '#7F56D9',
             buttonTextColor: hintData.buttonTextColor || '#FFFFFF',
           });
+          setLeftContent({
+            buttonRepetition: hintData.repetitionType || 'show only once',
+            url: hintData.url || 'https://',
+            actionButtonUrl: hintData.actionButtonUrl || 'https://',
+            actionButtonText:
+              hintData.actionButtonText || 'Take me to subscription page',
+            action: capitalizeFirstLetter(hintData.action) || 'No action',
+            targetElement: hintData.targetElement || '.element',
+            tooltipPlacement: capitalizeFirstLetter(hintData.tooltipPlacement) || 'Top',
+            isHintIconVisible: hintData.isHintIconVisible ?? true,
+          });
           setHeader(hintData.header || '');
           setContent(hintData.hintContent || '');
-          setActionButtonUrl(hintData.actionButtonUrl || 'https://');
-          setUrl(hintData.url || 'https://');
-          setActionButtonText(hintData.actionButtonText || '');
-          setAction(hintData.action || 'No action');
-          setTargetElement(hintData.targetElement || '.element');
-          setTooltipPlacement(hintData.tooltipPlacement || 'Top');
         } catch (error) {
           emitToastError(error);
         }
@@ -87,6 +122,7 @@ const HintPage = ({
 
   const onSave = async () => {
     const hintData = {
+      repetitionType: buttonRepetition.toLowerCase(),
       tooltipPlacement: tooltipPlacement.toLowerCase(),
       url,
       actionButtonUrl,
@@ -100,7 +136,9 @@ const HintPage = ({
       textColor,
       buttonBackgroundColor,
       buttonTextColor,
+      isHintIconVisible,
     };
+
     try {
       const response = isEdit
         ? await editHint(itemId, hintData)
@@ -160,18 +198,8 @@ const HintPage = ({
       )}
       leftContent={() => (
         <HintLeftContent
-          actionButtonText={actionButtonText}
-          setActionButtonText={setActionButtonText}
-          actionButtonUrl={actionButtonUrl}
-          setActionButtonUrl={setActionButtonUrl}
-          setUrl={setUrl}
-          url={url}
-          action={action}
-          setAction={setAction}
-          targetElement={targetElement}
-          setTargetElement={setTargetElement}
-          tooltipPlacement={tooltipPlacement}
-          setTooltipPlacement={setTooltipPlacement}
+          data={leftContent}
+          setState={setLeftContent}
           onSave={onSave}
         />
       )}

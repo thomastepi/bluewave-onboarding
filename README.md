@@ -50,7 +50,7 @@ Make sure docker and git is installed
 ## Server Installation
 
 1. Make sure Docker is installed to your machine where the server will run.
-2. Make sure git is installed to your machine Git.
+2. Make sure git is installed to your machine.
 3. Make sure nginx is installed.
 
 4. Clone GitHub Repository
@@ -101,11 +101,11 @@ server {
 }
 ```
 
-6. Create a symbolic link to enable the configuration:
+6. [Optional] Create a symbolic link to enable the configuration:
 
 `sudo ln -s /etc/nginx/sites-available/guidefox /etc/nginx/sites-enabled/`
 
-7. Install Certbot and its Nginx plugin:
+7. [Optional] Install Certbot and its Nginx plugin:
 
 `sudo apt install certbot python3-certbot-nginx`
 

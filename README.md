@@ -140,10 +140,10 @@ NODE_ENV - node environment (production, test or development)
 
 It is set from the .env file in the root directory
 
-2. Api Url
+2. Backend Url
 
 ```
-API_BASE_URL - Backend API url
+BASE_URL - Backend url
 ```
 
 It is set from ./frontend/src/utils/constant.js

@@ -272,7 +272,7 @@ We pride ourselves on building strong connections with contributors at every lev
 Also check other developer and contributor-friendly projects of BlueWave:
 
 - [Checkmate](https://github.com/bluewave-labs/checkmate), a server and infrastructure monitoring tool
-- [DataRoom](https://github.com/bluewave-labs/bluewave-dataroom), an secure file sharing application, aka dataroom.
-- [BlueWave HRM](https://github.com/bluewave-labs/bluewave-hrm), a complete Human Resource Management platform.
+- [DataHall](https://github.com/bluewave-labs/datahall), an secure file sharing application, aka dataroom.
+- [Headcount](https://github.com/bluewave-labs/headcount), a complete Human Resource Management platform.
 - [VerifyWise](https://github.com/bluewave-labs/verifywise), the first open source AI governance platform.
 

@@ -6,15 +6,23 @@ import ColorTextField from '@components/ColorTextField/ColorTextField';
 import DropdownList from '@components/DropdownList/DropdownList';
 import { apperanceSchema } from '../../../../utils/popupHelper';
 
-const PopupAppearance = ({ data = [], setPopupSize, popupSize, onSave }) => {
-  const initialValues = data.reduce((acc, { name, state }) => {
-    acc[name] = state || '';
+const PopupAppearance = ({
+  data = [],
+  popupAppearance,
+  setPopupAppearance,
+  onSave,
+}) => {
+  const initialValues = data.reduce((acc, { name }) => {
+    acc[name] = popupAppearance[name] || '';
     return acc;
   }, {});
 
   return (
     <Formik
-      initialValues={{ popupSize: popupSize.toLowerCase(), ...initialValues }}
+      initialValues={{
+        popupSize: popupAppearance.popupSize.toLowerCase(),
+        ...initialValues,
+      }}
       validationSchema={apperanceSchema}
       validateOnMount={false}
       onSubmit={async (values, { setSubmitting }) => {
@@ -27,19 +35,26 @@ const PopupAppearance = ({ data = [], setPopupSize, popupSize, onSave }) => {
         }
       }}
     >
-      {({ errors, touched, handleBlur, validateField, setFieldValue }) => (
+      {({
+        values,
+        errors,
+        touched,
+        handleBlur,
+        validateField,
+        setFieldValue,
+      }) => (
         <Form className={styles.container}>
-          {data.map(({ name, label, state, setState }, key) => (
+          {data.map(({ name, label }, key) => (
             <div key={key}>
               <h2>{label}</h2>
               <div className={styles.color}>
                 <ColorTextField
                   name={name}
-                  value={state}
+                  value={values[name]}
                   error={Boolean(touched[name] && errors[name])}
                   onChange={(val) => {
                     setFieldValue(name, val);
-                    setState(val);
+                    setPopupAppearance((prev) => ({ ...prev, [name]: val }));
                   }}
                   onBlur={(e) => {
                     handleBlur(e);
@@ -63,10 +78,13 @@ const PopupAppearance = ({ data = [], setPopupSize, popupSize, onSave }) => {
             actions={['Small', 'Medium', 'Large']}
             onActionChange={(value) => {
               const normalizedValue = value.toLowerCase();
-              setPopupSize(normalizedValue);
+              setPopupAppearance((prev) => ({
+                ...prev,
+                popupSize: normalizedValue,
+              }));
               setFieldValue('popupSize', normalizedValue);
             }}
-            selectedActionString={popupSize}
+            selectedActionString={values.popupSize}
           />
         </Form>
       )}
@@ -81,11 +99,9 @@ PopupAppearance.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      state: PropTypes.string.isRequired,
-      setState: PropTypes.func.isRequired,
     })
   ).isRequired,
-  setPopupSize: PropTypes.func.isRequired,
-  popupSize: PropTypes.string.isRequired,
+  popupAppearance: PropTypes.object.isRequired,
+  setPopupAppearance: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };

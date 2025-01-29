@@ -2,11 +2,12 @@ import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { useContext, useEffect } from 'react';
 import ColorInput from '../../../components/Links/ColorInput';
+import Switch from '../../../components/Switch/Switch';
 import { HelperLinkContext } from '../../../services/linksProvider';
 import { appearanceSchema } from '../../../utils/linkHelper';
 import styles from '../LinkPage.module.scss';
 
-const LinkAppearance = ({ handleSaveHelper }) => {
+const LinkAppearance = () => {
   const context = useContext(HelperLinkContext);
   if (!context) {
     throw new Error('LinkAppearance must be used within a HelperLinkProvider');
@@ -19,7 +20,11 @@ const LinkAppearance = ({ handleSaveHelper }) => {
   }, []);
 
   const handleHelperChange = (e) => {
-    const { name, value } = e.target;
+    const { name, checked } = e.target;
+    let { value } = e.target;
+    if (name === 'active') {
+      value = checked;
+    }
     setHelper((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -29,6 +34,7 @@ const LinkAppearance = ({ handleSaveHelper }) => {
       validationSchema={appearanceSchema}
       validateOnMount={false}
       validateOnBlur={true}
+      enableReinitialize={true}
     >
       {({ errors, handleChange, handleBlur, values, validateField }) => (
         <Form className={styles.appearance} data-testid="appearance-form">
@@ -49,10 +55,35 @@ const LinkAppearance = ({ handleSaveHelper }) => {
               onBlur={(e) => {
                 handleBlur(e);
                 handleHelperChange(e);
+                validateField('title');
               }}
             />
             {errors.title && (
               <span className={styles.appearance__error}>{errors.title}</span>
+            )}
+          </label>
+          <label htmlFor="url" className={styles.appearance__label}>
+            URL (can be relative){' '}
+            <input
+              type="text"
+              id="url"
+              className={`${styles.appearance__input} ${
+                errors.url && styles.error
+              }`}
+              name="url"
+              value={values.url || ''}
+              onChange={(e) => {
+                handleChange(e);
+                handleHelperChange(e);
+              }}
+              onBlur={(e) => {
+                handleBlur(e);
+                handleHelperChange(e);
+                validateField('url');
+              }}
+            />
+            {errors.url && (
+              <span className={styles.appearance__error}>{errors.url}</span>
             )}
           </label>
           <ColorInput
@@ -103,6 +134,21 @@ const LinkAppearance = ({ handleSaveHelper }) => {
             title={'Helper icon color'}
             className={'icon'}
           />
+          <label
+            htmlFor="switch"
+            className={`${styles.appearance__label} ${styles.last}`}
+          >
+            <span>Helper link is active?</span>
+            <Switch
+              id="switch"
+              name="active"
+              onChange={(e) => {
+                handleChange(e);
+                handleHelperChange(e);
+              }}
+              value={values.active}
+            />
+          </label>
         </Form>
       )}
     </Formik>

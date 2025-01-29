@@ -6,41 +6,67 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.createTable(TABLE_NAME, {
-        id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.INTEGER
+      await queryInterface.createTable(
+        TABLE_NAME,
+        {
+          id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER,
+          },
+          title: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          headerBackgroundColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#F8F9F8',
+          },
+          linkFontColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#344054',
+          },
+          iconColor: {
+            type: Sequelize.STRING(15),
+            allowNull: false,
+            defaultValue: '#7F56D9',
+          },
+          createdBy: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+          },
         },
-        title: {
+        { transaction }
+      );
+
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'url',
+        {
           type: Sequelize.STRING(255),
           allowNull: false,
+          defaultValue: '/',
         },
-        headerBackgroundColor: {
-          type: Sequelize.STRING(15),
+        { transaction }
+      );
+
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'active',
+        {
+          type: Sequelize.BOOLEAN,
+          defaultValue: true,
           allowNull: false,
-          defaultValue : '#F8F9F8'
         },
-        linkFontColor: {
-          type: Sequelize.STRING(15),
-          allowNull: false,
-          defaultValue : '#344054'
-        },
-        iconColor: {
-          type: Sequelize.STRING(15),
-          allowNull: false,
-          defaultValue: '#7F56D9'
-        },
-        createdBy: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'users',
-            key: 'id'
-          }
-        }
-      }, { transaction });
+        { transaction }
+      );
 
       // Commit the transaction
       await transaction.commit();
@@ -64,5 +90,5 @@ module.exports = {
       await transaction.rollback();
       throw error;
     }
-  }
+  },
 };

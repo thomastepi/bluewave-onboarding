@@ -50,6 +50,7 @@ export const createHelper = async (helper, links) => {
       links,
       url: helper.url,
       active: helper.active,
+      absolutePath: helper.absolutePath,
     });
     if (response.status >= 400) throw new Error(response.data);
     return response.data;
@@ -74,6 +75,7 @@ export const updateHelper = async (helper, links) => {
         links,
         url: helper.url,
         active: helper.active,
+        absolutePath: helper.absolutePath,
       }
     );
     if (response.status >= 400) throw new Error(response.data);

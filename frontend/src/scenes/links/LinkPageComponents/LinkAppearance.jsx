@@ -15,6 +15,8 @@ const LinkAppearance = () => {
 
   const { helper, setHelper } = context;
 
+  console.log({ helper });
+
   useEffect(() => {
     document.querySelector('#header').focus();
   }, []);
@@ -22,7 +24,7 @@ const LinkAppearance = () => {
   const handleHelperChange = (e) => {
     const { name, checked } = e.target;
     let { value } = e.target;
-    if (name === 'active') {
+    if (name === 'active' || name === 'absolutePath') {
       value = checked;
     }
     setHelper((prev) => ({ ...prev, [name]: value }));
@@ -86,6 +88,21 @@ const LinkAppearance = () => {
               <span className={styles.appearance__error}>{errors.url}</span>
             )}
           </label>
+          <label
+            htmlFor="absolutePath"
+            className={`${styles.appearance__label} ${styles.row}`}
+          >
+            <span>Display only in absolute path?</span>
+            <Switch
+              id="absolutePath"
+              name="absolutePath"
+              onChange={(e) => {
+                handleChange(e);
+                handleHelperChange(e);
+              }}
+              value={values.absolutePath}
+            />
+          </label>
           <ColorInput
             id="header-bg"
             name="headerBackgroundColor"
@@ -136,7 +153,7 @@ const LinkAppearance = () => {
           />
           <label
             htmlFor="switch"
-            className={`${styles.appearance__label} ${styles.last}`}
+            className={`${styles.appearance__label} ${styles.row}`}
           >
             <span>Helper link is active?</span>
             <Switch

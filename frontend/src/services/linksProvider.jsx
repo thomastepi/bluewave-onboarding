@@ -9,6 +9,7 @@ export const DEFAULT_VALUES = {
   iconColor: '#7F56D9',
   url: 'https://',
   active: true,
+  absolutePath: false,
 };
 
 export const HelperLinkContext = createContext({

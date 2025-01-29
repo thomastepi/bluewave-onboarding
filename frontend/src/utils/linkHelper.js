@@ -45,6 +45,7 @@ const appearanceSchema = Yup.object().shape({
     .optional()
     .matches(/^#[0-9A-Fa-f]{6}$/, 'Invalid value for iconColor'),
   active: Yup.boolean('Active option must be a boolean'),
+  absolutePath: Yup.boolean('Absolute path option must be a boolean'),
 });
 
 export { appearanceSchema, newLinkSchema, validateUrl };

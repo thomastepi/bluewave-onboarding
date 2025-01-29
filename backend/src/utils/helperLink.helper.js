@@ -12,6 +12,7 @@ const helperValidator = [
   body('iconColor').optional().custom(isValidHexColor).withMessage('Invalid value for iconColor'),
   body('url').isString().withMessage('Invalid value for url').custom(validateUrl).withMessage('Invalid value for url'),
   body('active').optional().isBoolean().withMessage('Invalid value for active'),
+  body('absolutePath').isBoolean().withMessage('Invalid value for absolutePath'),
   body('links').isArray().withMessage('links must be an array'),
   body('links.*.title')
     .trim()

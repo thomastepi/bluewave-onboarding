@@ -68,6 +68,17 @@ module.exports = {
         { transaction }
       );
 
+      await queryInterface.addColumn(
+        TABLE_NAME,
+        'absolutePath',
+        {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
+          allowNull: false,
+        },
+        { transaction }
+      );
+
       // Commit the transaction
       await transaction.commit();
     } catch (error) {

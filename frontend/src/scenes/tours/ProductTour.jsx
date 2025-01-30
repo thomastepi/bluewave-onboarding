@@ -5,6 +5,7 @@ import ConfirmationPopup from '../../templates/GuideMainPageTemplate/GuideMainPa
 import Button from '@components/Button/Button';
 import './ProductTourStyles.css';
 import CreateToursPopup from './CreateToursPopup/CreateToursPopup';
+import PropTypes from 'prop-types';
 
 const TourPage = ({ items }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -89,6 +90,10 @@ const TourPage = ({ items }) => {
       />
     </div>
   );
+};
+
+TourPage.propTypes = {
+  items: PropTypes.array,
 };
 
 export default TourPage;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ProgressSteps.module.scss';
 import Step from './Step';
 
@@ -36,6 +37,11 @@ const ProgressSteps = ({ stepData, completed = 0 }) => {
           ))}
     </div>
   );
+};
+
+ProgressSteps.propTypes = {
+  stepData: PropTypes.array,
+  completed: PropTypes.number,
 };
 
 export default ProgressSteps;

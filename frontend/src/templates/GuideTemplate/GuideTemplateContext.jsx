@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const GuideTemplateContext = createContext({
   isOpen: false,
@@ -25,4 +26,8 @@ export const GuideTemplateProvider = ({ children }) => {
       {children}
     </GuideTemplateContext.Provider>
   );
+};
+
+GuideTemplateProvider.propTypes = {
+  children: PropTypes.node,
 };

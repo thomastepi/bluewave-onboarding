@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -270,6 +271,10 @@ const TeamTab = ({ handleTabChange }) => {
       </div>
     </>
   );
+};
+
+TeamTab.propTypes = {
+  handleTabChange: PropTypes.func,
 };
 
 export default TeamTab;

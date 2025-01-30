@@ -1,9 +1,9 @@
 import { useState, React } from 'react';
+import PropTypes from 'prop-types';
 import styles from './CreateToursPopup.module.scss';
 import Switch from '@components/Switch/Switch';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import DropdownList from '@components/DropdownList/DropdownList';
-import CustomTextField from '@components/TextFieldComponents/CustomTextField/CustomTextField';
 
 const CreateToursPopup = ({ onClose }) => {
   const [text, setText] = useState('/');
@@ -84,6 +84,10 @@ const CreateToursPopup = ({ onClose }) => {
       </div>
     </div>
   );
+};
+
+CreateToursPopup.propTypes = {
+  onClose: PropTypes.func,
 };
 
 export default CreateToursPopup;

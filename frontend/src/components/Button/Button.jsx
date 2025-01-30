@@ -36,7 +36,8 @@ Button.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
   variant: PropTypes.oneOf(['text', 'outlined', 'contained']),
-  className: PropTypes.string,
+  style: PropTypes.object,
+  sx: PropTypes.object,
   disabled: PropTypes.bool,
   buttonType: PropTypes.oneOf([
     'primary',
@@ -45,6 +46,8 @@ Button.propTypes = {
     'secondary-purple',
     'error',
   ]),
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  loading: PropTypes.bool,
 };
 
 export default Button;

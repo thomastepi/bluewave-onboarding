@@ -150,6 +150,10 @@ CustomTextField.propTypes = {
   type: PropTypes.string,
   fullWidth: PropTypes.bool,
   required: PropTypes.bool,
+  style: PropTypes.object,
+  labelSubText: PropTypes.string,
+  disabled: PropTypes.bool,
+  autoFocus: PropTypes.bool,
 };
 
 export default CustomTextField;

@@ -205,6 +205,7 @@ CreatePopupPage.propTypes = {
   autoOpen: PropTypes.bool,
   isEdit: PropTypes.bool,
   itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setIsEdit: PropTypes.func,
   setItemsUpdated: PropTypes.func,
   setIsEdit: PropTypes.func.isRequired,
 };

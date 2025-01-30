@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Login.module.css';
 import CustomTextField from '../../components/TextFieldComponents/CustomTextField/CustomTextField';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -255,5 +256,10 @@ function CreateAccountPage({ isAdmin = false, setIsAdmin }) {
     </Formik>
   );
 }
+
+CreateAccountPage.propTypes = {
+  setIsAdmin: PropTypes.func,
+  isAdmin: PropTypes.bool,
+};
 
 export default CreateAccountPage;

@@ -69,6 +69,7 @@ const DefaultPageTemplate = ({
     try {
       if (itemType === 'helper links') {
         const {
+          // eslint-disable-next-line no-unused-vars
           createdBy,
           id: fetchedId,
           links,
@@ -78,6 +79,7 @@ const DefaultPageTemplate = ({
 
         await duplicateItem(helper, updatedLinks);
       } else {
+        // eslint-disable-next-line no-unused-vars
         const { createdBy, id: fetchedId, ...data } = await getItemById(id);
         await duplicateItem(data);
       }
@@ -180,6 +182,8 @@ const DefaultPageTemplate = ({
 DefaultPageTemplate.propTypes = {
   getItems: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
+  getItemById: PropTypes.func.isRequired,
+  itemsUpdated: PropTypes.bool.isRequired,
   setIsEdit: PropTypes.func.isRequired,
   setItemId: PropTypes.func.isRequired,
   itemType: PropTypes.string.isRequired,

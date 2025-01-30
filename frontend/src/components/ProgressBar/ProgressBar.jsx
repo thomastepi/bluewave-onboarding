@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import '../ProgressBar/styles.css';
 
 const ProgressBar = ({ value = 30 }) => {
@@ -15,6 +16,10 @@ const ProgressBar = ({ value = 30 }) => {
       <span>{value.toFixed()}%</span>
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  value: PropTypes.number,
 };
 
 export default ProgressBar;

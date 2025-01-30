@@ -7,6 +7,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import Button from '@mui/material/Button';
 import format from 'date-fns/format';
 import './DatePickerStyles.css';
+import PropTypes from 'prop-types';
 
 function DatePickerWithButtons({ value, onChange, onClose }) {
   const [selectedDate, setSelectedDate] = useState(value);
@@ -168,6 +169,16 @@ const DatePicker = ({ onClose }) => {
       </div>
     </LocalizationProvider>
   );
+};
+
+DatePicker.propTypes = {
+  onClose: PropTypes.func,
+};
+
+DatePickerWithButtons.propTypes = {
+  value: PropTypes.object,
+  onChange: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default DatePicker;

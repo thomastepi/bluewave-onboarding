@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LoadingArea from '../../components/LoadingPage/LoadingArea';
 import { getStatistics } from '../../services/statisticsService';
 import styles from './Dashboard.module.scss';
@@ -95,6 +96,10 @@ const Dashboard = ({ name }) => {
       {isLoading ? <LoadingArea /> : <StatisticCardList metrics={metrics} />}
     </div>
   );
+};
+
+Dashboard.propTypes = {
+  name: PropTypes.string,
 };
 
 export default Dashboard;

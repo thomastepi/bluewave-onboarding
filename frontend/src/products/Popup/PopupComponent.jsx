@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import styles from './PopupComponent.module.css'; // Use your module CSS file
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Button from '@components/Button/Button';
+import PropTypes from 'prop-types';
 
 const PopupComponent = ({
   header,
@@ -87,6 +88,21 @@ const PopupComponent = ({
       </div>
     </>
   );
+};
+
+PopupComponent.propTypes = {
+  header: PropTypes.string,
+  content: PropTypes.string,
+  previewBtnText: PropTypes.string,
+  headerBackgroundColor: PropTypes.string,
+  headerColor: PropTypes.string,
+  textColor: PropTypes.string,
+  buttonBackgroundColor: PropTypes.string,
+  buttonTextColor: PropTypes.string,
+  buttonAction: PropTypes.string,
+  popupSize: PropTypes.string,
+  actionButtonUrl: PropTypes.string,
+  isReal: PropTypes.bool,
 };
 
 export default PopupComponent;

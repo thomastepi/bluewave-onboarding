@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from './BannerComponent.module.css';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
@@ -58,6 +59,16 @@ const BannerComponent = ({
       />
     </div>
   );
+};
+
+BannerComponent.propTypes = {
+  backgroundColor: PropTypes.string,
+  fontColor: PropTypes.string,
+  isTopPosition: PropTypes.bool,
+  bannerText: PropTypes.string,
+  url: PropTypes.string,
+  buttonAction: PropTypes.string,
+  isReal: PropTypes.bool,
 };
 
 export default BannerComponent;

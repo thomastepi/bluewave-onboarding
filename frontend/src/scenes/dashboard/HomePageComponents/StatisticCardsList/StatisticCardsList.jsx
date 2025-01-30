@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import StatisticCard from '../StatisticCards/StatisticCards';
 import styles from './StatisticCardsList.module.scss';
 
@@ -15,6 +16,10 @@ const StatisticCardList = ({ metrics }) => {
       ))}
     </div>
   );
+};
+
+StatisticCardList.propTypes = {
+  metrics: PropTypes.array.isRequired,
 };
 
 export default StatisticCardList;

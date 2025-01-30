@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   addBanner,
   editBanner,
@@ -128,6 +129,14 @@ const BannerPage = ({
       )}
     />
   );
+};
+
+BannerPage.propTypes = {
+  autoOpen: PropTypes.bool,
+  isEdit: PropTypes.bool,
+  setIsEdit: PropTypes.func,
+  itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setItemsUpdated: PropTypes.func,
 };
 
 export default BannerPage;

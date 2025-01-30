@@ -8,6 +8,7 @@ import './GuideMainPageTemplate.css';
 import { activityInfoData } from '../../data/guideMainPageData';
 import { useAuth } from '../../services/authProvider';
 import { renderIfAuthorized } from '../../utils/generalHelper';
+import PropTypes from 'prop-types';
 
 const GuideMainPageTemplate = ({
   items,
@@ -51,6 +52,15 @@ const GuideMainPageTemplate = ({
       />
     </div>
   );
+};
+
+GuideMainPageTemplate.propTypes = {
+  items: PropTypes.array,
+  handleDelete: PropTypes.func,
+  isPopupOpen: PropTypes.bool,
+  handleClosePopup: PropTypes.func,
+  type: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default GuideMainPageTemplate;

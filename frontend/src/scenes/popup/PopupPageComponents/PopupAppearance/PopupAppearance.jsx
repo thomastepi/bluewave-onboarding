@@ -1,4 +1,5 @@
 import { React } from 'react';
+import PropTypes from 'prop-types';
 import styles from './PopupAppearance.module.scss';
 import ColorTextField from '@components/ColorTextField/ColorTextField';
 import DropdownList from '@components/DropdownList/DropdownList';
@@ -25,6 +26,12 @@ const PopupAppearance = ({ data = [], setPopupSize, popupSize }) => {
       />
     </div>
   );
+};
+
+PopupAppearance.propTypes = {
+  data: PropTypes.array,
+  setPopupSize: PropTypes.func,
+  popupSize: PropTypes.string,
 };
 
 export default PopupAppearance;

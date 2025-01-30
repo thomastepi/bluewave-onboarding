@@ -49,4 +49,5 @@ ColorInput.propTypes = {
   onBlur: PropTypes.func.isRequired,
   error: PropTypes.string,
   title: PropTypes.string,
+  className: PropTypes.string,
 };

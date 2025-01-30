@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './EditorToolbar.css';
 import { Button } from '@mui/material';
 import {
@@ -123,6 +124,10 @@ const Toolbar = ({ editor }) => {
       />
     </div>
   );
+};
+
+Toolbar.propTypes = {
+  editor: PropTypes.object,
 };
 
 export default Toolbar;

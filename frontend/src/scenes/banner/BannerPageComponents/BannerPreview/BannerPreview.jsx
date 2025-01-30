@@ -1,6 +1,7 @@
-import styles from './BannerPreview.module.scss';
 import { React } from 'react';
+import styles from './BannerPreview.module.scss';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import PropTypes from 'prop-types';
 
 const BannerPreview = ({
   bannerText = '',
@@ -43,6 +44,14 @@ const BannerPreview = ({
       </div>
     </div>
   );
+};
+
+BannerPreview.propTypes = {
+  bannerText: PropTypes.string,
+  setBannerText: PropTypes.func,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string,
+  isTopPosition: PropTypes.bool,
 };
 
 export default BannerPreview;

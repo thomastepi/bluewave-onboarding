@@ -11,13 +11,14 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { useAuth } from '../../../../services/authProvider';
 import DropdownMenu from '@components/DropdownMenu/DropdownMenu';
 import { roles } from '../../../../utils/constants';
+import PropTypes from 'prop-types';
 
-export default function TeamTable({
+const TeamTable = ({
   team,
   setRemoveModalOpen,
   setChangeRoleModalOpen,
   setSelectedMember,
-}) {
+}) => {
   const { userInfo } = useAuth();
 
   const handleRemoveMember = async (member) => {
@@ -83,4 +84,13 @@ export default function TeamTable({
       </Table>
     </TableContainer>
   );
-}
+};
+
+TeamTable.propTypes = {
+  team: PropTypes.array,
+  setRemoveModalOpen: PropTypes.func,
+  setChangeRoleModalOpen: PropTypes.func,
+  setSelectedMember: PropTypes.func,
+};
+
+export default TeamTable;

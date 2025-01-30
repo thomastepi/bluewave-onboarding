@@ -181,6 +181,7 @@ NewLinksPopup.propTypes = {
   autoOpen: PropTypes.bool,
   isEdit: PropTypes.bool.isRequired,
   itemId: PropTypes.number,
+  setIsEdit: PropTypes.func,
   setItemsUpdated: PropTypes.func.isRequired,
 };
 

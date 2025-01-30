@@ -76,6 +76,8 @@ RadioButton.propTypes = {
   onChange: PropTypes.func,
   color: PropTypes.string,
   checked: PropTypes.bool,
+  onClick: PropTypes.func,
+  size: PropTypes.string,
 };
 
 export default RadioButton;

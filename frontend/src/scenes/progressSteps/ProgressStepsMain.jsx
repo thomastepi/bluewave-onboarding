@@ -149,28 +149,28 @@ const ProgressStepsMain = () => {
     );
   };
 
-  const secondPage = () => {
-    return (
-      <div className={styles.buttons}>
-        <Button
-          text="Previous"
-          buttonType="secondary-grey"
-          sx={{ width: '174px', borderRadius: '10px !important' }}
-          onClick={decreaseStep}
-        />
-        <Button
-          text="Install now - it’s easy"
-          buttonType="secondary-grey"
-          sx={{ width: '174px', borderRadius: '10px !important' }}
-        />
-        <Button
-          text="I will do it later"
-          sx={{ width: '148px', borderRadius: '10px !important' }}
-          onClick={increaseStep}
-        />
-      </div>
-    );
-  };
+  // const secondPage = () => {
+  //   return (
+  //     <div className={styles.buttons}>
+  //       <Button
+  //         text="Previous"
+  //         buttonType="secondary-grey"
+  //         sx={{ width: '174px', borderRadius: '10px !important' }}
+  //         onClick={decreaseStep}
+  //       />
+  //       <Button
+  //         text="Install now - it’s easy"
+  //         buttonType="secondary-grey"
+  //         sx={{ width: '174px', borderRadius: '10px !important' }}
+  //       />
+  //       <Button
+  //         text="I will do it later"
+  //         sx={{ width: '148px', borderRadius: '10px !important' }}
+  //         onClick={increaseStep}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   const handleOrganizationNameChange = (event) => {
     const org = event.target.value;

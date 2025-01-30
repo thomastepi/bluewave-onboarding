@@ -5,6 +5,7 @@ import Button from '@components/Button/Button';
 import styles from './UploadModal.module.scss';
 import { useDropzone } from 'react-dropzone';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import PropTypes from 'prop-types';
 
 const VALID_EXTENSIONS = ['jpg', 'png'];
 
@@ -109,6 +110,13 @@ const UploadModal = ({
       </Box>
     </Modal>
   );
+};
+UploadModal.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  handleUpload: PropTypes.func,
+  uploadedFile: PropTypes.instanceOf(File),
+  setUploadedFile: PropTypes.func,
 };
 
 export default UploadModal;

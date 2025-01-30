@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import Turndown from 'turndown';
 import HintLeftAppearance from '@components/HintPageComponents/HintLeftAppearance/HintLeftAppearance';
 import HintLeftContent from '@components/HintPageComponents/HintLeftContent/HintLeftContent';
 import RichTextEditor from '@components/RichTextEditor/RichTextEditor';
-import React, { useEffect, useState } from 'react';
-import Turndown from 'turndown';
 import HintComponent from '../../products/Hint/HintComponent';
 import { addHint, editHint, getHintById } from '../../services/hintServices';
 import GuideTemplate from '../../templates/GuideTemplate/GuideTemplate';
@@ -212,6 +213,14 @@ const HintPage = ({
       )}
     />
   );
+};
+
+HintPage.propTypes = {
+  autoOpen: PropTypes.bool,
+  isEdit: PropTypes.bool,
+  setIsEdit: PropTypes.func,
+  itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setItemsUpdated: PropTypes.func,
 };
 
 export default HintPage;

@@ -1,5 +1,6 @@
-import PopUpMessages from '../../../../components/PopUpMessages/PopUpMessages';
+import PropTypes from 'prop-types';
 import { DialogContentText } from '@mui/material';
+import PopUpMessages from '../../../../components/PopUpMessages/PopUpMessages';
 
 const DeleteConfirmationModal = ({ open, handleClose, handleDelete }) => {
   return (
@@ -20,6 +21,12 @@ const DeleteConfirmationModal = ({ open, handleClose, handleDelete }) => {
       </DialogContentText>
     </PopUpMessages>
   );
+};
+
+DeleteConfirmationModal.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  handleDelete: PropTypes.func,
 };
 
 export default DeleteConfirmationModal;

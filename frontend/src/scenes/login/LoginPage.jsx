@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import styles from './Login.module.css';
@@ -148,5 +149,9 @@ function LoginPage({ isAdmin = false }) {
     </Formik>
   );
 }
+
+LoginPage.propTypes = {
+  isAdmin: PropTypes.bool,
+};
 
 export default LoginPage;

@@ -1,4 +1,5 @@
 import { React } from 'react';
+import PropTypes from 'prop-types';
 import styles from './BannerLeftApperance.module.scss';
 import ColorTextField from '@components/ColorTextField/ColorTextField';
 
@@ -22,6 +23,13 @@ const BannerLeftAppearance = ({
       </div>
     </div>
   );
+};
+
+BannerLeftAppearance.propTypes = {
+  backgroundColor: PropTypes.string,
+  setBackgroundColor: PropTypes.func,
+  fontColor: PropTypes.string,
+  setFontColor: PropTypes.func,
 };
 
 export default BannerLeftAppearance;

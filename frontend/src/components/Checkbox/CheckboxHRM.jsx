@@ -50,13 +50,12 @@ export default function Checkbox({
 
 //Control panel settings for storybook
 Checkbox.propTypes = {
-  //Checkbox type
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   type: PropTypes.oneOf(['checkbox', 'radio']),
-
-  //Checkbox size
   size: PropTypes.oneOf(['small', 'large']),
-
-  //Checkbox enabled flag
+  style: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
   enabled: PropTypes.bool,
 };
 

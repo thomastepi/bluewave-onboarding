@@ -46,7 +46,6 @@ const PopupContent = ({
         validateField,
         setFieldValue,
       }) => {
-
         const handleDropdownChange = (fieldName, newValue) => {
           setFieldValue(fieldName, newValue.toLowerCase());
           setPopupContent((prev) => ({
@@ -54,7 +53,7 @@ const PopupContent = ({
             [fieldName]: newValue.toLowerCase(),
           }));
         };
-        
+
         const renderError = (field) =>
           Boolean(touched[field] && errors[field]) && (
             <small className="error-message">{errors[field]}</small>
@@ -88,7 +87,9 @@ const PopupContent = ({
               error={Boolean(touched.url && errors.url)}
               onChange={(e) => {
                 setPopupContent((prev) => ({ ...prev, url: e.target.value }));
-                handleChange({ target: { name: 'url', value: e.target.value } });
+                handleChange({
+                  target: { name: 'url', value: e.target.value },
+                });
               }}
               onBlur={(e) => {
                 handleBlur(e);

@@ -19,8 +19,8 @@ import { Error403 } from "./scenes/errors/403";
 import HomePageTemplate from "./templates/HomePageTemplate/HomePageTemplate";
 import UserStatisticsPage from "./scenes/statistics/UserStatisticsPage";
 
-import { useEffect, useState } from "react";
-import { getHasUsers } from "./services/loginServices";
+import { useEffect, useState } from 'react';
+import { getHasUsers } from './services/loginServices';
 
 const App = () => {
   const [isAdminLogin, setIsAdminLogin] = useState(false);
@@ -31,11 +31,12 @@ const App = () => {
         const { usersExist } = await getHasUsers();
         setIsAdminLogin(!usersExist);
       } catch (err) {
+        console.log('Error fetching the team count.');
       }
-    }
+    };
     fetchTeamCount();
   }, []);
-  
+
   return (
       <Routes>
         <Route path="/" element={<Private Component={HomePageTemplate} />}>
@@ -49,18 +50,26 @@ const App = () => {
           <Route path="/statistics" element={<UserStatisticsPage />} />
         </Route>
 
-        <Route path="/login" element={<LoginPage isAdmin={isAdminLogin}/>} />
-        <Route path="/signup" element={<CreateAccountPage isAdmin={isAdminLogin} setIsAdmin={setIsAdminLogin}/>} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<PasswordResetPage />} />
-        <Route path="/check-email" element={<CheckYourEmailPage />} />
-        <Route path="/set-new-password" element={<SetNewPasswordPage />} />
+      <Route path="/login" element={<LoginPage isAdmin={isAdminLogin} />} />
+      <Route
+        path="/signup"
+        element={
+          <CreateAccountPage
+            isAdmin={isAdminLogin}
+            setIsAdmin={setIsAdminLogin}
+          />
+        }
+      />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<PasswordResetPage />} />
+      <Route path="/check-email" element={<CheckYourEmailPage />} />
+      <Route path="/set-new-password" element={<SetNewPasswordPage />} />
 
-        <Route path="/progress-steps" element={<ProgressStepsMain />} />
-        <Route path="/403" element={<Error403 />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+      <Route path="/progress-steps" element={<ProgressStepsMain />} />
+      <Route path="/403" element={<Error403 />} />
+      <Route path="*" element={<Error404 />} />
+    </Routes>
   );
-}
+};
 
 export default App;

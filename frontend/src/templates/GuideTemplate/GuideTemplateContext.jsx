@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
 const GuideTemplateContext = createContext({
   isOpen: false,
@@ -9,7 +9,7 @@ const GuideTemplateContext = createContext({
 export const useDialog = () => {
   const context = useContext(GuideTemplateContext);
   if (context === undefined) {
-    throw new Error("useDialog must be used within a GuideTemplateProvider");
+    throw new Error('useDialog must be used within a GuideTemplateProvider');
   }
   return context;
 };

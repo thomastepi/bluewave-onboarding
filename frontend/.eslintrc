@@ -11,7 +11,9 @@
   ],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-undef": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "react": {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import List from './GuideMainPageComponents/List/List';
 import ContentArea from './GuideMainPageComponents/ContentArea/ContentArea';
 import ContentHeader from './GuideMainPageComponents/ContentHeader/ContentHeader';
@@ -9,8 +9,15 @@ import { activityInfoData } from '../../data/guideMainPageData';
 import { useAuth } from '../../services/authProvider';
 import { renderIfAuthorized } from '../../utils/generalHelper';
 
-const GuideMainPageTemplate = ({ items, handleDelete, isPopupOpen, handleClosePopup, type, onClick }) => {
-  const {  userInfo } = useAuth();
+const GuideMainPageTemplate = ({
+  items,
+  handleDelete,
+  isPopupOpen,
+  handleClosePopup,
+  type,
+  onClick,
+}) => {
+  const { userInfo } = useAuth();
   const role = userInfo.role;
   const { heading, paragraph, buttonText, title } = activityInfoData[type];
 
@@ -18,7 +25,11 @@ const GuideMainPageTemplate = ({ items, handleDelete, isPopupOpen, handleClosePo
     <div className="product-page-container">
       <div className="product-page-header">
         <ContentHeader title={title} />
-        {renderIfAuthorized(role, 'admin', <Button text={buttonText} onClick={onClick} />)}
+        {renderIfAuthorized(
+          role,
+          'admin',
+          <Button text={buttonText} onClick={onClick} />
+        )}
       </div>
       <div className="product-page">
         <ContentArea className="content-area">
@@ -26,10 +37,18 @@ const GuideMainPageTemplate = ({ items, handleDelete, isPopupOpen, handleClosePo
         </ContentArea>
         <div className="tour-info-container">
           <h4>{heading}</h4>
-          <p dangerouslySetInnerHTML={{ __html: paragraph.replace(/\n/g, '</p><p>') }}></p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: paragraph.replace(/\n/g, '</p><p>'),
+            }}
+          ></p>
         </div>
       </div>
-      <ConfirmationPopup open={isPopupOpen} onConfirm={handleDelete} onCancel={handleClosePopup} />
+      <ConfirmationPopup
+        open={isPopupOpen}
+        onConfirm={handleDelete}
+        onCancel={handleClosePopup}
+      />
     </div>
   );
 };

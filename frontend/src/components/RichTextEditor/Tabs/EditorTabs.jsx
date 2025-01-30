@@ -1,6 +1,6 @@
-import React from "react";
-import { Tabs, Tab } from "@mui/material";
-import "./EditorTabs.css";
+import React from 'react';
+import { Tabs, Tab } from '@mui/material';
+import './EditorTabs.css';
 
 const EditorTabs = ({ mode, setMode, sx }) => (
   <Tabs
@@ -9,7 +9,7 @@ const EditorTabs = ({ mode, setMode, sx }) => (
     onChange={(event, newValue) => setMode(newValue)}
     TabIndicatorProps={{
       style: {
-        display: "none",
+        display: 'none',
       },
     }}
     sx={sx}

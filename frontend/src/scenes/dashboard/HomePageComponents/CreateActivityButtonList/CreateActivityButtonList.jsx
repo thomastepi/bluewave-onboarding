@@ -1,5 +1,5 @@
-import CreateActivityButton from "../CreateActivityButton/CreateActivityButton";
-import styles from "./CreateActivityButtonList.module.scss";
+import CreateActivityButton from '../CreateActivityButton/CreateActivityButton';
+import styles from './CreateActivityButtonList.module.scss';
 
 const CreateActivityButtonList = ({ buttons }) => {
   return (

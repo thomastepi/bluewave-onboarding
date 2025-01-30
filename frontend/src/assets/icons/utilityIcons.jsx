@@ -1,4 +1,4 @@
-import IconWrapper from "./IconWrapper";
+import IconWrapper from './IconWrapper';
 
 export const DuplicateIcon = () => (
   <IconWrapper role="img" aria-label="Duplicate item">

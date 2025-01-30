@@ -38,18 +38,23 @@ const TourPage = ({ items }) => {
       timestamp: '10:00 AM',
       idItem: '12548',
       text: 'This pops up the first time the user logins to the dashboard.',
-      onDelete: () => { },
-      onEdit: () => { }
+      onDelete: () => {},
+      onEdit: () => {},
     },
   ];
 
-  const listItems = (showDemoItems ? demoItems : items).flatMap(item => Array(3).fill(item));
+  const listItems = (showDemoItems ? demoItems : items).flatMap((item) =>
+    Array(3).fill(item)
+  );
 
   return (
     <div className="product-page-container">
       <div className="product-page-header">
-        <h2 style={{marginTop: "0.3rem"}}>{showDemoItems ? "Demo Tours" : "All Tours"}</h2>
-        <Button text="Create a new tour" onClick={toggleSettings} /> {/* Button action */}
+        <h2 style={{ marginTop: '0.3rem' }}>
+          {showDemoItems ? 'Demo Tours' : 'All Tours'}
+        </h2>
+        <Button text="Create a new tour" onClick={toggleSettings} />{' '}
+        {/* Button action */}
       </div>
       <div className="product-page">
         <ContentArea className="content-area">
@@ -58,10 +63,14 @@ const TourPage = ({ items }) => {
         <div className="tour-info-container">
           <h4>What is a product tour?</h4>
           <p>
-            A product onboarding tour is a guided walkthrough or tutorial that introduces users to a new product or service.
-            It typically occurs when a user first signs up or logs into the product.
-            The purpose of the onboarding tour is to familiarize users with the key features, functionalities, and benefits of the product in order to enhance their understanding.
-            During the onboarding tour, users are typically shown around the interface, given demonstrations of how to perform key tasks, and provided with explanations of important features.
+            A product onboarding tour is a guided walkthrough or tutorial that
+            introduces users to a new product or service. It typically occurs
+            when a user first signs up or logs into the product. The purpose of
+            the onboarding tour is to familiarize users with the key features,
+            functionalities, and benefits of the product in order to enhance
+            their understanding. During the onboarding tour, users are typically
+            shown around the interface, given demonstrations of how to perform
+            key tasks, and provided with explanations of important features.
           </p>
         </div>
       </div>
@@ -69,11 +78,15 @@ const TourPage = ({ items }) => {
       {/* Settings Component - Position and Animation */}
       {showSettings && (
         <div className="settings-container">
-          <CreateToursPopup onClose={toggleSettings}/>
+          <CreateToursPopup onClose={toggleSettings} />
         </div>
       )}
 
-      <ConfirmationPopup open={isPopupOpen} onConfirm={handleDelete} onCancel={handleClosePopup} />
+      <ConfirmationPopup
+        open={isPopupOpen}
+        onConfirm={handleDelete}
+        onCancel={handleClosePopup}
+      />
     </div>
   );
 };

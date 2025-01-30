@@ -15,8 +15,6 @@ const LinkAppearance = () => {
 
   const { helper, setHelper } = context;
 
-  console.log({ helper });
-
   useEffect(() => {
     document.querySelector('#header').focus();
   }, []);

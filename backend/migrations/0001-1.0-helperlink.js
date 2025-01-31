@@ -34,6 +34,21 @@ module.exports = {
             allowNull: false,
             defaultValue: '#7F56D9',
           },
+          url: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+            defaultValue: '/',
+          },
+          active: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true,
+            allowNull: false,
+          },
+          absolutePath: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
+          },
           createdBy: {
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -42,39 +57,6 @@ module.exports = {
               key: 'id',
             },
           },
-        },
-        { transaction }
-      );
-
-      await queryInterface.addColumn(
-        TABLE_NAME,
-        'url',
-        {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-          defaultValue: '/',
-        },
-        { transaction }
-      );
-
-      await queryInterface.addColumn(
-        TABLE_NAME,
-        'active',
-        {
-          type: Sequelize.BOOLEAN,
-          defaultValue: true,
-          allowNull: false,
-        },
-        { transaction }
-      );
-
-      await queryInterface.addColumn(
-        TABLE_NAME,
-        'absolutePath',
-        {
-          type: Sequelize.BOOLEAN,
-          defaultValue: false,
-          allowNull: false,
         },
         { transaction }
       );

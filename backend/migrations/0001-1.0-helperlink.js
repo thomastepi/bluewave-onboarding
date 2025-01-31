@@ -18,17 +18,17 @@ module.exports = {
           allowNull: false,
         },
         headerBackgroundColor: {
-          type: Sequelize.STRING(7),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue : '#F8F9F8'
         },
         linkFontColor: {
-          type: Sequelize.STRING(7),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue : '#344054'
         },
         iconColor: {
-          type: Sequelize.STRING(7),
+          type: Sequelize.STRING(15),
           allowNull: false,
           defaultValue: '#7F56D9'
         },

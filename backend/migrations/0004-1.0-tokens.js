@@ -14,7 +14,7 @@ module.exports = {
           allowNull: false,
         },
         token: {
-          type: Sequelize.STRING(500),
+          type: Sequelize.STRING(511),
           allowNull: false,
         },
         userId: {
@@ -26,7 +26,7 @@ module.exports = {
           }
         },
         type: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(15),
           allowNull: false,
         },
         expiresAt: {

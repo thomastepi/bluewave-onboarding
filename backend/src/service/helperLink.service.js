@@ -80,7 +80,7 @@ class HelperLinkService {
       }
       const linksToUpdate = links.filter((item) => item.id);
       const linksToCreate = links.filter((item) => !item.id).map((item) => ({ ...item, helperId: id }));
-      await Link.bulkCreate(linksToCreate, { transaction: t });
+      if (linksToCreate.length > 0) await Link.bulkCreate(linksToCreate, { transaction: t });
       await Promise.all(
         linksToUpdate.map(async (item) => {
           const { id: linkId, ...link } = item;

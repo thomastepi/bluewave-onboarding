@@ -239,7 +239,7 @@ For running tests in windows installing `win-node-env` module is recommended
 
 After setting up the project, copy and paste the script that can be found in the Code tab of the Settings. Modify Api Base URL to point out to the url of tour backend server. The code snippet can also be found here:
 
-`
+```
 window.bwApiBaseUrl = 'https://guidefox-demo.bluewavelabs.ca/api/';
                 window.bwAgentBaseUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.0.2/jsAgent/';
 
@@ -249,7 +249,7 @@ window.bwApiBaseUrl = 'https://guidefox-demo.bluewavelabs.ca/api/';
                 s.onerror=()=>{console.log("onboard not loaded");};
                 s.src = window.bwAgentBaseUrl + '/main.js';
                 (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(s);
-`
+```
 
 We are working on a browser extention to move this code there to improve the user experience.
 

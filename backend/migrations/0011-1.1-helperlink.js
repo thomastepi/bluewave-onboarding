@@ -58,9 +58,9 @@ module.exports = {
       await queryInterface.removeColumn(TABLE_NAME, 'url', { transaction });
       await queryInterface.removeColumn(TABLE_NAME, 'active', { transaction });
       await queryInterface.removeColumn(TABLE_NAME, 'absolutePath', { transaction });
-      transaction.commit();
+      await transaction.commit();
     } catch {
-      transaction.rollback();
+      await transaction.rollback();
     }
   },
 };

@@ -90,15 +90,19 @@ const LinkAppearance = () => {
             htmlFor="absolutePath"
             className={`${styles.appearance__label} ${styles.row}`}
           >
-            <span>Display only in absolute path?</span>
+            <span>Show on dependent pages?</span>
             <Switch
               id="absolutePath"
               name="absolutePath"
               onChange={(e) => {
-                handleChange(e);
-                handleHelperChange(e);
+                handleChange({
+                  target: { ...e.target, value: !e.target.value },
+                });
+                handleHelperChange({
+                  target: { ...e.target, value: !e.target.value },
+                });
               }}
-              value={values.absolutePath}
+              value={!values.absolutePath}
             />
           </label>
           <ColorInput

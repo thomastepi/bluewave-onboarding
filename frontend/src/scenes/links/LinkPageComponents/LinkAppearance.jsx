@@ -22,8 +22,11 @@ const LinkAppearance = () => {
   const handleHelperChange = (e) => {
     const { name, checked } = e.target;
     let { value } = e.target;
-    if (name === 'active' || name === 'absolutePath') {
+    if (name === 'active') {
       value = checked;
+    }
+    if (name === 'absolutePath') {
+      value = !checked;
     }
     setHelper((prev) => ({ ...prev, [name]: value }));
   };
@@ -95,12 +98,8 @@ const LinkAppearance = () => {
               id="absolutePath"
               name="absolutePath"
               onChange={(e) => {
-                handleChange({
-                  target: { ...e.target, value: !e.target.value },
-                });
-                handleHelperChange({
-                  target: { ...e.target, value: !e.target.value },
-                });
+                handleChange(e);
+                handleHelperChange(e);
               }}
               value={!values.absolutePath}
             />

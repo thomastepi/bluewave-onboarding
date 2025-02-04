@@ -48,14 +48,10 @@ class HelperLinkService {
         transaction: t,
         returning: true,
       });
-      await Promise.all(
-        links.map(async (link) => {
-          return await Link.create(
-            { ...link, helperId: newHelper.id },
-            { transaction: t }
-          );
-        })
-      );
+      const updatedLinks = links.map((link) => {
+        return { ...link, helperId: newHelper.id };
+      })
+      await Link.bulkCreate(updatedLinks, { transaction: t });
       t.commit();
       return newHelper;
     } catch (e) {
@@ -82,19 +78,16 @@ class HelperLinkService {
         t.commit();
         return null;
       }
+      const linksToUpdate = links.filter((item) => item.id);
+      const linksToCreate = links.filter((item) => !item.id);
+      await Link.bulkCreate(linksToCreate, { transaction: t });
       await Promise.all(
-        links.map(async (item) => {
+        linksToUpdate.map(async (item) => {
           const { id: linkId, ...link } = item;
-          if (linkId)
-            return await Link.update(
-              { ...link, helperId: id },
-              { transaction: t, where: { id: linkId } }
-            );
-          else
-            return await Link.create(
-              { ...link, helperId: id },
-              { transaction: t }
-            );
+          return await Link.update(
+            { ...link, helperId: id },
+            { transaction: t, where: { id: linkId } }
+          );
         })
       );
       t.commit();

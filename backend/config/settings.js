@@ -40,6 +40,7 @@ module.exports = {
     ],
     pageTargeting: ['equals to', 'is different from'],
     themes: ['default theme'],
+    size: ['small', 'medium', 'large'],
   },
   hint: {
     action: ['no action', 'open url', 'open url in a new tab'],

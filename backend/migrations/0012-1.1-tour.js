@@ -73,6 +73,15 @@ module.exports = {
             allowNull: false,
             defaultValue: 'Complete tour',
           },
+          url: {
+            type: Sequelize.STRING(255),
+            allowNull: false,
+          },
+          active: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+          },
           createdBy: {
             type: Sequelize.INTEGER,
             allowNull: false,

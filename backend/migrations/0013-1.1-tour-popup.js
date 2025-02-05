@@ -27,19 +27,10 @@ module.exports = {
             type: Sequelize.STRING(255),
             allowNull: false,
           },
-          url: {
-            type: Sequelize.STRING(255),
-            allowNull: false,
-          },
           order: {
             type: Sequelize.INTEGER,
             allowNull: false,
             defaultValue: 1,
-          },
-          target: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: true,
-            allowNull: true,
           },
           tourId: {
             type: Sequelize.INTEGER,

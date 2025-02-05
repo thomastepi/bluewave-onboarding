@@ -63,11 +63,17 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      // Drop the tour_popup table
+      await queryInterface.dropTable(TABLE_NAME, { transaction });
+
+      // Commit the transaction
+      await transaction.commit();
+    } catch (error) {
+      // Rollback the transaction in case of an error
+      await transaction.rollback();
+      throw error;
+    }
   },
 };

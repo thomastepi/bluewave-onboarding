@@ -21,7 +21,7 @@ const tourValidator = [
   body('textColor').optional().custom(isValidHexColor).withMessage('Invalid value for textColor'),
   body('buttonBgColor').optional().custom(isValidHexColor).withMessage('Invalid value for buttonBgColor'),
   body('buttonTextColor').optional().custom(isValidHexColor).withMessage('Invalid value for buttonTextColor'),
-  body('url').custom(validateUrl).withMessage('Invalid value for url'),
+  body('url').isString().withMessage("url is required").custom(validateUrl).withMessage('Invalid value for url'),
   body('size').isIn(settings.tour.size).withMessage('Invalid value for size'),
   body('finalBtnText').isString().withMessage('Invalid value for finalBtnText'),
   body('active').optional().isBoolean().withMessage('Invalid value for active'),

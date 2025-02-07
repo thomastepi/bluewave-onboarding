@@ -48,7 +48,7 @@ class TourService {
     const { steps, ...info } = data;
     const transaction = await db.sequelize.transaction();
     try {
-      const [affectedRows, updatedTour] = await Tour.update(info, {
+      const [affectedRows, [updatedTour]] = await Tour.update(info, {
         where: { id },
         transaction,
         returning: true,

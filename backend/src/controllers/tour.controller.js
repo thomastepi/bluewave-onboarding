@@ -5,7 +5,7 @@ class TourController {
   async getAllTours(req, res) {
     try {
       const tours = await TourService.getAllTours();
-      res.json(tours);
+      res.status(200).json(tours);
     } catch (err) {
       const { statusCode, payload } = internalServerError('GET_TOUR_ERROR', err.message);
       res.status(statusCode).json(payload);

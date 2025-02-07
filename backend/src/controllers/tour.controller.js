@@ -45,7 +45,7 @@ class TourController {
   async createTour(req, res) {
     try {
       const userId = req.user.id;
-      const tour = await TourService.createTour({ ...req.body, userId });
+      const tour = await TourService.createTour({ ...req.body, createdBy: userId });
       res.status(201).json(tour);
     } catch (err) {
       const { statusCode, payload } = internalServerError('CREATE_TOUR_ERROR', err.message);

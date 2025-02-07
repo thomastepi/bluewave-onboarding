@@ -2,7 +2,7 @@
 
 const { validateHexColor } = require('../src/utils/guide.helper');
 
-const TABLE_NAME = 'tour';
+const TABLE_NAME = 'tours';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

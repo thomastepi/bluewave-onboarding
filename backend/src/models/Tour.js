@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: 'tour',
+      tableName: 'tours',
       timestamps: false,
     }
   );

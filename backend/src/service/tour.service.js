@@ -1,7 +1,7 @@
 const db = require('../models');
 
 const Tour = db.Tour;
-const TourStep = db.TourStep;
+const TourPopup = db.TourPopup;
 
 class TourService {
   async getAllTours() {
@@ -28,11 +28,14 @@ class TourService {
         transaction,
         returning: true,
       });
+
       const formattedSteps = steps.map((step) => ({
         ...step,
         tourId: newTour.id,
       }));
-      await TourStep.bulkCreate(formattedSteps, { transaction });
+
+      await TourPopup.bulkCreate(formattedSteps, { transaction });
+
       await transaction.commit();
       return newTour;
     } catch (error) {
@@ -45,18 +48,22 @@ class TourService {
     const { steps, ...info } = data;
     const transaction = await db.sequelize.transaction();
     try {
-      await Tour.update(info, {
+      const [affectedRows, updatedTour] = await Tour.update(info, {
         where: { id },
         transaction,
       });
-      await TourStep.destroy({ where: { tourId: id }, transaction });
+      if (affectedRows === 0) {
+        await transaction.commit();
+        return null
+      }
+      await TourPopup.destroy({ where: { tourId: id }, transaction });
       const formattedSteps = steps.map((step) => ({
         ...step,
         tourId: id,
       }));
-      await TourStep.bulkCreate(formattedSteps, { transaction });
+      await TourPopup.bulkCreate(formattedSteps, { transaction });
       await transaction.commit();
-      return await this.getTourById(id);
+      return updatedTour;
     } catch (error) {
       await transaction.rollback();
       throw error;
@@ -66,7 +73,7 @@ class TourService {
   async deleteTour(id) {
     const transaction = await db.sequelize.transaction();
     try {
-      await TourStep.destroy({ where: { tourId: id }, transaction });
+      await TourPopup.destroy({ where: { tourId: id }, transaction });
       const rowsAffected = await Tour.destroy({
         where: { id },
         transaction,

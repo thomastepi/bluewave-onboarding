@@ -39,6 +39,8 @@ module.exports = {
               model: 'tours',
               key: 'id',
             },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
           },
         },
         { transaction }

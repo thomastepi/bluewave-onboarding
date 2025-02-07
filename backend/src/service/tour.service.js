@@ -51,6 +51,7 @@ class TourService {
       const [affectedRows, updatedTour] = await Tour.update(info, {
         where: { id },
         transaction,
+        returning: true,
       });
       if (affectedRows === 0) {
         await transaction.commit();

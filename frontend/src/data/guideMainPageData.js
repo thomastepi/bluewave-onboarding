@@ -35,4 +35,11 @@ export const activityInfoData = {
     buttonText: "Create a new helper link",
     title: "All helper links",
   },
+  [ACTIVITY_TYPES_INFO.TOURS]: {
+    heading: 'What is a product tour?',
+    paragraph:
+      'A product onboarding tour is a guided walkthrough or tutorial that introduces users to a new product or service.\nIt typically occurs when a user first signs up or logs into the product.\nThe purpose of the onboarding tour is to familiarize users with the key features, functionalities, and benefits of the product in order to enhance their understanding.\nDuring the onboarding tour, users are typically shown around the interface, given demonstrations of how to perform key tasks, and provided with explanations of important features.',
+    buttonText: 'Create a new product tour',
+    title: 'All tours',
+  },
 };

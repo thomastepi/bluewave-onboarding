@@ -11,7 +11,7 @@ import ProgressStepsMain from "./scenes/progressSteps/ProgressStepsMain";
 import Settings from "./scenes/settings/Settings";
 import BannerDefaultPage from "./scenes/banner/BannerDefaultPage";
 import LinksDefaultPage from "./scenes/links/LinksDefaultPage";
-import ToursDefaultPage from "./scenes/tours/ToursDefaultPage";
+import TourDefaultPage from "./scenes/tours/TourDefaultPage";
 import PopupDefaultPage from "./scenes/popup/PopupDefaultPage";
 import HintDefaultPage from "./scenes/hints/HintDefaultPage";
 import { Error404 } from "./scenes/errors/404";
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/" element={<Private Component={HomePageTemplate} />}>
           <Route index element={<Home />} />
           <Route path="/link" element={<LinksDefaultPage />} />
-          <Route path="/tour" element={<ToursDefaultPage />} />
+          <Route path="/tour" element={<Private Component={TourDefaultPage} />} />
           <Route path="/banner" element={<Private Component={BannerDefaultPage} />} />
           <Route path="/popup" element={<Private Component={PopupDefaultPage} />} />
           <Route path="/hint" element={<HintDefaultPage />} />

@@ -1,4 +1,4 @@
-import IconWrapper from "./IconWrapper";
+import IconWrapper from './IconWrapper';
 
 export const DuplicateIcon = () => (
   <IconWrapper role="img" aria-label="Duplicate item">
@@ -12,11 +12,11 @@ export const DuplicateIcon = () => (
   </IconWrapper>
 );
 
-export const TrashIcon = () => (
+export const TrashIcon = ({ stroke }) => (
   <IconWrapper role="img" aria-label="Delete item">
     <path
       d="M13.3333 4.99996V4.33329C13.3333 3.39987 13.3333 2.93316 13.1517 2.57664C12.9919 2.26304 12.7369 2.00807 12.4233 1.84828C12.0668 1.66663 11.6001 1.66663 10.6667 1.66663H9.33333C8.39991 1.66663 7.9332 1.66663 7.57668 1.84828C7.26308 2.00807 7.00811 2.26304 6.84832 2.57664C6.66667 2.93316 6.66667 3.39987 6.66667 4.33329V4.99996M8.33333 9.58329V13.75M11.6667 9.58329V13.75M2.5 4.99996H17.5M15.8333 4.99996V14.3333C15.8333 15.7334 15.8333 16.4335 15.5608 16.9683C15.3212 17.4387 14.9387 17.8211 14.4683 18.0608C13.9335 18.3333 13.2335 18.3333 11.8333 18.3333H8.16667C6.76654 18.3333 6.06647 18.3333 5.53169 18.0608C5.06129 17.8211 4.67883 17.4387 4.43915 16.9683C4.16667 16.4335 4.16667 15.7334 4.16667 14.3333V4.99996"
-      stroke="var(--border-error-solid)"
+      stroke={stroke || 'var(--border-error-solid)'}
       strokeWidth="1.66667"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -30,6 +30,18 @@ export const EditIcon = () => (
       d="M2.39686 15.0964C2.43515 14.7518 2.45429 14.5795 2.50642 14.4185C2.55268 14.2756 2.61802 14.1397 2.70069 14.0143C2.79388 13.873 2.91645 13.7504 3.1616 13.5053L14.1669 2.50005C15.0873 1.57957 16.5797 1.57957 17.5002 2.50005C18.4207 3.42052 18.4207 4.91291 17.5002 5.83338L6.49493 16.8386C6.24978 17.0838 6.12721 17.2063 5.9859 17.2995C5.86054 17.3822 5.72457 17.4475 5.5817 17.4938C5.42067 17.5459 5.24838 17.5651 4.9038 17.6033L2.0835 17.9167L2.39686 15.0964Z"
       stroke="var(--second-text-color)"
       strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </IconWrapper>
+);
+
+export const Hamburger = () => (
+  <IconWrapper role="img" aria-label="Delete item">
+    <path
+      d="M12.5259 5.33333H1.78906M12.5259 14H1.78906M12.5259 1H1.78906M12.5259 9.66667H1.78906"
+      stroke="#98A2B3"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

@@ -74,7 +74,7 @@ class TourBuilder {
       buttonTextColor: '#fff',
       url: '/url',
       size: 'small',
-      finalBtnText: 'text',
+      finalButtonText: 'text',
       active: true,
     };
   }
@@ -128,13 +128,13 @@ class TourBuilder {
     return this;
   }
 
-  invalidFinalBtnText() {
-    this.tour.finalBtnText = 123;
+  invalidfinalButtonText() {
+    this.tour.finalButtonText = 123;
     return this;
   }
 
-  missingFinalBtnText() {
-    this.tour.finalBtnText = undefined;
+  missingfinalButtonText() {
+    this.tour.finalButtonText = undefined;
     return this;
   }
 

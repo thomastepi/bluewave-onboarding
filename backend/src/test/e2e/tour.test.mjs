@@ -129,15 +129,15 @@ describe('E2e tests tour', () => {
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for size'] });
     });
-    it('should return 400 if "finalBtnText" is not a string', async () => {
+    it('should return 400 if "finalButtonText" is not a string', async () => {
       const res = await chai.request
         .execute(app)
         .post('/api/tour/add_tour')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidFinalBtnText().build(), steps: [] });
+        .send({ ...tour().invalidfinalButtonText().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
-      expect(body).to.be.deep.equal({ errors: ['Invalid value for finalBtnText'] });
+      expect(body).to.be.deep.equal({ errors: ['Invalid value for finalButtonText'] });
     });
     it('should return 400 if "active" is not a boolean', async () => {
       const res = await chai.request
@@ -369,15 +369,15 @@ describe('E2e tests tour', () => {
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for size'] });
     });
-    it('should return 400 if "finalBtnText" is not a string', async () => {
+    it('should return 400 if "finalButtonText" is not a string', async () => {
       const res = await chai.request
         .execute(app)
         .put('/api/tour/edit_tour/1')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidFinalBtnText().build(), steps: [] });
+        .send({ ...tour().invalidfinalButtonText().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
-      expect(body).to.be.deep.equal({ errors: ['Invalid value for finalBtnText'] });
+      expect(body).to.be.deep.equal({ errors: ['Invalid value for finalButtonText'] });
     });
     it('should return 400 if "active" is not a boolean', async () => {
       const res = await chai.request

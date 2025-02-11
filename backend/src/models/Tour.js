@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: settings.tour.size[1],
       },
-      finalBtnText: {
+      finalButtonText: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'Complete tour',

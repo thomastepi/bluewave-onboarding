@@ -68,7 +68,7 @@ module.exports = {
             allowNull: false,
             defaultValue: 'medium',
           },
-          finalBtnText: {
+          finalButtonText: {
             type: Sequelize.STRING,
             allowNull: false,
             defaultValue: 'Complete tour',

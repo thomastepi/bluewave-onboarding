@@ -84,7 +84,7 @@ describe('E2e tests tour', () => {
         .execute(app)
         .post('/api/tour/add_tour')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidbuttonBackgroundColor().build(), steps: [] });
+        .send({ ...tour().invalidButtonBackgroundColor().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for buttonBackgroundColor'] });
@@ -134,7 +134,7 @@ describe('E2e tests tour', () => {
         .execute(app)
         .post('/api/tour/add_tour')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidfinalButtonText().build(), steps: [] });
+        .send({ ...tour().invalidFinalButtonText().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for finalButtonText'] });
@@ -324,7 +324,7 @@ describe('E2e tests tour', () => {
         .execute(app)
         .put('/api/tour/edit_tour/1')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidbuttonBackgroundColor().build(), steps: [] });
+        .send({ ...tour().invalidButtonBackgroundColor().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for buttonBackgroundColor'] });
@@ -374,7 +374,7 @@ describe('E2e tests tour', () => {
         .execute(app)
         .put('/api/tour/edit_tour/1')
         .set('Authorization', `Bearer ${token}`)
-        .send({ ...tour().invalidfinalButtonText().build(), steps: [] });
+        .send({ ...tour().invalidFinalButtonText().build(), steps: [] });
       expect(res).to.have.status(400);
       const body = res.body;
       expect(body).to.be.deep.equal({ errors: ['Invalid value for finalButtonText'] });

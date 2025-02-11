@@ -98,7 +98,7 @@ class TourBuilder {
     return this;
   }
 
-  invalidbuttonBackgroundColor() {
+  invalidButtonBackgroundColor() {
     this.tour.buttonBackgroundColor = 123;
     return this;
   }
@@ -128,12 +128,12 @@ class TourBuilder {
     return this;
   }
 
-  invalidfinalButtonText() {
+  invalidFinalButtonText() {
     this.tour.finalButtonText = 123;
     return this;
   }
 
-  missingfinalButtonText() {
+  missingFinalButtonText() {
     this.tour.finalButtonText = undefined;
     return this;
   }

@@ -20,6 +20,19 @@ class TourService {
     });
   }
 
+  async getTourByUrl(url) {
+    try {
+      return await Tour.findAll({
+        where: {
+          url,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error finding tour by url');
+    }
+  }
+
   async createTour(data) {
     const { steps, ...info } = data;
     const transaction = await db.sequelize.transaction();
@@ -55,7 +68,7 @@ class TourService {
       });
       if (affectedRows === 0) {
         await transaction.commit();
-        return null
+        return null;
       }
       await TourPopup.destroy({ where: { tourId: id }, transaction });
       const formattedSteps = steps.map((step) => ({

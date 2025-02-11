@@ -43,13 +43,13 @@ module.exports = {
               },
             },
           },
-          buttonBgColor: {
+          buttonBackgroundColor: {
             type: Sequelize.STRING(15),
             allowNull: false,
             defaultValue: '#7F56D9',
             validate: {
               isHexColor(value) {
-                validateHexColor(value, 'buttonBgColor');
+                validateHexColor(value, 'buttonBackgroundColor');
               },
             },
           },

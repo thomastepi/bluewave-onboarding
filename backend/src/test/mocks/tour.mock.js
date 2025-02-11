@@ -70,7 +70,7 @@ class TourBuilder {
       id: id,
       headerColor: '#999',
       textColor: '#444',
-      buttonBgColor: '#ff00ff',
+      buttonBackgroundColor: '#ff00ff',
       buttonTextColor: '#fff',
       url: '/url',
       size: 'small',
@@ -98,8 +98,8 @@ class TourBuilder {
     return this;
   }
 
-  invalidButtonBgColor() {
-    this.tour.buttonBgColor = 123;
+  invalidbuttonBackgroundColor() {
+    this.tour.buttonBackgroundColor = 123;
     return this;
   }
 

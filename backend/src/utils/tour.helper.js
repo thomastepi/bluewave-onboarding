@@ -19,9 +19,12 @@ const validateUrl = (url) => {
 const tourValidator = [
   body('headerColor').optional().custom(isValidHexColor).withMessage('Invalid value for headerColor'),
   body('textColor').optional().custom(isValidHexColor).withMessage('Invalid value for textColor'),
-  body('buttonBgColor').optional().custom(isValidHexColor).withMessage('Invalid value for buttonBgColor'),
+  body('buttonBackgroundColor')
+    .optional()
+    .custom(isValidHexColor)
+    .withMessage('Invalid value for buttonBackgroundColor'),
   body('buttonTextColor').optional().custom(isValidHexColor).withMessage('Invalid value for buttonTextColor'),
-  body('url').isString().withMessage("url is required").custom(validateUrl).withMessage('Invalid value for url'),
+  body('url').isString().withMessage('url is required').custom(validateUrl).withMessage('Invalid value for url'),
   body('size').isIn(settings.tour.size).withMessage('Invalid value for size'),
   body('finalBtnText').isString().withMessage('Invalid value for finalBtnText'),
   body('active').optional().isBoolean().withMessage('Invalid value for active'),
@@ -32,9 +35,7 @@ const tourValidator = [
   body('steps.*.order').isInt().withMessage('Invalid value for order'),
 ];
 
-const paramsIdValidator = [
-  param('id').isInt().withMessage('Invalid value for id'),
-]
+const paramsIdValidator = [param('id').isInt().withMessage('Invalid value for id')];
 
 module.exports = {
   URL_REGEX,

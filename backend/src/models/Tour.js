@@ -31,13 +31,13 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      buttonBgColor: {
+      buttonBackgroundColor: {
         type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue: '#7F56D9',
         validate: {
           isHexColor(value) {
-            validateHexColor(value, 'buttonBgColor');
+            validateHexColor(value, 'buttonBackgroundColor');
           },
         },
       },

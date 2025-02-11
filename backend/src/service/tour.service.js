@@ -1,4 +1,5 @@
 const db = require('../models');
+const { Op } = require('sequelize');
 
 const Tour = db.Tour;
 const TourPopup = db.TourPopup;
@@ -30,6 +31,22 @@ class TourService {
     } catch (err) {
       console.log(err);
       throw new Error('Error finding tour by url');
+    }
+  }
+
+  async getIncompleteTourByUrl(url, ids) {
+    try {
+      return await Tour.findAll({
+        where: {
+          url,
+          id: {
+            [Op.notIn]: ids,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error finding incomplete tours by url');
     }
   }
 

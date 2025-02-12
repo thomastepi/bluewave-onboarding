@@ -25,8 +25,14 @@ class TourService {
     try {
       return await Tour.findAll({
         where: {
-          url,
+          [Op.and]: [{ url }, { active: true }],
         },
+        include: [
+          {
+            model: db.TourPopup,
+            as: 'steps',
+          },
+        ],
       });
     } catch (err) {
       console.log(err);

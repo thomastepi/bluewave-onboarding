@@ -48,7 +48,7 @@ db.Link.belongsTo(db.HelperLink, { foreignKey: "helperId", as: "helper" });
 db.User.hasMany(db.Banner, { foreignKey: "createdBy", as: "banners" });
 db.Banner.belongsTo(db.User, { foreignKey: "createdBy", as: "creator" });
 
-db.Tour.hasMany(db.TourPopup, { foreignKey: "tourId", as: "popups" });
+db.Tour.hasMany(db.TourPopup, { foreignKey: "tourId", as: "steps" });
 db.TourPopup.belongsTo(db.Tour, { foreignKey: "tourId", as: "tour" });
 
 db.Invite.belongsTo(db.User, { foreignKey: "invitedBy" });

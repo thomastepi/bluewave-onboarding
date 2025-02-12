@@ -23,7 +23,8 @@ class GuideController {
       ]);
       res.status(200).json({ banner, popup, hint, helperLink, tour });
     } catch (error) {
-      internalServerError('GET_GUIDES_BY_URL_ERROR', error.message);
+      const { payload, statusCode } = internalServerError('GET_GUIDES_BY_URL_ERROR', error.message);
+      res.status(statusCode).json(payload);
     }
   }
 

@@ -2,14 +2,17 @@ import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import styles from './ColorInput.module.scss';
 
-const ColorInput = ({ id, title, className, ...props }) => {
+const ColorInput = ({ id, title, className, onChange, name }) => {
   // To thread formik behaviour into custom field
-  const [field, meta, helpers] = useField(props.name);
+  const [field, meta, helpers] = useField(name);
   const { error, touched } = meta;
   const { setValue, setTouched } = helpers;
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    const val = e.target.value;
+
+    setValue(val);
+    onChange(val);
   };
 
   return (
@@ -63,6 +66,7 @@ ColorInput.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   className: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default ColorInput;

@@ -37,9 +37,14 @@ const tourValidator = [
 
 const paramsIdValidator = [param('id').isInt().withMessage('Invalid value for id')];
 
+const bodyUrlValidator = [
+  body('url').isString().withMessage('url is required').custom(validateUrl).withMessage('Invalid value for url'),
+];
+
 module.exports = {
   URL_REGEX,
   validateUrl,
   tourValidator,
   paramsIdValidator,
+  bodyUrlValidator,
 };

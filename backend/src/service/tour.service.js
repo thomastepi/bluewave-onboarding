@@ -1,4 +1,5 @@
 const db = require('../models');
+const { Op } = require('sequelize');
 
 const Tour = db.Tour;
 const TourPopup = db.TourPopup;
@@ -18,6 +19,41 @@ class TourService {
         createdBy: userId,
       },
     });
+  }
+
+  async getTourByUrl(url) {
+    try {
+      return await Tour.findAll({
+        where: {
+          [Op.and]: [{ url }, { active: true }],
+        },
+        include: [
+          {
+            model: db.TourPopup,
+            as: 'steps',
+          },
+        ],
+      });
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error finding tour by url');
+    }
+  }
+
+  async getIncompleteTourByUrl(url, ids) {
+    try {
+      return await Tour.findAll({
+        where: {
+          url,
+          id: {
+            [Op.notIn]: ids,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error finding incomplete tours by url');
+    }
   }
 
   async createTour(data) {
@@ -55,7 +91,7 @@ class TourService {
       });
       if (affectedRows === 0) {
         await transaction.commit();
-        return null
+        return null;
       }
       await TourPopup.destroy({ where: { tourId: id }, transaction });
       const formattedSteps = steps.map((step) => ({

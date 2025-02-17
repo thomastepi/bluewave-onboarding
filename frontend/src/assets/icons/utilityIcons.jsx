@@ -36,8 +36,8 @@ export const EditIcon = () => (
   </IconWrapper>
 );
 
-export const Hamburger = () => (
-  <IconWrapper role="img" aria-label="Delete item">
+export const Hamburger = ({ styles }) => (
+  <IconWrapper style={styles} role="img" aria-label="Delete item">
     <path
       d="M12.5259 5.33333H1.78906M12.5259 14H1.78906M12.5259 1H1.78906M12.5259 9.66667H1.78906"
       stroke="#98A2B3"

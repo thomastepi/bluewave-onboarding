@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react';
 import GuideTemplate from '../../templates/GuideTemplate/GuideTemplate';
 import TourPreview from './TourPreview/TourPreview';
-import TourLeftContent from './TourLeftContent/TourLeftContent';
+import TourLeftContent from './TourPageComponents/TourLeftContent/TourLeftContent';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
-import TourLeftApperance from './TourPageComponents/TourleftApperance/TourLeftApperance';
+import TourLeftAppearance from './TourPageComponents/TourleftAppearance/TourLeftAppearance';
 
 const TourPage = ({
   autoOpen = false,
@@ -13,6 +13,17 @@ const TourPage = ({
   setIsEdit,
 }) => {
   const [activeButton, setActiveButton] = useState(0);
+  const [stepsData, setStepsData] = useState([
+    {
+      id: 0,
+      stepName: 'Step 1',
+      header: 'Welcome to GuideFox',
+      content:
+        'Serve your users and increase product adoption with hints, popups, banners, and helper links. \n\nEarn an extra 30% if you purchase an annual plan with us.',
+      targetElement: '',
+    },
+  ]);
+  const [currentStep, setCurrentStep] = useState(stepsData[0]);
 
   const [appearance, setAppearance] = useState({
     headerColor: '#101828',
@@ -24,16 +35,16 @@ const TourPage = ({
     url: 'https://',
   });
 
-  const [header, setHeader] = useState('');
-  const [content, setContent] = useState('');
+  useEffect(() => {
+    const updatedCurrentStep = stepsData.find(
+      (step) => step.id === currentStep.id
+    );
 
-  const [stepsData, setStepsData] = useState([
-    {
-      stepText: 'Step 1',
-      header: '',
-      content: '',
-    },
-  ]);
+    //Syncing currentStep with the updated step for display purpose in preview.
+    if (updatedCurrentStep) {
+      setCurrentStep(updatedCurrentStep);
+    }
+  }, [stepsData, currentStep]);
 
   const fields = [
     { name: 'headerColor', label: 'Header Color' },
@@ -52,18 +63,34 @@ const TourPage = ({
     setActiveButton(index);
   };
 
-  const onSave = () => {};
+  const setTourDetails = (property, data) => {
+    const updatedSteps = stepsData.map((step) =>
+      step.id === currentStep.id ? { ...step, [property]: data } : step
+    );
+
+    setStepsData(updatedSteps);
+  };
+
+  const onSave = () => {
+    const finalSteps = stepsData.map((data, index) => ({
+      ...data,
+      order: index,
+    }));
+    console.log(finalSteps, appearance);
+  };
+
+  const previewComponent = () => <TourPreview tourAppearance={appearance} />;
 
   const rightContent = () =>
     activeButton === 1 ? (
-      <TourPreview tourAppearance={appearance} />
+      previewComponent()
     ) : (
       <RichTextEditor
-        previewComponent={TourPreview}
-        header={header}
-        setHeader={setHeader}
-        setContent={setContent}
-        content={content}
+        previewComponent={previewComponent}
+        header={currentStep.header}
+        setHeader={(data) => setTourDetails('header', data)}
+        setContent={(data) => setTourDetails('content', data)}
+        content={currentStep.content}
         sx={{
           position: 'relative',
           minWidth: '400px',
@@ -83,9 +110,15 @@ const TourPage = ({
       setIsEdit={setIsEdit}
       headerButtons={['Content', 'Apperance & target URL']}
       rightContent={rightContent}
-      leftContent={() => <TourLeftContent />}
+      leftContent={() => (
+        <TourLeftContent
+          stepsData={stepsData}
+          setStepsData={setStepsData}
+          setCurrentStep={setCurrentStep}
+        />
+      )}
       leftAppearance={() => (
-        <TourLeftApperance
+        <TourLeftAppearance
           data={fields}
           tourPopupAppearance={appearance}
           setTourPopupAppearance={setAppearance}

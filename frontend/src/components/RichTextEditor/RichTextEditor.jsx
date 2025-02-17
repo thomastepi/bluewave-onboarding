@@ -43,15 +43,15 @@ const RichTextEditor = ({
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
-    onDestroy: () => {
-      setContent("");
-      setHeader("");
-    },
+    // onDestroy: () => {
+    //   setContent("");
+    //   setHeader("");
+    // },
   });
   
-  // Set initial content of the editor to the content prop during editing
+  // Sync editor content with the content prop
   useEffect(() => {
-    if (editor?.isEmpty && content !== "<p></p>") {
+    if (editor && editor.getHTML() !== content) {
       editor.commands.setContent(content);
     }
   }, [content]);
@@ -83,7 +83,7 @@ const RichTextEditor = ({
         setMode={setMode}
         sx={{
           position: "absolute",
-          bottom: "35px",
+          bottom: "px",
           left: 0,
         }}
       />

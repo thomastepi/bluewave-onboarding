@@ -1,13 +1,35 @@
-.stepContainer{
+.stepContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 12px;
+  background-color: var(--header-background);
+  border: 1.23px solid var(--light-border-color);
+  border-radius: 8px;
+  width: 241px;
+
+  > div {
+    width: 100%;
+  }
+
+  &__isActive {
+    border: 1.23px solid var(--main-purple);
+  }
+
+  &__button {
+    border: none;
+    border-radius: 1rem;
+    height: 30px;
+    width: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 12px;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
     background-color: var(--header-background);
-    border: 1.23px solid var(--light-border-color);
-    border-radius: 8px;
-    width: 241px;
-    > div {
-        width: 100%;
+
+    &:hover {
+      background-color: var(--gray-200);
     }
+  }
 }

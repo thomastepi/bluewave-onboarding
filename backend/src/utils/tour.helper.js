@@ -30,6 +30,7 @@ const tourValidator = [
   body('active').optional().isBoolean().withMessage('Invalid value for active'),
   body('steps').isArray().withMessage('steps must be an array'),
   body('steps.*.title').isString().withMessage('Invalid value for title'),
+  body('steps.*.header').isString().withMessage('Invalid value for header'),
   body('steps.*.description').isString().withMessage('Invalid value for description'),
   body('steps.*.targetElement').isString().withMessage('Invalid value for targetElement'),
   body('steps.*.order').isInt().withMessage('Invalid value for order'),

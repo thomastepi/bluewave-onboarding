@@ -7,6 +7,7 @@ import Button from '../../components/Button/Button';
 import styles from './GuideTemplate.module.scss';
 import { useDialog } from './GuideTemplateContext';
 import { useLocation, useNavigate } from 'react-router';
+import Switch from '../../components/Switch/Switch';
 
 const GuideTemplate = ({
   title = '',
@@ -18,6 +19,9 @@ const GuideTemplate = ({
   onSave = () => null,
   setIsEdit = () => null,
   headerButtons = [],
+  enableActiveButton = false,
+  switchValue,
+  onSwitchChange = () => null,
 }) => {
   const { isOpen, closeDialog } = useDialog();
   const location = useLocation();
@@ -67,6 +71,32 @@ const GuideTemplate = ({
                   {buttonName}
                 </button>
               ))}
+
+              {enableActiveButton && (
+                <div
+                  style={{
+                    alignSelf: 'center',
+                    marginLeft: 'auto',
+                    display: 'flex',
+                    gap: 6,
+                  }}
+                >
+                  <Switch
+                    id="switch"
+                    name="isActive"
+                    value={switchValue}
+                    onChange={onSwitchChange}
+                  />
+                  <label
+                    style={{
+                      fontSize: 'var(--font-regular)',
+                      alignSelf: 'center',
+                    }}
+                  >
+                    Active and visible
+                  </label>
+                </div>
+              )}
             </div>
             <div className={styles.leftRightContent}>
               {activeButton === 1 ? leftAppearance() : leftContent()}
@@ -97,6 +127,9 @@ GuideTemplate.propTypes = {
   onSave: PropTypes.func,
   setIsEdit: PropTypes.func,
   headerButtons: PropTypes.array,
+  enableActiveButton: PropTypes.bool,
+  switchValue: PropTypes.bool,
+  onSwitchChange: PropTypes.func,
 };
 
 export default GuideTemplate;

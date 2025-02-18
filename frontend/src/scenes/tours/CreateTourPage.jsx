@@ -34,6 +34,7 @@ const TourPage = ({
     tourSize: 'Small',
     finalButtonText: 'Complete tour',
     url: 'https://',
+    isActive: true,
   });
 
   useEffect(() => {
@@ -123,6 +124,11 @@ const TourPage = ({
       onSave={onSave}
       setIsEdit={setIsEdit}
       headerButtons={['Content', 'Appearance & target URL']}
+      enableActiveButton={true}
+      onSwitchChange={(e) =>
+        setAppearance((prev) => ({ ...prev, isActive: e.target.checked }))
+      }
+      switchValue={appearance.isActive}
       rightContent={rightContent}
       leftContent={() => (
         <TourLeftContent

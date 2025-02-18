@@ -4,6 +4,7 @@ import TourPreview from './TourPreview/TourPreview';
 import TourLeftContent from './TourPageComponents/TourLeftContent/TourLeftContent';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import TourLeftAppearance from './TourPageComponents/TourleftAppearance/TourLeftAppearance';
+import CustomTextField from '../../components/TextFieldComponents/CustomTextField/CustomTextField';
 
 const TourPage = ({
   autoOpen = false,
@@ -85,20 +86,33 @@ const TourPage = ({
     activeButton === 1 ? (
       previewComponent()
     ) : (
-      <RichTextEditor
-        previewComponent={previewComponent}
-        header={currentStep.header}
-        setHeader={(data) => setTourDetails('header', data)}
-        setContent={(data) => setTourDetails('content', data)}
-        content={currentStep.content}
-        sx={{
-          position: 'relative',
-          minWidth: '400px',
-          maxWidth: '700px',
-          marginLeft: '2.5rem',
-          marginTop: '1rem',
-        }}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <RichTextEditor
+          previewComponent={previewComponent}
+          header={currentStep.header}
+          setHeader={(data) => setTourDetails('header', data)}
+          setContent={(data) => setTourDetails('content', data)}
+          content={currentStep.content}
+          sx={{
+            position: 'relative',
+            minWidth: '400px',
+            maxWidth: '700px',
+            marginLeft: '2.5rem',
+            marginTop: '1rem',
+            marginBottom: '1rem',
+          }}
+        />
+
+        <div style={{ alignSelf: 'end' }}>
+          <CustomTextField
+            value={currentStep.targetElement}
+            onChange={(e) => setTourDetails('targetElement', e?.target.value)}
+            labelSubText="Target Element"
+            TextFieldWidth="200px"
+            placeholder=".element"
+          ></CustomTextField>
+        </div>
+      </div>
     );
 
   return (
@@ -108,7 +122,7 @@ const TourPage = ({
       handleButtonClick={handleButtonClick}
       onSave={onSave}
       setIsEdit={setIsEdit}
-      headerButtons={['Content', 'Apperance & target URL']}
+      headerButtons={['Content', 'Appearance & target URL']}
       rightContent={rightContent}
       leftContent={() => (
         <TourLeftContent

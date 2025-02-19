@@ -134,6 +134,7 @@ const TourPage = ({
         <TourLeftContent
           stepsData={stepsData}
           setStepsData={setStepsData}
+          setTourDetails={setTourDetails}
           setCurrentStep={setCurrentStep}
         />
       )}

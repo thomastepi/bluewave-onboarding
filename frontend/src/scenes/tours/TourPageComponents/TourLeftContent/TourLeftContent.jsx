@@ -18,7 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import PropTypes from 'prop-types';
 
-const TourLeftContent = ({ stepsData, setStepsData, setCurrentStep }) => {
+const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentStep }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [activeDragId, setActiveDragId] = useState(null); // Track the currently dragged item
 
@@ -48,6 +48,10 @@ const TourLeftContent = ({ stepsData, setStepsData, setCurrentStep }) => {
       },
     ]);
   };
+
+  const renameStepHandler = (newName) => {
+    setTourDetails('stepName', newName)
+  }
 
   const selectHandler = (identity) => {
     setActiveStep(identity);
@@ -81,7 +85,7 @@ const TourLeftContent = ({ stepsData, setStepsData, setCurrentStep }) => {
   return (
     <div className={styles.container}>
       <h2 style={{ marginTop: '1.5rem', marginBottom: '10px' }}>
-        Tour stepsData (popups)
+        Tour steps (popups)
       </h2>
 
       <DndContext
@@ -100,6 +104,7 @@ const TourLeftContent = ({ stepsData, setStepsData, setCurrentStep }) => {
                 id={id}
                 text={stepName}
                 isActive={activeStep === id}
+                stepNameChangeHandler={(e)=> renameStepHandler(e.target.value)}
                 onSelectHandler={() => selectHandler(id)}
                 onDeleteHandler={() => deleteHandler(id)}
               />
@@ -132,6 +137,7 @@ const TourLeftContent = ({ stepsData, setStepsData, setCurrentStep }) => {
 TourLeftContent.propTypes = {
   stepsData: PropTypes.array.isRequired,
   setStepsData: PropTypes.func.isRequired,
+  setTourDetails: PropTypes.func.isRequired,
   setCurrentStep: PropTypes.func.isRequired,
 };
 

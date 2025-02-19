@@ -7,6 +7,7 @@ import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
 const DraggableTourStep = ({
   id,
   text,
+  stepNameChangeHandler,
   isActive,
   onSelectHandler,
   onDeleteHandler,
@@ -43,16 +44,32 @@ const DraggableTourStep = ({
         <Hamburger />
       </div>
 
-      <h3
-        style={{
-          flexGrow: 1,
-          paddingLeft: '1rem',
-          border: '1px',
-          cursor: 'pointer',
-        }}
-      >
-        {text || 'Step'}
-      </h3>
+      <div style={{ flexGrow: 1, paddingLeft: '1rem' }}>
+        <input
+          type="text"
+          value={text}
+          onChange={stepNameChangeHandler}
+          style={{
+            padding: '3px 0.5rem',
+            borderRadius: '8px',
+            fontSize: '13px',
+            color: 'var(--main-text-color)',
+            cursor: 'text',
+            outline: 'none',
+            width: '100px',
+            border: '1px solid transparent',
+            backgroundColor: 'var(--header-background)',
+          }}
+          onFocus={(e) => {
+            e.target.style.border = '1px solid var(--light-border-color)';
+            e.target.style.backgroundColor = 'white';
+          }}
+          onBlur={(e) => {
+            e.target.style.border = '1px solid transparent';
+            e.target.style.backgroundColor = 'var(--header-background)';
+          }}
+        />
+      </div>
 
       <button
         className={styles.stepContainer__button}

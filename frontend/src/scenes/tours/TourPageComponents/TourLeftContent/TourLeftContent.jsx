@@ -18,8 +18,13 @@ import {
 } from '@dnd-kit/sortable';
 import PropTypes from 'prop-types';
 
-const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentStep }) => {
-  const [activeStep, setActiveStep] = useState(0);
+const TourLeftContent = ({
+  stepsData,
+  setStepsData,
+  setTourDetails,
+  setCurrentStep,
+}) => {
+  const [activeStepId, setActiveStep] = useState(0);
   const [activeDragId, setActiveDragId] = useState(null); // Track the currently dragged item
 
   const defaultStep = {
@@ -50,21 +55,30 @@ const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentSt
   };
 
   const renameStepHandler = (newName) => {
-    setTourDetails('stepName', newName)
-  }
+    setTourDetails('stepName', newName);
+  };
 
   const selectHandler = (identity) => {
+    const step = stepsData.find((step) => step.id === identity);
+    if (!step) {
+      console.error('Step not found');
+      return;
+    }
     setActiveStep(identity);
-    setCurrentStep(stepsData.find((step) => step.id === identity));
+    setCurrentStep(step);
   };
 
   const deleteHandler = (identity) => {
     const updatedSteps = stepsData.filter(({ id }) => id !== identity);
 
-    if (identity === activeStep) {
-      updatedSteps.length > 0
-        ? setActiveStep(updatedSteps[0].id)
-        : setActiveStep(-1);
+    if (updatedSteps.length === 0) {
+      console.error('No steps remaining');
+      return;
+    }
+
+    if (identity === activeStepId) {
+      setActiveStep(updatedSteps[0].id);
+      setCurrentStep(updatedSteps[0]);
     }
 
     setStepsData(updatedSteps);
@@ -103,8 +117,9 @@ const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentSt
                 key={id}
                 id={id}
                 text={stepName}
-                isActive={activeStep === id}
-                stepNameChangeHandler={(e)=> renameStepHandler(e.target.value)}
+                isActive={activeStepId === id}
+                stepsLength={stepsData.length}
+                stepNameChangeHandler={(e) => renameStepHandler(e.target.value)}
                 onSelectHandler={() => selectHandler(id)}
                 onDeleteHandler={() => deleteHandler(id)}
               />
@@ -119,7 +134,7 @@ const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentSt
               text={
                 stepsData.find((step) => step.id === activeDragId)?.stepName
               }
-              isActive={activeStep === activeDragId}
+              isActive={activeStepId === activeDragId}
             />
           ) : null}
         </DragOverlay>
@@ -135,7 +150,15 @@ const TourLeftContent = ({ stepsData, setStepsData, setTourDetails, setCurrentSt
 };
 
 TourLeftContent.propTypes = {
-  stepsData: PropTypes.array.isRequired,
+  stepsData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      stepName: PropTypes.string.isRequired,
+      header: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      targetElement: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
   setCurrentStep: PropTypes.func.isRequired,

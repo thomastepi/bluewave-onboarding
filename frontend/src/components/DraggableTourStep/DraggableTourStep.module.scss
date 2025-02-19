@@ -31,5 +31,9 @@
     &:hover {
       background-color: var(--gray-200);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 }

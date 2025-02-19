@@ -7,8 +7,9 @@ import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
 const DraggableTourStep = ({
   id,
   text,
-  stepNameChangeHandler,
   isActive,
+  stepsLength,
+  stepNameChangeHandler,
   onSelectHandler,
   onDeleteHandler,
 }) => {
@@ -73,6 +74,7 @@ const DraggableTourStep = ({
 
       <button
         className={styles.stepContainer__button}
+        disabled={stepsLength === 1}
         onClick={(e) => {
           e.stopPropagation();
           onDeleteHandler();

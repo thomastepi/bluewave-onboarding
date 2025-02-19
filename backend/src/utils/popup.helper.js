@@ -29,8 +29,12 @@ const addOrUpdatePopupValidation = [
     .bail()
     .custom((value) => {
       if (!value) return true;
-      const url = new URL(value)
-      return ['http:', 'https:'].includes(url.protocol) || value.startsWith('/');
+      try {
+        const url = new URL(value);
+        return ['http:', 'https:'].includes(url.protocol) || value.startsWith('/');
+      } catch (error) {
+        return false;
+      }
     })
     .withMessage('Invalid URL. URL must start with / or use HTTP or HTTPS protocol'),
   body('actionUrl')

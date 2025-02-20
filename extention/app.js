@@ -312,7 +312,7 @@ function removeHighlight() {
 function generateList() {
   const trashClass = "fa";
   const dragClass = "drag-icon";
-  const cardTemplate = `<i class="${dragClass}">&equiv;</i><span>Step {{step}}</span><i class="${trashClass}">&#xf014;</i></i>`;
+  const cardTemplate = `<i class="${dragClass}">&equiv;</i><span>Step {{step}}</span><i class="${trashClass}"><img src="https://cdn-icons-png.flaticon.com/512/860/860829.png" ald="Delete" width="16px" height="16px" /></i>`;
   const cardContainer = document.getElementById(TOUR_STEPS_CONTAINER_ID);
   cardContainer.innerHTML = "";
 

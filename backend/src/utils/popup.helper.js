@@ -28,12 +28,13 @@ const addOrUpdatePopupValidation = [
     .withMessage('URL is required when close button action is set to open URL')
     .bail()
     .custom((value) => {
-      if (!value) return true;
+      if (!value || value.startsWith('/')) return true;
       try {
-        const url = new URL(value);
-        return ['http:', 'https:'].includes(url.protocol) || value.startsWith('/');
-      } catch (error) {
-        return false;
+        const url = new URL(value)
+        return ['http:', 'https:'].includes(url.protocol);
+      }
+      catch(error) {
+        return false
       }
     })
     .withMessage('Invalid URL. URL must start with / or use HTTP or HTTPS protocol'),
@@ -43,7 +44,7 @@ const addOrUpdatePopupValidation = [
       try {
         const url = new URL(value);
         return ['http:', 'https:'].includes(url.protocol)
-      }catch {
+      }catch(error) {
         return false
       }
     })
@@ -70,7 +71,7 @@ const addOrUpdatePopupValidation = [
     .withMessage('Button text color must be a valid hex color code')
 ]
 
-const deleteOrGetPopupByIdValidation = [param('id').notEmpty().trim().isInt().withMessage("Invalid popup id")]
+const deleteOrGetPopupByIdValidation = [param('id').notEmpty().trim().isInt({ min: 1 }).withMessage("Invalid popup id")]
 
 const getPopupByUrlValidation = [body('url').notEmpty().isString().withMessage('URL is missing or invalid')]
 

@@ -68,7 +68,7 @@ function createFloatingMenu() {
     button.textContent = mode;
     button.style.padding = "8px 16px";
     button.style.fontSize = "16px";
-    button.style.backgroundColor = "#007bff";
+    button.style.backgroundColor = "#7F56D9";
     button.style.color = "#fff";
     button.style.border = "none";
     button.style.borderRadius = "30px";
@@ -87,16 +87,16 @@ function createFloatingMenu() {
           button.style.backgroundColor = "#ccc";
           button.style.color = "#333";
         } else {
-          button.style.backgroundColor = "#007bff";
+          button.style.backgroundColor = "#7F56D9";
           button.style.color = "#fff";
         }
       });
+      if (mode === "tour") {
+        generateList();
+      } else {
+        cardContainer.innerHTML = "";
+      }
     });
-    if (mode === "tour") {
-      generateList();
-    } else {
-      cardContainer.innerHTML = "";
-    }
     buttonContainer.appendChild(button);
   });
 

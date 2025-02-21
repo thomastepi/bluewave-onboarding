@@ -12,6 +12,7 @@ const CustomTextField = ({
   checkCircleIconVisible = false,
   displayCheckCircleIcon = false,
   labelText = "",
+  labelTextStyles = {},
   value = "",
   onChange = () => { },
   onBlur = () => { },
@@ -42,7 +43,7 @@ const CustomTextField = ({
       {!checkCircleIconVisible &&
         <div>
           <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>{labelText}</InputLabel>
-          {labelSubText && <InputLabel sx={{ fontWeight: '400', fontSize: '13px', margin: 0 }}>{labelSubText}</InputLabel>}
+          {labelSubText && <InputLabel sx={{ fontWeight: '400', fontSize: '13px', margin: 0, ...labelTextStyles }}>{labelSubText}</InputLabel>}
         </div>
       }
       {checkCircleIconVisible &&
@@ -120,6 +121,7 @@ CustomTextField.propTypes = {
       onDelete: PropTypes.func,
     })
   ),
+  labelTextStyles: PropTypes.object,
   labelFontWeight: PropTypes.number,
   TextFieldWidth: PropTypes.string,
   inputHeight: PropTypes.string,

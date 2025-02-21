@@ -81,7 +81,14 @@ const TourPage = ({
     console.log(finalSteps, appearance);
   };
 
-  const previewComponent = () => <TourPreview tourAppearance={appearance} />;
+  const previewComponent = () => (
+    <TourPreview
+      stepsData={stepsData}
+      currentStep={currentStep}
+      setCurrentStep={setCurrentStep}
+      tourAppearance={appearance}
+    />
+  );
 
   const rightContent = () =>
     activeButton === 1 ? (
@@ -135,6 +142,7 @@ const TourPage = ({
           stepsData={stepsData}
           setStepsData={setStepsData}
           setTourDetails={setTourDetails}
+          currentStep={currentStep}
           setCurrentStep={setCurrentStep}
         />
       )}

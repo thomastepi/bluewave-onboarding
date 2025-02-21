@@ -22,9 +22,9 @@ const TourLeftContent = ({
   stepsData,
   setStepsData,
   setTourDetails,
+  currentStep,
   setCurrentStep,
 }) => {
-  const [activeStepId, setActiveStep] = useState(0);
   const [activeDragId, setActiveDragId] = useState(null); // Track the currently dragged item
 
   const defaultStep = {
@@ -64,7 +64,6 @@ const TourLeftContent = ({
       console.error('Step not found');
       return;
     }
-    setActiveStep(identity);
     setCurrentStep(step);
   };
 
@@ -76,8 +75,7 @@ const TourLeftContent = ({
       return;
     }
 
-    if (identity === activeStepId) {
-      setActiveStep(updatedSteps[0].id);
+    if (identity === currentStep.id) {
       setCurrentStep(updatedSteps[0]);
     }
 
@@ -117,7 +115,7 @@ const TourLeftContent = ({
                 key={id}
                 id={id}
                 text={stepName}
-                isActive={activeStepId === id}
+                isActive={currentStep.id === id}
                 stepsLength={stepsData.length}
                 stepNameChangeHandler={(e) => renameStepHandler(e.target.value)}
                 onSelectHandler={() => selectHandler(id)}
@@ -134,7 +132,7 @@ const TourLeftContent = ({
               text={
                 stepsData.find((step) => step.id === activeDragId)?.stepName
               }
-              isActive={activeStepId === activeDragId}
+              isActive={currentStep.id === activeDragId}
             />
           ) : null}
         </DragOverlay>
@@ -161,6 +159,7 @@ TourLeftContent.propTypes = {
   ).isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
+  currentStep: PropTypes.object,
   setCurrentStep: PropTypes.func.isRequired,
 };
 

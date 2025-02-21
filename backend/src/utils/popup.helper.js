@@ -2,6 +2,10 @@ const { body, param } = require('express-validator');
 const settings = require('../../config/settings');
 const hexColorPattern = /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/;
 
+const colorValidator = (field) => {
+  return body(field).optional().matches(hexColorPattern).withMessage(`${field} must be a valid hex color code`)
+}
+
 const addOrUpdatePopupValidation = [
   body('popupSize')
     .notEmpty()
@@ -49,31 +53,27 @@ const addOrUpdatePopupValidation = [
       }
     })
     .withMessage('Invalid URL. Action URL must use HTTP or HTTPS protocol'),
-  body('headerBackgroundColor')
-    .optional()
-    .matches(hexColorPattern)
-    .withMessage('Header background color must be a valid hex color code'),
-  body('headerColor')
-    .optional()
-    .matches(hexColorPattern)
-    .withMessage('Header color must be a valid hex color code'),
-  body('textColor')
-    .optional()
-    .matches(hexColorPattern)
-    .withMessage('Text color must be a valid hex color code'),
-  body('buttonBackgroundColor')
-    .optional()
-    .matches(hexColorPattern)
-    .withMessage('Button background color must be a valid hex color code'),
-  body('buttonTextColor')
-    .optional()
-    .matches(hexColorPattern)
-    .withMessage('Button text color must be a valid hex color code')
+    colorValidator('headerBackgroundColor'),
+    colorValidator('headerColor'),
+    colorValidator('textColor'),
+    colorValidator('buttonBackgroundColor'),
+    colorValidator('buttonTextColor'),
 ]
 
-const deleteOrGetPopupByIdValidation = [param('id').notEmpty().trim().isInt({ min: 1 }).withMessage("Invalid popup id")]
+const deleteOrGetPopupByIdValidation = [
+  param('id')
+    .notEmpty()
+    .trim()
+    .isInt({ min: 1 })
+    .withMessage("Invalid popup id")
+]
 
-const getPopupByUrlValidation = [body('url').notEmpty().isString().withMessage('URL is missing or invalid')]
+const getPopupByUrlValidation = [
+  body('url')
+    .notEmpty()
+    .isString()
+    .withMessage('URL is missing or invalid')
+]
 
 const validatePopupSize = (value) => {
   const validSizes = settings.popup.size;

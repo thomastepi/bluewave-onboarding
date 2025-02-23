@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Turndown from 'turndown';
 import styles from './TourPreview.module.scss';
@@ -13,6 +14,10 @@ const TourPreview = ({
   tourAppearance,
 }) => {
   const { header, content } = currentStep;
+  const [isDisable, setIsDisable] = useState({
+    prev: false,
+    next: false,
+  });
   const markdownContent = new Turndown().turndown(content);
 
   const {
@@ -31,6 +36,9 @@ const TourPreview = ({
       transform: 'scale(1.1)',
       transition: 'all 0.3s ease',
     },
+    '&.Mui-disabled': {
+      cursor: 'not-allowed',
+    },
   };
 
   const buttonStyles = {
@@ -42,6 +50,11 @@ const TourPreview = ({
     '&:hover': {
       boxShadow: 'none',
     },
+
+    '&.Mui-disabled': {
+      cursor: 'not-allowed',
+      pointerEvents: 'auto',
+    },
   };
 
   const findCurrentIndex = (activeStep) =>
@@ -50,11 +63,17 @@ const TourPreview = ({
   const onClickHandler = (identifier) => {
     const currentIndex = findCurrentIndex(currentStep);
 
-    if (identifier === 'prev' && currentIndex > 0)
+    if (identifier === 'prev' && currentIndex > 0) {
       setCurrentStep(stepsData[currentIndex - 1]);
-    else if (identifier === 'next' && currentIndex < stepsData.length - 1)
+    } else if (identifier === 'next' && currentIndex < stepsData.length - 1) {
       setCurrentStep(stepsData[currentIndex + 1]);
-    else console.log('NO MORE ITEMS');
+    }
+
+    // Disable the arrow buttons based on current index
+    setIsDisable({
+      prev: currentIndex - 1 <= 0,
+      next: currentIndex + 1 >= stepsData.length,
+    });
   };
 
   return (
@@ -62,12 +81,20 @@ const TourPreview = ({
       <div className={styles.title}>
         <ArrowCircleLeftOutlinedIcon
           sx={arrowStyle}
+          style={{
+            pointerEvents: isDisable.prev ? 'none' : 'auto',
+          }}
+          disabled={isDisable.prev}
           onClick={onClickHandler.bind(null, 'prev')}
           aria-label="Previous"
         />
         <span>Preview</span>
         <ArrowCircleRightOutlinedIcon
           sx={arrowStyle}
+          style={{
+            pointerEvents: isDisable.next ? 'none' : 'auto',
+          }}
+          disabled={isDisable.next}
           onClick={onClickHandler.bind(null, 'next')}
           aria-label="Next"
         />
@@ -85,6 +112,7 @@ const TourPreview = ({
         <div className={styles.buttons}>
           <Button
             onClick={onClickHandler.bind(null, 'prev')}
+            disabled={isDisable.prev}
             color="var(--main-text-color)"
             sx={buttonStyles}
           >
@@ -92,6 +120,7 @@ const TourPreview = ({
           </Button>
           <Button
             variant="contained"
+            disabled={isDisable.next}
             onClick={onClickHandler.bind(null, 'next')}
             sx={{
               ...buttonStyles,

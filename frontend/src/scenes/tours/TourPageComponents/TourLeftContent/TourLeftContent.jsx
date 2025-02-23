@@ -17,6 +17,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import PropTypes from 'prop-types';
+import CustomTextField from '../../../../components/TextFieldComponents/CustomTextField/CustomTextField';
 
 const TourLeftContent = ({
   stepsData,
@@ -68,12 +69,9 @@ const TourLeftContent = ({
   };
 
   const deleteHandler = (identity) => {
-    const updatedSteps = stepsData.filter(({ id }) => id !== identity);
+    if (stepsData.length === 1) return;
 
-    if (updatedSteps.length === 0) {
-      console.error('No steps remaining');
-      return;
-    }
+    const updatedSteps = stepsData.filter(({ id }) => id !== identity);
 
     if (identity === currentStep.id) {
       setCurrentStep(updatedSteps[0]);
@@ -96,9 +94,17 @@ const TourLeftContent = ({
 
   return (
     <div className={styles.container}>
-      <h2 style={{ marginTop: '1.5rem', marginBottom: '10px' }}>
-        Tour steps (popups)
-      </h2>
+      <CustomTextField
+        value={currentStep.targetElement}
+        onChange={(e) => setTourDetails('targetElement', e?.target.value)}
+        labelSubText="Target Element"
+        labelTextStyles={{ color: 'var(--main-text-color)' }}
+        TextFieldWidth="200px"
+        placeholder=".element"
+        style={{ marginTop: '1.2rem' }}
+      />
+
+      <h2 style={{ marginBottom: '10px' }}>Tour steps (popups)</h2>
 
       <DndContext
         sensors={sensors}

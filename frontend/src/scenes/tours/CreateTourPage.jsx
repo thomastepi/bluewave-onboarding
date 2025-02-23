@@ -110,16 +110,6 @@ const TourPage = ({
             marginBottom: '1rem',
           }}
         />
-
-        <div style={{ alignSelf: 'end' }}>
-          <CustomTextField
-            value={currentStep.targetElement}
-            onChange={(e) => setTourDetails('targetElement', e?.target.value)}
-            labelSubText="Target Element"
-            TextFieldWidth="200px"
-            placeholder=".element"
-          ></CustomTextField>
-        </div>
       </div>
     );
 

@@ -26,7 +26,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "popupSize and closeButtonAction are required" }],
+        errors: ['Popup size is required'],
       });
     });
     it("should return 400 if closeButtonAction is not provided", async () => {
@@ -36,7 +36,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "popupSize and closeButtonAction are required" }],
+        errors: ['Close Button Action is required'],
       });
     });
     it("should return 400 if popupSize is invalid", async () => {
@@ -46,7 +46,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for popupSize or closeButtonAction or repetitionType" }],
+        errors: ['Invalid value for Popup size'],
       });
     });
     it("should return 400 if closeButtonAction is invalid", async () => {
@@ -56,7 +56,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for popupSize or closeButtonAction or repetitionType" }],
+        errors: ['Invalid close button action'],
       });
     });
     it("should return 400 if headerBackgroundColor is invalid", async () => {
@@ -66,9 +66,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [
-          { msg: "headerBackgroundColor must be a valid hex color code" },
-        ],
+        errors: ['headerBackgroundColor must be a valid hex color code'],
       });
     });
     it("should return 400 if headerColor is invalid", async () => {
@@ -78,7 +76,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "headerColor must be a valid hex color code" }],
+        errors: ['headerColor must be a valid hex color code'],
       });
     });
     it("should return 400 if textColor is invalid", async () => {
@@ -88,7 +86,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "textColor must be a valid hex color code" }],
+        errors: ['textColor must be a valid hex color code'],
       });
     });
     it("should return 400 if buttonBackgroundColor is invalid", async () => {
@@ -98,9 +96,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [
-          { msg: "buttonBackgroundColor must be a valid hex color code" },
-        ],
+        errors: ['buttonBackgroundColor must be a valid hex color code'],
       });
     });
     it("should return 400 if buttonTextColor is invalid", async () => {
@@ -110,7 +106,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "buttonTextColor must be a valid hex color code" }],
+        errors: ['buttonTextColor must be a valid hex color code'],
       });
     });
     it("should return 201 if popup is created", async () => {
@@ -158,7 +154,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid id" }],
+        errors: ['Invalid popup id'],
       });
     });
     it("should return 400 if id is invalid", async () => {
@@ -168,7 +164,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid id" }],
+        errors: ['Invalid popup id'],
       });
     });
     it("should return 400 if popup is not found", async () => {
@@ -229,7 +225,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "popupSize and closeButtonAction are required" }],
+        errors: ['Popup size is required'],
       });
     });
     it("should return 400 if closeButtonAction is not provided", async () => {
@@ -240,7 +236,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "popupSize and closeButtonAction are required" }],
+        errors: ['Close Button Action is required'],
       });
     });
     it("should return 400 if popupSize is invalid", async () => {
@@ -251,7 +247,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for popupSize" }],
+        errors: ['Invalid value for Popup size'],
       });
     });
     it("should return 400 if closeButtonAction is invalid", async () => {
@@ -262,7 +258,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid value for closeButtonAction" }],
+        errors: ['Invalid close button action'],
       });
     });
     it("should return 400 if headerBackgroundColor is invalid", async () => {
@@ -273,9 +269,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [
-          { msg: "headerBackgroundColor must be a valid hex color code" },
-        ],
+        errors: ['headerBackgroundColor must be a valid hex color code'],
       });
     });
     it("should return 400 if headerColor is invalid", async () => {
@@ -286,7 +280,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "headerColor must be a valid hex color code" }],
+        errors: ['headerColor must be a valid hex color code'],
       });
     });
     it("should return 400 if textColor is invalid", async () => {
@@ -297,7 +291,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "textColor must be a valid hex color code" }],
+        errors: ['textColor must be a valid hex color code'],
       });
     });
     it("should return 400 if buttonBackgroundColor is invalid", async () => {
@@ -308,9 +302,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [
-          { msg: "buttonBackgroundColor must be a valid hex color code" },
-        ],
+        errors: ['buttonBackgroundColor must be a valid hex color code'],
       });
     });
     it("should return 400 if buttonTextColor is invalid", async () => {
@@ -321,7 +313,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "buttonTextColor must be a valid hex color code" }],
+        errors: ['buttonTextColor must be a valid hex color code'],
       });
     });
     it("should return 200 if popup is updated", async () => {
@@ -435,7 +427,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid popup ID" }],
+        errors: ["Invalid popup id"],
       });
     });
     it("should return 400 if id is invalid", async () => {
@@ -445,7 +437,7 @@ describe("Test popup controller", () => {
       const body = res.json.getCall(0).args[0];
       expect(status).to.be.equal(400);
       expect(body).to.be.deep.equal({
-        errors: [{ msg: "Invalid popup ID" }],
+        errors: ["Invalid popup id"],
       });
     });
     it("should return 404 if popup is not found", async () => {

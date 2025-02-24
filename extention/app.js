@@ -256,6 +256,26 @@ function createStickyDiv() {
     button.style.backgroundColor = "#007bff";
   });
   button.addEventListener("click", async () => {
+    try {
+      await navigator?.clipboard?.writeText(input.value);
+      button.textContent = "Copied!";
+      setTimeout(() => (button.textContent = "Copy"), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+      button.textContent = "Failed!";
+      setTimeout(() => (button.textContent = "Copy"), 2000);
+    }
+    //alert(`You entered: ${input.value}`);
+  });
+  stickyDiv.appendChild(button);
+
+  button.addEventListener("mouseenter", () => {
+    button.style.backgroundColor = "#0056b3";
+  });
+  button.addEventListener("mouseleave", () => {
+    button.style.backgroundColor = "#007bff";
+  });
+  button.addEventListener("click", async () => {
     await navigator?.clipboard?.writeText(input.value);
     //alert(`You entered: ${input.value}`);
   });

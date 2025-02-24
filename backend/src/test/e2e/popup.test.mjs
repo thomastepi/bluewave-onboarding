@@ -415,7 +415,7 @@ describe("E2e tests popup", () => {
         .send(popup().invalidTextColor().build());
       expect(res).to.have.status(400);
       expect(res.body).to.be.deep.equal({
-        errors: ['textColor must be a valid hex color code']['textColor must be a valid hex color code'],
+        errors: ['textColor must be a valid hex color code'],
       });
     });
     it("should return 400 if buttonBackgroundColor is invalid", async () => {

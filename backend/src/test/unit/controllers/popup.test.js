@@ -19,96 +19,6 @@ describe("Test popup controller", () => {
       res.json = sinon.stub().returns(res);
     });
     afterEach(sinon.restore);
-    it("should return 400 if popupSize is not provided", async () => {
-      req.body = popup().missingPopupSize().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Popup size is required'],
-      });
-    });
-    it("should return 400 if closeButtonAction is not provided", async () => {
-      req.body = popup().missingCloseButtonAction().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Close Button Action is required'],
-      });
-    });
-    it("should return 400 if popupSize is invalid", async () => {
-      req.body = popup().invalidPopupSize().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid value for Popup size'],
-      });
-    });
-    it("should return 400 if closeButtonAction is invalid", async () => {
-      req.body = popup().invalidCloseButtonAction().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid close button action'],
-      });
-    });
-    it("should return 400 if headerBackgroundColor is invalid", async () => {
-      req.body = popup().invalidHeaderBackgroundColor().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['headerBackgroundColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if headerColor is invalid", async () => {
-      req.body = popup().invalidHeaderColor().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['headerColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if textColor is invalid", async () => {
-      req.body = popup().invalidTextColor().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['textColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if buttonBackgroundColor is invalid", async () => {
-      req.body = popup().invalidButtonBackgroundColor().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['buttonBackgroundColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if buttonTextColor is invalid", async () => {
-      req.body = popup().invalidButtonTextColor().build();
-      await popupController.addPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['buttonTextColor must be a valid hex color code'],
-      });
-    });
     it("should return 201 if popup is created", async () => {
       req.body = popup().build();
       serviceMock.createPopup = sinon
@@ -147,26 +57,6 @@ describe("Test popup controller", () => {
       res.json = sinon.stub().returns(res);
     });
     afterEach(sinon.restore);
-    it("should return 400 if id is not provided", async () => {
-      req.params = {};
-      await popupController.deletePopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid popup id'],
-      });
-    });
-    it("should return 400 if id is invalid", async () => {
-      req.params = { id: "invalid" };
-      await popupController.deletePopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid popup id'],
-      });
-    });
     it("should return 400 if popup is not found", async () => {
       req.params = { id: "123" };
       serviceMock.deletePopup = sinon
@@ -217,105 +107,6 @@ describe("Test popup controller", () => {
       res.json = sinon.stub().returns(res);
     });
     afterEach(sinon.restore);
-    it("should return 400 if popupSize is not provided", async () => {
-      req.params = { id: "123" };
-      req.body = popup().missingPopupSize().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Popup size is required'],
-      });
-    });
-    it("should return 400 if closeButtonAction is not provided", async () => {
-      req.params = { id: "123" };
-      req.body = popup().missingCloseButtonAction().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Close Button Action is required'],
-      });
-    });
-    it("should return 400 if popupSize is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidPopupSize().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid value for Popup size'],
-      });
-    });
-    it("should return 400 if closeButtonAction is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidCloseButtonAction().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['Invalid close button action'],
-      });
-    });
-    it("should return 400 if headerBackgroundColor is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidHeaderBackgroundColor().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['headerBackgroundColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if headerColor is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidHeaderColor().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['headerColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if textColor is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidTextColor().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['textColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if buttonBackgroundColor is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidButtonBackgroundColor().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['buttonBackgroundColor must be a valid hex color code'],
-      });
-    });
-    it("should return 400 if buttonTextColor is invalid", async () => {
-      req.params = { id: "123" };
-      req.body = popup().invalidButtonTextColor().build();
-      await popupController.editPopup(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ['buttonTextColor must be a valid hex color code'],
-      });
-    });
     it("should return 200 if popup is updated", async () => {
       req.body = popup().build();
       req.params = { id: "123" };
@@ -420,26 +211,6 @@ describe("Test popup controller", () => {
       res.json = sinon.stub().returns(res);
     });
     afterEach(sinon.restore);
-    it("should return 400 if id is not provided", async () => {
-      req.params = {};
-      await popupController.getPopupById(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ["Invalid popup id"],
-      });
-    });
-    it("should return 400 if id is invalid", async () => {
-      req.params = { id: "invalid" };
-      await popupController.getPopupById(req, res);
-      const status = res.status.getCall(0).args[0];
-      const body = res.json.getCall(0).args[0];
-      expect(status).to.be.equal(400);
-      expect(body).to.be.deep.equal({
-        errors: ["Invalid popup id"],
-      });
-    });
     it("should return 404 if popup is not found", async () => {
       req.params = { id: "123" };
       serviceMock.getPopupById = sinon

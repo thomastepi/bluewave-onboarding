@@ -1,3 +1,4 @@
+const settings = require("../../config/settings");
 const { validateHexColor } = require("../utils/guide.helper");
 
 module.exports = (sequelize, DataTypes) => {
@@ -10,11 +11,12 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       action: {
-        type: DataTypes.STRING(31),
+        type: DataTypes.ENUM(settings.hint.action),
         allowNull: false,
-        validate: {
-          isIn: [["no action", "open url", "open url in a new tab"]],
-        },
+      },
+      repetitionType: {
+        type: DataTypes.ENUM(settings.hint.repetition),
+        allowNull: false,
       },
       url: {
         type: DataTypes.STRING,
@@ -34,11 +36,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       tooltipPlacement: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.ENUM(settings.hint.tooltipPlacement),
         allowNull: false,
-        validate: {
-          isIn: [["top", "right", "bottom", "left"]],
-        },
+      },
+      isHintIconVisible: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
       hintContent: {
         type: DataTypes.STRING(2047),

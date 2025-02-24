@@ -1,68 +1,49 @@
 import { Form, Formik } from 'formik';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { newHintSchema } from '../../../utils/hintHelper';
 import DropdownList from '../../DropdownList/DropdownList';
+import Switch from '../../Switch/Switch';
 import CustomTextField from '../../TextFieldComponents/CustomTextField/CustomTextField';
 import './HintLeftContent.css';
 
-const HintLeftContent = ({
-  actionButtonText,
-  setActionButtonText,
-  actionButtonUrl,
-  setActionButtonUrl,
-  action,
-  setAction,
-  targetElement,
-  setTargetElement,
-  tooltipPlacement,
-  setTooltipPlacement,
-  setUrl,
-  url,
-  onSave,
-}) => {
+const HintLeftContent = ({ data, setState }) => {
+  const handleRepetitionChange = (newRepetitionType) => {
+    setState((prev) => ({ ...prev, buttonRepetition: newRepetitionType }));
+  };
+
   const handleActionButtonText = (event) => {
-    setActionButtonText(event.target.value);
+    setState((prev) => ({ ...prev, actionButtonText: event.target.value }));
   };
   const handleActionButtonUrl = (event) => {
-    setActionButtonUrl(event.target.value);
+    setState((prev) => ({ ...prev, actionButtonUrl: event.target.value }));
   };
   const handleUrl = (event) => {
-    setUrl(event.target.value);
+    setState((prev) => ({ ...prev, url: event.target.value }));
   };
   const handleActionChange = (newAction) => {
-    setAction(newAction);
+    setState((prev) => ({ ...prev, action: newAction }));
   };
 
   const handleTargetElement = (event) => {
-    setTargetElement(event.target.value);
+    setState((prev) => ({ ...prev, targetElement: event.target.value }));
   };
 
   const handleTooltipPlacement = (newAction) => {
-    setTooltipPlacement(newAction);
+    setState((prev) => ({ ...prev, tooltipPlacement: newAction }));
+  };
+
+  const handleHintIcon = (event) => {
+    setState((prev) => ({ ...prev, isHintIconVisible: event.target.checked }));
   };
 
   return (
     <Formik
-      initialValues={{
-        url,
-        action,
-        actionButtonUrl,
-        actionButtonText,
-        targetElement,
-        tooltipPlacement,
-      }}
+      initialValues={data}
       validationSchema={newHintSchema}
+      enableReinitialize={true}
       validateOnMount={false}
       validateOnBlur={false}
-      onSubmit={async (values, { setSubmitting }) => {
-        try {
-          onSave();
-        } catch (error) {
-          return;
-        } finally {
-          setSubmitting(false);
-        }
-      }}
     >
       {({
         isSubmitting,
@@ -75,7 +56,22 @@ const HintLeftContent = ({
         <Form className="left-content-container">
           <h2
             className="hint-label"
-            style={{ marginBottom: 0, marginTop: '16px' }}
+            style={{ marginBottom: '0.2rem', marginTop: '1.2rem' }}
+          >
+            Repetition
+          </h2>
+          <DropdownList
+            actions={['Show only once', 'Show every visit']}
+            onActionChange={(e) => {
+              handleRepetitionChange(e);
+              handleChange({ target: { name: 'buttonRepetition', value: e } });
+            }}
+            selectedActionString={data.buttonRepetition}
+            name="buttonRepetition"
+          />
+          <h2
+            className="hint-label"
+            style={{ marginBottom: 0, marginTop: '1rem' }}
           >
             Url (can be relative)
           </h2>
@@ -83,10 +79,10 @@ const HintLeftContent = ({
             TextFieldWidth="241px"
             error={!!errors.url}
             name="url"
-            value={values.url}
+            value={data.url}
             onChange={(e) => {
               handleUrl(e);
-              handleChange(e);
+              handleChange({ target: { name: 'url', value: e.target.value } });
             }}
             onBlur={(e) => {
               handleBlur(e);
@@ -101,9 +97,12 @@ const HintLeftContent = ({
             actions={['No action', 'Open URL', 'Open URL in a new tab']}
             onActionChange={(e) => {
               handleActionChange(e);
-              handleChange(e);
+              handleChange({
+                target: { name: 'action', value: e },
+              });
             }}
-            selectedActionString={values.action.toLowerCase()}
+            selectedActionString={data.action.toLowerCase()}
+            name="action"
           />
           <h2
             className="hint-label"
@@ -113,12 +112,14 @@ const HintLeftContent = ({
           </h2>
           <CustomTextField
             TextFieldWidth="241px"
-            value={values.actionButtonUrl}
+            value={data.actionButtonUrl}
             name="actionButtonUrl"
-            error={errors.actionButtonUrl}
+            error={!!errors.actionButtonUrl}
             onChange={(e) => {
               handleActionButtonUrl(e);
-              handleChange(e);
+              handleChange({
+                target: { name: 'actionButtonUrl', value: e.target.value },
+              });
             }}
             onBlur={(e) => {
               handleBlur(e);
@@ -133,12 +134,14 @@ const HintLeftContent = ({
           </h2>
           <CustomTextField
             TextFieldWidth="241px"
-            value={values.actionButtonText}
+            value={data.actionButtonText}
             name="actionButtonText"
-            error={errors.actionButtonText}
+            error={!!errors.actionButtonText}
             onChange={(e) => {
               handleActionButtonText(e);
-              handleChange(e);
+              handleChange({
+                target: { name: 'actionButtonText', value: e.target.value },
+              });
             }}
             onBlur={(e) => {
               handleBlur(e);
@@ -153,12 +156,14 @@ const HintLeftContent = ({
           </h2>
           <CustomTextField
             TextFieldWidth="241px"
-            value={values.targetElement}
-            error={errors.targetElement}
+            value={data.targetElement}
+            error={!!errors.targetElement}
             name="targetElement"
             onChange={(e) => {
               handleTargetElement(e);
-              handleChange(e);
+              handleChange({
+                target: { name: 'targetElement', value: e.target.value },
+              });
             }}
             onBlur={(e) => {
               handleBlur(e);
@@ -174,14 +179,47 @@ const HintLeftContent = ({
             actions={['Top', 'Right', 'Bottom', 'Left']}
             onActionChange={(e) => {
               handleTooltipPlacement(e);
-              handleChange(e);
+              handleChange({
+                target: { name: 'tooltipPlacement', value: e },
+              });
             }}
-            selectedActionString={values.tooltipPlacement}
+            selectedActionString={data.tooltipPlacement}
+            name="tooltipPlacement"
           />
+
+          <div className="switch-style">
+            <Switch
+              id="switch"
+              name="isHintIconVisible"
+              onChange={(e) => {
+                handleHintIcon(e);
+                handleChange(e);
+              }}
+              value={data.isHintIconVisible}
+            />
+            <span style={{ fontSize: 'var(--font-regular)' }}>
+              Enable hint icon
+            </span>
+          </div>
         </Form>
       )}
     </Formik>
   );
+};
+
+HintLeftContent.propTypes = {
+  data: PropTypes.shape({
+    buttonRepetition: PropTypes.string,
+    actionButtonText: PropTypes.string,
+    actionButtonUrl: PropTypes.string,
+    action: PropTypes.string,
+    targetElement: PropTypes.string,
+    tooltipPlacement: PropTypes.string,
+    url: PropTypes.string,
+    isHintIconVisible: PropTypes.bool,
+  }),
+  setState: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
 export default HintLeftContent;

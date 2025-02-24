@@ -8,7 +8,7 @@ const TOUR_STEP_CLASS = "bw-ext-tour-step";
 const AVAILABLE_MODES = ["hint", "tour"];
 let domSelected = false;
 let lastHighlightTarget;
-let selectedMode = "tour";
+let selectedMode = "hint";
 let selectedElements = [];
 
 function terminate() {
@@ -227,8 +227,8 @@ function createStickyDiv() {
   input.style.flex = "1";
   input.style.maxWidth = "300px";
   input.addEventListener("focus", () => {
-    input.style.borderColor = "#007bff";
-    input.style.boxShadow = "0 0 5px rgba(0, 123, 255, 0.5)";
+    input.style.borderColor = "#7F56D9";
+    input.style.boxShadow = "0 0 5px rgba(127, 86, 217, 0.5)";
   });
   input.addEventListener("blur", () => {
     input.style.borderColor = "#ccc";
@@ -242,7 +242,7 @@ function createStickyDiv() {
   button.textContent = "Copy";
   button.style.padding = "8px 16px";
   button.style.fontSize = "16px";
-  button.style.backgroundColor = "#007bff";
+  button.style.backgroundColor = "#7F56D9";
   button.style.color = "#fff";
   button.style.border = "none";
   button.style.borderRadius = "4px";
@@ -250,10 +250,10 @@ function createStickyDiv() {
   button.style.transition = "background-color 0.3s ease";
 
   button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#0056b3";
+    button.style.backgroundColor = "#6941C6";
   });
   button.addEventListener("mouseleave", () => {
-    button.style.backgroundColor = "#007bff";
+    button.style.backgroundColor = "#7F56D9";
   });
   button.addEventListener("click", async () => {
     try {
@@ -270,10 +270,10 @@ function createStickyDiv() {
   stickyDiv.appendChild(button);
 
   button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#0056b3";
+    button.style.backgroundColor = "#6941C6";
   });
   button.addEventListener("mouseleave", () => {
-    button.style.backgroundColor = "#007bff";
+    button.style.backgroundColor = "#7F56D9";
   });
   button.addEventListener("click", async () => {
     await navigator?.clipboard?.writeText(input.value);
@@ -332,7 +332,7 @@ function removeHighlight() {
 function generateList() {
   const trashClass = "fa";
   const dragClass = "drag-icon";
-  const cardTemplate = `<i class="${dragClass}">&equiv;</i><span>Step {{step}}</span><i class="${trashClass}"><img src="https://cdn-icons-png.flaticon.com/512/860/860829.png" ald="Delete" width="16px" height="16px" /></i>`;
+  const cardTemplate = `<i class="${dragClass}">&equiv;</i><span>{{step}}</span><i class="${trashClass}"><img src="https://cdn-icons-png.flaticon.com/512/860/860829.png" ald="Delete" width="16px" height="16px" /></i>`;
   const cardContainer = document.getElementById(TOUR_STEPS_CONTAINER_ID);
   cardContainer.innerHTML = "";
 
@@ -343,7 +343,7 @@ function generateList() {
 
     // add card style
     card.draggable = true;
-    card.innerHTML = cardTemplate.replace("{{step}}", step);
+    card.innerHTML = cardTemplate.replace("{{step}}", element);
     card.style.display = "flex";
     card.style.alignItems = "center";
     card.style.gap = "10px";
@@ -354,6 +354,9 @@ function generateList() {
 
     const content = card.querySelector("span");
     content.style.flexGrow = "1";
+    content.style.maxWidth = "150px";
+    content.style.overflowX = "auto";
+    content.style.whiteSpace = "nowrap";
 
     const dragIcon = card.querySelector(`.${dragClass}`);
     dragIcon.style.cursor = "grab";

@@ -97,9 +97,9 @@ const TourLeftContent = ({
       <CustomTextField
         value={currentStep.targetElement}
         onChange={(e) => setTourDetails('targetElement', e?.target.value)}
-        labelSubText="Target Element"
+        labelSubText="Target element for each step"
         labelTextStyles={{ color: 'var(--main-text-color)' }}
-        TextFieldWidth="200px"
+        TextFieldWidth="267px"
         placeholder=".element"
         style={{ marginTop: '1.2rem' }}
       />

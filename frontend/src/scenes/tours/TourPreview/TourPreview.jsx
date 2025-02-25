@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Turndown from 'turndown';
 import styles from './TourPreview.module.scss';
@@ -14,10 +13,6 @@ const TourPreview = ({
   tourAppearance,
 }) => {
   const { header, content } = currentStep;
-  const [isDisable, setIsDisable] = useState({
-    prev: false,
-    next: false,
-  });
   const markdownContent = new Turndown().turndown(content);
 
   const {
@@ -28,18 +23,6 @@ const TourPreview = ({
     tourSize,
     finalButtonText,
   } = tourAppearance;
-
-  const arrowStyle = {
-    cursor: 'pointer',
-    '&:hover': {
-      color: 'gray',
-      transform: 'scale(1.1)',
-      transition: 'all 0.3s ease',
-    },
-    '&.Mui-disabled': {
-      cursor: 'not-allowed',
-    },
-  };
 
   const buttonStyles = {
     minWidth: '96px',
@@ -60,41 +43,39 @@ const TourPreview = ({
   const findCurrentIndex = (activeStep) =>
     stepsData.findIndex(({ id }) => id === activeStep.id);
 
+  const currentIndex = findCurrentIndex(currentStep);
+  const prevDisabled = currentIndex === 0;
+  const nextDisabled = currentIndex === stepsData.length - 1;
+
   const onClickHandler = (identifier) => {
-    const currentIndex = findCurrentIndex(currentStep);
-
-    if (identifier === 'prev' && currentIndex > 0) {
+    if (identifier === 'prev' && currentIndex > 0)
       setCurrentStep(stepsData[currentIndex - 1]);
-    } else if (identifier === 'next' && currentIndex < stepsData.length - 1) {
+    else if (identifier === 'next' && currentIndex < stepsData.length - 1)
       setCurrentStep(stepsData[currentIndex + 1]);
-    }
-
-    // Disable the arrow buttons based on current index
-    setIsDisable({
-      prev: currentIndex - 1 <= 0,
-      next: currentIndex + 1 >= stepsData.length,
-    });
   };
+
+  const getArrowStyle = (isDisabled) => ({
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    '&:hover': {
+      color: isDisabled ? 'inherit' : 'gray',
+      transform: isDisabled ? 'none' : 'scale(1.1)',
+      transition: 'all 0.3s ease',
+    },
+  });
 
   return (
     <div className={`${styles.container} ${styles[tourSize]}`}>
       <div className={styles.title}>
         <ArrowCircleLeftOutlinedIcon
-          sx={arrowStyle}
-          style={{
-            pointerEvents: isDisable.prev ? 'none' : 'auto',
-          }}
-          disabled={isDisable.prev}
+          sx={getArrowStyle(prevDisabled)}
+          disabled={prevDisabled}
           onClick={onClickHandler.bind(null, 'prev')}
           aria-label="Previous"
         />
         <span>Preview</span>
         <ArrowCircleRightOutlinedIcon
-          sx={arrowStyle}
-          style={{
-            pointerEvents: isDisable.next ? 'none' : 'auto',
-          }}
-          disabled={isDisable.next}
+          sx={getArrowStyle(nextDisabled)}
+          disabled={nextDisabled}
           onClick={onClickHandler.bind(null, 'next')}
           aria-label="Next"
         />
@@ -112,7 +93,7 @@ const TourPreview = ({
         <div className={styles.buttons}>
           <Button
             onClick={onClickHandler.bind(null, 'prev')}
-            disabled={isDisable.prev}
+            disabled={prevDisabled}
             color="var(--main-text-color)"
             sx={buttonStyles}
           >
@@ -120,7 +101,7 @@ const TourPreview = ({
           </Button>
           <Button
             variant="contained"
-            disabled={isDisable.next}
+            // disabled={nextDisabled}
             onClick={onClickHandler.bind(null, 'next')}
             sx={{
               ...buttonStyles,

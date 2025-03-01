@@ -4,7 +4,6 @@ import TourPreview from './TourPreview/TourPreview';
 import TourLeftContent from './TourPageComponents/TourLeftContent/TourLeftContent';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import TourLeftAppearance from './TourPageComponents/TourleftAppearance/TourLeftAppearance';
-import CustomTextField from '../../components/TextFieldComponents/CustomTextField/CustomTextField';
 
 const TourPage = ({
   autoOpen = false,
@@ -105,7 +104,7 @@ const TourPage = ({
             position: 'relative',
             minWidth: '400px',
             maxWidth: '700px',
-            marginLeft: '2.5rem',
+            marginLeft: '4rem',
             marginTop: '1rem',
             marginBottom: '1rem',
           }}

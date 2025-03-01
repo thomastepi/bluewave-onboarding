@@ -37,6 +37,11 @@
     justify-content: space-between;
     gap: 0.75rem;
 
+    &__content {
+      word-wrap: break-word; 
+      overflow-wrap: break-word
+    }
+
     .heading {
       display: flex;
       align-items: center;

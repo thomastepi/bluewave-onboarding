@@ -69,7 +69,7 @@ const DraggableTourStep = ({
 };
 
 DraggableTourStep.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   text: PropTypes.string,
   isActive: PropTypes.bool,
   onSelectHandler: PropTypes.func,

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import Turndown from 'turndown';
 import styles from './TourPreview.module.scss';
@@ -47,12 +49,15 @@ const TourPreview = ({
   const prevDisabled = currentIndex === 0;
   const nextDisabled = currentIndex === stepsData.length - 1;
 
-  const onClickHandler = (identifier) => {
-    if (identifier === 'prev' && currentIndex > 0)
-      setCurrentStep(stepsData[currentIndex - 1]);
-    else if (identifier === 'next' && currentIndex < stepsData.length - 1)
-      setCurrentStep(stepsData[currentIndex + 1]);
-  };
+  const onClickHandler = useCallback(
+    (identifier) => {
+      if (identifier === 'prev' && currentIndex > 0)
+        setCurrentStep(stepsData[currentIndex - 1]);
+      else if (identifier === 'next' && currentIndex < stepsData.length - 1)
+        setCurrentStep(stepsData[currentIndex + 1]);
+    },
+    [currentIndex, setCurrentStep, stepsData]
+  );
 
   const getArrowStyle = (isDisabled) => ({
     cursor: isDisabled ? 'not-allowed' : 'pointer',
@@ -86,9 +91,10 @@ const TourPreview = ({
           <h2 style={{ color: `${headerColor}` }}>{header}</h2>
           <Close className={styles.closeIcon} aria-label="Close Preview" />
         </div>
-        <p className={styles.paragraph} style={{ color: textColor }}>
-          {markdownContent}
-        </p>
+
+        <div className={styles.preview__content}>
+          <ReactMarkdown>{markdownContent}</ReactMarkdown>
+        </div>
 
         <div className={styles.buttons}>
           <Button
@@ -119,25 +125,27 @@ const TourPreview = ({
   );
 };
 
+const stepShape = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  stepName: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  targetElement: PropTypes.string.isRequired,
+});
+
 TourPreview.propTypes = {
-  stepsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      stepName: PropTypes.string.isRequired,
-      header: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      targetElement: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  currentStep: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    stepName: PropTypes.string.isRequired,
-    header: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    targetElement: PropTypes.string.isRequired,
-  }),
+  stepsData: PropTypes.arrayOf(stepShape).isRequired,
+  currentStep: PropTypes.shape(stepShape),
   setCurrentStep: PropTypes.func,
-  appearance: PropTypes.object,
+  tourAppearance: PropTypes.shape({
+    headerColor: PropTypes.string,
+    textColor: PropTypes.string,
+    buttonBackgroundColor: PropTypes.string,
+    buttonTextColor: PropTypes.string,
+    tourSize: PropTypes.string,
+    finalButtonText: PropTypes.string,
+    url: PropTypes.string,
+  }),
 };
 
 export default TourPreview;

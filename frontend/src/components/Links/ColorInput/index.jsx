@@ -37,6 +37,8 @@ const ColorInput = ({ id, title, className, onChange, name }) => {
             onChange={handleChange}
             style={{ zIndex: 10, cursor: 'pointer', opacity: 0 }}
             onBlur={() => setTouched(true)}
+            aria-label={`Choose ${title} color`}
+            role="button"
           />
           {error && touched ? (
             <img

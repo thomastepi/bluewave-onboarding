@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import styles from './TourLeftContent.module.scss';
 import DraggableTourStep from '../../../../components/DraggableTourStep/DraggableTourStep';
 import Button from '../../../../components/Button/Button';
@@ -49,7 +50,7 @@ const TourLeftContent = ({
       ...prev,
       {
         ...defaultStep,
-        id: Date.now(),
+        id: uuidv4(),
         stepName: `Step ${prev.length + 1}`,
       },
     ]);
@@ -99,7 +100,7 @@ const TourLeftContent = ({
         onChange={(e) => setTourDetails('targetElement', e?.target.value)}
         labelSubText="Target element for each step"
         labelTextStyles={{ color: 'var(--main-text-color)' }}
-        TextFieldWidth="267px"
+        fullWidth
         placeholder=".element"
         style={{ marginTop: '1.2rem' }}
       />
@@ -115,7 +116,11 @@ const TourLeftContent = ({
           items={stepsData}
           strategy={verticalListSortingStrategy}
         >
-          <div className={styles.stepsList}>
+          <div
+            className={`${styles.stepsList} ${
+              stepsData.length > 5 ? styles.scrollable : ''
+            }`}
+          >
             {stepsData.map(({ id, stepName }) => (
               <DraggableTourStep
                 key={id}
@@ -156,7 +161,7 @@ const TourLeftContent = ({
 TourLeftContent.propTypes = {
   stepsData: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       stepName: PropTypes.string.isRequired,
       header: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,

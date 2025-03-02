@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import DropdownMenuList from './DropdownMenuList/DropdownMenuList';
 import styles from './DropdownMenu.module.css';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 const DropdownMenu = ({ menuItems, direction = 'up' }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     const handleDropdownClick = () => {
         setIsDropdownOpen((prev) => !prev);
@@ -44,8 +45,25 @@ const DropdownMenu = ({ menuItems, direction = 'up' }) => {
         }
     };
 
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+          setIsDropdownOpen(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+
     return (
-        <button className={styles["dropdownButton"]} onClick={handleDropdownClick}>
+        <div  ref={dropdownRef}>
+            <button className={styles["dropdownButton"]} onClick={handleDropdownClick}>
             {isDropdownOpen ? (
                 <>
                     {renderOpenArrowIcon()}
@@ -54,7 +72,8 @@ const DropdownMenu = ({ menuItems, direction = 'up' }) => {
             ) :
                 <>{renderClosedArrowIcon()}</>
             }
-        </button>
+            </button>
+        </div>
     );
 };
 

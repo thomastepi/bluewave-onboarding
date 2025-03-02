@@ -20,17 +20,17 @@ import UserProfileSidebar from '../UserProfileSidebar/UserProfileSidebar';
 
 const menuItems = [
   { text: 'Home', icon: <HomeIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/' },
-  // { text: 'SERVE A CONTENT', title: true },
-  // { text: 'Tours', icon: <DirectionsBusIcon />, route: '/tour' },
+  { text: 'SERVE A CONTENT', title: true },
+  { text: 'Tours', icon: <DirectionsBusIcon style={{ color: 'var(--menu-icon-color)'}} />, route: '/tour' },
   { text: 'Hints', icon: <TipsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/hint' },
-  // { text: 'Checklist', icon: <ChecklistIcon /> },
-  // { text: 'MAKE AN ANNOUNCEMENT', title: true },
+  { text: 'Checklist', icon: <ChecklistIcon /> },
+  { text: 'MAKE AN ANNOUNCEMENT', title: true },
   { text: 'Popups', icon: <SmsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/popup' },
   { text: 'Banners', icon: <SportsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/banner' },
   { text: 'Helper Links', icon: <LinkIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/link' },
-  // { text: 'GET FEEDBACK', title: true },
-  // { text: 'Feedback', icon: <ChatIcon /> },
-  // { text: 'Surveys', icon: <ListIcon /> },
+  { text: 'GET FEEDBACK', title: true },
+  { text: 'Feedback', icon: <ChatIcon /> },
+  { text: 'Surveys', icon: <ListIcon /> },
   { text: 'Support', icon: <SportsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: 'https://github.com/bluewave-labs/bluewave-onboarding' },
   { text: 'Settings', icon: <SettingsOutlinedIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/settings' }
 ];

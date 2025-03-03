@@ -101,12 +101,14 @@ const TourLeftContent = ({
         labelSubText="Target element for each step"
         labelTextStyles={{ color: 'var(--main-text-color)' }}
         fullWidth
-        inputHeight='40px'
+        inputHeight="40px"
         placeholder=".element"
         style={{ marginTop: '1.25rem' }}
       />
 
-      <h2 style={{ marginTop: '2.2rem', marginBottom: '20px'}}>Tour steps (popups)</h2>
+      <h2 style={{ marginTop: '2.2rem', marginBottom: '20px' }}>
+        Tour steps (popups)
+      </h2>
 
       <DndContext
         sensors={sensors}
@@ -117,11 +119,7 @@ const TourLeftContent = ({
           items={stepsData}
           strategy={verticalListSortingStrategy}
         >
-          <div
-            className={`${styles.stepsList} ${
-              stepsData.length > 5 ? styles.scrollable : ''
-            }`}
-          >
+          <div className={styles.stepsList}>
             {stepsData.map(({ id, stepName }) => (
               <DraggableTourStep
                 key={id}

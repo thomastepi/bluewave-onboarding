@@ -59,29 +59,36 @@ const TourPreview = ({
     [currentIndex, setCurrentStep, stepsData]
   );
 
-  const getArrowStyle = (isDisabled) => ({
-    cursor: isDisabled ? 'not-allowed' : 'pointer',
+  const arrowStyles = {
+    cursor: 'pointer',
     '&:hover': {
-      color: isDisabled ? 'inherit' : 'gray',
-      transform: isDisabled ? 'none' : 'scale(1.1)',
+      transform: 'scale(1.1)',
       transition: 'all 0.3s ease',
     },
-  });
+  };
 
   return (
     <div className={`${styles.container} ${styles[tourSize]}`}>
       <div className={styles.title}>
         <ArrowCircleLeftOutlinedIcon
-          sx={getArrowStyle(prevDisabled)}
-          disabled={prevDisabled}
-          onClick={onClickHandler.bind(null, 'prev')}
+          sx={{
+            ...arrowStyles,
+            visibility: prevDisabled ? 'hidden' : 'visible',
+          }}
+          onClick={
+            !prevDisabled ? onClickHandler.bind(null, 'prev') : undefined
+          }
           aria-label="Previous"
         />
         <span>Preview</span>
         <ArrowCircleRightOutlinedIcon
-          sx={getArrowStyle(nextDisabled)}
-          disabled={nextDisabled}
-          onClick={onClickHandler.bind(null, 'next')}
+          sx={{
+            ...arrowStyles,
+            visibility: nextDisabled ? 'hidden' : 'visible',
+          }}
+          onClick={
+            !nextDisabled ? onClickHandler.bind(null, 'next') : undefined
+          }
           aria-label="Next"
         />
       </div>
@@ -92,7 +99,7 @@ const TourPreview = ({
           <Close className={styles.closeIcon} aria-label="Close Preview" />
         </div>
 
-        <div className={styles.preview__content}>
+        <div className={styles.preview__content} style={{ color: textColor }}>
           <ReactMarkdown>{markdownContent}</ReactMarkdown>
         </div>
 

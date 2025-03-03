@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -48,3 +49,9 @@ export default function CustomTable({ fullData = [], headers = [], data = [] }) 
         </TableContainer>
     );
 }
+
+CustomTable.propTypes = {
+    fullData: PropTypes.arrayOf(PropTypes.object),
+    headers: PropTypes.arrayOf(PropTypes.string),
+    data: PropTypes.arrayOf(PropTypes.array)
+};

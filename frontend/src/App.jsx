@@ -17,6 +17,7 @@ import HintDefaultPage from "./scenes/hints/HintDefaultPage";
 import { Error404 } from "./scenes/errors/404";
 import { Error403 } from "./scenes/errors/403";
 import HomePageTemplate from "./templates/HomePageTemplate/HomePageTemplate";
+import UserStatisticsPage from "./scenes/statistics/UserStatisticsPage";
 
 import { useEffect, useState } from "react";
 import { getHasUsers } from "./services/loginServices";
@@ -41,10 +42,11 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="/link" element={<LinksDefaultPage />} />
           <Route path="/tour" element={<ToursDefaultPage />} />
-          <Route path="/banner" element={<Private Component={BannerDefaultPage} />} />
-          <Route path="/popup" element={<Private Component={PopupDefaultPage} />} />
+          <Route path="/banner" element={<BannerDefaultPage /> }/>
+          <Route path="/popup" element={<PopupDefaultPage /> }/>
           <Route path="/hint" element={<HintDefaultPage />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/statistics" element={<UserStatisticsPage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage isAdmin={isAdminLogin}/>} />

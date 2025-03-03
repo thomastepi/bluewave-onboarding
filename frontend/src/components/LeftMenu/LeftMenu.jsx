@@ -12,6 +12,7 @@ import {
   MarkChatUnreadOutlined as ChatIcon,
 } from '@mui/icons-material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import './LeftMenu.css';
 import Logo from '../Logo/Logo';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -32,7 +33,8 @@ const menuItems = [
   // { text: 'Feedback', icon: <ChatIcon /> },
   // { text: 'Surveys', icon: <ListIcon /> },
   { text: 'Support', icon: <SportsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: 'https://github.com/bluewave-labs/bluewave-onboarding' },
-  { text: 'Settings', icon: <SettingsOutlinedIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/settings' }
+  { text: 'Settings', icon: <SettingsOutlinedIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/settings' },
+  { text: 'User Statistics', icon: <QueryStatsIcon style={{ color: 'var(--menu-icon-color)'}}/>, route: '/statistics' }
 ];
 
 function LeftMenu() {

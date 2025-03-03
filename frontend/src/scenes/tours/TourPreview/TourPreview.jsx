@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import Turndown from 'turndown';
@@ -49,15 +48,12 @@ const TourPreview = ({
   const prevDisabled = currentIndex === 0;
   const nextDisabled = currentIndex === stepsData.length - 1;
 
-  const onClickHandler = useCallback(
-    (identifier) => {
-      if (identifier === 'prev' && currentIndex > 0)
-        setCurrentStep(stepsData[currentIndex - 1]);
-      else if (identifier === 'next' && currentIndex < stepsData.length - 1)
-        setCurrentStep(stepsData[currentIndex + 1]);
-    },
-    [currentIndex, setCurrentStep, stepsData]
-  );
+  const onClickHandler = (identifier) => {
+    if (identifier === 'prev' && currentIndex > 0)
+      setCurrentStep(stepsData[currentIndex - 1]);
+    else if (identifier === 'next' && currentIndex < stepsData.length - 1)
+      setCurrentStep(stepsData[currentIndex + 1]);
+  };
 
   const arrowStyles = {
     cursor: 'pointer',
@@ -75,9 +71,7 @@ const TourPreview = ({
             ...arrowStyles,
             visibility: prevDisabled ? 'hidden' : 'visible',
           }}
-          onClick={
-            !prevDisabled ? onClickHandler.bind(null, 'prev') : undefined
-          }
+          onClick={!prevDisabled ? () => onClickHandler('prev') : undefined}
           aria-label="Previous"
         />
         <span>Preview</span>
@@ -86,9 +80,7 @@ const TourPreview = ({
             ...arrowStyles,
             visibility: nextDisabled ? 'hidden' : 'visible',
           }}
-          onClick={
-            !nextDisabled ? onClickHandler.bind(null, 'next') : undefined
-          }
+          onClick={!nextDisabled ? () => onClickHandler('next') : undefined}
           aria-label="Next"
         />
       </div>
@@ -105,7 +97,7 @@ const TourPreview = ({
 
         <div className={styles.buttons}>
           <Button
-            onClick={onClickHandler.bind(null, 'prev')}
+            onClick={() => onClickHandler('prev')}
             disabled={prevDisabled}
             color="var(--main-text-color)"
             sx={buttonStyles}
@@ -115,7 +107,7 @@ const TourPreview = ({
           <Button
             variant="contained"
             // disabled={nextDisabled}
-            onClick={onClickHandler.bind(null, 'next')}
+            onClick={() => onClickHandler('next')}
             sx={{
               ...buttonStyles,
               color: `${buttonTextColor}`,
@@ -142,7 +134,7 @@ const stepShape = PropTypes.shape({
 
 TourPreview.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape),
+  currentStep: PropTypes.shape(stepShape).isRequired,
   setCurrentStep: PropTypes.func,
   tourAppearance: PropTypes.shape({
     headerColor: PropTypes.string,

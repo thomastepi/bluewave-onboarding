@@ -41,7 +41,7 @@ const App = () => {
         <Route path="/" element={<Private Component={HomePageTemplate} />}>
           <Route index element={<Home />} />
           <Route path="/link" element={<LinksDefaultPage />} />
-          <Route path="/tour" element={<ToursDefaultPage />} />
+          <Route path="/tour" element={<TourDefaultPage />} />
           <Route path="/banner" element={<BannerDefaultPage /> }/>
           <Route path="/popup" element={<PopupDefaultPage /> }/>
           <Route path="/hint" element={<HintDefaultPage />} />

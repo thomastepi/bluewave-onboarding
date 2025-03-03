@@ -157,19 +157,19 @@ const TourLeftContent = ({
   );
 };
 
+const stepShape = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  stepName: PropTypes.string.isRequired,
+  header: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  targetElement: PropTypes.string.isRequired,
+});
+
 TourLeftContent.propTypes = {
-  stepsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-      stepName: PropTypes.string.isRequired,
-      header: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      targetElement: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  stepsData: PropTypes.arrayOf(stepShape).isRequired,
+  currentStep: PropTypes.shape(stepShape).isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
-  currentStep: PropTypes.object,
   setCurrentStep: PropTypes.func.isRequired,
 };
 

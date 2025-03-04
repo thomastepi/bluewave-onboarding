@@ -3,7 +3,6 @@ import {
   List,
   ListItemIcon,
   ListItemText,
-  Divider,
   ListItemButton,
 } from '@mui/material';
 import {
@@ -11,11 +10,8 @@ import {
   HomeOutlined as HomeIcon,
   SportsSoccerOutlined as SportsIcon,
   TipsAndUpdatesOutlined as TipsIcon,
-  ChecklistOutlined as ChecklistIcon,
   SmsOutlined as SmsIcon,
   LinkOutlined as LinkIcon,
-  ListOutlined as ListIcon,
-  MarkChatUnreadOutlined as ChatIcon,
 } from '@mui/icons-material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';

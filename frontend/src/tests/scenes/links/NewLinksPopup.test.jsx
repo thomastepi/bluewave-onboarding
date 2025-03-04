@@ -170,7 +170,7 @@ describe('Test Helper Link popup', () => {
       await renderPopup();
       await openAppearance();
       const form = await screen.findByTestId('appearance-form');
-  
+
       // Select only inputs with a 'name' attribute
       const inputs = form.querySelectorAll('input[name]');
 
@@ -197,34 +197,44 @@ describe('Test Helper Link popup', () => {
       const previewHeader = (
         await screen.findByTestId('preview')
       ).querySelector('.preview__card--header');
-      expect(getComputedStyle(previewHeader).backgroundColor).toBe('rgb(248, 249, 248)');
-      
+      expect(getComputedStyle(previewHeader).backgroundColor).toBe(
+        'rgb(248, 249, 248)'
+      );
+
       const form = await screen.findByTestId('appearance-form');
       const headerColorInput = form.querySelector('input#header-bg');
-      const headerColorTextInput = form.querySelector('input[name="headerBackgroundColor"]');
-      
+      const headerColorTextInput = form.querySelector(
+        'input[name="headerBackgroundColor"]'
+      );
+
       await act(async () => {
         fireEvent.change(headerColorInput, { target: { value: '#f2f2f2' } });
       });
-      
+
       expect(headerColorTextInput.value).toBe('#f2f2f2');
-      expect(getComputedStyle(previewHeader).backgroundColor).toBe('rgb(242, 242, 242)');
+      expect(getComputedStyle(previewHeader).backgroundColor).toBe(
+        'rgb(242, 242, 242)'
+      );
     });
     it('should change the link text color if the color is changed', async () => {
       await renderPopup();
       await addNewLink('link 1', 'http://localhost:4321');
       await openAppearance();
-      const previewLink = (await screen.findByTestId('preview')).querySelector('li.preview__card--item a');
+      const previewLink = (await screen.findByTestId('preview')).querySelector(
+        'li.preview__card--item a'
+      );
       expect(getComputedStyle(previewLink).color).toBe('rgb(52, 64, 84)');
-      
+
       const form = await screen.findByTestId('appearance-form');
       const linkColorInput = form.querySelector('input#link-color');
-      const linkColorTextInput = form.querySelector('input[name="linkFontColor"]');
-      
+      const linkColorTextInput = form.querySelector(
+        'input[name="linkFontColor"]'
+      );
+
       await act(async () => {
         fireEvent.change(linkColorInput, { target: { value: '#000' } });
       });
-      
+
       expect(linkColorTextInput.value).toBe('#000000');
       expect(getComputedStyle(previewLink).color).toBe('rgb(0, 0, 0)');
     });
@@ -232,21 +242,29 @@ describe('Test Helper Link popup', () => {
       await renderPopup();
       await addNewLink('link 1', 'http://localhost:4321');
       await openAppearance();
-      const previewIcon = (await screen.findByTestId('preview')).querySelector('.preview__card--icon');
-      expect(previewIcon.querySelector('path').getAttribute('stroke')).toBe('#7F56D9');
-      
+      const previewIcon = (await screen.findByTestId('preview')).querySelector(
+        '.preview__card--icon'
+      );
+      expect(previewIcon.querySelector('path').getAttribute('stroke')).toBe(
+        '#7F56D9'
+      );
+
       const form = await screen.findByTestId('appearance-form');
       const iconColorInput = form.querySelector('input#icon');
       const iconColorTextInput = form.querySelector('input[name="iconColor"]');
-      
+
       await act(async () => {
         fireEvent.change(iconColorInput, { target: { value: '#000' } });
       });
-      
+
       expect(iconColorTextInput.value).toBe('#000000');
       // Re-query the icon to ensure the DOM is updated
-      const updatedPreviewIcon = (await screen.findByTestId('preview')).querySelector('.preview__card--icon');
-      expect(updatedPreviewIcon.querySelector('path').getAttribute('stroke')).toBe('#000000');
+      const updatedPreviewIcon = (
+        await screen.findByTestId('preview')
+      ).querySelector('.preview__card--icon');
+      expect(
+        updatedPreviewIcon.querySelector('path').getAttribute('stroke')
+      ).toBe('#000000');
     });
   });
 });

@@ -25,6 +25,8 @@ const ColorTextField = ({
 };
 
 ColorTextField.propTypes = {
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.bool,

@@ -29,11 +29,11 @@ export const activityInfoData = {
     title: 'All hints',
   },
   [ACTIVITY_TYPES_INFO.HELPERLINKS]: {
-    heading: "What is helper link?",
+    heading: 'What is helper link?',
     paragraph:
-      "A helper link is a way to collect all your help and feedback links.\nIf your users aren’t sure where to contact you, find knowledgebase or get help, a helper link is the best answer.\nHelper links can enhance user experience, communication, and engagement when used effectively.",
-    buttonText: "Create a new helper link",
-    title: "All helper links",
+      'A helper link is a way to collect all your help and feedback links.\nIf your users aren’t sure where to contact you, find knowledgebase or get help, a helper link is the best answer.\nHelper links can enhance user experience, communication, and engagement when used effectively.',
+    buttonText: 'Create a new helper link',
+    title: 'All helper links',
   },
   [ACTIVITY_TYPES_INFO.TOURS]: {
     heading: 'What is a product tour?',

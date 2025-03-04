@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   TableContainer,
   Table,
@@ -159,6 +160,10 @@ const DataTable = ({ data }) => {
       </div>
     </div>
   );
+};
+
+DataTable.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default DataTable;

@@ -39,7 +39,7 @@ const LinkAppearance = () => {
       validateOnBlur={true}
       enableReinitialize={true}
     >
-      {({ errors, handleChange, handleBlur, values }) => (
+      {({ errors, handleChange, handleBlur, values, validateField }) => (
         <Form className={styles.appearance} data-testid="appearance-form">
           <label htmlFor="header" className={styles.appearance__label}>
             Header text{' '}

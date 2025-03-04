@@ -11,12 +11,12 @@ const CustomTextField = ({
   className,
   checkCircleIconVisible = false,
   displayCheckCircleIcon = false,
-  labelText = "",
+  labelText = '',
   labelTextStyles = {},
-  value = "",
-  onChange = () => { },
-  onBlur = () => { },
-  helperText = "",
+  value = '',
+  onChange = () => {},
+  onBlur = () => {},
+  helperText = '',
   error = false,
   multiline = false,
   rows = 1,
@@ -48,8 +48,21 @@ const CustomTextField = ({
     >
       {!checkCircleIconVisible && (
         <div>
-          <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>{labelText}</InputLabel>
-          {labelSubText && <InputLabel sx={{ fontWeight: '400', fontSize: '13px', margin: 0, ...labelTextStyles }}>{labelSubText}</InputLabel>}
+          <InputLabel sx={{ fontWeight: labelFontWeight, margin: 0 }}>
+            {labelText}
+          </InputLabel>
+          {labelSubText && (
+            <InputLabel
+              sx={{
+                fontWeight: '400',
+                fontSize: '13px',
+                margin: 0,
+                ...labelTextStyles,
+              }}
+            >
+              {labelSubText}
+            </InputLabel>
+          )}
         </div>
       )}
       {checkCircleIconVisible && (

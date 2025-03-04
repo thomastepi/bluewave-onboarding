@@ -8,7 +8,7 @@ import { popupContentSchema } from '../../../../utils/popupHelper';
 
 const PopupContent = ({
   buttonRepetition,
-  action,
+  buttonAction,
   url,
   actionButtonUrl,
   actionButtonText,
@@ -19,7 +19,7 @@ const PopupContent = ({
     <Formik
       initialValues={{
         buttonRepetition,
-        action,
+        buttonAction,
         url,
         actionButtonUrl,
         actionButtonText,
@@ -74,9 +74,9 @@ const PopupContent = ({
             <DropdownList
               actions={['No action', 'Open URL', 'Open URL in a new tab']}
               onActionChange={(newValue) =>
-                handleDropdownChange('action', newValue)
+                handleDropdownChange('buttonAction', newValue)
               }
-              selectedActionString={action}
+              selectedActionString={buttonAction}
             />
 
             <h2 style={{ marginBottom: 0 }}>URL</h2>

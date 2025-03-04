@@ -79,9 +79,9 @@ const Dashboard = ({ name }) => {
       onClick: () => navigate('/hint', { state: { autoOpen: true } }),
     },
     {
-      skeletonType: <HintSkeleton/>,
-      placeholder: "Create a new tour",
-      onClick: () => navigate("/tour", { state: { autoOpen: true } }),
+      skeletonType: <HintSkeleton />,
+      placeholder: 'Create a new tour',
+      onClick: () => navigate('/tour', { state: { autoOpen: true } }),
     },
   ];
 

@@ -48,7 +48,7 @@ const RichTextEditor = ({
     //   setHeader("");
     // },
   });
-  
+
   // Sync editor content with the content prop
   useEffect(() => {
     if (editor && editor.getHTML() !== content) {
@@ -82,7 +82,8 @@ const RichTextEditor = ({
         mode={mode}
         setMode={setMode}
         sx={{
-          position: "absolute",
+          position: 'absolute',
+          bottom: 0,
           left: 0,
         }}
       />

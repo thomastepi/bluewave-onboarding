@@ -19,7 +19,7 @@ export const popupContentSchema = Yup.object().shape({
       'Invalid value for repetition'
     )
     .required('Button repetition is required'),
-  action: Yup.string()
+  buttonAction: Yup.string()
     .oneOf(
       ['no action', 'open url', 'open url in a new tab'],
       'Invalid value for action'

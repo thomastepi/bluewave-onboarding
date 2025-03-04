@@ -125,9 +125,7 @@ const CreatePopupPage = ({
     };
 
     try {
-      const response = isEdit
-        ? await editPopup(itemId, popupData)
-        : await addPopup(popupData);
+      isEdit ? await editPopup(itemId, popupData) : await addPopup(popupData);
       const toastMessage = isEdit ? 'You edited this popup' : 'New popup Saved';
 
       toastEmitter.emit(TOAST_EMITTER_KEY, toastMessage);
@@ -199,13 +197,12 @@ const CreatePopupPage = ({
   );
 };
 
-export default CreatePopupPage;
-
 CreatePopupPage.propTypes = {
   autoOpen: PropTypes.bool,
   isEdit: PropTypes.bool,
   itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   setIsEdit: PropTypes.func,
   setItemsUpdated: PropTypes.func,
-  setIsEdit: PropTypes.func.isRequired,
 };
+
+export default CreatePopupPage;

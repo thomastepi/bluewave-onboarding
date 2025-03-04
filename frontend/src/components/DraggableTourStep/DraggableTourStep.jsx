@@ -72,6 +72,8 @@ DraggableTourStep.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   text: PropTypes.string,
   isActive: PropTypes.bool,
+  stepsLength: PropTypes.number,
+  stepNameChangeHandler: PropTypes.func,
   onSelectHandler: PropTypes.func,
   onDeleteHandler: PropTypes.func,
 };

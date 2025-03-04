@@ -71,4 +71,13 @@ $box-shadow-color: rgba(16, 24, 40, 0.05);
       border: 1.5px solid #000;
     }
   }
+
+  &__error {
+    font-family: var(--font-family-inter);
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    line-height: 1.45;
+    margin-top: 0px;
+    color: var(--error-color);
+  }
 }

@@ -55,7 +55,7 @@ export default function CustomTable({ fullData = [], headers = [], data = [] }) 
 }
 
 CustomTable.propTypes = {
-    fullData: PropTypes.arrayOf(PropTypes.object),
-    headers: PropTypes.arrayOf(PropTypes.string),
-    data: PropTypes.arrayOf(PropTypes.array)
+  fullData: PropTypes.arrayOf(PropTypes.object),
+  headers: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(PropTypes.array),
 };

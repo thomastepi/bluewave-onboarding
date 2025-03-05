@@ -4,12 +4,13 @@ import TourPreview from './TourPreview/TourPreview';
 import TourLeftContent from './TourPageComponents/TourLeftContent/TourLeftContent';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import TourLeftAppearance from './TourPageComponents/TourleftAppearance/TourLeftAppearance';
+import PropTypes from 'prop-types';
 
 const TourPage = ({
-  autoOpen = false,
+  // autoOpen = false,
+  // itemId,
+  // setItemsUpdated,
   isEdit,
-  itemId,
-  setItemsUpdated,
   setIsEdit,
 }) => {
   const [activeButton, setActiveButton] = useState(0);
@@ -93,23 +94,21 @@ const TourPage = ({
     activeButton === 1 ? (
       previewComponent()
     ) : (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <RichTextEditor
-          previewComponent={previewComponent}
-          header={currentStep.header}
-          setHeader={(data) => setTourDetails('header', data)}
-          setContent={(data) => setTourDetails('content', data)}
-          content={currentStep.content}
-          sx={{
-            position: 'relative',
-            minWidth: '400px',
-            maxWidth: '700px',
-            marginLeft: '4rem',
-            marginTop: '1rem',
-            marginBottom: '1rem',
-          }}
-        />
-      </div>
+      <RichTextEditor
+        previewComponent={previewComponent}
+        header={currentStep.header}
+        setHeader={(data) => setTourDetails('header', data)}
+        setContent={(data) => setTourDetails('content', data)}
+        content={currentStep.content}
+        sx={{
+          position: 'relative',
+          minWidth: '400px',
+          maxWidth: '700px',
+          marginLeft: '4rem',
+          marginTop: '1rem',
+          marginBottom: '1rem',
+        }}
+      />
     );
 
   return (
@@ -145,6 +144,14 @@ const TourPage = ({
       )}
     />
   );
+};
+
+TourPage.propTypes = {
+  autoOpen: PropTypes.bool,
+  isEdit: PropTypes.bool,
+  itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setIsEdit: PropTypes.func,
+  setItemsUpdated: PropTypes.func,
 };
 
 export default TourPage;

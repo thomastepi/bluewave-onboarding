@@ -86,6 +86,12 @@ const PopupAppearance = ({
   );
 };
 
+PopupAppearance.propTypes = {
+  data: PropTypes.array,
+  setPopupSize: PropTypes.func,
+  popupSize: PropTypes.string,
+};
+
 export default PopupAppearance;
 
 PopupAppearance.propTypes = {

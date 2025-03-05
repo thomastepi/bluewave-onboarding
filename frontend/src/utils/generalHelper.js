@@ -48,3 +48,7 @@ export function renderIfAuthorized(userRole, requiredRole, element) {
   if (!userRole || !requiredRole) return null;
   return userRole === requiredRole ? element : null;
 }
+
+export function camelToUppercase(str) {
+  return str.replace(/([A-Z])/g, ' $1').trim().toUpperCase();
+}

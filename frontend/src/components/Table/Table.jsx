@@ -10,23 +10,27 @@ import Paper from '@mui/material/Paper';
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './Table.module.css';
+import { camelToUppercase } from '../../utils/generalHelper';
 
 export default function CustomTable({ fullData = [], headers = [], data = [] }) {
     const tableHeaders = fullData.length > 0
         ? Object.keys(fullData[0])
         : headers;
-    
+
     const tableData = fullData.length > 0
         ? fullData.map(item => Object.values(item))
         : data;
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }}>
+        <TableContainer component={Paper} elevation={0} >
+            <Table sx={{
+                minWidth: 650,
+                border: '1px solid #ddd',
+            }}>
                 <TableHead>
                     <TableRow className={styles.tableHeader}>
                         {tableHeaders.map((header, index) => (
-                            <TableCell key={index} className={styles.heading}>{header}</TableCell>
+                            <TableCell key={index} className={styles.heading}>{camelToUppercase(header)}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>

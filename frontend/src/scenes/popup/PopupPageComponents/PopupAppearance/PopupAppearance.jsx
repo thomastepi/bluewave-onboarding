@@ -12,16 +12,10 @@ const PopupAppearance = ({
   setPopupAppearance,
   onSave,
 }) => {
-  const initialValues = data.reduce((acc, { name }) => {
-    acc[name] = popupAppearance[name] || '';
-    return acc;
-  }, {});
-
   return (
     <Formik
       initialValues={{
-        popupSize: popupAppearance.popupSize.toLowerCase(),
-        ...initialValues,
+        ...popupAppearance,
       }}
       validationSchema={apperanceSchema}
       validateOnMount={false}
@@ -90,6 +84,12 @@ const PopupAppearance = ({
       )}
     </Formik>
   );
+};
+
+PopupAppearance.propTypes = {
+  data: PropTypes.array,
+  setPopupSize: PropTypes.func,
+  popupSize: PropTypes.string,
 };
 
 export default PopupAppearance;

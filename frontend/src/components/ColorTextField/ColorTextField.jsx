@@ -1,5 +1,6 @@
-import { MuiColorInput } from 'mui-color-input';
 import { React } from 'react';
+import PropTypes from 'prop-types';
+import { MuiColorInput } from 'mui-color-input';
 import styles from './ColorTextField.module.scss';
 
 const ColorTextField = ({
@@ -21,6 +22,14 @@ const ColorTextField = ({
       error={error}
     />
   );
+};
+
+ColorTextField.propTypes = {
+  name: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.bool,
 };
 
 export default ColorTextField;

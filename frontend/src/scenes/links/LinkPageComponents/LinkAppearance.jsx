@@ -107,50 +107,26 @@ const LinkAppearance = () => {
           <ColorInput
             id="header-bg"
             name="headerBackgroundColor"
-            value={values.headerBackgroundColor}
-            onChange={(e) => {
-              handleChange(e);
-              handleHelperChange(e);
-            }}
-            onBlur={(e) => {
-              handleBlur(e);
-              handleHelperChange(e);
-            }}
-            error={errors.headerBackgroundColor}
             title={'Header background color'}
-            className={'header'}
+            onChange={(val) => {
+              setHelper((prev) => ({ ...prev, headerBackgroundColor: val }));
+            }}
           />
           <ColorInput
             id="link-color"
             name="linkFontColor"
-            value={values.linkFontColor}
-            onChange={(e) => {
-              handleChange(e);
-              handleHelperChange(e);
-            }}
-            onBlur={(e) => {
-              handleBlur(e);
-              handleHelperChange(e);
-            }}
-            error={errors.linkFontColor}
             title={'Link font color'}
-            className={'link'}
+            onChange={(val) => {
+              setHelper((prev) => ({ ...prev, linkFontColor: val }));
+            }}
           />
           <ColorInput
             id="icon"
             name="iconColor"
-            value={values.iconColor}
-            onChange={(e) => {
-              handleChange(e);
-              handleHelperChange(e);
-            }}
-            onBlur={(e) => {
-              handleBlur(e);
-              handleHelperChange(e);
-            }}
-            error={errors.iconColor}
             title={'Helper icon color'}
-            className={'icon'}
+            onChange={(val) => {
+              setHelper((prev) => ({ ...prev, iconColor: val }));
+            }}
           />
           <label
             htmlFor="switch"

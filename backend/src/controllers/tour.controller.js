@@ -42,6 +42,17 @@ class TourController {
     }
   }
 
+  async getTourByUrl(req, res) {
+    try {
+      const { url } = req.body;
+      const tours = await TourService.getTourByUrl(url);
+      res.status(200).json(tours);
+    } catch (err) {
+      const { statusCode, payload } = internalServerError('GET_TOUR_BY_URL_ERROR', err.message);
+      res.status(statusCode).json(payload);
+    }
+  }
+
   async createTour(req, res) {
     try {
       const userId = req.user.id;

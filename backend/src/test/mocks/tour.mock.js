@@ -3,6 +3,7 @@ class TourPopupBuilder {
     this.tourPopup = {
       id: id,
       title: `title ${id}`,
+      header: `header ${id}`,
       description: `description ${id}`,
       targetElement: `.element${id}`,
       order: id,

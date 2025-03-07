@@ -8,7 +8,7 @@ import { popupContentSchema } from '../../../../utils/popupHelper';
 
 const PopupContent = ({
   buttonRepetition,
-  action,
+  buttonAction,
   url,
   actionButtonUrl,
   actionButtonText,
@@ -19,7 +19,7 @@ const PopupContent = ({
     <Formik
       initialValues={{
         buttonRepetition,
-        action,
+        buttonAction,
         url,
         actionButtonUrl,
         actionButtonText,
@@ -46,7 +46,6 @@ const PopupContent = ({
         validateField,
         setFieldValue,
       }) => {
-
         const handleDropdownChange = (fieldName, newValue) => {
           setFieldValue(fieldName, newValue.toLowerCase());
           setPopupContent((prev) => ({
@@ -54,7 +53,7 @@ const PopupContent = ({
             [fieldName]: newValue.toLowerCase(),
           }));
         };
-        
+
         const renderError = (field) =>
           Boolean(touched[field] && errors[field]) && (
             <small className="error-message">{errors[field]}</small>
@@ -75,9 +74,9 @@ const PopupContent = ({
             <DropdownList
               actions={['No action', 'Open URL', 'Open URL in a new tab']}
               onActionChange={(newValue) =>
-                handleDropdownChange('action', newValue)
+                handleDropdownChange('buttonAction', newValue)
               }
-              selectedActionString={action}
+              selectedActionString={buttonAction}
             />
 
             <h2 style={{ marginBottom: 0 }}>URL</h2>
@@ -88,7 +87,9 @@ const PopupContent = ({
               error={Boolean(touched.url && errors.url)}
               onChange={(e) => {
                 setPopupContent((prev) => ({ ...prev, url: e.target.value }));
-                handleChange({ target: { name: 'url', value: e.target.value } });
+                handleChange({
+                  target: { name: 'url', value: e.target.value },
+                });
               }}
               onBlur={(e) => {
                 handleBlur(e);

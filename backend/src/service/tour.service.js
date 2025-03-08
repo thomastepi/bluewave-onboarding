@@ -10,7 +10,16 @@ class TourService {
   }
 
   async getTourById(id) {
-    return await Tour.findByPk(id);
+    const response = await Tour.findByPk(id, {
+      include: [
+        {
+          model: TourPopup,
+          as: "steps", 
+        },
+      ],
+    });
+
+    return response
   }
 
   async getTourByUserId(userId) {
@@ -65,7 +74,7 @@ class TourService {
         returning: true,
       });
 
-      const formattedSteps = steps.map((step) => ({
+      const formattedSteps = steps.map(({id, ...step}) => ({
         ...step,
         tourId: newTour.id,
       }));

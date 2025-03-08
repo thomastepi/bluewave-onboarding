@@ -40,7 +40,7 @@ const GuideTemplate = ({
     <Dialog
       closeAfterTransition={isOpen}
       open={isOpen}
-      onClose={closeDialog}
+      onClose={onCloseHandler}
       maxWidth="lg"
       PaperProps={{ style: { position: 'static' } }}
     >

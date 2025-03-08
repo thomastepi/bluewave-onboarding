@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   max-width: 100%;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
 }
 
 .user-details-container {
@@ -22,7 +22,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px;
+  max-width: 7rem;
   width: 100%;
   display: block;
 }

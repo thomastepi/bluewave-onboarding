@@ -74,7 +74,7 @@ class TourService {
         returning: true,
       });
 
-      const formattedSteps = steps.map(({id, ...step}) => ({
+      const formattedSteps = steps.map((step) => ({
         ...step,
         tourId: newTour.id,
       }));

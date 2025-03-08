@@ -57,8 +57,9 @@ const TourPage = ({
         active: tourData.active ?? true,
       });
 
-      setStepsData(tourData.steps);
-      setCurrentStep(tourData.steps[0]);
+      const sortedSteps = [...tourData.steps].sort((a, b) => a.order - b.order);
+      setStepsData(sortedSteps);
+      setCurrentStep(sortedSteps[0]);
     } catch (error) {
       console.log({ error });
       emitToastError(error);

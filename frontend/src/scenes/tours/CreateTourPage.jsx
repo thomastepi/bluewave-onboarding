@@ -51,7 +51,7 @@ const TourPage = ({
         textColor: tourData.textColor || '#344054',
         buttonBackgroundColor: tourData.buttonBackgroundColor || '#7F56D9',
         buttonTextColor: tourData.buttonTextColor || '#FFFFFF',
-        size: tourData.tourSize?.toLowerCase() || 'small',
+        size: tourData.size?.toLowerCase() || 'small',
         finalButtonText: tourData.finalButtonText || 'Complete tour',
         url: tourData.url || 'https://',
         active: tourData.active ?? true,
@@ -130,7 +130,7 @@ const TourPage = ({
       setItemsUpdated((prevState) => !prevState);
       closeDialog();
     } catch (error) {
-      if (error.response.data?.errors) {
+      if (error.response?.data?.errors) {
         return error.response.data.errors.forEach((err) => {
           toastEmitter.emit(TOAST_EMITTER_KEY, `Error: ${err}`);
         });

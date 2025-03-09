@@ -134,7 +134,7 @@ const stepShape = PropTypes.shape({
 
 TourPreview.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape),
+  currentStep: stepShape.isRequired,
   setCurrentStep: PropTypes.func,
   tourAppearance: PropTypes.shape({
     headerColor: PropTypes.string,

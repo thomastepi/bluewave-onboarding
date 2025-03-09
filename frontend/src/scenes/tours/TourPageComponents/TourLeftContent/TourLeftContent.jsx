@@ -127,7 +127,7 @@ const TourLeftContent = ({
                 text={title}
                 isActive={currentStep.id === id}
                 stepsLength={stepsData.length}
-                stepNameChangeHandler={(e) => renameStepHandler(e.target.value)}
+                stepNameChangeHandler={(value) => renameStepHandler(value)}
                 onSelectHandler={() => selectHandler(id)}
                 onDeleteHandler={() => deleteHandler(id)}
               />
@@ -165,7 +165,7 @@ const stepShape = PropTypes.shape({
 
 TourLeftContent.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape).isRequired,
+  currentStep: stepShape.isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
   setCurrentStep: PropTypes.func.isRequired,

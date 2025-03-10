@@ -1,4 +1,4 @@
-.banner-appearance-container {
+.bannerAppearanceContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -6,23 +6,24 @@
   color: var(--main-text-color);
 }
 
-.banner-state-name {
+.bannerStateName {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   font-weight: 400;
   font-size: var(--font-regular);
 }
 
-.banner-appearance-color {
+.bannerAppearanceColor {
   display: flex;
   align-items: center;
   width: 241px;
-  > div {
-    width: 100%;
-  }
 }
 
-.banner-appearance-error {
+.bannerAppearanceColor > div {
+  width: 100%;
+}
+
+.bannerAppearanceError {
   position: absolute;
   font-family: var(--font-family-inter);
   font-size: var(--font-size-sm);
@@ -32,6 +33,6 @@
   color: var(--error-color);
 }
 
-.banner-appearance-item {
+.bannerAppearanceItem {
   position: relative;
 }

@@ -1,12 +1,42 @@
 import * as Yup from 'yup';
 
+// const RELATIVE_URL_REGEX = /^\/([a-zA-Z0-9_-]+\/?)+$/;
+// const ABSOLUTE_URL_REGEX = /^(https?:\/\/)[\w.-]+(?:\.[\w\.-]+)+(?:\/.*)?$/;
+
+// const validateUrl = (url) => {
+//   return RELATIVE_URL_REGEX.test(url) || ABSOLUTE_URL_REGEX.test(url);
+// };
+
+// const validateUrl = (url) => {
+//   try {
+//     const parsedUrl = new URL(url, 'http://dummy-base.com'); // Use a base URL for relative URLs
+//     return (
+//       parsedUrl.protocol === 'http:' ||
+//       parsedUrl.protocol === 'https:' ||
+//       url.startsWith('/')
+//     );
+//   } catch {
+//     return false;
+//   }
+// };
+
+// const validateUrl = (url) => {
+//   try {
+//     new URL(url);
+//   } catch (e) {
+//     return false;
+//   }
+//   return true;
+// };
+
+const RELATIVE_URL_REGEX = /^\/([a-zA-Z0-9_-]+\/?)+$/;
 const validateUrl = (url) => {
   try {
     new URL(url);
-  } catch (e) {
-    return false;
+    return true;
+  } catch {
+    return RELATIVE_URL_REGEX.test(url);
   }
-  return true;
 };
 
 const newBannerSchema = Yup.object().shape({

@@ -2,7 +2,7 @@ import React from 'react';
 import ColorTextField from '@components/ColorTextField/ColorTextField';
 import { Formik, Form } from 'formik';
 import { appearanceSchema } from '../../../../utils/bannerHelper';
-import './BannerLeftAppearance.css';
+import styles from './BannerLeftAppearance.module.css';
 
 const BannerLeftAppearance = ({
   backgroundColor,
@@ -34,10 +34,10 @@ const BannerLeftAppearance = ({
         values,
         setFieldValue,
       }) => (
-        <Form className="banner-appearance-container">
-          <div className="banner-appearance-item">
-            <h2 className="banner-state-name">Background Color</h2>
-            <div className="banner-appearance-color">
+        <Form className={styles.bannerAppearanceContainer}>
+          <div className={styles.bannerAppearanceItem}>
+            <h2 className={styles.bannerStateName}>Background Color</h2>
+            <div className={styles.bannerAppearanceColor}>
               <ColorTextField
                 value={values.backgroundColor}
                 name="backgroundColor"
@@ -50,13 +50,13 @@ const BannerLeftAppearance = ({
               />
             </div>
             {errors.backgroundColor && (
-              <small className="banner-appearance-error">
+              <small className={styles.bannerAppearanceError}>
                 {errors.backgroundColor}
               </small>
             )}
 
-            <h2 className="banner-state-name">Font Color</h2>
-            <div className="banner-appearance-color">
+            <h2 className={styles.bannerStateName}>Font Color</h2>
+            <div className={styles.bannerAppearanceColor}>
               <ColorTextField
                 value={values.fontColor}
                 name="fontColor"
@@ -69,7 +69,7 @@ const BannerLeftAppearance = ({
               />
             </div>
             {errors.fontColor && (
-              <small className="banner-appearance-error">
+              <small className={styles.bannerAppearanceError}>
                 {errors.fontColor}
               </small>
             )}

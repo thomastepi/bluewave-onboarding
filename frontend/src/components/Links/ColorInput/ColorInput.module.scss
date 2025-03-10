@@ -29,6 +29,17 @@ $box-shadow-color: rgba(16, 24, 40, 0.05);
     font-size: var(--font-regular);
     color: var(--main-text-color);
     font-family: Inter;
+    outline: none;
+
+    &:hover,
+    &:focus {
+      border-color: var(--main-purple);
+    }
+
+    &:focus {
+      border-color: transparent;
+      outline: 2px solid var(--main-purple);
+    }
 
     &:first-of-type {
       margin-top: 5px;

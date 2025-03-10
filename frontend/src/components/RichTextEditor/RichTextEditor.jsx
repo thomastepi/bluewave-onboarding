@@ -18,6 +18,7 @@ const RichTextEditor = ({
   setHeader,
   setContent,
   content,
+  previewStyle,
 }) => {
   const [mode, setMode] = useState('editor');
 
@@ -76,7 +77,7 @@ const RichTextEditor = ({
           </div>
         </>
       ) : (
-        <Preview />
+        <Preview style={previewStyle} />
       )}
       <EditorTabs
         mode={mode}
@@ -99,6 +100,7 @@ RichTextEditor.propTypes = {
   setContent: PropTypes.func,
   content: PropTypes.string,
   resetState: PropTypes.func,
+  previewStyle: PropTypes.object,
 };
 
 export default RichTextEditor;

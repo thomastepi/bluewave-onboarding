@@ -41,7 +41,7 @@ const TourLeftAppearance = ({
       }) => {
         const renderError = (field) =>
           Boolean(touched[field] && errors[field]) && (
-            <small className="error-message">{errors[field]}</small>
+            <small className={styles.error}>{errors[field]}</small>
           );
 
         return (

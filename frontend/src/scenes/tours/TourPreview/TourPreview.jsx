@@ -12,6 +12,7 @@ const TourPreview = ({
   currentStep,
   setCurrentStep,
   tourAppearance,
+  style,
 }) => {
   const { header, description } = currentStep;
   const markdownContent = new Turndown().turndown(description);
@@ -64,7 +65,7 @@ const TourPreview = ({
   };
 
   return (
-    <div className={`${styles.container} ${styles[tourSize]}`}>
+    <div style={style} className={`${styles.container} ${styles[tourSize]}`}>
       <div className={styles.title}>
         <ArrowCircleLeftOutlinedIcon
           sx={{
@@ -145,6 +146,7 @@ TourPreview.propTypes = {
     finalButtonText: PropTypes.string,
     url: PropTypes.string,
   }),
+  style: PropTypes.object,
 };
 
 export default TourPreview;

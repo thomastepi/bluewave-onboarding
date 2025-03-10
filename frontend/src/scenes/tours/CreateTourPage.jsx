@@ -142,12 +142,13 @@ const TourPage = ({
     }
   };
 
-  const previewComponent = () => (
+  const previewComponent = (props) => (
     <TourPreview
       stepsData={stepsData}
       currentStep={currentStep}
       setCurrentStep={setCurrentStep}
       tourAppearance={appearance}
+      {...props}
     />
   );
 
@@ -161,13 +162,13 @@ const TourPage = ({
         setHeader={(data) => setTourDetails('header', data)}
         setContent={(data) => setTourDetails('description', data)}
         content={currentStep.description}
+        previewStyle={{ margin: 0 }}
         sx={{
           position: 'relative',
           minWidth: '400px',
           maxWidth: '700px',
-          marginLeft: '4rem',
+          marginLeft: '3rem',
           marginTop: '1rem',
-          marginBottom: '1rem',
         }}
       />
     );

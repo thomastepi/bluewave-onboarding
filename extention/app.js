@@ -15,33 +15,32 @@ function terminate() {
   // The `click` listener is automatically removed after it has been called once
   window.removeEventListener("mousemove", throttle(updateHighlight));
   window.removeEventListener("keydown", checkTerminateKeys);
+  window.removeEventListener("click", grabSelector, { capture: true });
   removeHighlight();
 }
 
-function createFloatingMenu() {
-  const checkElement = document.getElementById(MENU_ID);
-  if (checkElement) {
-    return;
-  }
-  const div = document.createElement("div");
-  div.id = MENU_ID;
-  div.style.position = "fixed";
-  div.style.top = "20px";
-  div.style.left = "20px";
-  div.style.zIndex = "9999";
-  div.style.display = "flex";
-  div.style.flexDirection = "column";
-  div.style.alignItems = "flex-start";
-  div.style.gap = "10px";
-  div.style.borderRadius = "4px";
-  div.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.1)";
-  div.style.backgroundColor = "#f8f9fa";
-  div.style.padding = "10px";
-  div.style.cursor = "pointer";
-  div.style.minWidth = "160px";
-  div.style.alignItems = "center";
-  document.body.appendChild(div);
+const createMenuDiv = () => {
+  const menuDiv = document.createElement("div");
+  menuDiv.id = MENU_ID;
+  menuDiv.style.position = "fixed";
+  menuDiv.style.top = "20px";
+  menuDiv.style.left = "20px";
+  menuDiv.style.zIndex = "9999";
+  menuDiv.style.display = "flex";
+  menuDiv.style.flexDirection = "column";
+  menuDiv.style.alignItems = "flex-start";
+  menuDiv.style.gap = "10px";
+  menuDiv.style.borderRadius = "4px";
+  menuDiv.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.1)";
+  menuDiv.style.backgroundColor = "#f8f9fa";
+  menuDiv.style.padding = "10px";
+  menuDiv.style.cursor = "pointer";
+  menuDiv.style.minWidth = "160px";
+  menuDiv.style.alignItems = "center";
+  return menuDiv;
+};
 
+const createMenuDivChildren = () => {
   const buttonContainer = document.createElement("div");
   buttonContainer.style.display = "flex";
   buttonContainer.style.alignItems = "center";
@@ -57,6 +56,55 @@ function createFloatingMenu() {
   cardContainer.style.width = "100%";
   cardContainer.style.maxHeight = "300px";
   cardContainer.style.overflowY = "auto";
+  return { buttonContainer, cardContainer };
+};
+
+const createMenuButton = (mode, buttonContainer, cardContainer) => {
+  const button = document.createElement("button");
+  button.textContent = mode;
+  button.style.padding = "8px 16px";
+  button.style.fontSize = "16px";
+  button.style.backgroundColor = "#7F56D9";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.borderRadius = "30px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease";
+
+  if (mode !== selectedMode) {
+    button.style.backgroundColor = "#ccc";
+    button.style.color = "#333";
+  }
+
+  button.addEventListener("click", () => {
+    selectedMode = mode;
+    buttonContainer.childNodes.forEach((button) => {
+      if (button.textContent !== selectedMode) {
+        button.style.backgroundColor = "#ccc";
+        button.style.color = "#333";
+      } else {
+        button.style.backgroundColor = "#7F56D9";
+        button.style.color = "#fff";
+      }
+    });
+    if (mode === "tour") {
+      generateList();
+    } else {
+      cardContainer.innerHTML = "";
+    }
+  });
+  buttonContainer.appendChild(button);
+};
+
+function createFloatingMenu() {
+  const checkElement = document.getElementById(MENU_ID);
+  if (checkElement) {
+    return;
+  }
+  const div = createMenuDiv();
+  document.body.appendChild(div);
+
+  const { buttonContainer, cardContainer } = createMenuDivChildren();
 
   div.appendChild(buttonContainer);
   div.appendChild(cardContainer);
@@ -64,40 +112,7 @@ function createFloatingMenu() {
   addDragEvent();
 
   AVAILABLE_MODES.forEach((mode) => {
-    const button = document.createElement("button");
-    button.textContent = mode;
-    button.style.padding = "8px 16px";
-    button.style.fontSize = "16px";
-    button.style.backgroundColor = "#7F56D9";
-    button.style.color = "#fff";
-    button.style.border = "none";
-    button.style.borderRadius = "30px";
-    button.style.cursor = "pointer";
-    button.style.transition = "background-color 0.3s ease";
-
-    if (mode !== selectedMode) {
-      button.style.backgroundColor = "#ccc";
-      button.style.color = "#333";
-    }
-
-    button.addEventListener("click", () => {
-      selectedMode = mode;
-      buttonContainer.childNodes.forEach((button) => {
-        if (button.textContent !== selectedMode) {
-          button.style.backgroundColor = "#ccc";
-          button.style.color = "#333";
-        } else {
-          button.style.backgroundColor = "#7F56D9";
-          button.style.color = "#fff";
-        }
-      });
-      if (mode === "tour") {
-        generateList();
-      } else {
-        cardContainer.innerHTML = "";
-      }
-    });
-    buttonContainer.appendChild(button);
+    createMenuButton(mode, buttonContainer, cardContainer);
   });
 
   // add event listener to drag the menu around

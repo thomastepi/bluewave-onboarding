@@ -29,7 +29,7 @@ export const appearanceSchema = Yup.object().shape({
     .required('Button text color is required')
     .matches(COLOR_REGEX, 'Invalid value for button text color'),
 
-  tourSize: Yup.string()
+  size: Yup.string()
     .oneOf(['small', 'medium', 'large'], 'Invalid value for tour size')
     .required('Tour size is required'),
 

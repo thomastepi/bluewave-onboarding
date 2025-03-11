@@ -70,13 +70,13 @@ const TourLeftAppearance = ({
               styles={{ width: '206px' }}
               onActionChange={(value) => {
                 const normalizedValue = value.toLowerCase();
-                setFieldValue('tourSize', normalizedValue);
+                setFieldValue('size', normalizedValue);
                 setTourPopupAppearance((prev) => ({
                   ...prev,
-                  tourSize: normalizedValue,
+                  size: normalizedValue,
                 }));
               }}
-              selectedActionString={values.tourSize}
+              selectedActionString={values.size?.toLowerCase()}
             />
 
             <h2 style={{ marginBottom: '5px' }}>Final Button Text</h2>

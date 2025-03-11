@@ -13,8 +13,8 @@ const TourPreview = ({
   setCurrentStep,
   tourAppearance,
 }) => {
-  const { header, content } = currentStep;
-  const markdownContent = new Turndown().turndown(content);
+  const { header, description } = currentStep;
+  const markdownContent = new Turndown().turndown(description);
 
   const {
     headerColor,
@@ -126,15 +126,15 @@ const TourPreview = ({
 
 const stepShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  stepName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   targetElement: PropTypes.string.isRequired,
 });
 
 TourPreview.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape),
+  currentStep: stepShape.isRequired,
   setCurrentStep: PropTypes.func,
   tourAppearance: PropTypes.shape({
     headerColor: PropTypes.string,

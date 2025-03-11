@@ -11,6 +11,7 @@ import UserTitle from './HomePageComponents/UserTitle/UserTitle';
 import BannerSkeleton from './HomePageComponents/Skeletons/BannerSkeleton';
 import BaseSkeleton from './HomePageComponents/Skeletons/BaseSkeleton';
 import HintSkeleton from './HomePageComponents/Skeletons/HintSkeleton';
+import TourSkeleton from './HomePageComponents/Skeletons/TourSkeleton';
 
 const mapMetricName = (guideType) => {
   switch (guideType) {
@@ -79,7 +80,7 @@ const Dashboard = ({ name }) => {
       onClick: () => navigate('/hint', { state: { autoOpen: true } }),
     },
     {
-      skeletonType: <HintSkeleton />,
+      skeletonType: <TourSkeleton />,
       placeholder: 'Create a new tour',
       onClick: () => navigate('/tour', { state: { autoOpen: true } }),
     },

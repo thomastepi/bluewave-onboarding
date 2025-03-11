@@ -33,7 +33,7 @@ export const appearanceSchema = Yup.object().shape({
     .oneOf(['small', 'medium', 'large'], 'Invalid value for tour size')
     .required('Tour size is required'),
 
-  finalButtonText: Yup.string(),
+  finalButtonText: Yup.string().required('Final button text is required'),
 
   url: Yup.string()
     .test('is-valid-url', 'Invalid value for URL', validateUrl)

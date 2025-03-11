@@ -41,33 +41,41 @@ const TourLeftAppearance = ({
       }) => {
         const renderError = (field) =>
           Boolean(touched[field] && errors[field]) && (
-            <small className="error-message">{errors[field]}</small>
+            <small className={styles.error}>{errors[field]}</small>
           );
 
         return (
           <Form className={styles.container}>
             {data.map(({ name, label }, key) => (
-              <div key={key}>
-                <div className={styles.color}>
-                  <ColorInput
-                    onChange={(val) => {
-                      setTourPopupAppearance((prev) => ({
-                        ...prev,
-                        [name]: val,
-                      }));
-                    }}
-                    id={name}
-                    name={name}
-                    title={label}
-                  />
-                </div>
+              <div key={key} className={styles.color}>
+                <ColorInput
+                  onChange={(val) => {
+                    setTourPopupAppearance((prev) => ({
+                      ...prev,
+                      [name]: val,
+                    }));
+                  }}
+                  id={name}
+                  name={name}
+                  title={label}
+                />
               </div>
             ))}
 
-            <h2 style={{ marginTop: '0px', marginBottom: '5px' }}>Tour Size</h2>
+            <h2
+              style={{
+                marginTop: '0px',
+              }}
+            >
+              Tour Size
+            </h2>
             <DropdownList
               actions={['Small', 'Medium', 'Large']}
-              styles={{ width: '206px' }}
+              styles={{
+                marginTop: '10px',
+                width: '206px',
+                color: 'var(--main-text-color)',
+              }}
               onActionChange={(value) => {
                 const normalizedValue = value.toLowerCase();
                 setFieldValue('size', normalizedValue);
@@ -79,11 +87,19 @@ const TourLeftAppearance = ({
               selectedActionString={values.size?.toLowerCase()}
             />
 
-            <h2 style={{ marginBottom: '5px' }}>Final Button Text</h2>
             <CustomTextField
-              name="finalButtonText"
               TextFieldWidth="206px"
+              name="finalButtonText"
+              labelSubText="Final Button Text"
+              labelTextStyles={{ color: 'var(--main-text-color)' }}
               value={values.finalButtonText}
+              style={{
+                marginTop: '1rem',
+              }}
+              inputStyles={{
+                marginTop: '10px',
+                marginBottom: '0px',
+              }}
               onChange={(e) => {
                 handleChange({
                   target: { name: 'finalButtonText', value: e.target.value },
@@ -100,11 +116,19 @@ const TourLeftAppearance = ({
             />
             {renderError('finalButtonText')}
 
-            <h2 style={{ marginBottom: '5px' }}>URL</h2>
             <CustomTextField
               TextFieldWidth="206px"
               name="url"
+              labelSubText="URL"
+              labelTextStyles={{ color: 'var(--main-text-color)' }}
               value={values.url}
+              style={{
+                marginTop: '1rem',
+              }}
+              inputStyles={{
+                marginTop: '10px',
+                marginBottom: '0px',
+              }}
               onChange={(e) => {
                 handleChange({
                   target: { name: 'url', value: e.target.value },

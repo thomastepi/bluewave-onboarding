@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   addBanner,
   editBanner,
@@ -73,9 +74,10 @@ const BannerPage = ({
       bannerText,
     };
     try {
-      const response = isEdit
+      isEdit
         ? await editBanner(itemId, bannerData)
         : await addBanner(bannerData);
+
       const toastMessage = isEdit
         ? 'You edited this banner'
         : 'New banner saved';
@@ -127,6 +129,14 @@ const BannerPage = ({
       )}
     />
   );
+};
+
+BannerPage.propTypes = {
+  autoOpen: PropTypes.bool,
+  isEdit: PropTypes.bool,
+  setIsEdit: PropTypes.func,
+  itemId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setItemsUpdated: PropTypes.func,
 };
 
 export default BannerPage;

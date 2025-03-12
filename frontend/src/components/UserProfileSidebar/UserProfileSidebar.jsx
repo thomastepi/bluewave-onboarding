@@ -13,7 +13,18 @@ import { getFullName } from '../../utils/generalHelper';
 function UserProfileSidebar() {
   const { userInfo, logoutAuth } = useAuth();
   const navigate = useNavigate();
+  const { userInfo, logoutAuth } = useAuth();
+  const navigate = useNavigate();
 
+  const handleLogoutClick = async () => {
+    try {
+      await logout();
+      logoutAuth();
+      navigate('/');
+    } catch (error) {
+      handleGenericError('Error logging out');
+    }
+  };
   const handleLogoutClick = async () => {
     try {
       await logout();
@@ -25,7 +36,20 @@ function UserProfileSidebar() {
   };
 
   const fullName = getFullName(userInfo);
+  const fullName = getFullName(userInfo);
 
+  const menuItems = [
+    {
+      text: 'Settings',
+      icon: <SettingsOutlinedIcon />,
+      onClick: () => navigate('/settings'),
+    },
+    {
+      text: 'Logout',
+      icon: <LogoutOutlinedIcon />,
+      onClick: handleLogoutClick,
+    },
+  ];
   const menuItems = [
     {
       text: 'Settings',

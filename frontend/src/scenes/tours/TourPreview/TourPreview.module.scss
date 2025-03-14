@@ -30,7 +30,6 @@
   .preview {
     border: 1.2px solid var(--grey-border);
     padding: 1.2rem 1.8rem;
-    min-height: 250px;
     min-width: 350px;
     display: flex;
     flex-direction: column;
@@ -40,6 +39,8 @@
     &__content {
       word-wrap: break-word;
       overflow-wrap: break-word;
+      line-height: 1.25rem;
+      padding-bottom: 1rem;
     }
 
     .heading {

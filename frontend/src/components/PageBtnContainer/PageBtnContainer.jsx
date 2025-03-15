@@ -11,6 +11,8 @@ const PageBtnContainer = ({ currentPage, setCurrentPage, totalPages }) => {
   const generatePagination = () => {
     const pages = [];
 
+    if (totalPages <= 0) return pages;
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push({ type: 'page', value: i });
@@ -58,23 +60,17 @@ const PageBtnContainer = ({ currentPage, setCurrentPage, totalPages }) => {
   };
 
   const nextPage = () => {
-    let nextPage = currentPage + 1;
-    if (nextPage > totalPages) {
-      nextPage = 1;
-    }
+    const nextPage = currentPage + 1;
     setCurrentPage(nextPage);
   };
 
   const prevPage = () => {
-    let prevPage = currentPage - 1;
-    if (prevPage < 1) {
-      prevPage = totalPages;
-    }
+    const prevPage = currentPage - 1;
     setCurrentPage(prevPage);
   };
 
   return (
-    <section>
+    <section className="pagination-container">
       <Button
         text="Previous"
         variant="outlined"
@@ -83,7 +79,7 @@ const PageBtnContainer = ({ currentPage, setCurrentPage, totalPages }) => {
         onClick={prevPage}
         disabled={currentPage === 1}
       />
-      <div className="btn-container">
+      <div>
         {generatePagination().map((item) =>
           item.type === 'ellipsis' ? (
             <span key={item.id} className="ellipsis">
@@ -117,9 +113,9 @@ const PageBtnContainer = ({ currentPage, setCurrentPage, totalPages }) => {
 };
 
 PageBtnContainer.propTypes = {
-  currentPage: PropTypes.number,
-  setCurrentPage: PropTypes.func,
-  totalPages: PropTypes.number,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.number.isRequired,
 };
 
 export default PageBtnContainer;

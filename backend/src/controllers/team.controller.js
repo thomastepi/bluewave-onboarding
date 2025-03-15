@@ -53,7 +53,7 @@ const getServerUrl = async (req, res) => {
 
 const getTeamDetails = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
     const data = await teamService.getTeam(Number(page), Number(limit));
     if (!data?.team || !data.users) {
       throw new Error('Team data not found');

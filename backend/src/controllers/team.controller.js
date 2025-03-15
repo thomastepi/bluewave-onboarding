@@ -53,7 +53,8 @@ const getServerUrl = async (req, res) => {
 
 const getTeamDetails = async (req, res) => {
   try {
-    const data = await teamService.getTeam();
+    const { page = 1, limit = 5 } = req.query;
+    const data = await teamService.getTeam(Number(page), Number(limit));
     if (!data?.team || !data.users) {
       throw new Error('Team data not found');
     }
@@ -66,9 +67,13 @@ const getTeamDetails = async (req, res) => {
         role: settings.user.roleName[user.role],
         createdAt: new Intl.DateTimeFormat('en-US').format(user.createdAt),
       })),
+      totalUsers: data.totalUsers,
+      totalPages: data.totalPages,
+      currentPage: data.currentPage,
     };
     return res.status(200).json(result);
   } catch (err) {
+    console.log(err);
     const { statusCode, payload } = internalServerError('GET_TEAM_ERROR', err.message);
     res.status(statusCode).json(payload);
   }

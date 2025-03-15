@@ -20,9 +20,11 @@ export const getUser = async () => {
   }
 };
 
-export const getOrgDetails = async () => {
+export const getOrgDetails = async (page = 1, limit = 5) => {
   try {
-    const response = await apiClient.get('/team/details');
+    const response = await apiClient.get('/team/details', {
+      params: { page, limit },
+    });
     return response;
   } catch (error) {
     console.error('Error getting details: ', error.message);

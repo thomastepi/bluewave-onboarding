@@ -14,6 +14,8 @@ const Button = ({
   buttonType = 'primary',
   type = 'button',
   loading = false,
+  startIcon = null,
+  endIcon = null,
 }) => {
   const classname = 'button ' + buttonType;
   return (
@@ -26,6 +28,8 @@ const Button = ({
       sx={sx}
       style={style}
       type={type}
+      startIcon={startIcon}
+      endIcon={endIcon}
     >
       {loading ? <CircularProgress size={12} color="inherit" /> : text}
     </MuiButton>
@@ -48,6 +52,8 @@ Button.propTypes = {
   ]),
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   loading: PropTypes.bool,
+  startIcon: PropTypes.element,
+  endIcon: PropTypes.element,
 };
 
 export default Button;

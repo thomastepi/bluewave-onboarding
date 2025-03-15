@@ -11,6 +11,7 @@ import { VscEdit } from 'react-icons/vsc';
 import styles from './TeamTab.module.css';
 import TeamTable from './TeamTable/TeamTable';
 import Button from '@components/Button/Button';
+import PageBtnContainer from '../../../components/PageBtnContainer/PageBtnContainer';
 import CustomTextField from '@components/TextFieldComponents/CustomTextField/CustomTextField';
 import LoadingArea from '@components/LoadingPage/LoadingArea';
 
@@ -41,6 +42,8 @@ const TeamTab = ({ handleTabChange }) => {
   const [refetch, setRefetch] = useState(true);
   const [loading, setLoading] = useState(true);
   const [team, setTeam] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { userInfo, updateProfile } = useAuth();
   const currentUserId = userInfo?.id ?? null;
   const [openInviteTeamMemberModal, setOpenInviteTeamMemberModal] =
@@ -52,31 +55,36 @@ const TeamTab = ({ handleTabChange }) => {
 
   const [selectedMember, setSelectedMember] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(() => true);
-        const response = await getOrgDetails();
-        if (response.data.users) {
-          const matchedUser = response.data.users.find(
-            (user) => user.id === currentUserId && user.role !== userInfo.role
-          );
+  const perPage = 10;
 
-          if (matchedUser) {
-            updateProfile({ ...userInfo, role: matchedUser.role });
-            handleTabChange(null, '1');
-          }
-          setTeam(() => response.data.users);
+  useEffect(() => {
+    loadTeamDetails(currentPage, perPage);
+  }, [currentPage, perPage, refetch]);
+
+  const loadTeamDetails = async (page, limit) => {
+    try {
+      setLoading(() => true);
+      const response = await getOrgDetails(page, limit);
+      if (response.data.users) {
+        const matchedUser = response.data.users.find(
+          (user) => user.id === currentUserId && user.role !== userInfo.role
+        );
+
+        if (matchedUser) {
+          updateProfile({ ...userInfo, role: matchedUser.role });
+          handleTabChange(null, '1');
         }
-        setOrgName(() => response.data.name);
-      } catch (error) {
-        console.error('Error fetching team details', error.message);
-        handleGenericError('Error fetching team details');
-      } finally {
-        setLoading(false);
+        setTeam(() => response.data.users);
       }
-    })();
-  }, [refetch]);
+      setOrgName(() => response.data.name);
+      setTotalPages(() => response.data.totalPages);
+    } catch (error) {
+      console.error('Error fetching team details', error.message);
+      handleGenericError('Error fetching team details');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleInviteTeamMemberModalClose = () => {
     setOpenInviteTeamMemberModal(false);
@@ -231,6 +239,13 @@ const TeamTab = ({ handleTabChange }) => {
                   setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
                   setSelectedMember={setSelectedMember}
                 />
+                {totalPages > 1 && (
+                  <PageBtnContainer
+                    currentPage={Number(currentPage)}
+                    setCurrentPage={setCurrentPage}
+                    totalPages={Number(totalPages)}
+                  />
+                )}
               </TabPanel>
               <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="2">
                 <TeamTable

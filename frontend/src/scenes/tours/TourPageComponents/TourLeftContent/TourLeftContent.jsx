@@ -30,9 +30,9 @@ const TourLeftContent = ({
   const [activeDragId, setActiveDragId] = useState(null); // Track the currently dragged item
 
   const defaultStep = {
-    stepName: 'Step',
+    title: 'Step',
     header: 'Welcome to GuideFox',
-    content:
+    description:
       'Serve your users and increase product adoption with hints, popups, banners, and helper links. \n\nEarn an extra 30% if you purchase an annual plan with us.',
     targetElement: '',
   };
@@ -51,13 +51,13 @@ const TourLeftContent = ({
       {
         ...defaultStep,
         id: uuidv4(),
-        stepName: `Step ${prev.length + 1}`,
+        title: `Step ${prev.length + 1}`,
       },
     ]);
   };
 
   const renameStepHandler = (newName) => {
-    setTourDetails('stepName', newName);
+    setTourDetails('title', newName);
   };
 
   const selectHandler = (identity) => {
@@ -120,14 +120,14 @@ const TourLeftContent = ({
           strategy={verticalListSortingStrategy}
         >
           <div className={styles.stepsList}>
-            {stepsData.map(({ id, stepName }) => (
+            {stepsData.map(({ id, title }) => (
               <DraggableTourStep
                 key={id}
                 id={id}
-                text={stepName}
+                text={title}
                 isActive={currentStep.id === id}
                 stepsLength={stepsData.length}
-                stepNameChangeHandler={(e) => renameStepHandler(e.target.value)}
+                stepNameChangeHandler={(value) => renameStepHandler(value)}
                 onSelectHandler={() => selectHandler(id)}
                 onDeleteHandler={() => deleteHandler(id)}
               />
@@ -139,9 +139,7 @@ const TourLeftContent = ({
           {activeDragId ? (
             <DraggableTourStep
               id={activeDragId}
-              text={
-                stepsData.find((step) => step.id === activeDragId)?.stepName
-              }
+              text={stepsData.find((step) => step.id === activeDragId)?.title}
               isActive={currentStep.id === activeDragId}
             />
           ) : null}
@@ -159,15 +157,15 @@ const TourLeftContent = ({
 
 const stepShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  stepName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   targetElement: PropTypes.string.isRequired,
 });
 
 TourLeftContent.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape).isRequired,
+  currentStep: stepShape.isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
   setCurrentStep: PropTypes.func.isRequired,

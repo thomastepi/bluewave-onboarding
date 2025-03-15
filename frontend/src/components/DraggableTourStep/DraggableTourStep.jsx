@@ -49,7 +49,7 @@ const DraggableTourStep = ({
         <input
           type="text"
           value={text}
-          onChange={stepNameChangeHandler}
+          onChange={(e) => stepNameChangeHandler?.(e.target.value)}
           className={`${styles.stepContainer__customInput}`}
         />
       </div>
@@ -73,7 +73,7 @@ DraggableTourStep.propTypes = {
   text: PropTypes.string,
   isActive: PropTypes.bool,
   stepsLength: PropTypes.number,
-  stepNameChangeHandler: PropTypes.func,
+  stepNameChangeHandler: PropTypes.func.isRequired,
   onSelectHandler: PropTypes.func,
   onDeleteHandler: PropTypes.func,
 };

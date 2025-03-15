@@ -622,7 +622,7 @@ describe('E2e tests tour', () => {
       await createTour(token, { ...tour().withoutId().build(), steps: [] });
       const res = await chai.request.execute(app).get('/api/tour/get_tour/1').set('Authorization', `Bearer ${token}`);
       expect(res).to.have.status(200);
-      expect(res.body).to.be.deep.equal({ ...tour().build(), createdBy: 1 });
+      expect(res.body).to.be.deep.equal({ ...tour().build(), steps: [], createdBy: 1 });
     });
   });
 });

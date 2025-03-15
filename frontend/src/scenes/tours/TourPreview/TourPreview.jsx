@@ -12,9 +12,10 @@ const TourPreview = ({
   currentStep,
   setCurrentStep,
   tourAppearance,
+  style,
 }) => {
-  const { header, content } = currentStep;
-  const markdownContent = new Turndown().turndown(content);
+  const { header, description } = currentStep;
+  const markdownContent = new Turndown().turndown(description);
 
   const {
     headerColor,
@@ -64,7 +65,7 @@ const TourPreview = ({
   };
 
   return (
-    <div className={`${styles.container} ${styles[tourSize]}`}>
+    <div style={style} className={`${styles.container} ${styles[tourSize]}`}>
       <div className={styles.title}>
         <ArrowCircleLeftOutlinedIcon
           sx={{
@@ -126,15 +127,15 @@ const TourPreview = ({
 
 const stepShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  stepName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   targetElement: PropTypes.string.isRequired,
 });
 
 TourPreview.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape),
+  currentStep: stepShape.isRequired,
   setCurrentStep: PropTypes.func,
   tourAppearance: PropTypes.shape({
     headerColor: PropTypes.string,
@@ -145,6 +146,7 @@ TourPreview.propTypes = {
     finalButtonText: PropTypes.string,
     url: PropTypes.string,
   }),
+  style: PropTypes.object,
 };
 
 export default TourPreview;

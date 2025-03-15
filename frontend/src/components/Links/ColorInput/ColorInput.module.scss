@@ -29,6 +29,17 @@ $box-shadow-color: rgba(16, 24, 40, 0.05);
     font-size: var(--font-regular);
     color: var(--main-text-color);
     font-family: Inter;
+    outline: none;
+
+    &:hover,
+    &:focus {
+      border-color: var(--main-purple);
+    }
+
+    &:focus {
+      border-color: transparent;
+      outline: 2px solid var(--main-purple);
+    }
 
     &:first-of-type {
       margin-top: 5px;
@@ -77,7 +88,7 @@ $box-shadow-color: rgba(16, 24, 40, 0.05);
     font-size: var(--font-size-sm);
     font-weight: 400;
     line-height: 1.45;
-    margin-top: 0px;
+    margin-top: 2px;
     color: var(--error-color);
   }
 }

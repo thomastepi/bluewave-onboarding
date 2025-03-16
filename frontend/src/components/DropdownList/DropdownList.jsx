@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import './DropdownList.css';
 
 const DropdownList = ({
+  id,
   actions = [],
   onActionChange,
   selectedActionIndex = 0,
@@ -39,6 +40,7 @@ const DropdownList = ({
 
   return (
     <Select
+      id={id}
       name={name}
       value={selectedAction}
       onChange={handleChange}
@@ -61,6 +63,7 @@ const DropdownList = ({
 };
 
 DropdownList.propTypes = {
+  id: PropTypes.string,
   actions: PropTypes.arrayOf(PropTypes.string),
   onActionChange: PropTypes.func,
   selectedActionIndex: PropTypes.number,

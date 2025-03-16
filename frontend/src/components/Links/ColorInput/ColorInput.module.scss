@@ -44,6 +44,11 @@ $box-shadow-color: rgba(16, 24, 40, 0.05);
     &:first-of-type {
       margin-top: 5px;
     }
+
+    &__error {
+      outline: none;
+      border: 1px solid var(--border-error-solid);
+    }
   }
 
   &__color {

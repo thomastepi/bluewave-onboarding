@@ -21,18 +21,18 @@ const ColorInput = ({ id, title, className, onChange, name }) => {
       <div className={styles.appearance__color}>
         <input
           type="text"
+          id={id}
           {...field}
           value={field.value}
           onChange={handleChange}
           className={`${styles.appearance__input} ${
             className ? styles[className] : ''
-          } ${error && touched ? styles.error : ''}`}
+          } ${error && touched ? styles.appearance__input__error : ''}`}
           onBlur={() => setTouched(true)}
         />
         <div className={styles.appearance__circle}>
           <input
             type="color"
-            id={id}
             value={field.value}
             onChange={handleChange}
             style={{ zIndex: 10, cursor: 'pointer', opacity: 0 }}

@@ -21,7 +21,6 @@ const ColorInput = ({ id, title, className, onChange, name }) => {
       <div className={styles.appearance__color}>
         <input
           type="text"
-          id={id}
           {...field}
           value={field.value}
           onChange={handleChange}
@@ -32,6 +31,7 @@ const ColorInput = ({ id, title, className, onChange, name }) => {
         />
         <div className={styles.appearance__circle}>
           <input
+            id={id}
             type="color"
             value={field.value}
             onChange={handleChange}

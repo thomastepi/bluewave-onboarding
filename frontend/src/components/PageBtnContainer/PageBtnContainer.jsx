@@ -90,8 +90,8 @@ const PageBtnContainer = ({ currentPage, setCurrentPage, totalPages }) => {
               key={`page-${item.value}`}
               type="button"
               variant="text"
-              buttonType={currentPage === item.value ? 'primary' : ''}
-              text={item.value}
+              buttonType="secondary"
+              text={item.value.toString()}
               onClick={() => changePage(item.value)}
               disabled={currentPage === item.value}
             >

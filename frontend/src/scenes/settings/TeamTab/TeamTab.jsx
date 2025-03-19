@@ -152,139 +152,145 @@ const TeamTab = ({ handleTabChange }) => {
     }
   };
 
-  return loading ? (
-    <LoadingArea />
-  ) : (
-    <>
-      <div className={styles.organisation}>
-        <h6 className={styles.nameHeading}>Organisation Name</h6>
-        <div className={styles.orgNameContainer}>
-          {!editOrgName && <p className={styles.organisationName}>{orgName}</p>}
-          {editOrgName && (
-            <CustomTextField
-              autofocus={true}
-              TextFieldWidth="auto"
-              value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
-              onFocus={(e) =>
-                e.currentTarget.setSelectionRange(
-                  e.currentTarget.value.length,
-                  e.currentTarget.value.length
-                )
-              }
-            />
-          )}
-          {!editOrgName ? (
-            <VscEdit
-              aria-label="Edit Organisation Name"
-              className={styles.pencil}
-              onClick={toggleEdit}
-            />
-          ) : (
-            <>
-              <FaCheck
-                aria-label="Save Organisation Name"
-                onClick={handleEditOrgName}
-                className={styles.pencil}
-                color="green"
+  return (
+    <div>
+      <>
+        <div className={styles.organisation}>
+          <h6 className={styles.nameHeading}>Organisation Name</h6>
+          <div className={styles.orgNameContainer}>
+            {!editOrgName && (
+              <p className={styles.organisationName}>{!loading && orgName}</p>
+            )}
+            {editOrgName && (
+              <CustomTextField
+                autofocus={true}
+                TextFieldWidth="auto"
+                value={orgName}
+                onChange={(e) => setOrgName(e.target.value)}
+                onFocus={(e) =>
+                  e.currentTarget.setSelectionRange(
+                    e.currentTarget.value.length,
+                    e.currentTarget.value.length
+                  )
+                }
               />
-              <FaTimes
-                aria-label="Close Edit Panel"
-                onClick={() => setEditOrgName(false)}
+            )}
+            {!editOrgName ? (
+              <VscEdit
+                aria-label="Edit Organisation Name"
                 className={styles.pencil}
-                color="black"
+                onClick={toggleEdit}
               />
-            </>
-          )}
+            ) : (
+              <>
+                <FaCheck
+                  aria-label="Save Organisation Name"
+                  onClick={handleEditOrgName}
+                  className={styles.pencil}
+                  color="green"
+                />
+                <FaTimes
+                  aria-label="Close Edit Panel"
+                  onClick={() => setEditOrgName(false)}
+                  className={styles.pencil}
+                  color="black"
+                />
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <div>
         <h6>Team Members</h6>
-        <div className={styles.team}>
-          <Box sx={{ width: '100%' }}>
-            <TabContext value={value}>
-              <Box className={styles.team}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label="lab API tabs example"
-                  TabIndicatorProps={{
-                    className: styles.tabIndicator,
-                  }}
-                >
-                  <Tab
-                    label="All"
-                    value="1"
-                    className={`${styles.tabs} ${value === '1' ? styles.boldTab : styles.normalTab}`}
+      </>
+      {loading ? (
+        <LoadingArea />
+      ) : (
+        <div>
+          <div className={styles.team}>
+            <Box sx={{ width: '100%' }}>
+              <TabContext value={value}>
+                <Box className={styles.team}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example"
+                    TabIndicatorProps={{
+                      className: styles.tabIndicator,
+                    }}
+                  >
+                    <Tab
+                      label="All"
+                      value="1"
+                      className={`${styles.tabs} ${value === '1' ? styles.boldTab : styles.normalTab}`}
+                    />
+                    <Tab
+                      label="Administrator"
+                      value="2"
+                      className={`${styles.tabs} ${value === '2' ? styles.boldTab : styles.normalTab}`}
+                    />
+                    <Tab
+                      label="Member"
+                      value="3"
+                      className={`${styles.tabs} ${value === '3' ? styles.boldTab : styles.normalTab}`}
+                    />
+                  </TabList>
+                  <Button
+                    text="Invite Team Members"
+                    onClick={handleInviteTeamMemberModalOpen}
                   />
-                  <Tab
-                    label="Administrator"
-                    value="2"
-                    className={`${styles.tabs} ${value === '2' ? styles.boldTab : styles.normalTab}`}
+                </Box>
+                <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="1">
+                  <TeamTable
+                    team={team}
+                    setRemoveModalOpen={setOpenRemoveTeamMemberModal}
+                    setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
+                    setSelectedMember={setSelectedMember}
                   />
-                  <Tab
-                    label="Member"
-                    value="3"
-                    className={`${styles.tabs} ${value === '3' ? styles.boldTab : styles.normalTab}`}
+                  {totalPages > 1 && (
+                    <PageBtnContainer
+                      currentPage={Number(currentPage)}
+                      setCurrentPage={setCurrentPage}
+                      totalPages={Number(totalPages)}
+                    />
+                  )}
+                </TabPanel>
+                <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="2">
+                  <TeamTable
+                    team={team.filter((user) => user.role == 'admin')}
+                    setRemoveModalOpen={setOpenRemoveTeamMemberModal}
+                    setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
+                    setSelectedMember={setSelectedMember}
                   />
-                </TabList>
-                <Button
-                  text="Invite Team Members"
-                  onClick={handleInviteTeamMemberModalOpen}
-                />
-              </Box>
-              <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="1">
-                <TeamTable
-                  team={team}
-                  setRemoveModalOpen={setOpenRemoveTeamMemberModal}
-                  setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
-                  setSelectedMember={setSelectedMember}
-                />
-                {totalPages > 1 && (
-                  <PageBtnContainer
-                    currentPage={Number(currentPage)}
-                    setCurrentPage={setCurrentPage}
-                    totalPages={Number(totalPages)}
+                </TabPanel>
+                <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="3">
+                  <TeamTable
+                    team={team.filter((user) => user.role == 'member')}
+                    setRemoveModalOpen={setOpenRemoveTeamMemberModal}
+                    setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
+                    setSelectedMember={setSelectedMember}
                   />
-                )}
-              </TabPanel>
-              <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="2">
-                <TeamTable
-                  team={team.filter((user) => user.role == 'admin')}
-                  setRemoveModalOpen={setOpenRemoveTeamMemberModal}
-                  setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
-                  setSelectedMember={setSelectedMember}
-                />
-              </TabPanel>
-              <TabPanel sx={{ padding: 0, marginTop: '1.2rem' }} value="3">
-                <TeamTable
-                  team={team.filter((user) => user.role == 'member')}
-                  setRemoveModalOpen={setOpenRemoveTeamMemberModal}
-                  setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
-                  setSelectedMember={setSelectedMember}
-                />
-              </TabPanel>
-            </TabContext>
-          </Box>
+                </TabPanel>
+              </TabContext>
+            </Box>
+          </div>
+          <InviteTeamMemberModal
+            open={openInviteTeamMemberModal}
+            handleClose={handleInviteTeamMemberModalClose}
+            handleInviteTeamMember={handleInviteTeamMember}
+          />
+          <RemoveTeamMemberModal
+            open={openRemoveTeamMemberModal}
+            setModalOpen={setOpenRemoveTeamMemberModal}
+            selectedMember={selectedMember}
+            handleRemoveTeamMember={handleRemoveTeamMember}
+          />
+          <ChangeMemberRoleModal
+            open={openChangeMemberRoleModal}
+            setModalOpen={setOpenChangeMemberRoleModal}
+            selectedMember={selectedMember}
+            handleChangeRole={handleChangeRole}
+          />
         </div>
-        <InviteTeamMemberModal
-          open={openInviteTeamMemberModal}
-          handleClose={handleInviteTeamMemberModalClose}
-          handleInviteTeamMember={handleInviteTeamMember}
-        />
-        <RemoveTeamMemberModal
-          open={openRemoveTeamMemberModal}
-          setModalOpen={setOpenRemoveTeamMemberModal}
-          selectedMember={selectedMember}
-          handleRemoveTeamMember={handleRemoveTeamMember}
-        />
-        <ChangeMemberRoleModal
-          open={openChangeMemberRoleModal}
-          setModalOpen={setOpenChangeMemberRoleModal}
-          selectedMember={selectedMember}
-          handleChangeRole={handleChangeRole}
-        />
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 

@@ -7,14 +7,16 @@ import { appearanceSchema } from '../../../../utils/tourHelper';
 import CustomTextField from '../../../../components/TextFieldComponents/CustomTextField/CustomTextField';
 import ColorInput from '../../../../components/Links/ColorInput';
 
-const TourLeftAppearance = ({
-  data = [],
-  tourPopupAppearance,
-  setTourPopupAppearance,
-  onSave,
-}) => {
+const TourLeftAppearance = React.forwardRef((props, ref) => {
+  const {
+    data = [],
+    tourPopupAppearance,
+    setTourPopupAppearance,
+    onSave,
+  } = props;
   return (
     <Formik
+      innerRef={ref}
       initialValues={{
         ...tourPopupAppearance,
       }}
@@ -61,7 +63,6 @@ const TourLeftAppearance = ({
                 />
               </div>
             ))}
-
             <h2
               style={{
                 marginTop: '0px',
@@ -70,6 +71,7 @@ const TourLeftAppearance = ({
               Tour Size
             </h2>
             <DropdownList
+              id="size"
               actions={['Small', 'Medium', 'Large']}
               styles={{
                 marginTop: '10px',
@@ -89,7 +91,9 @@ const TourLeftAppearance = ({
 
             <CustomTextField
               TextFieldWidth="206px"
+              id="finalButtonText"
               name="finalButtonText"
+              error={!!errors['finalButtonText']}
               labelSubText="Final Button Text"
               labelTextStyles={{ color: 'var(--main-text-color)' }}
               value={values.finalButtonText}
@@ -118,7 +122,9 @@ const TourLeftAppearance = ({
 
             <CustomTextField
               TextFieldWidth="206px"
+              id="url"
               name="url"
+              error={!!errors['url']}
               labelSubText="URL"
               labelTextStyles={{ color: 'var(--main-text-color)' }}
               value={values.url}
@@ -149,7 +155,9 @@ const TourLeftAppearance = ({
       }}
     </Formik>
   );
-};
+});
+
+TourLeftAppearance.displayName = 'TourLeftAppearance';
 
 TourLeftAppearance.propTypes = {
   data: PropTypes.array,

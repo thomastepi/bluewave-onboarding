@@ -88,7 +88,7 @@ const TourPreview = ({
 
       <div className={styles.preview}>
         <div className={styles.heading}>
-          <h2 style={{ color: `${headerColor}` }}>{header}</h2>
+          <h3 style={{ color: `${headerColor}` }}>{header}</h3>
           <Close className={styles.closeIcon} aria-label="Close Preview" />
         </div>
 

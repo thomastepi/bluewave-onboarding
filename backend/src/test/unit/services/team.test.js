@@ -27,7 +27,10 @@ describe("Test team service", () => {
       rollback,
     }));
   });
-  afterEach(sinon.restore);
+  afterEach(async () => {
+    sinon.restore();
+    await db.Team.destroy({ where: {}, truncate: true, restartIdentity: true });
+  });
   it("createTeam - should create the team", async () => {
     TeamMock.create = sinon
       .stub(Team, "create")
@@ -47,14 +50,18 @@ describe("Test team service", () => {
     }
   });
   it("getTeam - should return the team and the users on the team if every thing goes right", async () => {
+    const mockUsers = { count: validList.length, rows: validList };
     TeamMock.findOne = sinon
       .stub(Team, "findOne")
       .resolves({ id: 1, name: "team" });
-    UserMock.findAll = sinon.stub(User, "findAll").resolves(validList);
-    const team = await service.getTeam();
+    UserMock.findAndCountAll = sinon.stub(User, 'findAndCountAll').resolves(mockUsers);
+    const team = await service.getTeam(1,10);
     expect(team).to.deep.equal({
-      team: { id: 1, name: "team" },
+      team: { id: 1, name: 'team' },
       users: validList,
+      totalUsers: validList.length,
+      totalPages: Math.ceil(validList.length / 10),
+      currentPage: 1,
     });
   });
   it("getTeam - should throw an error if something goes wrong", async () => {

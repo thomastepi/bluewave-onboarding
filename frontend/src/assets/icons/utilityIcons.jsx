@@ -44,7 +44,7 @@ export const EditIcon = (props) => (
 export const Hamburger = (props) => (
   <IconWrapper {...props} role="img" label="Drag handle">
     <path
-      d="M12.5259 5.33333H1.78906M12.5259 14H1.78906M12.5259 1H1.78906M12.5259 9.66667H1.78906"
+      d="M3 4H17M3 8H17M3 12H17M3 16H17"
       stroke="#98A2B3"
       strokeWidth="2"
       strokeLinecap="round"

@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './DraggableTourStep.module.scss';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
+import { ListItem } from '@mui/material';
 
 const DraggableTourStep = ({
   id,
@@ -12,36 +11,25 @@ const DraggableTourStep = ({
   stepNameChangeHandler,
   onSelectHandler,
   onDeleteHandler,
+  onDragEnd,
+  onDragOver,
+  onDragStart,
+  onDrop,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
+    <ListItem
       className={`${styles.stepContainer} ${
         isActive ? styles.stepContainer__isActive : ''
       }`}
+      disablePadding
       onClick={onSelectHandler}
+      draggable={true}
+      onDragStart={() => onDragStart(id)}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDrop={() => onDrop(id)}
     >
-      <div
-        {...attributes}
-        {...listeners}
-        className={styles.stepContainer__grabHandle}
-      >
+      <div className={styles.stepContainer__grabHandle}>
         <Hamburger />
       </div>
 
@@ -64,7 +52,7 @@ const DraggableTourStep = ({
       >
         <TrashIcon stroke="var(--second-text-color)" />
       </button>
-    </div>
+    </ListItem>
   );
 };
 
@@ -76,6 +64,10 @@ DraggableTourStep.propTypes = {
   stepNameChangeHandler: PropTypes.func.isRequired,
   onSelectHandler: PropTypes.func,
   onDeleteHandler: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func,
 };
 
 export default DraggableTourStep;

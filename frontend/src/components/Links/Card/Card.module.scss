@@ -12,6 +12,26 @@
     max-width: 320px;
   }
 
+  &__secondaryButton {
+    border: none;
+    border-radius: 1rem;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    background-color: white;
+    &:hover {
+      background-color: var(--header-background);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
   &__title {
     margin: 0 21px 0;
     flex-grow: 1;
@@ -20,6 +40,12 @@
     font-weight: 400;
     line-height: 1.43;
     color: #344054;
+  }
+
+  &__grabHandle {
+    cursor: grab;
+    display: flex;
+    align-items: center;
   }
 
   &__icon {

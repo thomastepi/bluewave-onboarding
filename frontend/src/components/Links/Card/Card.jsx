@@ -1,16 +1,11 @@
-import {
-  IconButton,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  SvgIcon,
-} from '@mui/material';
-
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
+import { ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 
 import { HelperLinkContext } from '../../../services/linksProvider';
-import s from './Card.module.scss';
+import styles from './Card.module.scss';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Hamburger } from '../../../assets/icons/utilityIcons';
 
 const Card = ({ card, onDragEnd, onDragOver, onDragStart, onDrop }) => {
   const { toggleSettings, setItemToDelete, setIsPopupOpen } =
@@ -30,57 +25,23 @@ const Card = ({ card, onDragEnd, onDragOver, onDragStart, onDrop }) => {
   return (
     <ListItem
       onClick={(e) => toggleSettings(e, card)}
-      secondaryAction={
-        <IconButton
-          style={{ fontSize: '0.6rem' }}
-          onClick={onDelete}
-          id="delete"
-        >
-          <SvgIcon fontSize="1">
-            <svg
-              width="9"
-              height="9"
-              viewBox="0 0 9 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8 1L1 8M1 1L8 8"
-                stroke="#747474"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </SvgIcon>
-        </IconButton>
-      }
       draggable={true}
       onDragStart={() => onDragStart(card)}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
       onDrop={() => onDrop(card)}
+      secondaryAction={
+        <button className={styles.card__secondaryButton} onClick={onDelete}>
+          <CloseRoundedIcon
+            sx={{ color: '#747474', backgroundColor: 'transparent' }}
+          />
+        </button>
+      }
     >
       <ListItemAvatar id={`drag-${card.id}`}>
-        <IconButton style={{ fontSize: '1rem' }}>
-          <SvgIcon className={s.card__icon} fontSize="1">
-            <svg
-              width="14"
-              height="15"
-              viewBox="0 0 14 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13 5.33333H1M13 14H1M13 1H1M13 9.66667H1"
-                stroke="#747474"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </SvgIcon>
-        </IconButton>
+        <div className={styles.card__grabHandle}>
+          <Hamburger />
+        </div>
       </ListItemAvatar>
       <ListItemText primary={title} />
     </ListItem>

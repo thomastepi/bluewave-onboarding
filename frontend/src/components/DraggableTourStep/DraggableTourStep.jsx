@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './DraggableTourStep.module.scss';
 import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
-import { ListItem } from '@mui/material';
+import { ListItem, ListItemAvatar } from '@mui/material';
 
 const DraggableTourStep = ({
   id,
@@ -28,10 +28,29 @@ const DraggableTourStep = ({
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
       onDrop={() => onDrop(id)}
+      sx={{
+        '& .MuiListItemSecondaryAction-root': {
+          right: '8px',
+        },
+      }}
+      secondaryAction={
+        <button
+          className={styles.stepContainer__button}
+          disabled={stepsLength === 1}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteHandler();
+          }}
+        >
+          <TrashIcon stroke="var(--second-text-color)" />
+        </button>
+      }
     >
-      <div className={styles.stepContainer__grabHandle}>
-        <Hamburger />
-      </div>
+      <ListItemAvatar sx={{ minWidth: 'auto' }}>
+        <div className={styles.stepContainer__grabHandle}>
+          <Hamburger />
+        </div>
+      </ListItemAvatar>
 
       <div style={{ flexGrow: 1, paddingLeft: '1rem' }}>
         <input
@@ -41,17 +60,6 @@ const DraggableTourStep = ({
           className={`${styles.stepContainer__customInput}`}
         />
       </div>
-
-      <button
-        className={styles.stepContainer__button}
-        disabled={stepsLength === 1}
-        onClick={(e) => {
-          e.stopPropagation();
-          onDeleteHandler();
-        }}
-      >
-        <TrashIcon stroke="var(--second-text-color)" />
-      </button>
     </ListItem>
   );
 };

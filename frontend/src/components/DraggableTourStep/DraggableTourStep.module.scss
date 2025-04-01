@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3px 0px;
+  padding: 5.5px 0px 5.5px 12px;
   background-color: var(--header-background);
   border: 1.23px solid var(--light-border-color);
   border-radius: 8px;
@@ -21,7 +21,6 @@
     justify-content: center;
     z-index: 10;
     cursor: pointer;
-    margin-right: 0.3rem;
     background-color: var(--header-background);
 
     &:hover {
@@ -37,7 +36,6 @@
     cursor: grab;
     display: flex;
     align-items: center;
-    padding-left: 0.5rem;
   }
 
   &__customInput {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './TourLeftContent.module.scss';
-import DraggableTourStep from '../../../../components/DraggableTourStep/DraggableTourStep';
+import DraggableTourStep from '../../../../components/Tour/DraggableTourStep/DraggableTourStep';
 import Button from '../../../../components/Button/Button';
 import CustomTextField from '../../../../components/TextFieldComponents/CustomTextField/CustomTextField';
 import { List } from '@mui/material';

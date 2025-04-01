@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './DraggableTourStep.module.scss';
-import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
-import { ListItem, ListItemAvatar } from '@mui/material';
+import { TrashIcon } from '../../../assets/icons/utilityIcons';
+import DraggableListItem from '../../DraggableListItem/DraggableListItem';
 
 const DraggableTourStep = ({
   id,
@@ -11,47 +11,36 @@ const DraggableTourStep = ({
   stepNameChangeHandler,
   onSelectHandler,
   onDeleteHandler,
+  onDragStart,
   onDragEnd,
   onDragOver,
-  onDragStart,
   onDrop,
 }) => {
   return (
-    <ListItem
+    <DraggableListItem
+      item={id}
+      onDelete={(e, itemId) => {
+        e.stopPropagation();
+        onDeleteHandler(itemId);
+      }}
+      deleteIcon={<TrashIcon stroke="var(--second-text-color)" />}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      deleteButtonClassName={styles.stepContainer__button}
       className={`${styles.stepContainer} ${
         isActive ? styles.stepContainer__isActive : ''
       }`}
       disablePadding
       onClick={onSelectHandler}
-      draggable={true}
-      onDragStart={() => onDragStart(id)}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-      onDrop={() => onDrop(id)}
+      deleteDisabled={stepsLength === 1}
       sx={{
         '& .MuiListItemSecondaryAction-root': {
           right: '8px',
         },
       }}
-      secondaryAction={
-        <button
-          className={styles.stepContainer__button}
-          disabled={stepsLength === 1}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDeleteHandler();
-          }}
-        >
-          <TrashIcon stroke="var(--second-text-color)" />
-        </button>
-      }
     >
-      <ListItemAvatar sx={{ minWidth: 'auto' }}>
-        <div className={styles.stepContainer__grabHandle}>
-          <Hamburger />
-        </div>
-      </ListItemAvatar>
-
       <div style={{ flexGrow: 1, paddingLeft: '1rem' }}>
         <input
           type="text"
@@ -60,7 +49,7 @@ const DraggableTourStep = ({
           className={`${styles.stepContainer__customInput}`}
         />
       </div>
-    </ListItem>
+    </DraggableListItem>
   );
 };
 

@@ -23,6 +23,7 @@
     z-index: 10;
     cursor: pointer;
     background-color: white;
+
     &:hover {
       background-color: var(--header-background);
     }
@@ -33,19 +34,13 @@
   }
 
   &__title {
-    margin: 0 21px 0;
+    margin-left: 0.5rem;
     flex-grow: 1;
     font-family: Inter;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.43;
     color: #344054;
-  }
-
-  &__grabHandle {
-    cursor: grab;
-    display: flex;
-    align-items: center;
   }
 
   &__icon {

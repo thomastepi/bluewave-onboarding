@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5.5px 0px 5.5px 12px;
+  padding: 8px 0px 8px 12px;
   background-color: var(--header-background);
   border: 1.23px solid var(--light-border-color);
   border-radius: 8px;
@@ -30,12 +30,6 @@
     &:disabled {
       cursor: not-allowed;
     }
-  }
-
-  &__grabHandle {
-    cursor: grab;
-    display: flex;
-    align-items: center;
   }
 
   &__customInput {

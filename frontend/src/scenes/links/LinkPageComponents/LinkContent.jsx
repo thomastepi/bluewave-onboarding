@@ -1,7 +1,7 @@
 import { Link } from '@mui/material';
 import { useContext, useState } from 'react';
 import ListItemContainer from '../../../components/Links/DraggableHelperLink/ListItemContainer';
-import DraggableHelperLink from '../../../components/Links/DraggableHelperLink/draggableHelperLink';
+import DraggableHelperLink from '../../../components/Links/DraggableHelperLink/DraggableHelperLink';
 import Popup from '@components/Links/Popup/Popup';
 import { HelperLinkContext } from '../../../services/linksProvider';
 import styles from '../LinkPage.module.scss';

@@ -7,7 +7,7 @@ export default function BannerSkeleton() {
       <div className={styles.bannerOne}></div>
       <div className={styles.bannerTwo}></div>
       <div className={styles.bannerThree}></div>
-      <div className={styles.bannerFour}></div>{' '}
+      <div className={styles.bannerFour}></div>
     </>
   );
 }

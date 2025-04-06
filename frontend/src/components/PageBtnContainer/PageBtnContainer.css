@@ -1,0 +1,14 @@
+.pagination-container {
+  height: 4rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ellipsis {
+  color: #7f56d9;
+  cursor: default;
+}

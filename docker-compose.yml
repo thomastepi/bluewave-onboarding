@@ -13,17 +13,6 @@ services:
       - ./backend/.env
     environment:
       - NODE_ENV=${NODE_ENV}
-    develop:
-      watch:
-        - action: sync
-          path: ./backend
-          target: /app
-          ignore:
-            - node_modules/
-            - .git/
-            - "*.log"
-            - coverage/
-            - dist/
     command: >
       bash -c "if [ "$NODE_ENV" = "production" ]; then
         if ! npx sequelize-cli db:migrate; then
@@ -57,13 +46,6 @@ services:
       - /app/node_modules
     ports:
       - "4173:4173"
-    develop:
-      watch:
-        - action: sync
-          path: ./frontend
-          target: /app
-          ignore:
-            - node_modules/
     environment:
       - NODE_ENV=${NODE_ENV:-development}
     command: >

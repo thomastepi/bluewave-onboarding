@@ -122,11 +122,14 @@ const createSendButton = () => {
 
   button.addEventListener("click", () => {
     const queryParams = new URLSearchParams();
-    queryParams.set("data", JSON.stringify(selectedElements));
-    queryParams.set("autoOpen", "true");
 
-    const url = `http://localhost:4173/tour?${queryParams.toString()}`;
-    window.open(url, "_blank");
+    if (selectedMode === "tour" && selectedElements.length > 0) {
+      queryParams.set("data", JSON.stringify(selectedElements));
+      queryParams.set("autoOpen", "true");
+
+      const url = `http://localhost:4173/tour?${queryParams.toString()}`;
+      window.open(url, "_blank");
+    }
   });
 
   return button;

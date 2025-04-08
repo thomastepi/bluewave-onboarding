@@ -18,6 +18,9 @@ const TourDefaultPage = () => {
   const { state } = useLocation();
   const { isOpen } = useDialog();
 
+  const params = new URLSearchParams(window.location.search);
+  const autoOpen = params.get('autoOpen') === 'true';
+
   const getTourDetails = (tour) => ({
     title: `Tour ${tour.id}`,
     text: tour.name,
@@ -37,9 +40,9 @@ const TourDefaultPage = () => {
         getItemById={getTourById}
         duplicateItem={addTour}
       />
-      {(isOpen || state?.autoOpen) && (
+      {(isOpen || state?.autoOpen || autoOpen) && (
         <TourPage
-          autoOpen={state?.autoOpen}
+          autoOpen={state?.autoOpen || autoOpen}
           isEdit={isEdit}
           itemId={itemId}
           setItemsUpdated={setItemsUpdated}

@@ -111,13 +111,22 @@ const createSendButton = () => {
   button.style.transition = "background-color 0.3s ease, opacity 0.3s ease";
 
   button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#9A73E9";
+    button.style.backgroundColor = "#6f46c9";
     button.style.opacity = "0.95";
   });
 
   button.addEventListener("mouseleave", () => {
     button.style.backgroundColor = "#7F56D9";
     button.style.opacity = "1";
+  });
+
+  button.addEventListener("click", () => {
+    const queryParams = new URLSearchParams();
+    queryParams.set("data", JSON.stringify(selectedElements));
+    queryParams.set("autoOpen", "true");
+
+    const url = `http://localhost:4173/tour?${queryParams.toString()}`;
+    window.open(url, "_blank");
   });
 
   return button;

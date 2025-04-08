@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useRef } from 'react';
+import { React, useEffect, useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import GuideTemplate from '../../templates/GuideTemplate/GuideTemplate';
 import TourPreview from './TourPreview/TourPreview';
@@ -45,6 +45,9 @@ const TourPage = ({
   const [currentStep, setCurrentStep] = useState(stepsData[0]);
   const formikRef = useRef();
 
+  const params = new URLSearchParams(window.location.search);
+  const rawData = params.get('data');
+
   const fetchTourData = async () => {
     try {
       const tourData = await getTourById(itemId);
@@ -69,6 +72,27 @@ const TourPage = ({
     }
   };
 
+  const preFillValues = useCallback(() => {
+    try {
+      const parsedData = JSON.parse(rawData);
+      const mappedSteps = parsedData.map(({ element, step }) => ({
+        id: step - 1,
+        title: `Step ${step}`,
+        header: 'Welcome to GuideFox',
+        description:
+          'Serve your users and increase product adoption with hints, popups, banners, and helper links. \n\nEarn an extra 30% if you purchase an annual plan with us.',
+        targetElement: element,
+      }));
+
+      setStepsData(mappedSteps);
+      setCurrentStep(mappedSteps[0] || null);
+      openDialog();
+    } catch (error) {
+      console.error('Error parsing steps data:', error);
+      toastEmitter.emit(TOAST_EMITTER_KEY, 'Invalid tour data format');
+    }
+  }, [rawData, openDialog]);
+
   useEffect(() => {
     const updatedCurrentStep = stepsData.find(
       (step) => step.id === currentStep.id
@@ -81,7 +105,8 @@ const TourPage = ({
   }, [stepsData, currentStep]);
 
   useEffect(() => {
-    if (autoOpen) openDialog();
+    if (autoOpen && rawData) preFillValues();
+    else if (autoOpen) openDialog();
   }, [autoOpen, openDialog]);
 
   useEffect(() => {
@@ -165,6 +190,9 @@ const TourPage = ({
       toastEmitter.emit(TOAST_EMITTER_KEY, toastMessage);
       setItemsUpdated((prevState) => !prevState);
       closeDialog();
+
+      if (params.get('autoOpen'))
+        window.history.replaceState({}, '', window.location.pathname);
     } catch (error) {
       if (error.response?.data?.errors) {
         return error.response.data.errors.forEach((err) => {

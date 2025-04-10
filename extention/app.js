@@ -96,6 +96,45 @@ const createMenuButton = (mode, buttonContainer, cardContainer) => {
   buttonContainer.appendChild(button);
 };
 
+const createSendButton = () => {
+  const button = document.createElement("button");
+
+  button.textContent = "Send";
+  button.style.width = "100%";
+  button.style.backgroundColor = "#7F56D9";
+  button.style.color = "#fff";
+  button.style.border = "none";
+  button.style.padding = "10px 16px";
+  button.style.borderRadius = "4px";
+  button.style.fontSize = "16px";
+  button.style.cursor = "pointer";
+  button.style.transition = "background-color 0.3s ease, opacity 0.3s ease";
+
+  button.addEventListener("mouseenter", () => {
+    button.style.backgroundColor = "#6f46c9";
+    button.style.opacity = "0.95";
+  });
+
+  button.addEventListener("mouseleave", () => {
+    button.style.backgroundColor = "#7F56D9";
+    button.style.opacity = "1";
+  });
+
+  button.addEventListener("click", () => {
+    const queryParams = new URLSearchParams();
+
+    if (selectedMode === "tour" && selectedElements.length > 0) {
+      queryParams.set("data", JSON.stringify(selectedElements));
+      queryParams.set("autoOpen", "true");
+
+      const url = `http://localhost:4173/tour?${queryParams.toString()}`;
+      window.open(url, "_blank");
+    }
+  });
+
+  return button;
+};
+
 function createFloatingMenu() {
   const checkElement = document.getElementById(MENU_ID);
   if (checkElement) {
@@ -136,6 +175,10 @@ function createFloatingMenu() {
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
   });
+
+  const sendButton = createSendButton();
+  sendButton.style.marginTop = "10px";
+  div.appendChild(sendButton);
 }
 
 function addDragEvent() {

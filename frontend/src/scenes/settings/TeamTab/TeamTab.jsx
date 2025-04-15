@@ -11,7 +11,7 @@ import { VscEdit } from 'react-icons/vsc';
 import styles from './TeamTab.module.css';
 import TeamTable from './TeamTable/TeamTable';
 import Button from '@components/Button/Button';
-import PageBtnContainer from '../../../components/PageBtnContainer/PageBtnContainer';
+import PaginationButtons from '@components/Pagination/ButtonPagination/PaginationButtons';
 import CustomTextField from '@components/TextFieldComponents/CustomTextField/CustomTextField';
 import LoadingArea from '@components/LoadingPage/LoadingArea';
 
@@ -55,11 +55,11 @@ const TeamTab = ({ handleTabChange }) => {
 
   const [selectedMember, setSelectedMember] = useState(null);
 
-  const perPage = 10;
+  const rowsPerPage = 10;
 
   useEffect(() => {
-    loadTeamDetails(currentPage, perPage);
-  }, [currentPage, perPage, refetch]);
+    loadTeamDetails(currentPage, rowsPerPage);
+  }, [currentPage, rowsPerPage, refetch]);
 
   const loadTeamDetails = async (page, limit) => {
     try {
@@ -244,8 +244,8 @@ const TeamTab = ({ handleTabChange }) => {
                     setChangeRoleModalOpen={setOpenChangeMemberRoleModal}
                     setSelectedMember={setSelectedMember}
                   />
-                  {totalPages > 1 && (
-                    <PageBtnContainer
+                  {totalPages > 0 && (
+                    <PaginationButtons
                       currentPage={Number(currentPage)}
                       setCurrentPage={setCurrentPage}
                       totalPages={Number(totalPages)}

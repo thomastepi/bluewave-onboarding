@@ -20,7 +20,7 @@ export const getUser = async () => {
   }
 };
 
-export const getOrgDetails = async (page = 1, limit = 5) => {
+export const getOrgDetails = async (page = 1, limit = 10) => {
   try {
     const response = await apiClient.get('/team/details', {
       params: { page, limit },

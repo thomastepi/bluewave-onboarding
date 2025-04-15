@@ -1,0 +1,16 @@
+.paginationContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.paginationContainer p {
+    color: var(--main-text-color);
+}
+
+.paginationContainer button {
+  color: var(--main-purple);
+}
+
+.paginationContainer td {
+    border-bottom: none;
+}

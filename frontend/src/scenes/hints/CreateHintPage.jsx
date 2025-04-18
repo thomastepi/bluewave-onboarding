@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Turndown from 'turndown';
 import HintLeftAppearance from '@components/HintPageComponents/HintLeftAppearance/HintLeftAppearance';
@@ -21,6 +21,9 @@ const HintPage = ({
   const { openDialog, closeDialog } = useDialog();
 
   const [activeButton, setActiveButton] = useState(0);
+
+  const params = new URLSearchParams(window.location.search);
+  const hintTarget = JSON.parse(params.get('hintTarget'));
 
   const handleButtonClick = (index) => {
     setActiveButton(index);
@@ -110,6 +113,22 @@ const HintPage = ({
     }
   }, [isEdit, itemId]);
 
+  const preFillHintTarget = useCallback(() => {
+    try {
+      setLeftContent((prev) => ({ ...prev, targetElement: hintTarget }));
+
+      openDialog();
+    } catch (error) {
+      console.error('Error parsing hint data:', error);
+      toastEmitter.emit(TOAST_EMITTER_KEY, 'Invalid hint data format');
+    }
+  }, [hintTarget, openDialog]);
+
+  useEffect(() => {
+    if (autoOpen && hintTarget) preFillHintTarget();
+    else if (autoOpen) openDialog();
+  }, [autoOpen, openDialog]);
+
   const onSave = async () => {
     const hintData = {
       repetitionType: buttonRepetition.toLowerCase(),
@@ -138,6 +157,9 @@ const HintPage = ({
       setHeader('');
       setContent('');
       closeDialog();
+
+      if (params.get('autoOpen'))
+        window.history.replaceState({}, '', window.location.pathname);
     } catch (error) {
       if (error.response.data?.errors) {
         return error.response.data.errors.forEach((err) => {

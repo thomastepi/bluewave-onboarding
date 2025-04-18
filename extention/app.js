@@ -162,7 +162,11 @@ const createSendButton = () => {
       const url = `http://localhost:4173/tour?${queryParams.toString()}`;
       window.open(url, "_blank");
     } else if (selectedMode === "hint" && currentSelectedElement) {
-      console.log(currentSelectedElement);
+      queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
+      queryParams.set("autoOpen", "true");
+
+      const url = `http://localhost:4173/hint?${queryParams.toString()}`;
+      window.open(url, "_blank");
     }
   });
 

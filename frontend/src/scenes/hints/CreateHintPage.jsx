@@ -23,7 +23,9 @@ const HintPage = ({
   const [activeButton, setActiveButton] = useState(0);
 
   const params = new URLSearchParams(window.location.search);
-  const hintTarget = JSON.parse(params.get('hintTarget'));
+
+  const hintTargetParam = params.get('hintTarget');
+  const hintTarget = hintTargetParam ? JSON.parse(hintTargetParam) : null;
 
   const handleButtonClick = (index) => {
     setActiveButton(index);
@@ -69,10 +71,6 @@ const HintPage = ({
     tooltipPlacement,
     isHintIconVisible,
   } = leftContent;
-
-  useEffect(() => {
-    if (autoOpen) openDialog();
-  }, [autoOpen, openDialog]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -125,9 +123,14 @@ const HintPage = ({
   }, [hintTarget, openDialog]);
 
   useEffect(() => {
-    if (autoOpen && hintTarget) preFillHintTarget();
-    else if (autoOpen) openDialog();
-  }, [autoOpen, openDialog]);
+    if (!autoOpen) return;
+
+    if (hintTarget) {
+      preFillHintTarget();
+    } else {
+      openDialog();
+    }
+  }, [autoOpen, hintTarget, preFillHintTarget, openDialog]);
 
   const onSave = async () => {
     const hintData = {

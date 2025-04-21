@@ -71,13 +71,20 @@ const Settings = () => {
       setLinkToEdit(null);
       return;
     }
-    if (!validateUrl(info.url)) {
+    if (!linkToEdit && !validateUrl(info.url)) {
       throw new Error('Invalid URL format');
     }
     if (linkToEdit) {
       setLinks((prev) =>
         prev.map((it) =>
-          it.id === oldLink.id ? { ...info, id: oldLink.id } : it
+          it.id === oldLink.id
+            ? {
+                ...oldLink,
+                url: info.url.trim() === '' ? oldLink.url : info.url,
+                title: info.title.trim() === '' ? oldLink.title : info.title,
+                target: info.target === 'true',
+              }
+            : it
         )
       );
       setLinkToEdit(null);

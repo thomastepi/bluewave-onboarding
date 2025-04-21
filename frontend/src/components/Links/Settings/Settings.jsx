@@ -73,6 +73,8 @@ const Settings = () => {
     }
     if (!linkToEdit && !validateUrl(info.url)) {
       throw new Error('Invalid URL format');
+    } else if (linkToEdit && info.url.trim() !== '' && !validateUrl(info.url)) {
+      throw new Error('Invalid URL format');
     }
     if (linkToEdit) {
       setLinks((prev) =>

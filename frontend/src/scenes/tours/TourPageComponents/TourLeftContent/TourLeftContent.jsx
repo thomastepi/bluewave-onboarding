@@ -1,24 +1,11 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './TourLeftContent.module.scss';
-import DraggableTourStep from '../../../../components/DraggableTourStep/DraggableTourStep';
+import DraggableTourStep from '../../../../components/Tour/DraggableTourStep/DraggableTourStep';
 import Button from '../../../../components/Button/Button';
-import {
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import PropTypes from 'prop-types';
 import CustomTextField from '../../../../components/TextFieldComponents/CustomTextField/CustomTextField';
+import { List } from '@mui/material';
 
 const TourLeftContent = ({
   stepsData,
@@ -30,20 +17,12 @@ const TourLeftContent = ({
   const [activeDragId, setActiveDragId] = useState(null); // Track the currently dragged item
 
   const defaultStep = {
-    stepName: 'Step',
+    title: 'Step',
     header: 'Welcome to GuideFox',
-    content:
+    description:
       'Serve your users and increase product adoption with hints, popups, banners, and helper links. \n\nEarn an extra 30% if you purchase an annual plan with us.',
     targetElement: '',
   };
-
-  // Sensors for drag-and-drop
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   const addNewStepHandler = () => {
     setStepsData((prev) => [
@@ -51,13 +30,13 @@ const TourLeftContent = ({
       {
         ...defaultStep,
         id: uuidv4(),
-        stepName: `Step ${prev.length + 1}`,
+        title: `Step ${prev.length + 1}`,
       },
     ]);
   };
 
   const renameStepHandler = (newName) => {
-    setTourDetails('stepName', newName);
+    setTourDetails('title', newName);
   };
 
   const selectHandler = (identity) => {
@@ -81,16 +60,33 @@ const TourLeftContent = ({
     setStepsData(updatedSteps);
   };
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
+  const handleDragStart = (id) => {
+    setActiveDragId(id);
+  };
 
-    setStepsData((stepsData) => {
-      const oldIndex = stepsData.findIndex((step) => step.id === active.id);
-      const newIndex = stepsData.findIndex((step) => step.id === over.id);
-      return arrayMove(stepsData, oldIndex, newIndex);
-    });
+  const handleDragEnd = () => {
     setActiveDragId(null);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (targetId) => {
+    if (!activeDragId) return;
+
+    const currentIndex = stepsData.findIndex(
+      (step) => step.id === activeDragId
+    );
+    const targetIndex = stepsData.findIndex((step) => step.id === targetId);
+
+    if (currentIndex !== -1 && targetIndex !== -1) {
+      const updatedTourStep = [...stepsData];
+      const [draggedItem] = updatedTourStep.splice(currentIndex, 1);
+      updatedTourStep.splice(targetIndex, 0, draggedItem);
+
+      setStepsData(updatedTourStep);
+    }
   };
 
   return (
@@ -110,43 +106,24 @@ const TourLeftContent = ({
         Tour steps (popups)
       </h2>
 
-      <DndContext
-        sensors={sensors}
-        onDragStart={({ active }) => setActiveDragId(active.id)}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={stepsData}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className={styles.stepsList}>
-            {stepsData.map(({ id, stepName }) => (
-              <DraggableTourStep
-                key={id}
-                id={id}
-                text={stepName}
-                isActive={currentStep.id === id}
-                stepsLength={stepsData.length}
-                stepNameChangeHandler={(e) => renameStepHandler(e.target.value)}
-                onSelectHandler={() => selectHandler(id)}
-                onDeleteHandler={() => deleteHandler(id)}
-              />
-            ))}
-          </div>
-        </SortableContext>
-
-        <DragOverlay>
-          {activeDragId ? (
-            <DraggableTourStep
-              id={activeDragId}
-              text={
-                stepsData.find((step) => step.id === activeDragId)?.stepName
-              }
-              isActive={currentStep.id === activeDragId}
-            />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+      <List className={styles.stepsList}>
+        {stepsData.map(({ id, title }) => (
+          <DraggableTourStep
+            key={id}
+            id={id}
+            text={title}
+            isActive={currentStep.id === id}
+            stepsLength={stepsData.length}
+            stepNameChangeHandler={(value) => renameStepHandler(value)}
+            onSelectHandler={() => selectHandler(id)}
+            onDeleteHandler={() => deleteHandler(id)}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          />
+        ))}
+      </List>
 
       <Button
         onClick={addNewStepHandler}
@@ -159,15 +136,15 @@ const TourLeftContent = ({
 
 const stepShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  stepName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   targetElement: PropTypes.string.isRequired,
 });
 
 TourLeftContent.propTypes = {
   stepsData: PropTypes.arrayOf(stepShape).isRequired,
-  currentStep: PropTypes.shape(stepShape).isRequired,
+  currentStep: stepShape.isRequired,
   setStepsData: PropTypes.func.isRequired,
   setTourDetails: PropTypes.func.isRequired,
   setCurrentStep: PropTypes.func.isRequired,

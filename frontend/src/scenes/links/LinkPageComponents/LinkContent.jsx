@@ -1,7 +1,7 @@
 import { Link } from '@mui/material';
 import { useContext, useState } from 'react';
-import CardContainer from '@components/Links/Card';
-import Card from '@components/Links/Card/Card';
+import ListItemContainer from '../../../components/Links/DraggableHelperLink/ListItemContainer';
+import DraggableHelperLink from '../../../components/Links/DraggableHelperLink/DraggableHelperLink';
 import Popup from '@components/Links/Popup/Popup';
 import { HelperLinkContext } from '../../../services/linksProvider';
 import styles from '../LinkPage.module.scss';
@@ -41,9 +41,9 @@ const LinkContent = () => {
     <>
       <div className={styles.body__links}>
         <h3 className={styles.body__title}>Link items</h3>
-        <CardContainer>
+        <ListItemContainer>
           {links.map((item) => (
-            <Card
+            <DraggableHelperLink
               card={item}
               key={item.id}
               onDragStart={handleDragStart}
@@ -63,7 +63,7 @@ const LinkContent = () => {
           >
             + Add new link
           </Link>
-        </CardContainer>
+        </ListItemContainer>
       </div>
       <Popup />
     </>

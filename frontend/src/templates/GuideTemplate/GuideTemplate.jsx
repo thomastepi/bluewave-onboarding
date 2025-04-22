@@ -32,6 +32,9 @@ const GuideTemplate = ({
   const onCloseHandler = () => {
     if (location.state?.autoOpen) navigate('/', { state: {} });
 
+    //To remove the query string when redirecting the user to the create guide dashboard with prefilled values.
+    window.history.replaceState({}, '', window.location.pathname);
+
     closeDialog();
     setIsEdit(false);
   };
@@ -40,7 +43,7 @@ const GuideTemplate = ({
     <Dialog
       closeAfterTransition={isOpen}
       open={isOpen}
-      onClose={closeDialog}
+      onClose={onCloseHandler}
       maxWidth="lg"
       PaperProps={{ style: { position: 'static' } }}
     >

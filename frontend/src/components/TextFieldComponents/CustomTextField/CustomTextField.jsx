@@ -27,6 +27,7 @@ const CustomTextField = ({
   labelFontWeight = 600,
   TextFieldWidth = '320px',
   inputHeight = '34px',
+  inputStyles = {},
   textFieldMargin = 'normal',
   type = 'text',
   required = false,
@@ -92,6 +93,7 @@ const CustomTextField = ({
         sx={{
           width: computedFullWidth ? '100%' : TextFieldWidth,
           marginTop: 1,
+          ...inputStyles,
         }}
         fullWidth={computedFullWidth}
         margin={textFieldMargin}
@@ -155,6 +157,7 @@ CustomTextField.propTypes = {
   labelFontWeight: PropTypes.number,
   TextFieldWidth: PropTypes.string,
   inputHeight: PropTypes.string,
+  inputStyles: PropTypes.object,
   id: PropTypes.string,
   name: PropTypes.string,
   checkCircleIconVisible: PropTypes.bool,

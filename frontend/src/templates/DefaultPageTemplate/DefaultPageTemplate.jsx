@@ -67,9 +67,9 @@ const DefaultPageTemplate = ({
 
   const duplicateHandler = async (id) => {
     try {
+      /* eslint-disable no-unused-vars */
       if (itemType === 'helper links') {
         const {
-          // eslint-disable-next-line no-unused-vars
           createdBy,
           id: fetchedId,
           links,
@@ -78,8 +78,15 @@ const DefaultPageTemplate = ({
         const updatedLinks = links.map(({ id, ...data }) => data);
 
         await duplicateItem(helper, updatedLinks);
+      } else if (itemType === 'tours') {
+        const { createdBy, id: fetchedId, ...data } = await getItemById(id);
+
+        const finalSteps = data.steps.map(({ id, ...data }) => ({
+          ...data,
+        }));
+
+        await duplicateItem({ ...data, steps: finalSteps });
       } else {
-        // eslint-disable-next-line no-unused-vars
         const { createdBy, id: fetchedId, ...data } = await getItemById(id);
         await duplicateItem(data);
       }
@@ -90,6 +97,7 @@ const DefaultPageTemplate = ({
       );
 
       setItemsDuplicated((prev) => !prev);
+      /* eslint-disable no-unused-vars */
     } catch (error) {
       const errorMessage = error.response?.data?.message
         ? `Error: ${error.response.data.message}`

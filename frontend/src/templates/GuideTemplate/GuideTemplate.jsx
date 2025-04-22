@@ -32,7 +32,7 @@ const GuideTemplate = ({
   const onCloseHandler = () => {
     if (location.state?.autoOpen) navigate('/', { state: {} });
 
-    //To remove the query string when redirecting the user to the createTour dashboard with prefilled values.
+    //To remove the query string when redirecting the user to the create guide dashboard with prefilled values.
     window.history.replaceState({}, '', window.location.pathname);
 
     closeDialog();

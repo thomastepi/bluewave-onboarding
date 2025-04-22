@@ -4,12 +4,14 @@ const MENU_ID = "bw-ext-floating-menu";
 const INPUT_ID = "bw-ext-input";
 const BUTTON_ID = "bw-ext-button";
 const TOUR_STEPS_CONTAINER_ID = "bw-ext-tour-steps";
+const HINT_TARGET_CONTAINER_ID = "bw-ext-hint-target";
 const TOUR_STEP_CLASS = "bw-ext-tour-step";
 const AVAILABLE_MODES = ["hint", "tour"];
 let domSelected = false;
 let lastHighlightTarget;
 let selectedMode = "hint";
 let selectedElements = [];
+let currentSelectedElement = null;
 
 function terminate() {
   // The `click` listener is automatically removed after it has been called once
@@ -35,7 +37,7 @@ const createMenuDiv = () => {
   menuDiv.style.backgroundColor = "#f8f9fa";
   menuDiv.style.padding = "10px";
   menuDiv.style.cursor = "pointer";
-  menuDiv.style.minWidth = "160px";
+  menuDiv.style.minWidth = "250px";
   menuDiv.style.alignItems = "center";
   return menuDiv;
 };
@@ -48,18 +50,39 @@ const createMenuDivChildren = () => {
   buttonContainer.style.overflow = "hidden";
   buttonContainer.style.backgroundColor = "#ccc";
 
-  const cardContainer = document.createElement("div");
-  cardContainer.id = TOUR_STEPS_CONTAINER_ID;
-  cardContainer.style.display = "flex";
-  cardContainer.style.flexDirection = "column";
-  cardContainer.style.gap = "10px";
-  cardContainer.style.width = "100%";
-  cardContainer.style.maxHeight = "300px";
-  cardContainer.style.overflowY = "auto";
-  return { buttonContainer, cardContainer };
+  const tourContainer = document.createElement("div");
+  tourContainer.id = TOUR_STEPS_CONTAINER_ID;
+  tourContainer.style.display = "flex";
+  tourContainer.style.flexDirection = "column";
+  tourContainer.style.gap = "10px";
+  tourContainer.style.width = "100%";
+  tourContainer.style.maxHeight = "300px";
+  tourContainer.style.overflowY = "auto";
+
+  const hintContainer = document.createElement("div");
+  hintContainer.id = HINT_TARGET_CONTAINER_ID;
+  hintContainer.style.display = "flex";
+  hintContainer.style.flexDirection = "column";
+  hintContainer.style.gap = "10px";
+  hintContainer.style.width = "250px";
+  hintContainer.style.maxHeight = "300px";
+  hintContainer.style.overflowY = "auto";
+  hintContainer.style.border = "1px solid #ccc";
+  hintContainer.style.borderRadius = "6px";
+  hintContainer.style.padding = "10px";
+  hintContainer.style.boxSizing = "border-box";
+  hintContainer.style.backgroundColor = "#fff";
+  hintContainer.innerHTML = "No Target Selected";
+
+  return { buttonContainer, tourContainer, hintContainer };
 };
 
-const createMenuButton = (mode, buttonContainer, cardContainer) => {
+const createMenuButton = (
+  mode,
+  buttonContainer,
+  tourContainer,
+  hintContainer
+) => {
   const button = document.createElement("button");
   button.textContent = mode;
   button.style.padding = "8px 16px";
@@ -78,6 +101,8 @@ const createMenuButton = (mode, buttonContainer, cardContainer) => {
 
   button.addEventListener("click", () => {
     selectedMode = mode;
+
+    // Toggle button styles
     buttonContainer.childNodes.forEach((button) => {
       if (button.textContent !== selectedMode) {
         button.style.backgroundColor = "#ccc";
@@ -87,12 +112,19 @@ const createMenuButton = (mode, buttonContainer, cardContainer) => {
         button.style.color = "#fff";
       }
     });
+
+    // Toggle container visibility
     if (mode === "tour") {
+      tourContainer.style.display = "flex";
+      hintContainer.style.display = "none";
       generateList();
-    } else {
-      cardContainer.innerHTML = "";
+    } else if (mode === "hint") {
+      hintContainer.style.display = "flex";
+      tourContainer.style.display = "none";
+      setTargetHintValue();
     }
   });
+
   buttonContainer.appendChild(button);
 };
 
@@ -129,6 +161,12 @@ const createSendButton = () => {
 
       const url = `http://localhost:4173/tour?${queryParams.toString()}`;
       window.open(url, "_blank");
+    } else if (selectedMode === "hint" && currentSelectedElement) {
+      queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
+      queryParams.set("autoOpen", "true");
+
+      const url = `http://localhost:4173/hint?${queryParams.toString()}`;
+      window.open(url, "_blank");
     }
   });
 
@@ -143,15 +181,17 @@ function createFloatingMenu() {
   const div = createMenuDiv();
   document.body.appendChild(div);
 
-  const { buttonContainer, cardContainer } = createMenuDivChildren();
+  const { buttonContainer, tourContainer, hintContainer } =
+    createMenuDivChildren();
 
   div.appendChild(buttonContainer);
-  div.appendChild(cardContainer);
+  div.appendChild(tourContainer);
+  div.appendChild(hintContainer);
 
   addDragEvent();
 
   AVAILABLE_MODES.forEach((mode) => {
-    createMenuButton(mode, buttonContainer, cardContainer);
+    createMenuButton(mode, buttonContainer, tourContainer, hintContainer);
   });
 
   // add event listener to drag the menu around
@@ -404,6 +444,7 @@ function generateList() {
     card.innerHTML = cardTemplate.replace("{{step}}", element);
     card.style.display = "flex";
     card.style.alignItems = "center";
+    card.style.justifyContent = "space-between";
     card.style.gap = "10px";
     card.style.color = "#344054";
     card.style.border = "1px solid #D0D5DD";
@@ -454,6 +495,12 @@ function generateList() {
   });
 }
 
+function setTargetHintValue() {
+  const cardContainer = document.getElementById(HINT_TARGET_CONTAINER_ID);
+
+  cardContainer.innerHTML = currentSelectedElement || "No Target Selected";
+}
+
 async function grabSelector(event) {
   event.preventDefault();
   const { target } = event;
@@ -470,6 +517,19 @@ async function grabSelector(event) {
     generateList();
     return;
   }
+
+  if (selectedMode === "hint") {
+    const selector = generateSelector(target);
+    currentSelectedElement = selector;
+
+    const hintContainer = document.getElementById(HINT_TARGET_CONTAINER_ID);
+    if (hintContainer) {
+      hintContainer.innerHTML = currentSelectedElement;
+    }
+
+    return;
+  }
+
   if (!(target instanceof HTMLElement)) {
     terminate();
     return;

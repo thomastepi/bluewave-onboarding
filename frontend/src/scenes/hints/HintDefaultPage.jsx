@@ -18,6 +18,9 @@ const HintDefaultPage = () => {
   const { state } = useLocation();
   const { isOpen } = useDialog();
 
+  const params = new URLSearchParams(window.location.search);
+  const autoOpen = params.get('autoOpen') === 'true';
+
   const getHintDetails = (hint) => ({
     title: `Hint ${hint.id}`,
     text: hint.header,
@@ -37,9 +40,9 @@ const HintDefaultPage = () => {
         getItemById={getHintById}
         duplicateItem={addHint}
       />
-      {(isOpen || state?.autoOpen) && (
+      {(isOpen || state?.autoOpen || autoOpen) && (
         <CreateHintPage
-          autoOpen={state?.autoOpen}
+          autoOpen={state?.autoOpen || autoOpen}
           isEdit={isEdit}
           itemId={itemId}
           setItemsUpdated={setItemsUpdated}

@@ -12,6 +12,7 @@ let lastHighlightTarget;
 let selectedMode = "hint";
 let selectedElements = [];
 let currentSelectedElement = null;
+let DASHBOARD_URL = "http://localhost:4173/";
 
 function terminate() {
   // The `click` listener is automatically removed after it has been called once
@@ -159,13 +160,13 @@ const createSendButton = () => {
       queryParams.set("data", JSON.stringify(selectedElements));
       queryParams.set("autoOpen", "true");
 
-      const url = `http://localhost:4173/tour?${queryParams.toString()}`;
+      const url = `${DASHBOARD_URL}/tour?${queryParams.toString()}`;
       window.open(url, "_blank");
     } else if (selectedMode === "hint" && currentSelectedElement) {
       queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
       queryParams.set("autoOpen", "true");
 
-      const url = `http://localhost:4173/hint?${queryParams.toString()}`;
+      const url = `${DASHBOARD_URL}/hint?${queryParams.toString()}`;
       window.open(url, "_blank");
     }
   });
@@ -593,6 +594,7 @@ function checkTerminateKeys(event) {
 function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
+  createSettingsMenu();
   let inThrottle;
   let lastResult;
   domSelected = false;
@@ -608,4 +610,99 @@ function throttle(func, limit = 100) {
 
     return lastResult;
   };
+}
+
+function createSettingsMenu() {
+  const configButton = document.createElement("div");
+  configButton.id = "config-button";
+  configButton.style.position = "fixed";
+  configButton.style.bottom = "10px";
+  configButton.style.left = "15px";
+  configButton.style.backgroundColor = "#f8f9fa";
+  configButton.style.padding = "8px 12px";
+  configButton.style.cursor = "pointer";
+  configButton.style.zIndex = "10000";
+  configButton.style.display = "flex";
+  configButton.style.alignItems = "center";
+  configButton.style.gap = "8px";
+  configButton.style.borderRight = "2px solid #ccc";
+
+  const label = document.createElement("span");
+  label.textContent = "Settings";
+  label.style.userSelect = "none";
+
+  const arrow = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  arrow.setAttribute("width", "16");
+  arrow.setAttribute("height", "16");
+  arrow.setAttribute("viewBox", "0 0 24 24");
+  arrow.innerHTML = `<path d="M7 10l5 5 5-5H7z" fill="currentColor"/>`;
+  arrow.style.transition = "transform 0.2s ease";
+  arrow.style.transformOrigin = "center";
+
+  configButton.appendChild(label);
+  configButton.appendChild(arrow);
+
+  const popup = document.createElement("div");
+  popup.id = "config-popup";
+  popup.style.position = "absolute";
+  popup.style.bottom = "50px";
+  popup.style.left = "0px";
+  popup.style.backgroundColor = "#ffffff";
+  popup.style.border = "1px solid #ccc";
+  popup.style.borderRadius = "4px";
+  popup.style.padding = "10px";
+  popup.style.display = "none";
+  popup.style.flexDirection = "column";
+  popup.style.gap = "10px";
+  popup.style.boxShadow = "0 0 6px rgba(0,0,0,0.1)";
+  popup.style.minWidth = "200px";
+
+  const urlLabel = document.createElement("label");
+  urlLabel.textContent = "Dashboard URL";
+  urlLabel.style.fontSize = "14px";
+  urlLabel.style.fontWeight = "bold";
+
+  const urlInput = document.createElement("input");
+  urlInput.type = "text";
+  urlInput.value = DASHBOARD_URL;
+  urlInput.style.width = "calc(100% - 16px)";
+  urlInput.style.padding = "6px 8px";
+  urlInput.style.borderRadius = "4px";
+  urlInput.style.border = "1px solid #ccc";
+
+  urlInput.addEventListener("input", (e) => {
+    DASHBOARD_URL = e.target.value;
+  });
+
+  urlInput.addEventListener("focus", () => {
+    urlInput.style.borderColor = "#7f56d9";
+    urlInput.style.outline = "none";
+  });
+
+  urlInput.addEventListener("blur", () => {
+    urlInput.style.borderColor = "#ccc";
+  });
+
+  popup.appendChild(urlLabel);
+  popup.appendChild(urlInput);
+  configButton.appendChild(popup);
+
+  function togglePopup(e) {
+    e.stopPropagation(); // prevent bubbling to document
+    const isOpen = popup.style.display === "flex";
+    popup.style.display = isOpen ? "none" : "flex";
+    arrow.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+  }
+
+  label.addEventListener("click", togglePopup);
+  arrow.addEventListener("click", togglePopup);
+
+  document.addEventListener("click", (e) => {
+    if (!configButton.contains(e.target)) {
+      popup.style.display = "none";
+      arrow.style.transform = "rotate(0deg)";
+    }
+  });
+
+  document.body.appendChild(configButton);
 }

@@ -614,7 +614,7 @@ function throttle(func, limit = 100) {
 
 function createSettingsMenu() {
   const configButton = document.createElement("div");
-  configButton.id = "config-button";
+  configButton.id = "bw-ext-config-button";
   configButton.style.position = "fixed";
   configButton.style.bottom = "10px";
   configButton.style.left = "15px";
@@ -643,7 +643,7 @@ function createSettingsMenu() {
   configButton.appendChild(arrow);
 
   const popup = document.createElement("div");
-  popup.id = "config-popup";
+  popup.id = "bw-ext-config-popup";
   popup.style.position = "absolute";
   popup.style.bottom = "50px";
   popup.style.left = "0px";

@@ -23,7 +23,7 @@ bw.tour = {
      * @param {object} dialogItem - The dialog item to generate.
      * @returns {void}
      */
-    generateDialog: function (dialogItem) {
+    showTour: function (dialogItem) {
         // Implementation for generating a dialog will be added here
 
         // Create container
@@ -237,7 +237,7 @@ bw.tour = {
         if (tourData) {
             console.log("Tour initialized successfully!");
             console.log(tourData);
-            bw.tour.generateDialog(tourData);
+            bw.tour.showTour(tourData);
         } else {
             console.warn("Tour initialization failed.");
         }

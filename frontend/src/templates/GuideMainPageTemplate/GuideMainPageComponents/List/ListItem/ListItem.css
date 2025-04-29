@@ -58,7 +58,7 @@
 }
 
 .list-item-info p {
-  margin: 2px 0 0 33px;
+  margin: 2px 0 0 0;
   color: var(--main-text-color);
 }
 

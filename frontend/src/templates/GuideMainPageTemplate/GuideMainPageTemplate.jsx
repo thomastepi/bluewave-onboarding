@@ -54,15 +54,29 @@ const GuideMainPageTemplate = ({
                 <List key={index} items={[row]} />
               ))}
               {count > 5 && (
-                <PaginationTable
-                  count={count}
-                  page={page}
-                  setPage={setPage}
-                  rowsPerPage={rowsPerPage}
-                  setRowsPerPage={setRowsPerPage}
-                  onRowsPerPageChange={setRowsPerPage}
-                  items={items}
-                />
+                <>
+                  {/* 
+  MUI's TablePagination renders a <td> internally, 
+  so we must wrap it inside a <table><tfoot><tr> structure 
+  to satisfy valid DOM nesting rules and avoid console warnings. 
+*/}
+                  <table>
+                    <tfoot>
+                      <tr>
+                        <PaginationTable
+                          count={count}
+                          page={page}
+                          setPage={setPage}
+                          rowsPerPage={rowsPerPage}
+                          labelRowsPerPage={'Items per page'}
+                          setRowsPerPage={setRowsPerPage}
+                          onRowsPerPageChange={setRowsPerPage}
+                          items={items}
+                        />
+                      </tr>
+                    </tfoot>
+                  </table>
+                </>
               )}
             </ContentArea>
             <div

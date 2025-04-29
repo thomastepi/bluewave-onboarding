@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TablePagination from '@mui/material/TablePagination';
 import TablePaginationActions from './TablePaginationActions';
-import styles from './PaginationTable.module.css';
+import DropdownMenu from '../../DropdownMenu/DropdownMenu';
 
 const PaginationTable = ({
   page,
   setPage,
   rowsPerPage,
   setRowsPerPage,
+  rowsPerPageOptions = [5, 10, 25, { label: 'All', value: -1 }],
   count,
+  colSpan,
+  labelRowsPerPage,
 }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -21,38 +24,29 @@ const PaginationTable = ({
   };
 
   return (
-    <section className={styles.paginationContainer}>
-      <table>
-        <tfoot>
-          <tr>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={count}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                },
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </tr>
-        </tfoot>
-      </table>
-    </section>
+    <TablePagination
+      rowsPerPageOptions={rowsPerPageOptions}
+      colSpan={colSpan}
+      labelRowsPerPage={labelRowsPerPage}
+      slots={{
+        select: <DropdownMenu menuItems={rowsPerPageOptions} />,
+      }}
+      count={count}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+      ActionsComponent={TablePaginationActions}
+    />
   );
 };
 
 PaginationTable.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
+  rowsPerPageOptions: PropTypes.array,
+  labelRowsPerPage: PropTypes.string,
+  colSpan: PropTypes.number,
   count: PropTypes.number.isRequired,
   setRowsPerPage: PropTypes.func.isRequired,
   setPage: PropTypes.func.isRequired,

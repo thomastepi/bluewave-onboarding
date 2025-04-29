@@ -1,9 +1,3 @@
-/**
- * @typedef {object} Tour
- * @property {function(function(boolean)): void} init - Initializes the tour by loading external libraries.
- * @property {function(object): void} generateDialog - Generates a dialog item (currently empty).
- */
-
 console.log('tour.js is here');
 
 const FLOATING_UI_CORE_URL = "https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.9";
@@ -16,21 +10,13 @@ bw.tour = {
      * @returns {void}
      */
     init: function (cb) {
-        const loadFloatingUILibraries = () => {
-            bw.util.loadScriptAsync(FLOATING_UI_CORE_URL, () => {
-                bw.util.loadScriptAsync(FLOATING_UI_DOM_URL, () => {
-                    cb && cb(true);
-                }, (err) => {
-                    console.error("Failed to load @floating-ui/dom:", err);
-                    cb && cb(false);
-                });
-            }, (err) => {
-                console.error("Failed to load @floating-ui/core:", err);
-                cb && cb(false);
-            });
-        };
-
-        loadFloatingUILibraries();
+        this.loadFloatingUILibraries(async (result) => {
+            const tourId = result.id;
+            const tourData = await bw.data.getTourById(tourId);
+            cb && cb(tourData);
+        }, () => {
+            cb && cb(false);
+        });
     },
     /**
      * Generates a dialog item.  Currently, this function is empty.
@@ -40,12 +26,29 @@ bw.tour = {
     generateDialog: function (dialogItem) {
         // Implementation for generating a dialog will be added here
     },
+    loadFloatingUILibraries: function (cb) {
+        bw.util.loadScriptAsync(FLOATING_UI_CORE_URL, () => {
+            console.log("@floating-ui/core loaded successfully");
+            bw.util.loadScriptAsync(FLOATING_UI_DOM_URL, () => {
+                console.log("@floating-ui/dom loaded successfully");
+                const options = window.bwonboarddata.tour[0];
+                cb && cb(options);
+            }, (err) => {
+                console.error("Failed to load @floating-ui/dom:", err);
+                cb && cb(false);
+            });
+        }, (err) => {
+            console.error("Failed to load @floating-ui/core:", err);
+            cb && cb(false);
+        });
+    }
 };
 
 (function () {
-    bw.tour.init((isLoaded) => {
-        if (isLoaded) {
+    bw.tour.init((tourData) => {
+        if (tourData) {
             console.log("Tour initialized successfully!");
+            console.log(tourData);
         } else {
             console.warn("Tour initialization failed.");
         }

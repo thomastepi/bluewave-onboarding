@@ -10,12 +10,12 @@ const router = express.Router();
 const teamPermissions = settings.team.permissions.tours;
 
 router.get('/get_tour_by_url', bodyUrlValidator, handleValidationErrors, tourController.getTourByUrl);
-
+router.get('/get_tour/:id', tourController.getTourById);
 router.use(authenticateJWT);
 
 router.get('/all_tours', tourController.getAllTours);
 router.get('/tours', tourController.getToursByUserId);
-router.get('/get_tour/:id', tourController.getTourById);
+
 
 router.use(accessGuard(teamPermissions));
 

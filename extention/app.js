@@ -16,11 +16,8 @@ let DASHBOARD_URL = "http://localhost:4173";
 let isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
 
 function terminate() {
-  // The `click` listener is automatically removed after it has been called once
-  window.removeEventListener("mousemove", throttle(updateHighlight));
-  window.removeEventListener("keydown", checkTerminateKeys);
-  window.removeEventListener("click", grabSelector, { capture: true });
-  removeHighlight();
+  //Removing all extension elements
+  document.querySelectorAll('[id^="bw"]').forEach((el) => el.remove());
 }
 
 function promptForDashboardUrl() {
@@ -35,7 +32,7 @@ function promptForDashboardUrl() {
   overlay.style.display = "flex";
   overlay.style.alignItems = "center";
   overlay.style.justifyContent = "center";
-  overlay.style.zIndex = "101";
+  overlay.style.zIndex = "10001";
 
   const modal = document.createElement("div");
   modal.id = "bw-ext-modal";
@@ -290,6 +287,23 @@ function createFloatingMenu() {
   const { buttonContainer, tourContainer, hintContainer } =
     createMenuDivChildren();
 
+  const closeButton = document.createElement("div");
+  closeButton.innerHTML = "&times;";
+  closeButton.style.position = "absolute";
+  closeButton.style.top = "6px";
+  closeButton.style.right = "10px";
+  closeButton.style.fontSize = "16px";
+  closeButton.style.color = "#475467"; // --third-text-color
+  closeButton.style.cursor = "pointer";
+  closeButton.style.fontWeight = "bold";
+  closeButton.title = "Close Extension";
+
+  closeButton.addEventListener("click", () => {
+    div.remove();
+    terminate();
+  });
+
+  div.appendChild(closeButton);
   div.appendChild(buttonContainer);
   div.appendChild(tourContainer);
   div.appendChild(hintContainer);
@@ -513,8 +527,12 @@ function updateHighlight({ target }) {
   lastHighlightTarget = target;
   const { top, left, width, height } = target.getBoundingClientRect();
   const highlighter = document.getElementById(HIGHLIGHTER_ID);
+
   if (!domSelected) {
-    document.getElementById("bw-ext-input").value = generateSelector(target);
+    const input = document.getElementById("bw-ext-input");
+    if (input) {
+      input.value = generateSelector(target);
+    }
   }
 
   if (!highlighter) return;
@@ -688,10 +706,8 @@ function isUnique(selector) {
   return getQueryLength(selector) <= 1;
 }
 
-function checkTerminateKeys(event) {
-  const { key } = event;
-  if (key === "Escape" || key === "Esc") {
-    event.preventDefault();
+function checkTerminateKeys(e) {
+  if (e.key === "Escape") {
     terminate();
   }
 }

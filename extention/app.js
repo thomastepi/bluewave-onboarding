@@ -16,11 +16,17 @@ let DASHBOARD_URL = "http://localhost:4173";
 let isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
 
 function terminate() {
-  //Removing all extension elements
-  document.querySelectorAll('[id^="bw"]').forEach((el) => el.remove());
+  document.querySelectorAll('[id^="bw"]').forEach((el) => {
+    if (typeof el.cleanup === "function") {
+      el.cleanup();
+    }
+    el.remove();
+  });
 }
 
 function promptForDashboardUrl() {
+  if (document.getElementById("bw-ext-overlay")) return;
+
   const overlay = document.createElement("div");
   overlay.id = "bw-ext-overlay";
   overlay.style.position = "fixed";
@@ -258,17 +264,19 @@ const createSendButton = () => {
   button.addEventListener("click", () => {
     const queryParams = new URLSearchParams();
 
+    const base = DASHBOARD_URL.replace(/\/?$/, "/");
+
     if (selectedMode === "tour" && selectedElements.length > 0) {
       queryParams.set("data", JSON.stringify(selectedElements));
       queryParams.set("autoOpen", "true");
 
-      const url = `${DASHBOARD_URL}tour?${queryParams.toString()}`;
+      const url = `${base}tour?${queryParams.toString()}`;
       window.open(url, "_blank");
     } else if (selectedMode === "hint" && currentSelectedElement) {
       queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
       queryParams.set("autoOpen", "true");
 
-      const url = `${DASHBOARD_URL}hint?${queryParams.toString()}`;
+      const url = `${base}hint?${queryParams.toString()}`;
       window.open(url, "_blank");
     }
   });
@@ -479,7 +487,7 @@ function createStickyDiv() {
       button.textContent = "Copied!";
       setTimeout(() => (button.textContent = "Copy"), 2000);
     } catch (error) {
-      console.error("Failed to copy:", error);
+      // console.error("Failed to copy:", error);
       button.textContent = "Failed!";
       setTimeout(() => (button.textContent = "Copy"), 2000);
     }
@@ -736,7 +744,7 @@ function throttle(func, limit = 100) {
 }
 
 function createSettingsMenu() {
-  let isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
+  isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
 
   const { configButton, label, arrow } = createConfigButton();
   const { popup, urlInput } = createPopup();
@@ -937,8 +945,6 @@ function createSettingsMenu() {
     };
 
     document.addEventListener("click", documentClickHandler);
-    configButton.cleanup = () =>
-      document.removeEventListener("click", documentClickHandler);
   }
 }
 

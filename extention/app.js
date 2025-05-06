@@ -23,6 +23,110 @@ function terminate() {
   removeHighlight();
 }
 
+function promptForDashboardUrl() {
+  const overlay = document.createElement("div");
+  overlay.id = "bw-ext-overlay";
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100vw";
+  overlay.style.height = "100vh";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+  overlay.style.display = "flex";
+  overlay.style.alignItems = "center";
+  overlay.style.justifyContent = "center";
+  overlay.style.zIndex = "101";
+
+  const modal = document.createElement("div");
+  modal.id = "bw-ext-modal";
+  modal.style.backgroundColor = "#ffffff";
+  modal.style.border = "1px solid #d0d5dd"; // light-border-color
+  modal.style.borderRadius = "8px";
+  modal.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+  modal.style.padding = "20px";
+  modal.style.minWidth = "300px";
+  modal.style.display = "flex";
+  modal.style.flexDirection = "column";
+  modal.style.gap = "10px";
+
+  const header = document.createElement("h2");
+  header.id = "bw-ext-modal-header";
+  header.textContent = "Enter Dashboard URL";
+  header.style.margin = "0";
+  header.style.fontSize = "16px";
+  header.style.color = "#344054"; // main-text-color
+
+  const description = document.createElement("p");
+  description.id = "bw-ext-modal-description";
+  description.textContent =
+    "Please provide your Guidefox dashboard link to continue.";
+  description.style.margin = "0";
+  description.style.fontSize = "13px";
+  description.style.color = "#667085"; // second-text-color
+
+  const input = document.createElement("input");
+  input.id = "bw-ext-url-input";
+  input.type = "text";
+  input.placeholder = "https://guidefox-dashboard-url.com";
+  input.style.padding = "8px";
+  input.style.border = "1px solid #d0d5dd"; // light-border-color
+  input.style.borderRadius = "4px";
+  input.style.fontSize = "14px";
+  input.style.color = "#475467"; // third-text-color
+  input.style.outline = "none";
+
+  const error = document.createElement("span");
+  error.id = "bw-ext-url-error";
+  error.textContent = "Invalid URL format";
+  error.style.color = "#e53e3e"; // red error
+  error.style.fontSize = "12px";
+  error.style.display = "none";
+
+  const button = document.createElement("button");
+  button.id = "bw-ext-save-button";
+  button.textContent = "Save";
+  button.style.padding = "8px 12px";
+  button.style.backgroundColor = "#7f56d9"; // main-purple
+  button.style.color = "#ffffff";
+  button.style.border = "none";
+  button.style.borderRadius = "4px";
+  button.style.cursor = "pointer";
+  button.style.fontSize = "14px";
+
+  button.addEventListener("click", () => {
+    const value = input.value.trim();
+    if (isValidUrl(value)) {
+      DASHBOARD_URL = value;
+      isDashboardUrlValid = true;
+
+      const settingsInput = document.getElementById(
+        "bw-ext-dashboard-url-input"
+      );
+      if (settingsInput) {
+        settingsInput.value = DASHBOARD_URL;
+      }
+
+      document.body.removeChild(overlay);
+    } else {
+      error.style.display = "block";
+      input.style.borderColor = "#e53e3e";
+    }
+  });
+
+  input.addEventListener("input", () => {
+    error.style.display = "none";
+    input.style.borderColor = "#d0d5dd";
+  });
+
+  modal.appendChild(header);
+  modal.appendChild(description);
+  modal.appendChild(input);
+  modal.appendChild(error);
+  modal.appendChild(button);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
 const createMenuDiv = () => {
   const menuDiv = document.createElement("div");
   menuDiv.id = MENU_ID;
@@ -596,6 +700,8 @@ function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
   createSettingsMenu();
+  promptForDashboardUrl();
+
   let inThrottle;
   let lastResult;
   domSelected = false;
@@ -749,6 +855,7 @@ function createSettingsMenu() {
 
   function createUrlInput() {
     const urlInput = document.createElement("input");
+    urlInput.id = "bw-ext-dashboard-url-input";
     urlInput.type = "text";
     urlInput.value = DASHBOARD_URL;
     applyStyles(urlInput, {

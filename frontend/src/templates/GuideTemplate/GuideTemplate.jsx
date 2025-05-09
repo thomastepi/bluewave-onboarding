@@ -22,6 +22,7 @@ const GuideTemplate = ({
   enableActiveButton = false,
   switchValue,
   onSwitchChange = () => null,
+  disableSaveButton = false,
 }) => {
   const { isOpen, closeDialog } = useDialog();
   const location = useLocation();
@@ -111,7 +112,11 @@ const GuideTemplate = ({
                 buttonType="secondary-grey"
                 onClick={onCloseHandler}
               />
-              <Button text="Save" onClick={onSave} />
+              <Button
+                text="Save"
+                onClick={onSave}
+                disabled={disableSaveButton}
+              />
             </div>
           </div>
         </div>
@@ -133,6 +138,7 @@ GuideTemplate.propTypes = {
   enableActiveButton: PropTypes.bool,
   switchValue: PropTypes.bool,
   onSwitchChange: PropTypes.func,
+  disableSaveButton: PropTypes.bool,
 };
 
 export default GuideTemplate;

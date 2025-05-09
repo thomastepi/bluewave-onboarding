@@ -71,13 +71,28 @@ const Settings = () => {
       setLinkToEdit(null);
       return;
     }
-    if (!validateUrl(info.url)) {
+    if (!linkToEdit && !validateUrl(info.url)) {
+      throw new Error('Invalid URL format');
+    } else if (linkToEdit && info.url.trim() !== '' && !validateUrl(info.url)) {
       throw new Error('Invalid URL format');
     }
     if (linkToEdit) {
+      if (!info.url.trim() || !info.title.trim()) {
+        setLinkToEdit(null);
+        toggleSettings(e);
+        return;
+      }
+      if (!validateUrl(info.url)) {
+        throw new Error('Invalid URL format');
+      }
       setLinks((prev) =>
         prev.map((it) =>
-          it.id === oldLink.id ? { ...info, id: oldLink.id } : it
+          it.id === oldLink.id
+            ? {
+                ...oldLink,
+                ...info,
+              }
+            : it
         )
       );
       setLinkToEdit(null);

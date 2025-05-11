@@ -26,6 +26,9 @@ function setDashboardUrl(value, callback) {
 
 getDashboardUrl((storedUrl) => {
   isDashboardUrlValid = isValidUrl(storedUrl);
+  if (!isDashboardUrlValid) {
+    promptForDashboardUrl();
+  }
 });
 
 function terminate() {
@@ -280,7 +283,10 @@ const createSendButton = () => {
 
   button.addEventListener("click", () => {
     getDashboardUrl((storedUrl) => {
-      if (!storedUrl) return;
+      if (!storedUrl) {
+        promptForDashboardUrl();
+        return;
+      }
 
       const base = storedUrl.replace(/\/?$/, "/");
       const queryParams = new URLSearchParams();
@@ -744,8 +750,6 @@ function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
   createSettingsMenu();
-
-  if (!isDashboardUrlValid) promptForDashboardUrl();
 
   let inThrottle;
   let lastResult;

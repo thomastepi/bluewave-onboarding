@@ -33,6 +33,9 @@ function terminate() {
     if (typeof el.cleanup === "function") {
       el.cleanup();
     }
+
+    //Reset toggle button
+    if (selectedMode !== "hint") selectedMode = "hint";
     el.remove();
   });
 }
@@ -742,8 +745,7 @@ function throttle(func, limit = 100) {
   createFloatingMenu();
   createSettingsMenu();
 
-  if(!isDashboardUrlValid)
-  promptForDashboardUrl();
+  if (!isDashboardUrlValid) promptForDashboardUrl();
 
   let inThrottle;
   let lastResult;

@@ -12,14 +12,30 @@ let lastHighlightTarget;
 let selectedMode = "hint";
 let selectedElements = [];
 let currentSelectedElement = null;
-let DASHBOARD_URL = "http://localhost:4173";
-let isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
+let isDashboardUrlValid = false;
+
+function getDashboardUrl(callback) {
+  chrome.storage.local.get(["DASHBOARD_URL"], (result) => {
+    callback(result.DASHBOARD_URL || "");
+  });
+}
+
+function setDashboardUrl(value, callback) {
+  chrome.storage.local.set({ DASHBOARD_URL: value }, callback);
+}
+
+getDashboardUrl((storedUrl) => {
+  isDashboardUrlValid = isValidUrl(storedUrl);
+});
 
 function terminate() {
   document.querySelectorAll('[id^="bw"]').forEach((el) => {
     if (typeof el.cleanup === "function") {
       el.cleanup();
     }
+
+    //Reset toggle button
+    if (selectedMode !== "hint") selectedMode = "hint";
     el.remove();
   });
 }
@@ -99,17 +115,18 @@ function promptForDashboardUrl() {
   button.addEventListener("click", () => {
     const value = input.value.trim();
     if (isValidUrl(value)) {
-      DASHBOARD_URL = value;
-      isDashboardUrlValid = true;
+      setDashboardUrl(value, () => {
+        isDashboardUrlValid = true;
 
-      const settingsInput = document.getElementById(
-        "bw-ext-dashboard-url-input"
-      );
-      if (settingsInput) {
-        settingsInput.value = DASHBOARD_URL;
-      }
+        const settingsInput = document.getElementById(
+          "bw-ext-dashboard-url-input"
+        );
+        if (settingsInput) {
+          settingsInput.value = value;
+        }
 
-      document.body.removeChild(overlay);
+        document.body.removeChild(overlay);
+      });
     } else {
       error.style.display = "block";
       input.style.borderColor = "#e53e3e";
@@ -262,23 +279,29 @@ const createSendButton = () => {
   });
 
   button.addEventListener("click", () => {
-    const queryParams = new URLSearchParams();
+    getDashboardUrl((storedUrl) => {
+      if (!storedUrl) {
+        promptForDashboardUrl();
+        return;
+      }
 
-    const base = DASHBOARD_URL.replace(/\/?$/, "/");
+      const base = storedUrl.replace(/\/?$/, "/");
+      const queryParams = new URLSearchParams();
 
-    if (selectedMode === "tour" && selectedElements.length > 0) {
-      queryParams.set("data", JSON.stringify(selectedElements));
-      queryParams.set("autoOpen", "true");
+      if (selectedMode === "tour" && selectedElements.length > 0) {
+        queryParams.set("data", JSON.stringify(selectedElements));
+        queryParams.set("autoOpen", "true");
 
-      const url = `${base}tour?${queryParams.toString()}`;
-      window.open(url, "_blank");
-    } else if (selectedMode === "hint" && currentSelectedElement) {
-      queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
-      queryParams.set("autoOpen", "true");
+        const url = `${base}tour?${queryParams.toString()}`;
+        window.open(url, "_blank");
+      } else if (selectedMode === "hint" && currentSelectedElement) {
+        queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
+        queryParams.set("autoOpen", "true");
 
-      const url = `${base}hint?${queryParams.toString()}`;
-      window.open(url, "_blank");
-    }
+        const url = `${base}hint?${queryParams.toString()}`;
+        window.open(url, "_blank");
+      }
+    });
   });
 
   return button;
@@ -724,7 +747,8 @@ function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
   createSettingsMenu();
-  promptForDashboardUrl();
+
+  if (!isDashboardUrlValid) promptForDashboardUrl();
 
   let inThrottle;
   let lastResult;
@@ -744,7 +768,9 @@ function throttle(func, limit = 100) {
 }
 
 function createSettingsMenu() {
-  isDashboardUrlValid = isValidUrl(DASHBOARD_URL);
+  getDashboardUrl((storedUrl) => {
+    isDashboardUrlValid = isValidUrl(storedUrl);
+  });
 
   const { configButton, label, arrow } = createConfigButton();
   const { popup, urlInput } = createPopup();
@@ -881,7 +907,11 @@ function createSettingsMenu() {
     const urlInput = document.createElement("input");
     urlInput.id = "bw-ext-dashboard-url-input";
     urlInput.type = "text";
-    urlInput.value = DASHBOARD_URL;
+
+    getDashboardUrl((storedUrl) => {
+      urlInput.value = storedUrl || "";
+    });
+
     applyStyles(urlInput, {
       width: "calc(100% - 16px)",
       padding: "6px 8px",
@@ -901,7 +931,9 @@ function createSettingsMenu() {
         borderColor: isDashboardUrlValid ? "#7f56d9" : "#e53e3e",
       });
 
-      if (isDashboardUrlValid) DASHBOARD_URL = inputValue;
+      if (isDashboardUrlValid) {
+        setDashboardUrl(inputValue);
+      }
     });
 
     urlInput.addEventListener("focus", () => {

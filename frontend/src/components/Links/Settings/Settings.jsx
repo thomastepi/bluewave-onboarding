@@ -15,7 +15,7 @@ const defaultState = {
   id: 0,
 };
 
-const Settings = ({ isEdit = false }) => {
+const Settings = () => {
   const { toggleSettings, helper, linkToEdit, setLinks, setLinkToEdit } =
     useContext(HelperLinkContext);
   const [oldLink] = useState(linkToEdit);
@@ -34,7 +34,7 @@ const Settings = ({ isEdit = false }) => {
 
   useEffect(() => {
     document.querySelector('#title').focus();
-    if (isEdit) {
+    if (linkToEdit) {
       const newState = {
         ...linkToEdit,
         helperId: helper.id,
@@ -71,12 +71,12 @@ const Settings = ({ isEdit = false }) => {
       setLinkToEdit(null);
       return;
     }
-    if (!isEdit && !validateUrl(info.url)) {
+    if (!linkToEdit && !validateUrl(info.url)) {
       throw new Error('Invalid URL format');
     } else if (linkToEdit && info.url.trim() !== '' && !validateUrl(info.url)) {
       throw new Error('Invalid URL format');
     }
-    if (isEdit) {
+    if (linkToEdit) {
       if (!info.url.trim() || !info.title.trim()) {
         setLinkToEdit(null);
         toggleSettings(e);
@@ -134,7 +134,7 @@ const Settings = ({ isEdit = false }) => {
         >
           <div className={style.settings__header}>
             <span className={style['settings__header--title']}>
-              {isEdit ? 'Edit link' : 'Add new link'}
+              {linkToEdit ? 'Edit link' : 'Add new link'}
             </span>
             <div className={style['settings__header--right']}>
               <span className={style['settings__header--info']}>
@@ -253,7 +253,3 @@ const Settings = ({ isEdit = false }) => {
 };
 
 export default Settings;
-
-Settings.propTypes = {
-  isEdit: PropTypes.bool,
-};

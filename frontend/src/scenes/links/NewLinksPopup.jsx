@@ -149,7 +149,7 @@ const NewLinksPopup = ({
   const rightContent = () => <Preview />;
   const leftContent = () => (
     <>
-      {showSettings && <Settings isEdit={isEdit} />}
+      {showSettings && <Settings />}
       <LinkContent />
     </>
   );

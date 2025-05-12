@@ -134,7 +134,7 @@ const Settings = () => {
         >
           <div className={style.settings__header}>
             <span className={style['settings__header--title']}>
-              Add new link
+              {linkToEdit ? 'Edit link' : 'Add new link'}
             </span>
             <div className={style['settings__header--right']}>
               <span className={style['settings__header--info']}>

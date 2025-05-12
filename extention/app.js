@@ -932,7 +932,7 @@ function createSettingsMenu() {
       });
 
       if (isDashboardUrlValid) {
-        chrome.storage.local.set({ DASHBOARD_URL: inputValue });
+        setDashboardUrl(inputValue);
       }
     });
 

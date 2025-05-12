@@ -9,7 +9,6 @@
   padding-right: 1rem;
   /* box-shadow: 0px 4px 6px rgba(81, 81, 81, 0.1); */
   border-right: 1px solid #ebebeb;
-  background-color: white; /* optional, to prevent content underneath from showing */
   min-width: max-content;
   height: 100vh;
   box-sizing: border-box;

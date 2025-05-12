@@ -26,9 +26,6 @@ function setDashboardUrl(value, callback) {
 
 getDashboardUrl((storedUrl) => {
   isDashboardUrlValid = isValidUrl(storedUrl);
-  if (!isDashboardUrlValid) {
-    promptForDashboardUrl();
-  }
 });
 
 function terminate() {
@@ -750,6 +747,8 @@ function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
   createSettingsMenu();
+
+  if (!isDashboardUrlValid) promptForDashboardUrl();
 
   let inThrottle;
   let lastResult;

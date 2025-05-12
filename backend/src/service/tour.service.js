@@ -27,6 +27,12 @@ class TourService {
       where: {
         createdBy: userId,
       },
+        include: [
+          {
+            model: db.TourPopup,
+            as: 'steps',
+          },
+        ],
     });
   }
 
@@ -58,6 +64,12 @@ class TourService {
             [Op.notIn]: ids,
           },
         },
+        include: [
+          {
+            model: db.TourPopup,
+            as: 'steps',
+          },
+        ],
       });
     } catch (err) {
       console.log(err);

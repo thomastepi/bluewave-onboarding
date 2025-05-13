@@ -13,6 +13,7 @@ const PaginationTable = ({
   count,
   colSpan,
   labelRowsPerPage,
+  component = 'td',
 }) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -25,6 +26,7 @@ const PaginationTable = ({
 
   return (
     <TablePagination
+      component={component}
       rowsPerPageOptions={rowsPerPageOptions}
       colSpan={colSpan}
       labelRowsPerPage={labelRowsPerPage}
@@ -42,6 +44,7 @@ const PaginationTable = ({
 };
 
 PaginationTable.propTypes = {
+  component: PropTypes.elementType,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   rowsPerPageOptions: PropTypes.array,

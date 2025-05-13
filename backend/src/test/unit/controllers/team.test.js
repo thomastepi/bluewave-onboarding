@@ -15,10 +15,7 @@ describe('Unit test team controller', () => {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
   });
-  afterEach(async () => {
-    sinon.restore();
-    await db.Team.destroy({ where: {}, truncate: true, restartIdentity: true });
-  });
+  afterEach(sinon.restore);
 
   it('setOrganisation - should return status 400 if a team is already created', async () => {
     sinon.stub(Team, 'count').returns(1);
@@ -90,7 +87,6 @@ describe('Unit test team controller', () => {
     });
   });
   it('getTeamDetails - should return status 500 if no team was created', async () => {
-    const req = { query: { page: '1', limit: '10' } };
     sinon.stub(service, 'getTeam').returns(null);
     await controller.getTeamDetails(req, res);
     expect(res.status.args[0][0]).to.equal(500);
@@ -102,7 +98,6 @@ describe('Unit test team controller', () => {
     });
   });
   it('getTeamDetails - should return status 200 and the team and list of users if everything goes right', async () => {
-    const req = { query: { page: '1', limit: '10' } };
     sinon.stub(service, 'getTeam').resolves({
       team: {
         name: 'Test',
@@ -117,7 +112,6 @@ describe('Unit test team controller', () => {
     expect(body.users).not.to.be.deep.equal(userMocks.validList);
   });
   it('getTeamDetails - should return status 500 if something goes wrong', async () => {
-    const req = { query: { page: '1', limit: '10' } };
     sinon.stub(service, 'getTeam').rejects();
     await controller.getTeamDetails(req, res);
     expect(res.status.args[0][0]).to.equal(500);

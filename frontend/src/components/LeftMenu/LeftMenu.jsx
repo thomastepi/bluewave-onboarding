@@ -15,7 +15,7 @@ import {
 } from '@mui/icons-material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import './LeftMenu.css';
+import styles from './LeftMenu.module.css';
 import Logo from '../Logo/Logo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import UserProfileSidebar from '../UserProfileSidebar/UserProfileSidebar';
@@ -87,17 +87,21 @@ function LeftMenu() {
   };
 
   return (
-    <div className="left-menu">
+    <div className={styles.leftMenu}>
       <div>
         <Logo isSidebar={true} />
         <List>
           {menuItems.map((item, index) =>
             item.title ? (
-              <ListItemText key={index} primary={item.text} className="title" />
+              <ListItemText
+                key={index}
+                primary={item.text}
+                className={styles.title}
+              />
             ) : (
               <ListItemButton
                 key={index}
-                className="menu-item"
+                className={styles.menuItem}
                 sx={{
                   backgroundColor:
                     location.pathname === item.route

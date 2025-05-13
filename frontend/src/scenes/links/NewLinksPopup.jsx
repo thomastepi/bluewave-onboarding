@@ -168,6 +168,7 @@ const NewLinksPopup = ({
         leftAppearance={leftAppearance}
         onSave={handleSaveHelper}
         setIsEdit={setIsEdit}
+        disableSaveButton={showSettings}
       />
     </div>
   );

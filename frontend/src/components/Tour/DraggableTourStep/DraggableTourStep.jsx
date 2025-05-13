@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './DraggableTourStep.module.scss';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Hamburger, TrashIcon } from '../../assets/icons/utilityIcons';
+import { TrashIcon } from '../../../assets/icons/utilityIcons';
+import DraggableListItem from '../../DraggableListItem/DraggableListItem';
 
 const DraggableTourStep = ({
   id,
@@ -12,39 +11,36 @@ const DraggableTourStep = ({
   stepNameChangeHandler,
   onSelectHandler,
   onDeleteHandler,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDrop,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
+    <DraggableListItem
+      item={id}
+      onDelete={(e, itemId) => {
+        e.stopPropagation();
+        onDeleteHandler(itemId);
+      }}
+      deleteIcon={<TrashIcon stroke="var(--second-text-color)" />}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      deleteButtonClassName={styles.stepContainer__button}
       className={`${styles.stepContainer} ${
         isActive ? styles.stepContainer__isActive : ''
       }`}
+      disablePadding
       onClick={onSelectHandler}
+      deleteDisabled={stepsLength === 1}
+      sx={{
+        '& .MuiListItemSecondaryAction-root': {
+          right: '8px',
+        },
+      }}
     >
-      <div
-        {...attributes}
-        {...listeners}
-        className={styles.stepContainer__grabHandle}
-      >
-        <Hamburger />
-      </div>
-
       <div style={{ flexGrow: 1, paddingLeft: '1rem' }}>
         <input
           type="text"
@@ -53,18 +49,7 @@ const DraggableTourStep = ({
           className={`${styles.stepContainer__customInput}`}
         />
       </div>
-
-      <button
-        className={styles.stepContainer__button}
-        disabled={stepsLength === 1}
-        onClick={(e) => {
-          e.stopPropagation();
-          onDeleteHandler();
-        }}
-      >
-        <TrashIcon stroke="var(--second-text-color)" />
-      </button>
-    </div>
+    </DraggableListItem>
   );
 };
 
@@ -76,6 +61,10 @@ DraggableTourStep.propTypes = {
   stepNameChangeHandler: PropTypes.func.isRequired,
   onSelectHandler: PropTypes.func,
   onDeleteHandler: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragEnd: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func,
 };
 
 export default DraggableTourStep;

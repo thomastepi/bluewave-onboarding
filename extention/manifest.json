@@ -3,7 +3,7 @@
     "description": "Select an element and getting",
     "version": "1.1.0",
     "manifest_version": 3,
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "scripting", "storage"],
     "background": {
       "service_worker": "background.js"
     },

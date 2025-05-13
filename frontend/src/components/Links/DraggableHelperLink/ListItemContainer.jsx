@@ -1,9 +1,9 @@
 import { List } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import s from './Card.module.scss';
+import s from './DraggableHelperLink.module.scss';
 
-const CardContainer = ({ children }) => {
+const ListItemContainer = ({ children }) => {
   return (
     <div data-testid="cards" id="cards">
       <List className={s.card__container}>{children}</List>
@@ -11,8 +11,8 @@ const CardContainer = ({ children }) => {
   );
 };
 
-CardContainer.propTypes = {
+ListItemContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default CardContainer;
+export default ListItemContainer;

@@ -184,6 +184,7 @@ const createMenuDivChildren = () => {
   tourContainer.style.width = "100%";
   tourContainer.style.maxHeight = "300px";
   tourContainer.style.overflowY = "auto";
+  tourContainer.style.color = '#333';
 
   const hintContainer = document.createElement("div");
   hintContainer.id = HINT_TARGET_CONTAINER_ID;
@@ -198,6 +199,7 @@ const createMenuDivChildren = () => {
   hintContainer.style.padding = "10px";
   hintContainer.style.boxSizing = "border-box";
   hintContainer.style.backgroundColor = "#fff";
+  hintContainer.style.color = '#333',
   hintContainer.innerHTML = "No Target Selected";
 
   return { buttonContainer, tourContainer, hintContainer };
@@ -471,6 +473,7 @@ function createStickyDiv() {
   input.style.padding = "8px";
   input.style.fontSize = "16px";
   input.style.border = "1px solid #ccc";
+  input.style.color='#344054';
   input.style.borderRadius = "4px";
   input.style.outline = "none";
   input.style.flex = "1";
@@ -816,7 +819,7 @@ function createSettingsMenu() {
   function createLabel() {
     const label = document.createElement("span");
     label.textContent = "Settings";
-    applyStyles(label, { userSelect: "none" });
+    applyStyles(label, { userSelect: "none", color: '#333' });
     return label;
   }
 
@@ -829,6 +832,7 @@ function createSettingsMenu() {
     applyStyles(arrow, {
       transition: "transform 0.2s ease",
       transformOrigin: "center",
+      color: '#333'
     });
     return arrow;
   }
@@ -842,6 +846,7 @@ function createSettingsMenu() {
       bottom: "50px",
       left: "0px",
       backgroundColor: "#ffffff",
+      color: '#333',
       border: "1px solid #ccc",
       borderRadius: "4px",
       padding: "10px",
@@ -917,6 +922,7 @@ function createSettingsMenu() {
       padding: "6px 8px",
       borderRadius: "4px",
       border: "1px solid #ccc",
+      color: '#333'
     });
     return urlInput;
   }

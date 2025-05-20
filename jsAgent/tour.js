@@ -305,6 +305,20 @@ bw.tour = {
             setActiveIndicator(bw.tour.currentStep);
         }
         updatePosition();
+        
+        const handleReposition = () => {
+            if (container.isConnected) { // Only update if the container is still in the DOM
+                updatePosition();
+            } else {
+                // Clean up event listeners if container is removed
+                window.removeEventListener('resize', handleReposition);
+                window.removeEventListener('scroll', handleReposition);
+            }
+        };
+        
+        window.addEventListener('resize', handleReposition);
+        window.addEventListener('scroll', handleReposition);
+        
     },
     showDialog: function (index) {
         this.generateDialog(bw.tour.tourData.steps[index]);

@@ -282,10 +282,24 @@ bw.tour = {
 
         function handleNext() {
             if (bw.tour.currentStep === indicators.length - 1) {
-                bw.data.sendData(bw.GuideType.TOUR, bw.user.getUserID(), true, bw.tour.tourData.id);
-                console.log("Tour completed");
-                container.remove();
-                return;
+
+                try {
+                    const userId = bw.user.getUserID();
+                    if (!userId) {
+                        console.warn("Cannot send tour completion: user ID not available");
+                    } else {
+                        bw.data.sendData(bw.GuideType.TOUR, userId, true, bw.tour.tourData.id)
+                            .catch(err => console.error("Failed to send tour completion data:", err));
+                    }
+                    console.log("Tour completed");
+                    container.remove();
+                    return;
+                } catch (err) {
+                    console.error("Error during tour completion:", err);
+                    container.remove();
+                    return;
+                }
+
             }
             bw.tour.currentStep = Math.min(indicators.length - 1, bw.tour.currentStep + 1);
             setActiveIndicator(bw.tour.currentStep);
@@ -294,28 +308,6 @@ bw.tour = {
     },
     showDialog: function (index) {
         this.generateDialog(bw.tour.tourData.steps[index]);
-    },
-    /**
-     * Loads floating-ui libraries asynchronously.
-     * @param {function(object): void} cb - Callback function, called with the tour options object.
-     * @param {function(): void} errCb - Callback function, called on error.
-     * @returns {void}
-     */
-    loadFloatingUILibraries: function (cb) {
-        bw.util.loadScriptAsync(FLOATING_UI_CORE_URL, () => {
-            console.log("@floating-ui/core loaded successfully");
-            bw.util.loadScriptAsync(FLOATING_UI_DOM_URL, () => {
-                console.log("@floating-ui/dom loaded successfully");
-                const options = window.bwonboarddata.tour[0];
-                cb && cb(options);
-            }, (err) => {
-                console.error("Failed to load @floating-ui/dom:", err);
-                cb && cb(false);
-            });
-        }, (err) => {
-            console.error("Failed to load @floating-ui/core:", err);
-            cb && cb(false);
-        });
     }
 };
 

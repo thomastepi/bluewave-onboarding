@@ -14,7 +14,7 @@ bw.tour = {
     init : async function (cb) {
         const result = window.bwonboarddata.tour[0];
         const tourId = result.id;
-        const tourData = await bw.data.getTourById(tourId);
+        
         bw.data.getTourById(tourId).then((tourData) => {
             console.log(tourData);
             bw.tour.tourData = tourData;

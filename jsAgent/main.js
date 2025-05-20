@@ -148,9 +148,18 @@ bw.data = {
             redirect: "follow",
         };
 
-        const response = await fetch(`${BW_TOUR_DETAIL_JS_URL}${tourId}`, requestOptions);
-        const data = await response.json();
-        return data;
+        try {
+            const response = await fetch(`${BW_TOUR_DETAIL_JS_URL}${tourId}`, requestOptions);
+            if (!response.ok) {
+                console.log("Error fetching tour data:", response.status);
+                return null;
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log("Error fetching tour data:", error);
+            return null;
+        }
     },
 };
 

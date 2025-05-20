@@ -238,7 +238,7 @@ bw.hint = {
         });
 
         button.addEventListener('mouseenter', function(e) {
-            e.target.style.boxShadow = 'box-shadow: 0px 2px 7px 0px #0000001F !important'
+            e.target.style.boxShadow = '0px 2px 7px 0px #0000001F !important'
         });
 
         button.addEventListener('mouseleave', function(e) {

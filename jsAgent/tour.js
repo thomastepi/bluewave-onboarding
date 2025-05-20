@@ -37,10 +37,11 @@ bw.tour = {
 
     createContainer: function () {
         const container = document.createElement('div');
-        container.className = 'container';
+        container.className = 'bw-tour-container';
         container.style.cssText = `
             border-radius: 8px;
             box-shadow: 2px 2px 10px 0px #0000000D;
+            border: 1px solid #F0F0F0 !important;
             position: relative;
             max-width: 400px;
             width: 90%;
@@ -71,7 +72,7 @@ bw.tour = {
             `;
         return divH2;
     },
-    createCloseButton: function (container) {
+    createCloseButton: function () {
         const closeButton = `<svg id='bw-modal-close' focusable="false" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
             style="fill: rgb(152, 162, 179) !important; font-size: 20px !important; display: block !important; position: absolute !important; float: right !important; right: 23px !important; cursor: pointer !important; width: 20px !important; height: 20px !important; display: inline-block !important; margin: auto !important;">
             <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
@@ -202,7 +203,7 @@ bw.tour = {
 
         // Create footer (buttons container)
         const footer = document.createElement('div');
-        footer.className = 'footer';
+        footer.className = 'bw-tour-footer';
         footer.style.cssText = `
             display: flex;
             justify-content: flex-end;

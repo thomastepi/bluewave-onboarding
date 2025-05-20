@@ -1,0 +1,61 @@
+services:
+  onboarding_backend:
+    image: onboarding/onboarding:v0
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    command: >
+      bash -c "if [ "$NODE_ENV" = "production" ]; then
+        if ! npx sequelize-cli db:migrate; then
+          if ! npx sequelize-cli db:create; then
+            echo 'Database already exists';
+          fi
+          npx sequelize-cli db:migrate;
+        fi
+      fi;
+      if [ \"$$NODE_ENV\" = \"production\" ]; then
+        npm run prod;
+      elif [ \"$$NODE_ENV\" = \"staging\" ]; then
+        npm run staging;
+      else
+        npm run dev;
+      fi"
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  frontend:
+    build: 
+      context: ./frontend/
+      dockerfile: dockerfile.${NODE_ENV}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+    
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  pgdata:

@@ -40,21 +40,17 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend/
+      dockerfile: dockerfile.${NODE_ENV}
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "4173:4173"
+      - "80:80"
     environment:
       - NODE_ENV=${NODE_ENV:-development}
-    command: >
-      bash -c "
-        if [ \"$NODE_ENV\" = \"development\" ]; then
-          npm run dev;
-        elif [ \"$NODE_ENV\" != \"development\" ]; then
-          npm run build && npm run preview;
-        fi"
+    
   mailhog:
     image: mailhog/mailhog
     ports:

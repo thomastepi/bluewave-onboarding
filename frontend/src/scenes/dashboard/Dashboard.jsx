@@ -37,7 +37,7 @@ const Dashboard = ({ name }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [metrics, setMetrics] = useState([]);
 
-  const metricNames = ['popup', 'banner', 'link', 'hint'];
+  const metricNames = ['popup', 'banner', 'link', 'hint', 'tour'];
 
   useEffect(() => {
     getStatistics().then((data) => {

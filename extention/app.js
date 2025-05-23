@@ -93,6 +93,7 @@ function promptForDashboardUrl() {
   input.style.fontSize = "14px";
   input.style.color = "#475467"; // third-text-color
   input.style.outline = "none";
+  input.style.backgroundColor = "#f8f9fa"; // light-background-color
 
   const error = document.createElement("span");
   error.id = "bw-ext-url-error";
@@ -922,7 +923,8 @@ function createSettingsMenu() {
       padding: "6px 8px",
       borderRadius: "4px",
       border: "1px solid #ccc",
-      color: '#333'
+      color: '#333',
+      backgroundColor: "#f8f9fa",
     });
     return urlInput;
   }

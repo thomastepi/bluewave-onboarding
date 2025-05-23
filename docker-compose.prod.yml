@@ -36,14 +36,12 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
   frontend:
+    image: onboarding-frontend-prod:latest
     build: 
       context: ./frontend/
       dockerfile: Dockerfile.production
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     ports:
-      - "80:80"
+      - "81:80"
     environment:
       - NODE_ENV=${NODE_ENV:-production}
     

@@ -307,7 +307,9 @@ bw.tour = {
             bw.tour.tourData.steps.forEach((step, index) => {
                 if (index !== bw.tour.currentStep) {
                     const targetElement = document.querySelector(step.targetElement);
-                     targetElement.classList.remove('bw-glowing-box');
+                    if (targetElement) {
+                        targetElement.classList.remove('bw-glowing-box');
+                    }
                 }
             });
         }

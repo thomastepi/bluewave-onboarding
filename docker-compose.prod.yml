@@ -12,23 +12,19 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=${NODE_ENV:-production}
     command: >
-      bash -c "if [ "$NODE_ENV" = "production" ]; then
+      bash -c "
         if ! npx sequelize-cli db:migrate; then
+          echo 'Migration failed, attempting to create the database...'
           if ! npx sequelize-cli db:create; then
-            echo 'Database already exists';
+            echo 'Database might already exist or creation failed.'
           fi
-          npx sequelize-cli db:migrate;
+          echo 'Retrying migration...'
+          npx sequelize-cli db:migrate
         fi
-      fi;
-      if [ \"$$NODE_ENV\" = \"production\" ]; then
-        npm run prod;
-      elif [ \"$$NODE_ENV\" = \"staging\" ]; then
-        npm run staging;
-      else
-        npm run dev;
-      fi"
+        npm run prod
+      "
   db:
     image: postgres:latest
     environment:
@@ -39,17 +35,17 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-  frontend:
-    build: 
-      context: ./frontend/
-      dockerfile: dockerfile.${NODE_ENV}
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    ports:
-      - "80:80"
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
+  # frontend:
+  #   build: 
+  #     context: ./frontend/
+  #     dockerfile: Dockerfile.production
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "80:80"
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV:-production}
     
   mailhog:
     image: mailhog/mailhog

@@ -12,23 +12,10 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=${NODE_ENV:-development}
     command: >
-      bash -c "if [ "$NODE_ENV" = "production" ]; then
-        if ! npx sequelize-cli db:migrate; then
-          if ! npx sequelize-cli db:create; then
-            echo 'Database already exists';
-          fi
-          npx sequelize-cli db:migrate;
-        fi
-      fi;
-      if [ \"$$NODE_ENV\" = \"production\" ]; then
-        npm run prod;
-      elif [ \"$$NODE_ENV\" = \"staging\" ]; then
-        npm run staging;
-      else
-        npm run dev;
-      fi"
+      npm run dev;
+
   db:
     image: postgres:latest
     environment:
@@ -42,12 +29,12 @@ services:
   frontend:
     build: 
       context: ./frontend/
-      dockerfile: dockerfile.${NODE_ENV}
+      dockerfile: Dockerfile.development
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
-      - "80:80"
+      - "4173:4173"
     environment:
       - NODE_ENV=${NODE_ENV:-development}
     

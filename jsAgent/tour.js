@@ -151,6 +151,18 @@ bw.tour = {
           `;
         return backButton;
     },
+
+    deHighlightOtherElements : function() {
+        
+        bw.tour.tourData.steps.forEach((step, index) => {
+            if (index !== bw.tour.currentStep) {
+                const targetElement = document.querySelector(step.targetElement);
+                if (targetElement) {
+                    targetElement.classList.remove('bw-glowing-box');
+                }
+            }
+        });
+    },
     generateNextButton: function () {
         const nextButton = document.createElement('button');
         nextButton.className = 'next-button';
@@ -343,7 +355,9 @@ bw.tour = {
                             .catch(err => console.error("Failed to send tour completion data:", err));
                     }
                     console.log("Tour completed");
+
                     container.remove();
+                    bw.tour.deHighlightOtherElements();
                     return;
                 } catch (err) {
                     console.error("Error during tour completion:", err);

@@ -15,6 +15,30 @@ bw.tour = {
         const result = window.bwonboarddata.tour[0];
         const tourId = result.id;
         
+         const styleElement = document.createElement('style');
+
+        // 2. Define your CSS rules as a string
+        const cssRules = `
+            .bw-glowing-box {
+                    border: 2px solid #7f56d9;
+                    border-radius: 8px;
+                    animation: purple-glow 1s infinite alternate;
+                }
+
+                @keyframes purple-glow {
+                from {
+                    box-shadow: 0 0 5px 2px rgba(138, 43, 226, 0.5);
+                }
+                to {
+                    box-shadow: 0 0 5px 7px rgba(138, 43, 226, 0.8);
+                }
+            }
+        `;
+
+        styleElement.textContent = cssRules;
+        document.head.appendChild(styleElement);
+
+
         bw.data.getTourById(tourId).then((tourData) => {
             console.log(tourData);
             bw.tour.tourData = tourData;
@@ -26,7 +50,6 @@ bw.tour = {
     },
     /**
      * Generates a dialog item.  Currently, this function is empty.
-     * @param {object} dialogItem - The dialog item to generate.
      * @returns {void}
      */
     showTour: function (tourData) {
@@ -37,7 +60,20 @@ bw.tour = {
        
         this.showDialog(bw.tour.currentStep);
     },
-
+    createOverlay: function () {
+        const overlay = document.createElement('div');
+        overlay.id = 'bw-tour-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            `;
+        return overlay;
+    },
     createContainer: function () {
         const container = document.createElement('div');
         container.className = 'bw-tour-container';
@@ -48,6 +84,7 @@ bw.tour = {
             position: relative;
             max-width: 400px;
             width: 90%;
+            z-index: 9999;
           `;     
         return container;
     },
@@ -133,21 +170,14 @@ bw.tour = {
     },
     /**
      * Generates a dialog item.
-     * @param {object} dialogItem - The dialog item to generate.
      * @returns {void}
      */
-    generateDialog: function (dialogItem) {
+    generateDialog: function () {
 
-        /**
-        buttonBackgroundColor: "#d22828"
-        buttonTextColor: "#FFFFFF"
-        finalButtonText: "Complete tour"
-        ==headerColor: "#1f5fe0"
-        size: "small"
-        textColor: "#59ff00"
-        * 
-        */
-
+        
+        //adding overlay to the body with gray background and opacity
+        // const overlay = bw.tour.createOverlay();
+        // document.body.appendChild(overlay);
         
         // Create container
         const container = bw.tour.createContainer();
@@ -248,6 +278,7 @@ bw.tour = {
             }
             updateData();
             updatePosition();
+            
         }
 
         function updateData() {
@@ -260,12 +291,30 @@ bw.tour = {
             //update container position according to target element with smooth animation transition
             const rect = targetElement.getBoundingClientRect();
             container.style.left = `${rect.left + window.scrollX}px`;
-            container.style.top = `${rect.top + window.scrollY}px`;
+            container.style.top = `${rect.top + rect.height + 5 + window.scrollY }px` ;
             container.style.transform = `translate(-50%, 0%)`;
             container.style.position = `absolute`;
             container.style.backgroundColor = `#fff`;
-            container.style.zIndex = `1000`;
+            container.style.zIndex = `9999`;
             container.style.transition = `all 0.3s ease-in-out`;
+
+            deHighlightOtherElements();
+            highlightTatgetElement(targetElement);
+        }
+
+        function deHighlightOtherElements() {
+        
+            bw.tour.tourData.steps.forEach((step, index) => {
+                if (index !== bw.tour.currentStep) {
+                    const targetElement = document.querySelector(step.targetElement);
+                     targetElement.classList.remove('bw-glowing-box');
+                }
+            });
+        }
+
+        function highlightTatgetElement(targetElement){
+            // highlight target element
+            targetElement.classList.add('bw-glowing-box');
         }
 
         indicators.forEach((indicator, index) => {

@@ -214,14 +214,16 @@ const createMenuButton = (
 ) => {
   const button = document.createElement("button");
   button.textContent = mode;
-  button.style.padding = "8px 16px";
-  button.style.fontSize = "16px";
-  button.style.backgroundColor = "#7F56D9";
-  button.style.color = "#fff";
-  button.style.border = "none";
-  button.style.borderRadius = "30px";
-  button.style.cursor = "pointer";
-  button.style.transition = "background-color 0.3s ease";
+  button.style.cssText = `
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #7F56D9;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  `;
 
   if (mode !== selectedMode) {
     button.style.backgroundColor = "#ccc";
@@ -518,18 +520,6 @@ function createStickyDiv() {
       button.textContent = "Failed!";
       setTimeout(() => (button.textContent = "Copy"), 2000);
     }
-    //alert(`You entered: ${input.value}`);
-  });
-  stickyDiv.appendChild(button);
-
-  button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "#6941C6";
-  });
-  button.addEventListener("mouseleave", () => {
-    button.style.backgroundColor = "#7F56D9";
-  });
-  button.addEventListener("click", async () => {
-    await navigator?.clipboard?.writeText(input.value);
     //alert(`You entered: ${input.value}`);
   });
   stickyDiv.appendChild(button);

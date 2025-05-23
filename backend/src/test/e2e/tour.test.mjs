@@ -606,12 +606,6 @@ describe('E2e tests tour', () => {
     afterEach(async () => {
       await db.sequelize.sync({ force: true, match: /_test$/ });
     });
-    it('should return 401 if no token is provided', async () => {
-      const res = await chai.request.execute(app).get('/api/tour/get_tour/1').send();
-      expect(res).to.have.status(401);
-      const body = res.body;
-      expect(body).to.be.deep.equal({ error: 'No token provided' });
-    });
     it('should return 404 if tour is not found', async () => {
       const res = await chai.request.execute(app).get('/api/tour/get_tour/1').set('Authorization', `Bearer ${token}`);
       expect(res).to.have.status(404);

@@ -51,7 +51,7 @@ bw.popup = {
 
         let temp_html = `
             <div id='bw-modal' style='position: fixed !important; top: 180px !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: ${size.width}px !important; height: ${size.height}px!important; display: block !important; z-index: 1000 !important; box-sizing: border-box !important; padding-top: 100px !important; background-color: rgb(255 255 255 / 0%) !important;'>
-                <div class='modal-content' style='border-radius: 4px !important; position: relative !important; margin: auto !important; padding: 0 !important; border: 1px solid #D0D5DD !important; background-color: white !important; box-shadow:rgba(0, 0, 0, 0.1) 1px 4px 13px;'>
+                <div class='modal-content' style='border-radius: 4px !important; position: relative !important; margin: auto !important; padding: 0 !important; border: 1px solid #F0F0F0 !important; background-color: white !important; box-shadow: 2px 2px 10px 0px #0000000D !important;'>
                     ${bw.popup.addHeader(option.header, option.headerBackgroundColor, option.headerColor, option.padding)}
                     <div class="modal-body" style='padding: ${option.padding}px ${option.padding}px !important; display: flex !important; justify-content: space-between !important; flex-direction: column !important; box-sizing: border-box !important; font-family: "Inter", sans-serif !important; font-size: 13px !important; min-height: 227px !important; '>
                         ${option.content}

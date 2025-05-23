@@ -39,7 +39,7 @@ bw.links={
         };
         
         let temp_html = `
-        <div style="position: fixed !important; bottom: 20px !important; right: 30px !important; z-index: 9999999 !important;">
+        <div style="position: fixed !important; bottom: 20px !important; right: 30px !important; z-index: 9990 !important;">
             <div id="bw-links" style=" box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.031372549), 0px 20px 24px -4px rgba(16, 24, 40, 0.0784313725) !important; width: 330px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important;">
                 ${bw.links.putHeader(option.title, option.headerBackgroundColor)}
                 ${bw.links.putContent(option.links, option.linkFontColor, option.iconColor)}

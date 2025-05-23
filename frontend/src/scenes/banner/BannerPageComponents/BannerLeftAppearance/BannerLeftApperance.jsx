@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ColorTextField from '@components/ColorTextField/ColorTextField';
 import { Formik, Form } from 'formik';
 import { appearanceSchema } from '../../../../utils/bannerHelper';

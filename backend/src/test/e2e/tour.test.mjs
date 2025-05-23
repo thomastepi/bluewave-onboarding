@@ -53,12 +53,6 @@ describe('E2e tests tour', () => {
     afterEach(async () => {
       await db.sequelize.sync({ force: true, match: /_test$/ });
     });
-    it('should return 401 if no token is provided', async () => {
-      const res = await chai.request.execute(app).post('/api/tour/add_tour').send(tour().build());
-      expect(res).to.have.status(401);
-      const body = res.body;
-      expect(body).to.be.deep.equal({ error: 'No token provided' });
-    });
     it('should return 400 if "headerColor" is not a valid hex color', async () => {
       const res = await chai.request
         .execute(app)

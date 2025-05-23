@@ -7,7 +7,7 @@ const HomePageTemplate = () => {
   return (
     <div className="container">
       <div className="content-container">
-        <LeftMenu className="sidebar" />
+        <LeftMenu />
         <Outlet />
       </div>
     </div>

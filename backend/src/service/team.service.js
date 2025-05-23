@@ -34,33 +34,15 @@ class TeamService {
     }
 
 
-    async getTeam(page = 1, limit = 10) {
+    async getTeam() {
         try {
-            page = Math.max(1, page);
-            limit = Math.max(1, limit);
-            const offset = (page - 1) * limit;
             const team = await Team.findOne({
                 limit: 1,
             });
-            if (!team) {
-              return null;
-            }
-            const { count, rows: users } = await User.findAndCountAll({
-              limit,
-              offset,
-              order: [['createdAt', 'DESC']],
-            });
-
-        return {
-            team,
-            users,
-            totalUsers: count,
-            totalPages: Math.ceil(count / limit),
-            currentPage: page,
-        };
+            const users = await User.findAll();
+            return { team, users };
         }
         catch (err) {
-            console.log(err);
             throw new Error("Failed to retrieve team");
         }
     }

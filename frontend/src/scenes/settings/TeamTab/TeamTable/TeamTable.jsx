@@ -5,12 +5,14 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableFooter from '@mui/material/TableFooter';
 import Paper from '@mui/material/Paper';
 import styles from './TeamTable.module.css';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { useAuth } from '../../../../services/authProvider';
 import DropdownMenu from '@components/DropdownMenu/DropdownMenu';
 import { roles } from '../../../../utils/constants';
+import PaginationTable from '@components/Pagination/TablePagination/PaginationTable';
 import PropTypes from 'prop-types';
 
 const TeamTable = ({
@@ -19,6 +21,8 @@ const TeamTable = ({
   setChangeRoleModalOpen,
   setSelectedMember,
 }) => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { userInfo } = useAuth();
 
   const handleRemoveMember = async (member) => {
@@ -43,7 +47,10 @@ const TeamTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {team.map((member, index) => (
+          {(rowsPerPage > 0
+            ? team.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : team
+          ).map((member, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row" className={styles.nameCol}>
                 {userInfo.id == member.id ? <b>YOU</b> : member.name}
@@ -81,6 +88,19 @@ const TeamTable = ({
             </TableRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <PaginationTable
+              count={team.length}
+              page={page}
+              setPage={setPage}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              onRowsPerPageChange={setRowsPerPage}
+              items={team}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

@@ -12,13 +12,139 @@ let lastHighlightTarget;
 let selectedMode = "hint";
 let selectedElements = [];
 let currentSelectedElement = null;
+let isDashboardUrlValid = false;
+
+function getDashboardUrl(callback) {
+  chrome.storage.local.get(["DASHBOARD_URL"], (result) => {
+    callback(result.DASHBOARD_URL || "");
+  });
+}
+
+function setDashboardUrl(value, callback) {
+  chrome.storage.local.set({ DASHBOARD_URL: value }, callback);
+}
+
+getDashboardUrl((storedUrl) => {
+  isDashboardUrlValid = isValidUrl(storedUrl);
+});
 
 function terminate() {
-  // The `click` listener is automatically removed after it has been called once
-  window.removeEventListener("mousemove", throttle(updateHighlight));
-  window.removeEventListener("keydown", checkTerminateKeys);
-  window.removeEventListener("click", grabSelector, { capture: true });
-  removeHighlight();
+  document.querySelectorAll('[id^="bw"]').forEach((el) => {
+    if (typeof el.cleanup === "function") {
+      el.cleanup();
+    }
+
+    //Reset toggle button
+    if (selectedMode !== "hint") selectedMode = "hint";
+    el.remove();
+  });
+}
+
+function promptForDashboardUrl() {
+  if (document.getElementById("bw-ext-overlay")) return;
+
+  const overlay = document.createElement("div");
+  overlay.id = "bw-ext-overlay";
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100vw";
+  overlay.style.height = "100vh";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+  overlay.style.display = "flex";
+  overlay.style.alignItems = "center";
+  overlay.style.justifyContent = "center";
+  overlay.style.zIndex = "10001";
+
+  const modal = document.createElement("div");
+  modal.id = "bw-ext-modal";
+  modal.style.backgroundColor = "#ffffff";
+  modal.style.border = "1px solid #d0d5dd"; // light-border-color
+  modal.style.borderRadius = "8px";
+  modal.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+  modal.style.padding = "20px";
+  modal.style.minWidth = "300px";
+  modal.style.display = "flex";
+  modal.style.flexDirection = "column";
+  modal.style.gap = "10px";
+
+  const header = document.createElement("h2");
+  header.id = "bw-ext-modal-header";
+  header.textContent = "Enter Dashboard URL";
+  header.style.margin = "0";
+  header.style.fontSize = "16px";
+  header.style.color = "#344054"; // main-text-color
+
+  const description = document.createElement("p");
+  description.id = "bw-ext-modal-description";
+  description.textContent =
+    "Please provide your Guidefox dashboard link to continue.";
+  description.style.margin = "0";
+  description.style.fontSize = "13px";
+  description.style.color = "#667085"; // second-text-color
+
+  const input = document.createElement("input");
+  input.id = "bw-ext-url-input";
+  input.type = "text";
+  input.placeholder = "https://guidefox-dashboard-url.com";
+  input.style.padding = "8px";
+  input.style.border = "1px solid #d0d5dd"; // light-border-color
+  input.style.borderRadius = "4px";
+  input.style.fontSize = "14px";
+  input.style.color = "#475467"; // third-text-color
+  input.style.outline = "none";
+
+  const error = document.createElement("span");
+  error.id = "bw-ext-url-error";
+  error.textContent = "Invalid URL format";
+  error.style.color = "#e53e3e"; // red error
+  error.style.fontSize = "12px";
+  error.style.display = "none";
+
+  const button = document.createElement("button");
+  button.id = "bw-ext-save-button";
+  button.textContent = "Save";
+  button.style.padding = "8px 12px";
+  button.style.backgroundColor = "#7f56d9"; // main-purple
+  button.style.color = "#ffffff";
+  button.style.border = "none";
+  button.style.borderRadius = "4px";
+  button.style.cursor = "pointer";
+  button.style.fontSize = "14px";
+
+  button.addEventListener("click", () => {
+    const value = input.value.trim();
+    if (isValidUrl(value)) {
+      setDashboardUrl(value, () => {
+        isDashboardUrlValid = true;
+
+        const settingsInput = document.getElementById(
+          "bw-ext-dashboard-url-input"
+        );
+        if (settingsInput) {
+          settingsInput.value = value;
+        }
+
+        document.body.removeChild(overlay);
+      });
+    } else {
+      error.style.display = "block";
+      input.style.borderColor = "#e53e3e";
+    }
+  });
+
+  input.addEventListener("input", () => {
+    error.style.display = "none";
+    input.style.borderColor = "#d0d5dd";
+  });
+
+  modal.appendChild(header);
+  modal.appendChild(description);
+  modal.appendChild(input);
+  modal.appendChild(error);
+  modal.appendChild(button);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
 }
 
 const createMenuDiv = () => {
@@ -58,6 +184,7 @@ const createMenuDivChildren = () => {
   tourContainer.style.width = "100%";
   tourContainer.style.maxHeight = "300px";
   tourContainer.style.overflowY = "auto";
+  tourContainer.style.color = '#333';
 
   const hintContainer = document.createElement("div");
   hintContainer.id = HINT_TARGET_CONTAINER_ID;
@@ -72,6 +199,7 @@ const createMenuDivChildren = () => {
   hintContainer.style.padding = "10px";
   hintContainer.style.boxSizing = "border-box";
   hintContainer.style.backgroundColor = "#fff";
+  hintContainer.style.color = '#333',
   hintContainer.innerHTML = "No Target Selected";
 
   return { buttonContainer, tourContainer, hintContainer };
@@ -155,21 +283,29 @@ const createSendButton = () => {
   });
 
   button.addEventListener("click", () => {
-    const queryParams = new URLSearchParams();
+    getDashboardUrl((storedUrl) => {
+      if (!storedUrl) {
+        promptForDashboardUrl();
+        return;
+      }
 
-    if (selectedMode === "tour" && selectedElements.length > 0) {
-      queryParams.set("data", JSON.stringify(selectedElements));
-      queryParams.set("autoOpen", "true");
+      const base = storedUrl.replace(/\/?$/, "/");
+      const queryParams = new URLSearchParams();
 
-      const url = `http://localhost:4173/tour?${queryParams.toString()}`;
-      window.open(url, "_blank");
-    } else if (selectedMode === "hint" && currentSelectedElement) {
-      queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
-      queryParams.set("autoOpen", "true");
+      if (selectedMode === "tour" && selectedElements.length > 0) {
+        queryParams.set("data", JSON.stringify(selectedElements));
+        queryParams.set("autoOpen", "true");
 
-      const url = `http://localhost:4173/hint?${queryParams.toString()}`;
-      window.open(url, "_blank");
-    }
+        const url = `${base}tour?${queryParams.toString()}`;
+        window.open(url, "_blank");
+      } else if (selectedMode === "hint" && currentSelectedElement) {
+        queryParams.set("hintTarget", JSON.stringify(currentSelectedElement));
+        queryParams.set("autoOpen", "true");
+
+        const url = `${base}hint?${queryParams.toString()}`;
+        window.open(url, "_blank");
+      }
+    });
   });
 
   return button;
@@ -186,6 +322,23 @@ function createFloatingMenu() {
   const { buttonContainer, tourContainer, hintContainer } =
     createMenuDivChildren();
 
+  const closeButton = document.createElement("div");
+  closeButton.innerHTML = "&times;";
+  closeButton.style.position = "absolute";
+  closeButton.style.top = "6px";
+  closeButton.style.right = "10px";
+  closeButton.style.fontSize = "16px";
+  closeButton.style.color = "#475467"; // --third-text-color
+  closeButton.style.cursor = "pointer";
+  closeButton.style.fontWeight = "bold";
+  closeButton.title = "Close Extension";
+
+  closeButton.addEventListener("click", () => {
+    div.remove();
+    terminate();
+  });
+
+  div.appendChild(closeButton);
   div.appendChild(buttonContainer);
   div.appendChild(tourContainer);
   div.appendChild(hintContainer);
@@ -322,6 +475,7 @@ function createStickyDiv() {
   input.style.padding = "8px";
   input.style.fontSize = "16px";
   input.style.border = "1px solid #ccc";
+  input.style.color='#344054';
   input.style.borderRadius = "4px";
   input.style.outline = "none";
   input.style.flex = "1";
@@ -361,7 +515,7 @@ function createStickyDiv() {
       button.textContent = "Copied!";
       setTimeout(() => (button.textContent = "Copy"), 2000);
     } catch (error) {
-      console.error("Failed to copy:", error);
+      // console.error("Failed to copy:", error);
       button.textContent = "Failed!";
       setTimeout(() => (button.textContent = "Copy"), 2000);
     }
@@ -397,8 +551,12 @@ function updateHighlight({ target }) {
   lastHighlightTarget = target;
   const { top, left, width, height } = target.getBoundingClientRect();
   const highlighter = document.getElementById(HIGHLIGHTER_ID);
+
   if (!domSelected) {
-    document.getElementById("bw-ext-input").value = generateSelector(target);
+    const input = document.getElementById("bw-ext-input");
+    if (input) {
+      input.value = generateSelector(target);
+    }
   }
 
   if (!highlighter) return;
@@ -572,10 +730,8 @@ function isUnique(selector) {
   return getQueryLength(selector) <= 1;
 }
 
-function checkTerminateKeys(event) {
-  const { key } = event;
-  if (key === "Escape" || key === "Esc") {
-    event.preventDefault();
+function checkTerminateKeys(e) {
+  if (e.key === "Escape") {
     terminate();
   }
 }
@@ -583,6 +739,10 @@ function checkTerminateKeys(event) {
 function throttle(func, limit = 100) {
   createStickyDiv();
   createFloatingMenu();
+  createSettingsMenu();
+
+  if (!isDashboardUrlValid) promptForDashboardUrl();
+
   let inThrottle;
   let lastResult;
   domSelected = false;
@@ -598,4 +758,229 @@ function throttle(func, limit = 100) {
 
     return lastResult;
   };
+}
+
+function createSettingsMenu() {
+  getDashboardUrl((storedUrl) => {
+    isDashboardUrlValid = isValidUrl(storedUrl);
+  });
+
+  const { configButton, label, arrow } = createConfigButton();
+  const { popup, urlInput } = createPopup();
+
+  setupUrlInputListeners(urlInput);
+  setupToggleLogic(configButton, popup, arrow, label, urlInput);
+
+  configButton.appendChild(popup);
+  document.body.appendChild(configButton);
+
+  // Helper function to apply styles
+  function applyStyles(element, styles) {
+    Object.assign(element.style, styles);
+  }
+
+  function createConfigButton() {
+    const configButton = document.createElement("div");
+    configButton.id = "bw-ext-config-button";
+
+    applyStyles(configButton, {
+      position: "fixed",
+      bottom: "10px",
+      left: "15px",
+      backgroundColor: "#f8f9fa",
+      padding: "8px 12px",
+      cursor: "pointer",
+      zIndex: "10000",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      borderRight: "2px solid #ccc",
+    });
+
+    const label = createLabel();
+    const arrow = createArrow();
+
+    configButton.appendChild(label);
+    configButton.appendChild(arrow);
+
+    return { configButton, label, arrow };
+  }
+
+  function createLabel() {
+    const label = document.createElement("span");
+    label.textContent = "Settings";
+    applyStyles(label, { userSelect: "none", color: '#333' });
+    return label;
+  }
+
+  function createArrow() {
+    const arrow = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    arrow.setAttribute("width", "16");
+    arrow.setAttribute("height", "16");
+    arrow.setAttribute("viewBox", "0 0 24 24");
+    arrow.innerHTML = `<path d="M7 10l5 5 5-5H7z" fill="currentColor"/>`;
+    applyStyles(arrow, {
+      transition: "transform 0.2s ease",
+      transformOrigin: "center",
+      color: '#333'
+    });
+    return arrow;
+  }
+
+  function createPopup() {
+    const popup = document.createElement("div");
+    popup.id = "bw-ext-config-popup";
+
+    applyStyles(popup, {
+      position: "absolute",
+      bottom: "50px",
+      left: "0px",
+      backgroundColor: "#ffffff",
+      color: '#333',
+      border: "1px solid #ccc",
+      borderRadius: "4px",
+      padding: "10px",
+      display: "none",
+      flexDirection: "column",
+      gap: "4px",
+      boxShadow: "0 0 6px rgba(0,0,0,0.1)",
+      minWidth: "200px",
+    });
+
+    const urlLabel = createUrlLabel();
+    const infoLabel = createInfoLabel();
+    const urlInput = createUrlInput();
+
+    popup.appendChild(urlLabel);
+    popup.appendChild(infoLabel);
+    popup.appendChild(urlInput);
+
+    return { popup, urlInput };
+  }
+
+  function createUrlLabel() {
+    const urlLabel = document.createElement("label");
+    urlLabel.textContent = "Dashboard URL";
+    applyStyles(urlLabel, {
+      fontSize: "14px",
+      fontWeight: "bold",
+    });
+    return urlLabel;
+  }
+
+  function createInfoLabel() {
+    const infoLabel = document.createElement("div");
+    applyStyles(infoLabel, {
+      fontSize: "12px",
+      color: "#667085",
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
+      paddingBottom: "6px",
+    });
+
+    const infoIcon = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "svg"
+    );
+    infoIcon.setAttribute("width", "12");
+    infoIcon.setAttribute("height", "12");
+    infoIcon.setAttribute("viewBox", "0 0 24 24");
+    infoIcon.innerHTML = `<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
+          10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+          fill="currentColor"/>`;
+
+    const infoText = document.createElement("span");
+    infoText.textContent = "Guidefox dashboard link";
+
+    infoLabel.appendChild(infoIcon);
+    infoLabel.appendChild(infoText);
+    return infoLabel;
+  }
+
+  function createUrlInput() {
+    const urlInput = document.createElement("input");
+    urlInput.id = "bw-ext-dashboard-url-input";
+    urlInput.type = "text";
+
+    getDashboardUrl((storedUrl) => {
+      urlInput.value = storedUrl || "";
+    });
+
+    applyStyles(urlInput, {
+      width: "calc(100% - 16px)",
+      padding: "6px 8px",
+      borderRadius: "4px",
+      border: "1px solid #ccc",
+      color: '#333'
+    });
+    return urlInput;
+  }
+
+  // Event listener setup functions
+  function setupUrlInputListeners(urlInput) {
+    urlInput.addEventListener("input", (e) => {
+      const inputValue = e.target.value;
+      isDashboardUrlValid = isValidUrl(inputValue);
+
+      applyStyles(urlInput, {
+        borderColor: isDashboardUrlValid ? "#7f56d9" : "#e53e3e",
+      });
+
+      if (isDashboardUrlValid) {
+        setDashboardUrl(inputValue);
+      }
+    });
+
+    urlInput.addEventListener("focus", () => {
+      applyStyles(urlInput, {
+        borderColor: isValidUrl(urlInput.value) ? "#7f56d9" : "#e53e3e",
+        outline: "none",
+      });
+    });
+
+    urlInput.addEventListener("blur", () => {
+      applyStyles(urlInput, {
+        borderColor: isValidUrl(urlInput.value) ? "#ccc" : "#e53e3e",
+      });
+    });
+  }
+
+  function setupToggleLogic(configButton, popup, arrow, label, urlInput) {
+    const togglePopup = (e) => {
+      e.stopPropagation();
+      const isOpen = popup.style.display === "flex";
+      popup.style.display = isOpen ? "none" : "flex";
+      applyStyles(arrow, {
+        transform: isOpen ? "rotate(0deg)" : "rotate(180deg)",
+      });
+
+      if (!isOpen) {
+        applyStyles(urlInput, {
+          borderColor: isDashboardUrlValid ? "#ccc" : "#e53e3e",
+        });
+      }
+    };
+
+    label.addEventListener("click", togglePopup);
+    arrow.addEventListener("click", togglePopup);
+
+    const documentClickHandler = (e) => {
+      if (!configButton.contains(e.target)) {
+        popup.style.display = "none";
+        applyStyles(arrow, { transform: "rotate(0deg)" });
+      }
+    };
+
+    document.addEventListener("click", documentClickHandler);
+  }
+}
+
+function isValidUrl(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch (_) {
+    return false;
+  }
 }

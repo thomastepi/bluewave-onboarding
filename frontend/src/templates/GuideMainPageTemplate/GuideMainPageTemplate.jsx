@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import List from './GuideMainPageComponents/List/List';
 import ContentArea from './GuideMainPageComponents/ContentArea/ContentArea';
 import ContentHeader from './GuideMainPageComponents/ContentHeader/ContentHeader';
@@ -8,16 +8,22 @@ import './GuideMainPageTemplate.css';
 import { activityInfoData } from '../../data/guideMainPageData';
 import { useAuth } from '../../services/authProvider';
 import { renderIfAuthorized } from '../../utils/generalHelper';
+import PaginationTable from '../../components/Pagination/TablePagination/PaginationTable';
+import LoadingArea from '../../components/LoadingPage/LoadingArea';
 import PropTypes from 'prop-types';
 
 const GuideMainPageTemplate = ({
   items,
+  count,
   handleDelete,
   isPopupOpen,
   handleClosePopup,
   type,
   onClick,
+  loading,
 }) => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const { userInfo } = useAuth();
   const role = userInfo.role;
   const { heading, paragraph, buttonText, title } = activityInfoData[type];
@@ -33,17 +39,47 @@ const GuideMainPageTemplate = ({
         )}
       </div>
       <div className="product-page">
-        <ContentArea className="content-area">
-          <List items={items} />
-        </ContentArea>
-        <div className="tour-info-container">
-          <h4>{heading}</h4>
-          <p
-            dangerouslySetInnerHTML={{
-              __html: paragraph.replace(/\n/g, '</p><p>'),
-            }}
-          ></p>
-        </div>
+        {loading ? (
+          <LoadingArea />
+        ) : (
+          <>
+            <ContentArea className="content-area">
+              {(rowsPerPage > 0
+                ? items.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : items
+              ).map((row, index) => (
+                <List key={index} items={[row]} />
+              ))}
+              {count > 5 && (
+                <PaginationTable
+                  component="div"
+                  count={count}
+                  page={page}
+                  setPage={setPage}
+                  rowsPerPage={rowsPerPage}
+                  labelRowsPerPage={'Items per page'}
+                  setRowsPerPage={setRowsPerPage}
+                  onRowsPerPageChange={setRowsPerPage}
+                  items={items}
+                />
+              )}
+            </ContentArea>
+            <div
+              className="tour-info-container"
+              style={{ maxWidth: 'fit-content' }}
+            >
+              <h4>{heading}</h4>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: paragraph.replace(/\n/g, '</p><p>'),
+                }}
+              ></p>
+            </div>
+          </>
+        )}
       </div>
       <ConfirmationPopup
         open={isPopupOpen}
@@ -61,6 +97,8 @@ GuideMainPageTemplate.propTypes = {
   handleClosePopup: PropTypes.func,
   type: PropTypes.string,
   onClick: PropTypes.func,
+  loading: PropTypes.bool,
+  count: PropTypes.number,
 };
 
 export default GuideMainPageTemplate;

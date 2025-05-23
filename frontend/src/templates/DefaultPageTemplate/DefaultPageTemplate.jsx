@@ -4,6 +4,7 @@ import ParagraphCSS from '@components/ParagraphCSS/ParagraphCSS';
 import GuideMainPageTemplate from '../GuideMainPageTemplate/GuideMainPageTemplate';
 import CreateActivityButton from '@components/Button/CreateActivityButton/CreateActivityButton';
 import toastEmitter, { TOAST_EMITTER_KEY } from '../../utils/toastEmitter';
+import LoadingArea from '../../components/LoadingPage/LoadingArea';
 import './DefaultPageTemplate.css';
 import { useAuth } from '../../services/authProvider';
 import { renderIfAuthorized } from '../../utils/generalHelper';
@@ -27,7 +28,9 @@ const DefaultPageTemplate = ({
   const [itemDeleted, setItemDeleted] = useState(false);
   const [itemsDuplicated, setItemsDuplicated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
   const [load, setLoad] = useState(true);
+  const [count, setCount] = useState(0);
   const { userInfo } = useAuth();
   const { openDialog } = useDialog();
 
@@ -123,13 +126,16 @@ const DefaultPageTemplate = ({
         if (load) {
           setLoading(true);
         }
+        setLoading(true);
         const data = await getItems();
         setItems(data);
+        setCount(data.length);
       } catch (error) {
         console.error(`Failed to fetch ${itemType.toLowerCase()}s:`, error);
       } finally {
         setLoading(false);
         setLoad(true);
+        setHasFetched(true);
       }
     };
     fetchData();
@@ -155,34 +161,34 @@ const DefaultPageTemplate = ({
 
   return (
     <>
-      {loading ? (
-        <div />
-      ) : (
-        <div className={`fade-in`}>
-          {items.length === 0 ? (
-            <div className={'placeholder-style'}>
-              {renderIfAuthorized(role, 'admin', <ParagraphCSS />)}
-              {renderIfAuthorized(
-                role,
-                'admin',
-                <CreateActivityButton
-                  type={itemType}
-                  onClick={openNewPopupDialog}
-                />
-              )}
-            </div>
-          ) : (
-            <GuideMainPageTemplate
-              items={mappedItems}
-              handleDelete={handleDelete}
-              isPopupOpen={isPopupOpen}
-              handleClosePopup={handleClosePopup}
-              type={itemTypeInfo}
-              onClick={openNewPopupDialog}
-            />
-          )}
-        </div>
-      )}
+      <div className={`fade-in`}>
+        {!hasFetched ? (
+          <LoadingArea />
+        ) : items.length === 0 ? (
+          <div className={'placeholder-style'}>
+            {renderIfAuthorized(role, 'admin', <ParagraphCSS />)}
+            {renderIfAuthorized(
+              role,
+              'admin',
+              <CreateActivityButton
+                type={itemType}
+                onClick={openNewPopupDialog}
+              />
+            )}
+          </div>
+        ) : (
+          <GuideMainPageTemplate
+            loading={loading}
+            items={mappedItems}
+            count={count}
+            handleDelete={handleDelete}
+            isPopupOpen={isPopupOpen}
+            handleClosePopup={handleClosePopup}
+            type={itemTypeInfo}
+            onClick={openNewPopupDialog}
+          />
+        )}
+      </div>
     </>
   );
 };

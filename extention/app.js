@@ -105,7 +105,7 @@ function promptForDashboardUrl() {
   const button = document.createElement("button");
   button.id = "bw-ext-save-button";
   button.textContent = "Save";
-  //button.style.padding = "8px 12px";
+  button.style.padding = "8px 12px";
   button.style.backgroundColor = "#7f56d9"; // main-purple
   button.style.color = "#ffffff";
   button.style.border = "none";
@@ -215,7 +215,7 @@ const createMenuButton = (
   const button = document.createElement("button");
   button.textContent = mode;
   button.style.cssText = `
-    
+    padding: 8px 16px;
     font-size: 16px;
     background-color: #7F56D9;
     color: #fff;
@@ -267,7 +267,7 @@ const createSendButton = () => {
   button.style.backgroundColor = "#7F56D9";
   button.style.color = "#fff";
   button.style.border = "none";
-  //button.style.padding = "10px 16px";
+  button.style.padding = "10px 16px";
   button.style.borderRadius = "4px";
   button.style.fontSize = "16px";
   button.style.cursor = "pointer";
@@ -495,7 +495,7 @@ function createStickyDiv() {
   const button = document.createElement("button");
   button.id = BUTTON_ID;
   button.textContent = "Copy";
-  //button.style.padding = "8px 16px";
+  button.style.padding = "8px 16px";
   button.style.fontSize = "16px";
   button.style.backgroundColor = "#7F56D9";
   button.style.color = "#fff";

@@ -35,17 +35,17 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-  # frontend:
-  #   build: 
-  #     context: ./frontend/
-  #     dockerfile: Dockerfile.production
-  #   volumes:
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - "80:80"
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV:-production}
+  frontend:
+    build: 
+      context: ./frontend/
+      dockerfile: Dockerfile.production
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     
   mailhog:
     image: mailhog/mailhog

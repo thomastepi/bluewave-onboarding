@@ -30,6 +30,7 @@ services:
     build: 
       context: ./frontend/
       dockerfile: Dockerfile.development
+    image: onboarding-frontend-dev:latest
     volumes:
       - ./frontend:/app
       - /app/node_modules

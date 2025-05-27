@@ -15,9 +15,8 @@ bw.tour = {
         const result = window.bwonboarddata.tour[0];
         const tourId = result.id;
         
-         const styleElement = document.createElement('style');
+        const styleElement = document.createElement('style');
 
-        // 2. Define your CSS rules as a string
         const cssRules = `
             .bw-glowing-box {
                     border: 2px solid #7f56d9;
@@ -32,6 +31,35 @@ bw.tour = {
                 to {
                     box-shadow: 0 0 5px 7px rgba(138, 43, 226, 0.8);
                 }
+            }
+
+            .bw-tour-container {
+                position: absolute;
+                z-index: 9999;
+                background-color: #fff;
+                --arrow-position: 50%;
+            }
+
+            .bw-tour-container::before {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                left: var(--arrow-position);
+                transform: translateX(-50%);
+                transition: left 0.3s ease-in-out;
+            }
+
+            .bw-tour-container.arrow-top::before {
+                border-bottom: 8px solid #F0F0F0;
+                top: -8px;
+            }
+
+            .bw-tour-container.arrow-bottom::before {
+                border-top: 8px solid #F0F0F0;
+                bottom: -8px;
             }
         `;
 
@@ -151,7 +179,6 @@ bw.tour = {
           `;
         return backButton;
     },
-
     deHighlightOtherElements : function() {
         
         bw.tour.tourData.steps.forEach((step, index) => {
@@ -180,10 +207,6 @@ bw.tour = {
         
         return nextButton;
     },
-    /**
-     * Generates a dialog item.
-     * @returns {void}
-     */
     generateDialog: function () {
 
         
@@ -270,8 +293,6 @@ bw.tour = {
         nextButton.addEventListener('click', handleNext);
         footer.appendChild(nextButton);
 
-        
-
         function setActiveIndicator(index) {
             indicators.forEach(indicator => indicator.style.backgroundColor = '#ddd');
             indicators[index].style.backgroundColor = '#673ab7';
@@ -300,15 +321,67 @@ bw.tour = {
 
         function updatePosition() {
             const targetElement = document.querySelector(bw.tour.tourData.steps[bw.tour.currentStep].targetElement);
-            //update container position according to target element with smooth animation transition
+            const container = document.querySelector('.bw-tour-container');
             const rect = targetElement.getBoundingClientRect();
-            container.style.left = `${rect.left + window.scrollX}px`;
-            container.style.top = `${rect.top + rect.height + 5 + window.scrollY }px` ;
-            container.style.transform = `translate(-50%, 0%)`;
-            container.style.position = `absolute`;
-            container.style.backgroundColor = `#fff`;
-            container.style.zIndex = `9999`;
-            container.style.transition = `all 0.3s ease-in-out`;
+            const containerRect = container.getBoundingClientRect();
+            
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Calculate initial position (centered below the target)
+            let left = rect.left + (rect.width / 2);
+            let top = rect.bottom + 5;
+            let isAbove = false;
+            
+            // Store the original center position for arrow
+            const targetCenter = rect.left + (rect.width / 2);
+            
+            // Check horizontal bounds
+            if (left - (containerRect.width / 2) < 0) {
+                // Too far left - align with left edge of viewport with some padding
+                left = containerRect.width / 2 + 10;
+            } else if (left + (containerRect.width / 2) > viewportWidth) {
+                // Too far right - align with right edge of viewport with some padding
+                left = viewportWidth - (containerRect.width / 2) - 10;
+            }
+            
+            // Check vertical bounds
+            if (top + containerRect.height > viewportHeight) {
+                // If not enough space below, try to position above the target
+                top = rect.top - containerRect.height - 13;
+                isAbove = true;
+                
+                // If still no space above, position wherever there's more space
+                if (top < 0) {
+                    isAbove = rect.top > viewportHeight / 2;
+                    top = Math.max(10, isAbove ? 
+                        rect.top - containerRect.height - 13 : 
+                        rect.bottom + 13);
+                }
+            }
+            
+            // Update container position
+            container.style.left = `${left + window.scrollX}px`;
+            container.style.top = `${top + window.scrollY}px`;
+            container.style.transform = 'translate(-50%, 0)';
+            container.style.position = 'absolute';
+            container.style.zIndex = '9999';
+            container.style.transition = 'all 0.3s ease-in-out';
+
+            // Update arrow direction
+            container.classList.remove('arrow-top', 'arrow-bottom');
+            container.classList.add(isAbove ? 'arrow-bottom' : 'arrow-top');
+
+            // Calculate arrow position
+            const containerLeft = left - containerRect.width / 2;
+            const arrowPosition = ((targetCenter - containerLeft) / containerRect.width) * 100;
+            
+            // Clamp arrow position between 5% and 95% to prevent arrow from going outside the container
+            const clampedArrowPosition = Math.max(5, Math.min(95, arrowPosition));
+            
+            // Set arrow position using CSS custom property
+            container.style.setProperty('--arrow-position', `${clampedArrowPosition}%`);
 
             deHighlightOtherElements();
             highlightTatgetElement(targetElement);

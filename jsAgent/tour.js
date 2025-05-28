@@ -11,10 +11,10 @@ bw.tour = {
      * @param {function(boolean): void} cb - Callback function, called with true on success, false on failure.
      * @returns {void}
      */
-    init : async function (cb) {
+    init: async function (cb) {
         const result = window.bwonboarddata.tour[0];
         const tourId = result.id;
-        
+
         const styleElement = document.createElement('style');
 
         const cssRules = `
@@ -85,7 +85,7 @@ bw.tour = {
             console.error('No tour data provided');
             return;
         }
-       
+
         this.showDialog(bw.tour.currentStep);
     },
     createOverlay: function () {
@@ -113,7 +113,7 @@ bw.tour = {
             max-width: 400px;
             width: 90%;
             z-index: 9999;
-          `;     
+          `;
         return container;
     },
     createHeader: function (textColor) {
@@ -179,8 +179,8 @@ bw.tour = {
           `;
         return backButton;
     },
-    deHighlightOtherElements : function() {
-        
+    deHighlightOtherElements: function () {
+
         bw.tour.tourData.steps.forEach((step, index) => {
             if (index !== bw.tour.currentStep) {
                 const targetElement = document.querySelector(step.targetElement);
@@ -204,16 +204,137 @@ bw.tour = {
             cursor: pointer;
             min-width: 128px;
           `;
-        
+
         return nextButton;
+    },
+    updateData: function () {
+        document.getElementById('bw-tour-header').textContent = bw.tour.tourData.steps[bw.tour.currentStep].header;
+        document.getElementById('bw-tour-description').innerHTML = bw.tour.tourData.steps[bw.tour.currentStep].description;
+    },
+    updatePosition: function () {
+        const targetElement = document.querySelector(bw.tour.tourData.steps[bw.tour.currentStep].targetElement);
+        const container = document.querySelector('.bw-tour-container');
+        const rect = targetElement.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        // Get viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Calculate initial position (centered below the target)
+        let left = rect.left + (rect.width / 2);
+        let top = rect.bottom + 5;
+        let isAbove = false;
+
+        // Store the original center position for arrow
+        const targetCenter = rect.left + (rect.width / 2);
+
+        // Check if target element is visible in viewport
+        const isTargetInView = (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= viewportHeight &&
+            rect.right <= viewportWidth
+        );
+
+        // If target is not fully visible, position container in the visible area
+        if (!isTargetInView) {
+            // If target is too far left
+            if (rect.left < 0) {
+                left = containerRect.width / 2 + 20;
+                if (rect.bottom > viewportHeight - 400) {
+                    top = viewportHeight - containerRect.height - 20;
+                    left += rect.width + 20;
+                    isAbove = true;
+                }
+            }
+            // If target is too far right
+            else if (rect.right > viewportWidth) {
+                left = viewportWidth - containerRect.width / 2 - 20;
+            }
+
+            // If target is too high
+            if (rect.top < 0) {
+                top = 20;
+                isAbove = false;
+            }
+            // If target is too low
+            else if (rect.bottom > viewportHeight) {
+                top = viewportHeight - containerRect.height - 20;
+                isAbove = true;
+            }
+        } else {
+            // Normal positioning for visible elements
+            // Check horizontal bounds
+            if (left - (containerRect.width / 2) < 0) {
+                left = containerRect.width / 2 + 20; 
+            } else if (left + (containerRect.width / 2) > viewportWidth) {
+                left = viewportWidth - containerRect.width / 2 - 20;
+            }
+
+            // Check vertical bounds
+            if (top + containerRect.height > viewportHeight) {
+                top = rect.top - containerRect.height - 13;
+                isAbove = true;
+
+                // If still no space above, position wherever there's more space
+                if (top < 0) {
+                    isAbove = rect.top > viewportHeight / 2;
+                    top = Math.max(20, isAbove ?
+                        rect.top - containerRect.height - 13 :
+                        Math.min(rect.bottom + 13, viewportHeight - containerRect.height - 20));
+                }
+            }
+        }
+
+        // Ensure container stays within viewport
+        top = Math.max(20, Math.min(top, viewportHeight - containerRect.height - 20));
+
+        // Update container position
+        container.style.left = `${left + window.scrollX}px`;
+        container.style.top = `${top + window.scrollY}px`;
+        container.style.transform = 'translate(-50%, 0)';
+        container.style.position = 'absolute';
+        container.style.zIndex = '9999';
+        container.style.transition = 'all 0.3s ease-in-out';
+
+        // Update arrow direction
+        container.classList.remove('arrow-top', 'arrow-bottom');
+        container.classList.add(isAbove ? 'arrow-bottom' : 'arrow-top');
+
+        // Calculate arrow position
+        const containerLeft = left - containerRect.width / 2;
+        const arrowPosition = ((targetCenter - containerLeft) / containerRect.width) * 100;
+
+        // Clamp arrow position between 5% and 95% to prevent arrow from going outside the container
+        const clampedArrowPosition = Math.max(5, Math.min(95, arrowPosition));
+
+        // Set arrow position using CSS custom property
+        container.style.setProperty('--arrow-position', `${clampedArrowPosition}%`);
+
+        bw.tour.deHighlightOtherElements();
+        bw.tour.highlightTatgetElement(targetElement);
+    },
+    deHighlightOtherElements :function () {
+
+        bw.tour.tourData.steps.forEach((step, index) => {
+            const targetElement = document.querySelector(step.targetElement);
+            if (targetElement) {
+                targetElement.classList.remove('bw-glowing-box');
+            }
+        });
+    },
+    highlightTatgetElement: function(targetElement) {
+        // highlight target element
+        targetElement.classList.add('bw-glowing-box');
     },
     generateDialog: function () {
 
-        
+
         //adding overlay to the body with gray background and opacity
         // const overlay = bw.tour.createOverlay();
         // document.body.appendChild(overlay);
-        
+
         // Create container
         const container = bw.tour.createContainer();
         document.body.appendChild(container);
@@ -298,110 +419,19 @@ bw.tour = {
             indicators[index].style.backgroundColor = '#673ab7';
             if (index === 0) {
                 backButton.disabled = true;
-                backButton.style.color =`rgb(181 167 167)`;
+                backButton.style.color = `rgb(181 167 167)`;
             }
             else if (index === indicators.length - 1) {
                 nextButton.textContent = bw.tour.tourData.finalButtonText;
                 backButton.disabled = false;
-                backButton.style.color =`#333`;
+                backButton.style.color = `#333`;
             } else {
                 nextButton.textContent = 'Next';
                 backButton.disabled = false;
-                backButton.style.color =`#333`;
+                backButton.style.color = `#333`;
             }
-            updateData();
-            updatePosition();
-            
-        }
-
-        function updateData() {
-            document.getElementById('bw-tour-header').textContent = bw.tour.tourData.steps[bw.tour.currentStep].header;
-            document.getElementById('bw-tour-description').innerHTML = bw.tour.tourData.steps[bw.tour.currentStep].description;
-        }
-
-        function updatePosition() {
-            const targetElement = document.querySelector(bw.tour.tourData.steps[bw.tour.currentStep].targetElement);
-            const container = document.querySelector('.bw-tour-container');
-            const rect = targetElement.getBoundingClientRect();
-            const containerRect = container.getBoundingClientRect();
-            
-            // Get viewport dimensions
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            
-            // Calculate initial position (centered below the target)
-            let left = rect.left + (rect.width / 2);
-            let top = rect.bottom + 5;
-            let isAbove = false;
-            
-            // Store the original center position for arrow
-            const targetCenter = rect.left + (rect.width / 2);
-            
-            // Check horizontal bounds
-            if (left - (containerRect.width / 2) < 0) {
-                // Too far left - align with left edge of viewport with some padding
-                left = containerRect.width / 2 + 10;
-            } else if (left + (containerRect.width / 2) > viewportWidth) {
-                // Too far right - align with right edge of viewport with some padding
-                left = viewportWidth - (containerRect.width / 2) - 10;
-            }
-            
-            // Check vertical bounds
-            if (top + containerRect.height > viewportHeight) {
-                // If not enough space below, try to position above the target
-                top = rect.top - containerRect.height - 13;
-                isAbove = true;
-                
-                // If still no space above, position wherever there's more space
-                if (top < 0) {
-                    isAbove = rect.top > viewportHeight / 2;
-                    top = Math.max(10, isAbove ? 
-                        rect.top - containerRect.height - 13 : 
-                        rect.bottom + 13);
-                }
-            }
-            
-            // Update container position
-            container.style.left = `${left + window.scrollX}px`;
-            container.style.top = `${top + window.scrollY}px`;
-            container.style.transform = 'translate(-50%, 0)';
-            container.style.position = 'absolute';
-            container.style.zIndex = '9999';
-            container.style.transition = 'all 0.3s ease-in-out';
-
-            // Update arrow direction
-            container.classList.remove('arrow-top', 'arrow-bottom');
-            container.classList.add(isAbove ? 'arrow-bottom' : 'arrow-top');
-
-            // Calculate arrow position
-            const containerLeft = left - containerRect.width / 2;
-            const arrowPosition = ((targetCenter - containerLeft) / containerRect.width) * 100;
-            
-            // Clamp arrow position between 5% and 95% to prevent arrow from going outside the container
-            const clampedArrowPosition = Math.max(5, Math.min(95, arrowPosition));
-            
-            // Set arrow position using CSS custom property
-            container.style.setProperty('--arrow-position', `${clampedArrowPosition}%`);
-
-            deHighlightOtherElements();
-            highlightTatgetElement(targetElement);
-        }
-
-        function deHighlightOtherElements() {
-        
-            bw.tour.tourData.steps.forEach((step, index) => {
-                if (index !== bw.tour.currentStep) {
-                    const targetElement = document.querySelector(step.targetElement);
-                    if (targetElement) {
-                        targetElement.classList.remove('bw-glowing-box');
-                    }
-                }
-            });
-        }
-
-        function highlightTatgetElement(targetElement){
-            // highlight target element
-            targetElement.classList.add('bw-glowing-box');
+            bw.tour.updateData();
+            bw.tour.updatePosition();
         }
 
         indicators.forEach((indicator, index) => {
@@ -442,21 +472,21 @@ bw.tour = {
             bw.tour.currentStep = Math.min(indicators.length - 1, bw.tour.currentStep + 1);
             setActiveIndicator(bw.tour.currentStep);
         }
-        updatePosition();
-        
+        bw.tour.updatePosition();
+
         const handleReposition = () => {
             if (container.isConnected) { // Only update if the container is still in the DOM
-                updatePosition();
+                bw.tour.updatePosition();
             } else {
                 // Clean up event listeners if container is removed
                 window.removeEventListener('resize', handleReposition);
                 window.removeEventListener('scroll', handleReposition);
             }
         };
-        
+
         window.addEventListener('resize', handleReposition);
         window.addEventListener('scroll', handleReposition);
-        
+
     },
     showDialog: function (index) {
         this.generateDialog(bw.tour.tourData.steps[index]);

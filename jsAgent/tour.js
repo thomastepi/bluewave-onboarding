@@ -352,6 +352,7 @@ bw.tour = {
         header.insertAdjacentHTML('beforeend', closeButton);
         document.getElementById('bw-modal-close').addEventListener('click', () => {
             container.remove();
+            bw.tour.deHighlightOtherElements();
         });
 
         // Create paragraph

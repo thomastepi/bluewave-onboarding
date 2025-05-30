@@ -20,7 +20,15 @@ To see a demo, [click here](https://guidefox-demo.bluewavelabs.ca/). If you have
 
 The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 
-![guidefox](https://github.com/user-attachments/assets/46d912c9-339a-4044-979b-338557f28949)
+
+
+
+https://github.com/user-attachments/assets/7bf3db04-0e1d-4392-9381-f88b09d51e51
+
+
+
+
+
 
 ## Tech stack
 

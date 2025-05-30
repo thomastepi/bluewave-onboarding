@@ -141,7 +141,7 @@ bw.tour = {
         return divH2;
     },
     createCloseButton: function () {
-        const closeButton = `<svg id='bw-modal-close' focusable="false" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
+        const closeButton = `<svg id='bw-modal-tour-close' focusable="false" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
             style="fill: rgb(152, 162, 179) !important; font-size: 20px !important; display: block !important; position: absolute !important; float: right !important; right: 23px !important; cursor: pointer !important; width: 20px !important; height: 20px !important; display: inline-block !important; margin: auto !important;">
             <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
         </svg>`
@@ -350,7 +350,7 @@ bw.tour = {
         // Create close button
         const closeButton = bw.tour.createCloseButton(container);
         header.insertAdjacentHTML('beforeend', closeButton);
-        document.getElementById('bw-modal-close').addEventListener('click', () => {
+        document.getElementById('bw-modal-tour-close').addEventListener('click', () => {
             container.remove();
             bw.tour.deHighlightOtherElements();
         });

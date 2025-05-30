@@ -9,7 +9,7 @@ bw.hint = {
         const styleElement = document.createElement('style');
 
         const cssRules = `
-            .bw-glowing-box {
+            .bw-glowing-hint-box {
                     border: 2px solid #7f56d9;
                     border-radius: 8px;
                     animation: purple-glow 1s infinite alternate;
@@ -17,10 +17,11 @@ bw.hint = {
 
                 @keyframes purple-glow {
                 from {
-                    box-shadow: 0 0 5px 2px rgba(138, 43, 226, 0.5);
+                    box-shadow: 0 0 1px 0px rgba(138, 43, 226, 0.5);
+                    
                 }
                 to {
-                    box-shadow: 0 0 5px 7px rgba(138, 43, 226, 0.8);
+                    box-shadow: 0 0 3px 1px rgba(138, 43, 226, 0.8);
                 }
             }
         `;
@@ -81,7 +82,7 @@ bw.hint = {
             const selector= hintItem.targetElement;
             const elements = document.querySelectorAll(selector);
             for (let j = 0; j < elements.length; j++) {
-                elements[j].classList.add('bw-glowing-box');
+                elements[j].classList.add('bw-glowing-hint-box');
             }
         }
         
@@ -94,7 +95,7 @@ bw.hint = {
             const selector= hintItem.targetElement;
             const elements = document.querySelectorAll(selector);
             for (let j = 0; j < elements.length; j++) {
-                elements[j].classList.remove('bw-glowing-box');
+                elements[j].classList.remove('bw-glowing-hint-box');
             }
         }
     },

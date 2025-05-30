@@ -16,6 +16,7 @@ const BW_USER_KEY = "BW_USER_KEY";
 
 //GLOBALS
 window.BW_USER = "";
+window.BW_LAST_URL = "";
 if (window.bw === undefined) {
     window.bw = {};
 }
@@ -88,7 +89,6 @@ bw.util = {
         return guid;
     },
 };
-
 
 bw.GuideType = Object.freeze({
     POPUP: 0,
@@ -197,6 +197,22 @@ bw.user = {
     },
 };
 
+bw.urlListener = {
+    init: function(){
+        window.addEventListener("bw-url-change", function (event) {
+            console.log("URL changed:", event);
+            bw.clearScreen();
+        });
+        setInterval(()=>{
+            if(window.BW_LAST_URL === ""){
+                window.BW_LAST_URL = location.href;
+            }else if (window.BW_LAST_URL != location.href){
+                window.BW_LAST_URL = location.href;
+                window.dispatchEvent(new Event("bw-url-change"));
+            }
+        }, 700);
+    }
+};
 bw.init = (cb) => {
     if (!bw.user.checkIfBwUserCreated()) {
         bw.user.createUser();
@@ -205,8 +221,22 @@ bw.init = (cb) => {
     cb && cb();
 };
 
+bw.clearScreen = () => {
+    //clear all banners
+
+const bw_classes = ['bw-tooltip-arrow', '.bw-banner', '.tooltip-cue', '[data-tooltip-position]', '.bw-tour-container', 'bw-overlay'];
+
+    for (const bw_class of bw_classes) {
+        const elements = document.querySelectorAll(bw_class);
+        for (const element of elements) {
+            element.remove();
+        }
+    }
+};
+
 (function () {
     bw.init(async function () {
+        bw.urlListener.init();
         try {
             const onBoardConfig = await bw.data.getData(window.BW_USER);
             console.log("data loaded:", onBoardConfig);

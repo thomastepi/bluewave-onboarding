@@ -13,6 +13,7 @@ bw.hint = {
                     border: 2px solid #7f56d9;
                     border-radius: 8px;
                     animation: purple-glow 1s infinite alternate;
+                    transition: all 0.3s ease;
                 }
 
                 @keyframes purple-glow {
@@ -61,43 +62,29 @@ bw.hint = {
             tooltip.addEventListener('mouseenter', function (e) {
                 clearInterval(tooltip.timer);
                 e.target.style.visibility = 'visible';
+                const elem = document.querySelector(item.targetElement);
+                bw.hint.addGlowShadow(elem);
                 //bw.hint.positionTooltip(tooltip, contentContainer, tooltipArrow);
             });
 
             tooltip.addEventListener('mouseleave', function (e) {
                 tooltip.timer = setTimeout(() => {
                     e.target.style.visibility = 'hidden';
-                }, 1500);
+                    const elem = document.querySelector(item.targetElement)
+                    bw.hint.removeGlowShadow(elem);
+                }, 300);
             });
             bw.hint.bindSelector(item, tooltip);
-            bw.hint.addGlowShadow();
+            //bw.hint.addGlowShadow();
 
         }   
     },
-    addGlowShadow: function(){
-       const hintData = window.bwonboarddata.hint;
-
-        for (let i = 0; i < hintData.length; i++) {
-            const hintItem = hintData[i];
-            const selector= hintItem.targetElement;
-            const elements = document.querySelectorAll(selector);
-            for (let j = 0; j < elements.length; j++) {
-                elements[j].classList.add('bw-glowing-hint-box');
-            }
-        }
-        
+    addGlowShadow: function(domElement){
+       //const hintData = window.bwonboarddata.hint;
+        domElement.classList.add('bw-glowing-hint-box');
     },
-    removeGlowShadow: function(){
-        const hintData = window.bwonboarddata.hint;
-
-        for (let i = 0; i < hintData.length; i++) {
-            const hintItem = hintData[i];
-            const selector= hintItem.targetElement;
-            const elements = document.querySelectorAll(selector);
-            for (let j = 0; j < elements.length; j++) {
-                elements[j].classList.remove('bw-glowing-hint-box');
-            }
-        }
+    removeGlowShadow: function(domElement){
+        domElement.classList.remove('bw-glowing-hint-box');
     },
     positionTooltip: function(tooltip, tooltipOwner, tooltipArrow) {
        
@@ -290,10 +277,19 @@ bw.hint = {
 
         button.addEventListener('mouseenter', function(e) {
             e.target.style.boxShadow = '0px 2px 7px 0px #0000001F !important'
+            const elems = document.querySelectorAll(item.targetElement);
+            elems.forEach(elem => {
+                bw.hint.addGlowShadow(elem);
+            });
         });
 
         button.addEventListener('mouseleave', function(e) {
             e.target.style.boxShadow = 'none';
+            const elems = document.querySelectorAll(item.targetElement);
+            elems.forEach(elem => {
+                bw.hint.addGlowShadow(elem);
+            });
+            
         });
 
 
@@ -304,9 +300,11 @@ bw.hint = {
     bindSelector: function (item, tooltip) {
         const selector= item.targetElement;
         const elements = document.querySelectorAll(selector);
+
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
-            
+            //add transition: all 0.3s ease;
+            element.style.transition = 'all 0.3s ease';
             if(item.isHintIconVisible){
                 const tooltipCue = document.createElement('div');
                 tooltipCue.className = 'tooltip-cue';
@@ -383,15 +381,22 @@ bw.hint = {
                     let tooltipArrow = tooltip.getElementsByClassName('bw-tooltip-arrow')[0];
                     bw.hint.positionTooltip(tooltip,  e.target, tooltipArrow);
                     tooltip.style.visibility = 'visible';
+                    const elems = document.querySelectorAll(item.targetElement);
+                    elems.forEach(elem => {
+                        bw.hint.addGlowShadow(elem);
+                    });
 
-
-                }, 500);
+                }, 300);
 
             });
             element.addEventListener('mouseleave', function (e) {
                 tooltip.timer = setTimeout(() => {
                     tooltip.style.visibility = 'hidden';
-                }, 1500);
+                    const elems = document.querySelectorAll(item.targetElement);
+                    elems.forEach(elem => {
+                        bw.hint.removeGlowShadow(elem);
+                    });
+                }, 300);
             });
         }
     }

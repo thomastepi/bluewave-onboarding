@@ -88,20 +88,6 @@ bw.tour = {
 
         this.showDialog(bw.tour.currentStep);
     },
-    createOverlay: function () {
-        const overlay = document.createElement('div');
-        overlay.id = 'bw-tour-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9998;
-            `;
-        return overlay;
-    },
     createContainer: function () {
         const container = document.createElement('div');
         container.className = 'bw-tour-container';
@@ -491,6 +477,10 @@ bw.tour = {
     },
     showDialog: function (index) {
         this.generateDialog(bw.tour.tourData.steps[index]);
+    },
+    removeAll: function () {
+        const dialogs = document.querySelectorAll('.bw-tour-dialog');
+        dialogs.forEach(dialog => dialog.remove());
     }
 };
 

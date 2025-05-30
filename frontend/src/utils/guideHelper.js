@@ -77,6 +77,10 @@ export const onSaveTemplate = async ({
   fieldPriority,
 }) => {
   try {
+    // Remove trailing slash from URL if present
+    if (data.url && typeof data.url === 'string') {
+      data.url = data.url.replace(/\/+$/, '');
+    }
     await schema.validate(data, { abortEarly: false });
     await onSuccess();
   } catch (validationError) {

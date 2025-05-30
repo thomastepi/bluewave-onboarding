@@ -22,7 +22,7 @@ class TeamService {
 
     async createTeamWithAgentUrl(name) {
         const transaction = await sequelize.transaction();
-        const agentUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.0.2/jsAgent/'
+        const agentUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.1.4/jsAgent/'
         try {
             const team = await Team.create({ name, agentUrl }, { transaction });
             await transaction.commit();

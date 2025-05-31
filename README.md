@@ -16,11 +16,19 @@ Guidefox helps app owners build knowledge and user-experience oriented apps. It 
 - Helper links
 - Hints
 
+It also provides an extension to easily fill target elements for hints and tours.
+
 To see a demo, [click here](https://guidefox-demo.bluewavelabs.ca/). If you have any questions, you can use the [Guidefox forum](https://github.com/bluewave-labs/guidefox/discussions).
 
 The source code is available under GNU AGPLv3. If you would like to support us, please consider giving it a ⭐ and click on "watch" so you can latest news from us.
 
-![guidefox](https://github.com/user-attachments/assets/46d912c9-339a-4044-979b-338557f28949)
+
+
+https://github.com/user-attachments/assets/65331a0a-5c8d-40c0-94f5-7d754a159de7
+
+
+
+
 
 ## Tech stack
 
@@ -243,7 +251,7 @@ After setting up the project, copy and paste the script that can be found in the
 
 ```
 window.bwApiBaseUrl = 'https://guidefox-demo.bluewavelabs.ca/api/';
-                window.bwAgentBaseUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.0.2/jsAgent/';
+                window.bwAgentBaseUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.1.5/jsAgent/';
 
                 var s=document.createElement("script");
                 s.type="text/javascript";
@@ -254,6 +262,10 @@ window.bwApiBaseUrl = 'https://guidefox-demo.bluewavelabs.ca/api/';
 ```
 
 We are working on a browser extention to move this code there to improve the user experience.
+
+## Extension
+
+Our extension will be available on the Chrome Web Store soon. In the meantime, developers can manually load the extension by navigating to Extensions → Manage Extensions → Load unpacked and selecting the extension folder.
 
 ## Contributing
 

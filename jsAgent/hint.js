@@ -287,13 +287,11 @@ bw.hint = {
             e.target.style.boxShadow = 'none';
             const elems = document.querySelectorAll(item.targetElement);
             elems.forEach(elem => {
-                bw.hint.addGlowShadow(elem);
+                bw.hint.removeGlowShadow(elem);
             });
             
         });
 
-
-        
         buttonContainer.appendChild(button);
         return buttonContainer;
     },

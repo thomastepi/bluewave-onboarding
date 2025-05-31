@@ -54,6 +54,10 @@ if (process.env.NODE_ENV == 'development') {
     .catch((err) => console.log("Error syncing models: " + err));
 }
 
+// const { runSeeders } = require('../seeders/seeders');
+// const { queryInterface } = sequelize; 
+// runSeeders(queryInterface)
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/mock/", mocks);

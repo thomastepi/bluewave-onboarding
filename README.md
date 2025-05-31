@@ -251,7 +251,7 @@ After setting up the project, copy and paste the script that can be found in the
 
 ```
 window.bwApiBaseUrl = 'https://guidefox-demo.bluewavelabs.ca/api/';
-                window.bwAgentBaseUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.1.4/jsAgent/';
+                window.bwAgentBaseUrl = 'https://cdn.jsdelivr.net/gh/bluewave-labs/bluewave-onboarding@agent-1.1.5/jsAgent/';
 
                 var s=document.createElement("script");
                 s.type="text/javascript";

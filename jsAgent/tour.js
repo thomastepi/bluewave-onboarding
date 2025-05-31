@@ -11,13 +11,12 @@ bw.tour = {
      * @param {function(boolean): void} cb - Callback function, called with true on success, false on failure.
      * @returns {void}
      */
-    init : async function (cb) {
+    init: async function (cb) {
         const result = window.bwonboarddata.tour[0];
         const tourId = result.id;
-        
-         const styleElement = document.createElement('style');
 
-        // 2. Define your CSS rules as a string
+        const styleElement = document.createElement('style');
+
         const cssRules = `
             .bw-glowing-box {
                     border: 2px solid #7f56d9;
@@ -32,6 +31,35 @@ bw.tour = {
                 to {
                     box-shadow: 0 0 5px 7px rgba(138, 43, 226, 0.8);
                 }
+            }
+
+            .bw-tour-container {
+                position: absolute;
+                z-index: 9999;
+                background-color: #fff;
+                --arrow-position: 50%;
+            }
+
+            .bw-tour-container::before {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                left: var(--arrow-position);
+                transform: translateX(-50%);
+                transition: left 0.3s ease-in-out;
+            }
+
+            .bw-tour-container.arrow-top::before {
+                border-bottom: 8px solid #F0F0F0;
+                top: -8px;
+            }
+
+            .bw-tour-container.arrow-bottom::before {
+                border-top: 8px solid #F0F0F0;
+                bottom: -8px;
             }
         `;
 
@@ -57,22 +85,8 @@ bw.tour = {
             console.error('No tour data provided');
             return;
         }
-       
+
         this.showDialog(bw.tour.currentStep);
-    },
-    createOverlay: function () {
-        const overlay = document.createElement('div');
-        overlay.id = 'bw-tour-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9998;
-            `;
-        return overlay;
     },
     createContainer: function () {
         const container = document.createElement('div');
@@ -85,7 +99,7 @@ bw.tour = {
             max-width: 400px;
             width: 90%;
             z-index: 9999;
-          `;     
+          `;
         return container;
     },
     createHeader: function (textColor) {
@@ -113,7 +127,7 @@ bw.tour = {
         return divH2;
     },
     createCloseButton: function () {
-        const closeButton = `<svg id='bw-modal-close' focusable="false" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
+        const closeButton = `<svg id='bw-modal-tour-close' focusable="false" viewBox="0 0 24 24" data-testid="CloseOutlinedIcon" 
             style="fill: rgb(152, 162, 179) !important; font-size: 20px !important; display: block !important; position: absolute !important; float: right !important; right: 23px !important; cursor: pointer !important; width: 20px !important; height: 20px !important; display: inline-block !important; margin: auto !important;">
             <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
         </svg>`
@@ -151,9 +165,8 @@ bw.tour = {
           `;
         return backButton;
     },
+    deHighlightOtherElements: function () {
 
-    deHighlightOtherElements : function() {
-        
         bw.tour.tourData.steps.forEach((step, index) => {
             if (index !== bw.tour.currentStep) {
                 const targetElement = document.querySelector(step.targetElement);
@@ -177,20 +190,137 @@ bw.tour = {
             cursor: pointer;
             min-width: 128px;
           `;
-        
+
         return nextButton;
     },
-    /**
-     * Generates a dialog item.
-     * @returns {void}
-     */
+    updateData: function () {
+        document.getElementById('bw-tour-header').textContent = bw.tour.tourData.steps[bw.tour.currentStep].header;
+        document.getElementById('bw-tour-description').innerHTML = bw.tour.tourData.steps[bw.tour.currentStep].description;
+    },
+    updatePosition: function () {
+        const targetElement = document.querySelector(bw.tour.tourData.steps[bw.tour.currentStep].targetElement);
+        const container = document.querySelector('.bw-tour-container');
+        const rect = targetElement.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        // Get viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Calculate initial position (centered below the target)
+        let left = rect.left + (rect.width / 2);
+        let top = rect.bottom + 5;
+        let isAbove = false;
+
+        // Store the original center position for arrow
+        const targetCenter = rect.left + (rect.width / 2);
+
+        // Check if target element is visible in viewport
+        const isTargetInView = (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= viewportHeight &&
+            rect.right <= viewportWidth
+        );
+
+        // If target is not fully visible, position container in the visible area
+        if (!isTargetInView) {
+            // If target is too far left
+            if (rect.left < 0) {
+                left = containerRect.width / 2 + 20;
+                if (rect.bottom > viewportHeight - 400) {
+                    top = viewportHeight - containerRect.height - 20;
+                    left += rect.width + 20;
+                    isAbove = true;
+                }
+            }
+            // If target is too far right
+            else if (rect.right > viewportWidth) {
+                left = viewportWidth - containerRect.width / 2 - 20;
+            }
+
+            // If target is too high
+            if (rect.top < 0) {
+                top = 20;
+                isAbove = false;
+            }
+            // If target is too low
+            else if (rect.bottom > viewportHeight) {
+                top = viewportHeight - containerRect.height - 20;
+                isAbove = true;
+            }
+        } else {
+            // Normal positioning for visible elements
+            // Check horizontal bounds
+            if (left - (containerRect.width / 2) < 0) {
+                left = containerRect.width / 2 + 20; 
+            } else if (left + (containerRect.width / 2) > viewportWidth) {
+                left = viewportWidth - containerRect.width / 2 - 20;
+            }
+
+            // Check vertical bounds
+            if (top + containerRect.height > viewportHeight) {
+                top = rect.top - containerRect.height - 13;
+                isAbove = true;
+
+                // If still no space above, position wherever there's more space
+                if (top < 0) {
+                    isAbove = rect.top > viewportHeight / 2;
+                    top = Math.max(20, isAbove ?
+                        rect.top - containerRect.height - 13 :
+                        Math.min(rect.bottom + 13, viewportHeight - containerRect.height - 20));
+                }
+            }
+        }
+
+        // Ensure container stays within viewport
+        top = Math.max(20, Math.min(top, viewportHeight - containerRect.height - 20));
+
+        // Update container position
+        container.style.left = `${left + window.scrollX}px`;
+        container.style.top = `${top + window.scrollY}px`;
+        container.style.transform = 'translate(-50%, 0)';
+        container.style.position = 'absolute';
+        container.style.zIndex = '9999';
+        container.style.transition = 'all 0.3s ease-in-out';
+
+        // Update arrow direction
+        container.classList.remove('arrow-top', 'arrow-bottom');
+        container.classList.add(isAbove ? 'arrow-bottom' : 'arrow-top');
+
+        // Calculate arrow position
+        const containerLeft = left - containerRect.width / 2;
+        const arrowPosition = ((targetCenter - containerLeft) / containerRect.width) * 100;
+
+        // Clamp arrow position between 5% and 95% to prevent arrow from going outside the container
+        const clampedArrowPosition = Math.max(5, Math.min(95, arrowPosition));
+
+        // Set arrow position using CSS custom property
+        container.style.setProperty('--arrow-position', `${clampedArrowPosition}%`);
+
+        bw.tour.deHighlightOtherElements();
+        bw.tour.highlightTatgetElement(targetElement);
+    },
+    deHighlightOtherElements :function () {
+
+        bw.tour.tourData.steps.forEach((step, index) => {
+            const targetElement = document.querySelector(step.targetElement);
+            if (targetElement) {
+                targetElement.classList.remove('bw-glowing-box');
+            }
+        });
+    },
+    highlightTatgetElement: function(targetElement) {
+        // highlight target element
+        targetElement.classList.add('bw-glowing-box');
+    },
     generateDialog: function () {
 
-        
+
         //adding overlay to the body with gray background and opacity
         // const overlay = bw.tour.createOverlay();
         // document.body.appendChild(overlay);
-        
+
         // Create container
         const container = bw.tour.createContainer();
         document.body.appendChild(container);
@@ -206,8 +336,9 @@ bw.tour = {
         // Create close button
         const closeButton = bw.tour.createCloseButton(container);
         header.insertAdjacentHTML('beforeend', closeButton);
-        document.getElementById('bw-modal-close').addEventListener('click', () => {
+        document.getElementById('bw-modal-tour-close').addEventListener('click', () => {
             container.remove();
+            bw.tour.deHighlightOtherElements();
         });
 
         // Create paragraph
@@ -270,65 +401,24 @@ bw.tour = {
         nextButton.addEventListener('click', handleNext);
         footer.appendChild(nextButton);
 
-        
-
         function setActiveIndicator(index) {
             indicators.forEach(indicator => indicator.style.backgroundColor = '#ddd');
             indicators[index].style.backgroundColor = '#673ab7';
             if (index === 0) {
                 backButton.disabled = true;
-                backButton.style.color =`rgb(181 167 167)`;
+                backButton.style.color = `rgb(181 167 167)`;
             }
             else if (index === indicators.length - 1) {
                 nextButton.textContent = bw.tour.tourData.finalButtonText;
                 backButton.disabled = false;
-                backButton.style.color =`#333`;
+                backButton.style.color = `#333`;
             } else {
                 nextButton.textContent = 'Next';
                 backButton.disabled = false;
-                backButton.style.color =`#333`;
+                backButton.style.color = `#333`;
             }
-            updateData();
-            updatePosition();
-            
-        }
-
-        function updateData() {
-            document.getElementById('bw-tour-header').textContent = bw.tour.tourData.steps[bw.tour.currentStep].header;
-            document.getElementById('bw-tour-description').innerHTML = bw.tour.tourData.steps[bw.tour.currentStep].description;
-        }
-
-        function updatePosition() {
-            const targetElement = document.querySelector(bw.tour.tourData.steps[bw.tour.currentStep].targetElement);
-            //update container position according to target element with smooth animation transition
-            const rect = targetElement.getBoundingClientRect();
-            container.style.left = `${rect.left + window.scrollX}px`;
-            container.style.top = `${rect.top + rect.height + 5 + window.scrollY }px` ;
-            container.style.transform = `translate(-50%, 0%)`;
-            container.style.position = `absolute`;
-            container.style.backgroundColor = `#fff`;
-            container.style.zIndex = `9999`;
-            container.style.transition = `all 0.3s ease-in-out`;
-
-            deHighlightOtherElements();
-            highlightTatgetElement(targetElement);
-        }
-
-        function deHighlightOtherElements() {
-        
-            bw.tour.tourData.steps.forEach((step, index) => {
-                if (index !== bw.tour.currentStep) {
-                    const targetElement = document.querySelector(step.targetElement);
-                    if (targetElement) {
-                        targetElement.classList.remove('bw-glowing-box');
-                    }
-                }
-            });
-        }
-
-        function highlightTatgetElement(targetElement){
-            // highlight target element
-            targetElement.classList.add('bw-glowing-box');
+            bw.tour.updateData();
+            bw.tour.updatePosition();
         }
 
         indicators.forEach((indicator, index) => {
@@ -369,24 +459,28 @@ bw.tour = {
             bw.tour.currentStep = Math.min(indicators.length - 1, bw.tour.currentStep + 1);
             setActiveIndicator(bw.tour.currentStep);
         }
-        updatePosition();
-        
+        bw.tour.updatePosition();
+
         const handleReposition = () => {
             if (container.isConnected) { // Only update if the container is still in the DOM
-                updatePosition();
+                bw.tour.updatePosition();
             } else {
                 // Clean up event listeners if container is removed
                 window.removeEventListener('resize', handleReposition);
                 window.removeEventListener('scroll', handleReposition);
             }
         };
-        
+
         window.addEventListener('resize', handleReposition);
         window.addEventListener('scroll', handleReposition);
-        
+
     },
     showDialog: function (index) {
         this.generateDialog(bw.tour.tourData.steps[index]);
+    },
+    removeAll: function () {
+        const dialogs = document.querySelectorAll('.bw-tour-dialog');
+        dialogs.forEach(dialog => dialog.remove());
     }
 };
 

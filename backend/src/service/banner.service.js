@@ -65,12 +65,10 @@ class BannerService {
       return await Banner.findAll({
         where: {
           url,
-          [Op.or]: [
-            { repetitionType: 'show every visit' },
-            { id: { [Op.notIn]: ids } },
-          ],
+          [Op.or]: [{ repetitionType: 'show every visit' }, { id: { [Op.notIn]: ids } }],
         },
       });
+      // return await Banner.findAll();
     } catch {
       throw new Error('Error retrieving banner by URL');
     }

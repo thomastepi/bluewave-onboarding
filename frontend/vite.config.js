@@ -1,43 +1,47 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import { BASE_URL } from "./src/utils/constants";
 
-export default defineConfig({
-  base: "/",
-  plugins: [react()],
-  server: {
-    host: "0.0.0.0",
-    port: 4173,
-    allowedHosts: [BASE_URL],
-    watch: {
-      usePolling: true,
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: "modern-compiler",
-      },
-    },
-  },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    include: ["src/tests/**/*.test.jsx"],
-    css: {
-      modules: {
-        classNameStrategy: "non-scoped",
-      },
-    },
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  const allowedHost = env.VITE_BASE_URL;
+
+  return {
+    base: "/",
+    plugins: [react()],
     server: {
-      deps: {
-        inline: ["mui-color-input"],
+      host: "0.0.0.0",
+      port: 4173,
+      allowedHosts: [allowedHost],
+      watch: {
+        usePolling: true,
       },
     },
-  },
-  resolve: {
-    alias: {
-      "@components": "/src/components",
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler",
+        },
+      },
     },
-  },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      include: ["src/tests/**/*.test.jsx"],
+      css: {
+        modules: {
+          classNameStrategy: "non-scoped",
+        },
+      },
+      server: {
+        deps: {
+          inline: ["mui-color-input"],
+        },
+      },
+    },
+    resolve: {
+      alias: {
+        "@components": "/src/components",
+      },
+    },
+  };
 });

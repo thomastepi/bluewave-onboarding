@@ -2,6 +2,9 @@ import { apiClient } from './apiClient';
 
 export const getHelpers = async () => {
   try {
+    // NOTE: This endpoint calls helperController.getHelpersByUserId on the backend,
+    // which retrieves only helper links associated with the currently authenticated user through req.user.id.
+    // TODO: If an admin or global view is required, change endpoint to `/helper-links/all-helpers`
     const response = await apiClient.get(`/helper-link/get_helpers`);
     if (response.status >= 400) throw new Error(response.data);
     return response.data;
@@ -11,6 +14,7 @@ export const getHelpers = async () => {
   }
 };
 export const getHelperById = async (id) => {
+  // fetch helpers by helperId
   try {
     const response = await apiClient.get(`/helper-link/get_helper/${id}`);
     if (response.status >= 400) throw new Error(response.data);

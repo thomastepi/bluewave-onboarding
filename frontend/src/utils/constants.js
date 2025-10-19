@@ -1,11 +1,8 @@
 // API constants
-//local environment
-export const BASE_URL = 'localhost:3000';
+const FALLBACK_URL = 'localhost:5000';
+export const BASE_URL = import.meta?.env?.VITE_BASE_URL || FALLBACK_URL;
 export const API_BASE_URL = `http://${BASE_URL}/api/`;
 
-//staging environment
-// export const BASE_URL = 'onboarding-demo.bluewavelabs.ca';
-// export const API_BASE_URL = `https://${BASE_URL}/api/`;
 // Other constants
 export const APP_TITLE = 'Bluewave Onboarding';
 export const SUPPORT_EMAIL = 'support@bluewave.com';

@@ -8,8 +8,8 @@ import { popupContentSchema } from '../../../../utils/popupHelper';
 
 const PopupContent = React.forwardRef((props, ref) => {
   const {
-    buttonRepetition,
-    buttonAction,
+    repetitionType,
+    closeButtonAction,
     url,
     actionButtonUrl,
     actionButtonText,
@@ -20,8 +20,8 @@ const PopupContent = React.forwardRef((props, ref) => {
     <Formik
       innerRef={ref}
       initialValues={{
-        buttonRepetition,
-        buttonAction,
+        repetitionType,
+        closeButtonAction,
         url,
         actionButtonUrl,
         actionButtonText,
@@ -67,18 +67,18 @@ const PopupContent = React.forwardRef((props, ref) => {
             <DropdownList
               actions={['Show only once', 'Show every visit']}
               onActionChange={(newValue) =>
-                handleDropdownChange('buttonRepetition', newValue)
+                handleDropdownChange('repetitionType', newValue)
               }
-              selectedActionString={buttonRepetition}
+              selectedActionString={repetitionType}
             />
 
             <h2>Action</h2>
             <DropdownList
               actions={['No action', 'Open URL', 'Open URL in a new tab']}
               onActionChange={(newValue) =>
-                handleDropdownChange('buttonAction', newValue)
+                handleDropdownChange('closeButtonAction', newValue)
               }
-              selectedActionString={buttonAction}
+              selectedActionString={closeButtonAction}
             />
 
             <h2 style={{ marginBottom: 0 }}>URL</h2>
@@ -155,10 +155,10 @@ const PopupContent = React.forwardRef((props, ref) => {
 
 PopupContent.propTypes = {
   actionButtonText: PropTypes.string,
-  buttonAction: PropTypes.string,
+  closeButtonAction: PropTypes.string,
   actionButtonUrl: PropTypes.string,
   url: PropTypes.string,
-  buttonRepetition: PropTypes.string,
+  repetitionType: PropTypes.string,
   setPopupContent: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };

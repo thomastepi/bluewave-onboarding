@@ -43,13 +43,21 @@ module.exports = {
     port: TEST_DB_PORT,
     logging: false,
   },
+  // production: {
+  //   username: DB_USERNAME,
+  //   password: DB_PASSWORD,
+  //   database: DB_NAME,
+  //   host: DB_HOST,
+  //   dialect: 'postgres',
+  //   port: DB_PORT,
+  //   logging: false,
+  // },
   production: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    host: DB_HOST,
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    port: DB_PORT,
     logging: false,
+    dialectOptions: {
+      ssl: { require: true },
+    },
   },
 };

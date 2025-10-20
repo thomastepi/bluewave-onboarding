@@ -10,7 +10,14 @@ const { MAX_FILE_SIZE } = require("./utils/constants.helper");
 const ipFilter = require("./middleware/ipFilter.middleware");
 
 // Load environment variables from .env file
-dotenv.config();
+//dotenv.config();
+if (!process.env.VERCEL) {
+  try {
+    dotenv.config();
+  } catch (e) {
+    console.warn('dotenv not loaded', e.message);
+  }
+}
 
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");

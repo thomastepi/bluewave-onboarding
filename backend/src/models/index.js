@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const pg = require('pg');
 const config = require('../../config/config.js');
 
 const env = process.env.NODE_ENV || 'development';
@@ -16,6 +17,7 @@ if (envConfig.use_env_variable) {
     dialect: envConfig.dialect || 'postgres',
     logging: envConfig.logging ?? false,
     dialectOptions: envConfig.dialectOptions,
+    dialectModule: pg,
   });
 } else {
   // development/test

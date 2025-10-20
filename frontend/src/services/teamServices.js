@@ -1,6 +1,6 @@
 import { apiClient } from './apiClient';
 
-const baseEndpoint = 'team/';
+const baseEndpoint = 'team';
 
 export const setOrganisation = async (name) => {
   try {

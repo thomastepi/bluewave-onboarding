@@ -1,13 +1,20 @@
-require('dotenv').config();
-const envSuffix = process.env.NODE_ENV && process.env.NODE_ENV == 'test' ? `.${process.env.NODE_ENV}` : '';
-const env = `.env${envSuffix}`;
+const path = require('path');
 
-const dotenv = require('dotenv');
-const result = dotenv.config({ path: `./${env}` });
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL_URL;
 
-if (result.error) {
-  console.error(`Failed to load environment file: ${env}`);
-  process.exit(1);
+if (!isVercel) {
+  try {
+    const dotenv = require('dotenv');
+    // Support .env and .env.test via NODE_ENV
+    const suffix = process.env.NODE_ENV === 'test' ? '.test' : '';
+    const envPath = path.resolve(process.cwd(), `.env${suffix}`);
+    const result = dotenv.config({ path: envPath });
+    if (result.error) {
+      console.warn(`Warning: could not load ${envPath} (${result.error.message}). Using process.env as-is.`);
+    }
+  } catch (e) {
+    console.warn('dotenv not loaded:', e.message);
+  }
 }
 
 const {
@@ -21,6 +28,7 @@ const {
   TEST_DB_PASSWORD,
   TEST_DB_PORT,
   TEST_DB_USERNAME,
+  DATABASE_URL,
 } = process.env;
 
 module.exports = {
@@ -43,15 +51,6 @@ module.exports = {
     port: TEST_DB_PORT,
     logging: false,
   },
-  // production: {
-  //   username: DB_USERNAME,
-  //   password: DB_PASSWORD,
-  //   database: DB_NAME,
-  //   host: DB_HOST,
-  //   dialect: 'postgres',
-  //   port: DB_PORT,
-  //   logging: false,
-  // },
   production: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',

@@ -2,6 +2,13 @@ import toastEmitter, { TOAST_EMITTER_KEY } from './toastEmitter';
 
 export const emitToastError = (error) => {
   if (error.response?.data) {
+    if (error.response.data.error) {
+      toastEmitter.emit(
+        TOAST_EMITTER_KEY,
+        'An error occurred: ' + error.response?.data?.error
+      );
+      return;
+    }
     for (let i = 0; i < error.response.data.errors.length; i++) {
       toastEmitter.emit(
         TOAST_EMITTER_KEY,

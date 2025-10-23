@@ -6,6 +6,7 @@ import PasswordResetPage from './scenes/login/PassswordResetPage';
 import ForgotPasswordPage from './scenes/login/ForgotPasswordPage';
 import CheckYourEmailPage from './scenes/login/CheckYourEmailPage';
 import SetNewPasswordPage from './scenes/login/SetNewPassword';
+import DemoUserLoginPage from './scenes/login/DemoUserLoginPage';
 import Private from '@components/Private';
 import ProgressStepsMain from './scenes/progressSteps/ProgressStepsMain';
 import Settings from './scenes/settings/Settings';
@@ -64,6 +65,10 @@ const App = () => {
       <Route path="/reset-password" element={<PasswordResetPage />} />
       <Route path="/check-email" element={<CheckYourEmailPage />} />
       <Route path="/set-new-password" element={<SetNewPasswordPage />} />
+      <Route
+        path="/demo-login"
+        element={<DemoUserLoginPage isAdmin={isAdminLogin} />}
+      />
 
       <Route path="/progress-steps" element={<ProgressStepsMain />} />
       <Route path="/403" element={<Error403 />} />

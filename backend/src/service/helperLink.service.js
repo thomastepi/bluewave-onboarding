@@ -33,6 +33,21 @@ class HelperLinkService {
     });
   }
 
+  async getIncompleteHelpersByUrl(url, ids) {
+    return await HelperLink.findAll({
+      include: [
+        {
+          model: Link,
+          as: 'links',
+        },
+      ],
+      where: {
+        id: { [Op.notIn]: ids },
+        url,
+      },
+    });
+  }
+
   async getHelpersByUserId(userId) {
     return await HelperLink.findAll({
       where: {

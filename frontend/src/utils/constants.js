@@ -1,4 +1,9 @@
-// API constants
+// API constants Dev
+// const FALLBACK_URL = 'localhost:5000';
+// export const BASE_URL = import.meta?.env?.VITE_BASE_URL || FALLBACK_URL;
+// export const API_BASE_URL = `http://${BASE_URL}/api/`;
+
+// API constants Prod
 const FALLBACK_URL = 'bluewave-onboarding.vercel.app';
 export const BASE_URL = import.meta?.env?.VITE_BASE_URL || FALLBACK_URL;
 export const API_BASE_URL = `https://${BASE_URL}/api/`;
